@@ -1,0 +1,24 @@
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEA Project files #
+######################
+.idea/
+
+# Python cache #
+################
+*.pyc
+__pycache__
