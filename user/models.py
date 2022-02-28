@@ -8,4 +8,4 @@ class User(models.Model):
     middle_name = models.CharField(max_length=1, blank=True, null=True)
     last_name = models.CharField(max_length=30)
     password1 = models.CharField(max_length=32)
-    password2 = models.CharField(max_length=32)
+    email_bak = models.CharField(max_length=30, blank=True)
