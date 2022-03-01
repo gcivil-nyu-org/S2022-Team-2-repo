@@ -3,6 +3,7 @@
         <title>Signup Page</title>
         <style>
             body{
+                background-image: url("/static/images/nyunite_bak2.jpg");
                 font-family: Arial, Helvetica, sans-serif;
                 background-color: white;
             }
@@ -10,24 +11,23 @@
                 background-color: #4CAF50;
                 width: 25%;
                 padding: 15px;
-                color: black;
+                color: white;
                 border: none;
                 float: center;
                 font-size: 15px;
             }
             label{
                 font-size: 20px;
+                color: white;
             }
-            form{
-                border: 3px solid #f1f1f1;
-            }
-            input[type=email],input[type=password]{
+            
+            input[type=netid],input[type=password]{
                 width: 50%;
                 font-size: 15px;
                 margin: 8px 0px;
                 padding: 12px 20px;
                 display: inline-block;
-                border: 2px solid green;
+                border: 2px solid rgb(77, 180, 240);
                 box-sizing: border-box;
             }
             button:hover{
@@ -36,7 +36,7 @@
             }
             .container{
                 padding: 50px;
-                background-color: white;
+                color: white;
             }
             .imgcontainer {
                 text-align: center;
@@ -47,20 +47,60 @@
                 width: 20%;
                 border-radius: 50%;
             }  
+
+            .gradient-button {
+                margin: 10px;
+                font-family: "Arial Black", Gadget, sans-serif;
+                font-size: 20px;
+                padding: 15px;
+                text-align: center;
+                text-transform: uppercase;
+                transition: 0.5s;
+                background-size: 200% auto;
+                color: #FFF;
+                box-shadow: 0 0 20px #eee;
+                border-radius: 10px;
+                width: 200px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+                cursor: pointer;
+                display: inline-block;
+                border-radius: 25px;
+            }
+            .gradient-button:hover{
+                box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+                margin: 8px 10px 12px;
+            }
+            .login_btn {background-image: linear-gradient(to right, #9b06b9 0%, #ec94e8 51%, #2da2f0 100%)}
+            .login_btn:hover { background-position: right center; }
+
+            h1{
+            
+                color: white;
+                
+            }
+            label{
+                
+                margin: 0;
+                display: inline-block;
+            }
+            a:link {
+                color:white;
+             }
         </style>
     </head>
     <body>
-        <center><h1>Login Form</h1></center>
+        <center><h1>Login </h1></center>
         <form action="#" method="post">
             {% csrf_token %}
             {% load static %}
             <center><div class="container">
-                <label for ='net_id'><b>NYU Netid :  </b></label>
-                <input type="text" placeholder="Enter NYU Netid" name="net_id" float="right"  required><br>  
-                <label for='password'><b>Password : </b></label>
+                <label for ='net_id' ><b>NYU Netid :  </b></label> <br>
+                <input type="netid" placeholder="Enter NYU Netid" name="net_id" float="right"  required><br>  
+                <label for='password'><b>Password : </b></label> <br>
                 <input type="password" placeholder="Enter Password" name="password" required><br>  
-                <button type="submit"><b>Login</b></button><br>     
-                Don't have accounct <a href="/signup"> register </a>
+                <a class="gradient-button login_btn" type="submit">Login</a><br>
+            	Don't have an account- <a style="color:white;" href="/signup"> Signup </a>
             </div></center>
         </form>
     </body>

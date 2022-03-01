@@ -1,33 +1,40 @@
 <html>
     <head>
-        <title>Signup Page</title>
+        <title >Signup Up</title>
         <style>
+           h1{
+            
+               color: white;
+               
+           }
             body{
+                background-image: url("/static/images/nyunite_bak2.jpg");
                 font-family: Arial, Helvetica, sans-serif;
                 background-color: white;
             }
-            button{
-                background-color: #4CAF50;
+            <!-- button{
+                background-color:#BF40BF;
                 width: 25%;
                 padding: 15px;
                 color: black;
                 border: none;
                 float: center;
                 font-size: 15px;
-            }
+            } -->
+           
             label{
                 font-size: 20px;
+                color: white;
+                display: inline-block;
             }
-            form{
-                border: 3px solid #f1f1f1;
-            }
+            
             input[type=email],input[type=text]{
-                width: 50%;
+                width: 20%;
                 font-size: 15px;
                 margin: 8px 0px;
                 padding: 12px 20px;
                 display: inline-block;
-                border: 2px solid green;
+                border: 2px solid rgb(77, 180, 240);
                 box-sizing: border-box;
             }
             input[type=radio]{
@@ -40,7 +47,7 @@
             }
             .container{
                 padding: 50px;
-                background-color: white;
+                color: white;
             }
             .imgcontainer {
                 text-align: center;
@@ -51,30 +58,61 @@
                 width: 10%;
                 border-radius: 50%;
             }  
+
+            .gradient-button {
+                margin: 10px;
+                font-family: "Arial Black", Gadget, sans-serif;
+                font-size: 20px;
+                padding: 15px;
+                text-align: center;
+                text-transform: uppercase;
+                transition: 0.5s;
+                background-size: 200% auto;
+                color: #FFF;
+                box-shadow: 0 0 20px #eee;
+                border-radius: 10px;
+                width: 200px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+                cursor: pointer;
+                display: inline-block;
+                border-radius: 25px;
+            }
+            .gradient-button:hover{
+                box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+                margin: 8px 10px 12px;
+            }
+            .submit_btn {background-image: linear-gradient(to right, #9b06b9 0%, #ec94e8 51%, #2da2f0 100%)}
+            .submit_btn:hover { background-position: right center; }
+            
+            a:link {
+                color:white;
+             }
         </style>
     </head>
     <body>
-        <center><h1>Signup Page</h1></center>
+          
+        <center><h1>Sign Up </h1></center>
         <form action="#" method="post">
             {% csrf_token %}
             {% load static %}
             <center><div class="container">
-                <label for='net_id'><b>NYU Netid :</b></label>
+                <label for='net_id'><b>NYU Netid* :</b></label>
 		        <input type='text' placeholder='Enter your NYU Netid' name='net_id' required><br>
-                <label for='first_name'><b>First Name : </b></label>
+                <label for='first_name'><b>First Name* : </b></label>
 		        <input type='text' placeholder="Enter your first name" name='first_name' required><br>
                 <label for='middle_name'><b>Middle Name :</b></label>
-		        <input type='text' placeholder='Enter your middle name' name='middle_name' required><br>
-		        <label for='last_name'><b>Last Name :</b></label>
+		        <input type='text' placeholder='Enter your middle name(Optional)' name='middle_name'><br>
+		        <label for='last_name'><b>Last Name* :</b></label>
 		        <input type='text' placeholder='Enter your last name' name='last_name' required><br>
-            	<label for ='email_pri'><b>Primary Email Id :  </b></label>
-            	<input type="email_pri" placeholder="Enter primary email" name="email_pri" float="right"  required><br>  
+            	<label for ='email_pri'><b>Primary Email Id* :  </b></label>
+            	<input type="email" placeholder="Enter primary email" name="email_pri" required><br>  
                 <label for ='email_bak'><b>Secondary Email Id :  </b></label>
-            	<input type="email_bak" placeholder="Enter Secondary email" name="email_bak" float="right"  required><br>
-            	<label for='password'><b>Password : </b></label>
+            	<input type="email" placeholder="Enter Secondary email(Optional)" name="email_bak"   ><br>
+            	<label for='password'><b>Password* : </b></label>
             	<input type="text" placeholder="Enter Password" name="password" required><br>  
-            	<button type="submit"><b>Signup</b></button><br>     
-            	Already an accounct <a href="/login"> Login </a>
+            	<a class="gradient-button submit_btn" type="submit">Sign up</a><br>
+            	Already have an account- <a style="color:white;" href="/login"> Login </a>
             </div></center>
         </form>
     </body>
