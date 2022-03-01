@@ -27,6 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Configure email host server
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'nyuniteapp@gmail.com'
+EMAIL_HOST_PASSWORD = 'Sprintsters22'
+EMAIL_PORT = 587
+
 # Application definition
 
 INSTALLED_APPS = [
