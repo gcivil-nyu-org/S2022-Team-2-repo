@@ -81,12 +81,8 @@ WSGI_APPLICATION = 'nyunite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'nyuniteapp',
-        'USER': 'nyuniteadmin',
-        'PASSWORD': 'root1234',
-        'HOST': 'localhost',
-        'PORT': '3306',
     }
 }
 
