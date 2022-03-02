@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block style %}
+#intro {
+    background-image: url('static/images/nyunite_bak2.jpg');
+    height: 100vh;
+}
+{% endblock %}
+
+{% block title %}
+Signup
+{% endblock %}
+
+
+{% block content %}
+
+
+<div id="intro" class="bg-image shadow-2-strong">
+    <div class="mask align-items-center h-100" style="background-color: rgba(0, 0, 0, 0.8);">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-5 col-md-8">
+                    <form class="bg-white  rounded-5 shadow-5-strong p-5" method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="form-group form-outline mb-4">
+                            {{ field }}
+                        </div>
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        <br/>
+                        <div class="row mb-4">
+                            <div class="col text-center">
+                                <a href="#!">Forgot password?</a>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
