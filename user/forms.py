@@ -25,3 +25,14 @@ class SignupForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
             'password': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
         }
+
+
+class ResetPasswordForm(forms.ModelForm):
+    class Meta:
+        model = UserDetails
+
+        fields = ['netID', ]
+
+        labels = {'netID': '', }
+
+        widgets = {'netID': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Net ID'}), }
