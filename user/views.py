@@ -7,7 +7,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import EmailMessage
 from django.utils.encoding import force_str
 
-from user.forms import SignupForm, ResetPasswordForm
+from user.forms import SignupForm, ResetPasswordForm, LoginForm
 from user.models import UserDetails
 from user.tokens import account_activation_token
 
@@ -45,7 +45,15 @@ def signup(request):
 
 
 def login(request):
-    return render(request, "login.html")
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            # Database stuff here later...
+            # Check if the user is active
+            return render(request, "dashboard.html")
+    else:
+        form = LoginForm()
+    return render(request, "login.html", {'form': form})
 
 
 def logout(request):
@@ -61,6 +69,7 @@ def activate(request, uidb64, token):
         user = None
 
     if user is not None and account_activation_token.check_token(user, token):
+        # Set user to active
         return render(request, 'activate-signin.html')
 
     else:
@@ -83,3 +92,7 @@ def password_reset(request):
     else:
         form = ResetPasswordForm()
     return render(request, 'reset_password.html', {'form': form})
+
+
+def dashboard(request):
+    return render(request, "dashboard.html")
