@@ -61,7 +61,7 @@ def activate(request, uidb64, token):
         user = None
 
     if user is not None and account_activation_token.check_token(user, token):
-        return HttpResponse("Thanks for activating your account!")
+        return render(request, 'activate-signin.html')
 
     else:
         return HttpResponse("Activation link is not valid!")
