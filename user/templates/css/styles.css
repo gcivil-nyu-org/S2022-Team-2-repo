@@ -1,0 +1,23 @@
+
+#intro{
+    background-image: url("{% static 'homeImg.jpg' %}");
+    height: 400px;
+}
+
+@media(min-width: 576px){
+    #intro{
+        height: 600px;
+    }
+}
+
+body{
+    background-color: antiquewhite;
+}
+
+.divider{
+    background-color: whitesmoke;
+}
+
+.team{
+    background-color: aqua;
+}
