@@ -81,6 +81,8 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'user/templates'),
     os.path.join(BASE_DIR, 'user/templates/css'),
     os.path.join(BASE_DIR, 'user/templates/img'),
+    os.path.join(BASE_DIR, 'user/templates/js'),
+    os.path.join(BASE_DIR, 'user/templates/src'),
 )
 
 WSGI_APPLICATION = 'nyunite.wsgi.application'
