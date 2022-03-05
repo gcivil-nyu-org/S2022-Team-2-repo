@@ -7,7 +7,7 @@ from django.utils.encoding import force_bytes
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from user.forms import SignupForm, ResetPasswordForm, LoginForm
+from user.forms import SignupForm, ResetPasswordForm, LoginForm, ResetPasswordRequestForm
 from user.models import UserDetails
 from user.tokens import account_activation_token
 
@@ -78,18 +78,16 @@ def activate(request, uidb64, token):
         return render(request, 'activate-signin.html')
 
     else:
-        return HttpResponse("Activation link is not valid!")
+        return render(request, 'activation_link_expired.html')
 
 
 def password_reset_request(request):
     if request.method == 'POST':
-        form = ResetPasswordForm(request.POST)
+        form = ResetPasswordRequestForm(request.POST)
         print(form.is_valid())
         if form.is_valid():
             netid = form.cleaned_data.get('netid')
-            print(netid)
             user = UserDetails.objects.get(netid=netid)
-            print(user)
             to_email = netid + '@nyu.edu'
             current_site = get_current_site(request)
             mail_subject = 'Reset your NYUnite Account Password!'
@@ -104,8 +102,8 @@ def password_reset_request(request):
 
             return render(request, "password_reset_check_email.html")
     else:
-        form = ResetPasswordForm()
-    return render(request, 'reset_password.html', {'form': form})
+        form = ResetPasswordRequestForm()
+    return render(request, 'password_reset_request_form.html', {'form': form})
 
 
 def password_reset(request, uidb64, token):
@@ -117,11 +115,24 @@ def password_reset(request, uidb64, token):
         user = None
 
     if user is not None and account_activation_token.check_token(user, token):
-        # Set user to active
-        return render(request, 'activate-signin.html')
+        if request.method == 'POST':
+            form = ResetPasswordForm(request.POST)
+            if form.is_valid():
+                netid = form.cleaned_data.get('netid')
+                password1 = form.cleaned_data.get('new_password1')
+
+                user = UserDetails.objects.get(netid=netid)
+                user.password = password1
+                user.save()
+
+                return render(request, 'password_reset_successful_signin.html')
+        else:
+            form = ResetPasswordForm()
+        return render(request, 'password_reset_form.html', {'form': form})
 
     else:
-        return HttpResponse("Activation link is not valid!")
+        # HTML Page here to go back to the password reset request page
+        return render(request, 'password_reset_request_form.html')
 
 
 def dashboard(request):
