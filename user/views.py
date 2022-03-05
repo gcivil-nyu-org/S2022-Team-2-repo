@@ -7,10 +7,11 @@ from django.utils.encoding import force_bytes
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from user.forms import SignupForm
-from user.tokens import account_activation_token
+from user.forms import SignupForm, ResetPasswordForm, LoginForm
 from user.models import UserDetails
 
+from user.tokens import account_activation_token
+from user.models import UserDetails
 
 def home(request):
     return render(request, "home.html")
@@ -28,7 +29,6 @@ def signup(request):
             user.save()
 
             current_site = get_current_site(request)
-            print(current_site)
             mail_subject = 'Activate your NYUnite Account!'
             message = render_to_string('acc_active_email.html', {
                 'user': user,
@@ -40,8 +40,7 @@ def signup(request):
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
 
-            HttpResponse('Please check your NYU Inbox.')
-            return render(request, "home.html")
+            return render(request, "activation_link_email.html")
 
     else:
         form = SignupForm()
@@ -52,7 +51,15 @@ def signup(request):
 
 
 def login(request):
-    return render(request, "login.html")
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            # Database stuff here later...
+            # Check if the user is active
+            return render(request, "dashboard.html")
+    else:
+        form = LoginForm()
+    return render(request, "login.html", {'form': form})
 
 
 def logout(request):
@@ -68,7 +75,31 @@ def activate(request, uidb64, token):
         user = None
 
     if user is not None and account_activation_token.check_token(user, token):
-        return HttpResponse("Thanks for activating your account!")
+        # Set user to active
+        return render(request, 'activate-signin.html')
 
     else:
         return HttpResponse("Activation link is not valid!")
+
+
+def password_reset(request):
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            # current_site = get_current_site(request)
+            mail_subject = 'Reset your NYUnite Password!'
+            message = 'Reset your password!'
+
+            to_email = form.cleaned_data.get('netID')+ '@nyu.edu'
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
+
+        return render(request, 'password_reset_check_email.html')
+    else:
+        form = ResetPasswordForm()
+    return render(request, 'reset_password.html', {'form': form})
+
+
+def dashboard(request):
+    return render(request, "dashboard.html")
+
