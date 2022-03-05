@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 import django_heroku
+import dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,19 +21,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x933uk5yv#^n$s)kn&u-$8^(h4i@b!cgum$c6c964e3=ehaa0o'
+# Loading .env file
+dotenv.read_dotenv()
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = str(os.environ.get('SECRET_KEY', 'django-insecure-x933uk5yv#^n$s)kn&u-$8^(h4i@b!cgum$c6c964e3=ehaa0o'))
 
-ALLOWED_HOSTS = []
+DEBUG = bool(os.environ.get('DEBUG_MODE', True))
+
+ALLOWED_HOSTS = ['nyunite.herokuapp.com', '127.0.0.1']
 
 # Configure email host server
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'nyuniteapp@gmail.com'
-EMAIL_HOST_PASSWORD = 'Sprintsters22'
+EMAIL_HOST_USER = str(os.environ.get('SMTP_EMAIL'))
+EMAIL_HOST_PASSWORD = str(os.environ.get('SMTP_PASSWORD'))
 EMAIL_PORT = 587
 
 # Application definition
@@ -130,11 +132,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# User Auth Model
+AUTH_USER_MODEL = 'user.UserDetails'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
