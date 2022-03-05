@@ -1,4 +1,5 @@
 mysqlclient
+django-dotenv
 django
 gunicorn
 django-heroku
