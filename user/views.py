@@ -9,9 +9,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from user.forms import SignupForm, ResetPasswordForm, LoginForm
 from user.models import UserDetails
-
 from user.tokens import account_activation_token
-from user.models import UserDetails
+
 
 def home(request):
     return render(request, "home.html")
@@ -82,22 +81,23 @@ def activate(request, uidb64, token):
         return HttpResponse("Activation link is not valid!")
 
 
-def password_reset(request):
+def password_reset_request(request):
     if request.method == 'POST':
         form = ResetPasswordForm(request.POST)
-        print (form.is_valid())
+        print(form.is_valid())
         if form.is_valid():
             netid = form.cleaned_data.get('netid')
             print(netid)
-            user=UserDetails.objects.get(netid=netid)
+            user = UserDetails.objects.get(netid=netid)
             print(user)
             to_email = netid + '@nyu.edu'
             current_site = get_current_site(request)
             mail_subject = 'Reset your NYUnite Account Password!'
             message = render_to_string('password_reset_email.html', {
-                'domain': current_site.domain,
-                'token': account_activation_token.make_token(user),
                 'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user)
             })
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
@@ -108,6 +108,21 @@ def password_reset(request):
     return render(request, 'reset_password.html', {'form': form})
 
 
+def password_reset(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = UserDetails.objects.get(pk=uid)
+
+    except (TypeError, ValueError, OverflowError):
+        user = None
+
+    if user is not None and account_activation_token.check_token(user, token):
+        # Set user to active
+        return render(request, 'activate-signin.html')
+
+    else:
+        return HttpResponse("Activation link is not valid!")
+
+
 def dashboard(request):
     return render(request, "dashboard.html")
-
