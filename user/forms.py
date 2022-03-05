@@ -47,30 +47,27 @@ class SignupForm(UserCreationForm):
 
 
 
-class ResetPasswordForm(forms.ModelForm):
+class ResetPasswordForm(UserChangeForm):
     class Meta:
         model = UserDetails
-
-        fields = ['netID', ]
-
-        labels = {'netID': '', }
-
-        widgets = {'netID': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Net ID'}), }
+        fields = ('netid',)
+        field_classes = {'netid': NetIdField}
+        # widgets = {'netid': forms.TextInput(attrs={'class': NetIdField, 'placeholder': 'Net ID'}), }
 
 
 class LoginForm(forms.ModelForm):
     class Meta:
         model = UserDetails
 
-        fields = ['netID', 'password']
+        fields = ['netid', 'password']
 
         labels = {
-            'netID': '',
+            'netid': '',
             'password': '',
         }
 
         widgets = {
-            'netID': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Net ID'}),
+            'netid': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Net ID'}),
             'password': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
         }
 

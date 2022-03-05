@@ -85,16 +85,24 @@ def activate(request, uidb64, token):
 def password_reset(request):
     if request.method == 'POST':
         form = ResetPasswordForm(request.POST)
+        print (form.is_valid())
         if form.is_valid():
-            # current_site = get_current_site(request)
-            mail_subject = 'Reset your NYUnite Password!'
-            message = 'Reset your password!'
-
-            to_email = form.cleaned_data.get('netID')+ '@nyu.edu'
+            netid = form.cleaned_data.get('netid')
+            print(netid)
+            user=UserDetails.objects.get(netid=netid)
+            print(user)
+            to_email = netid + '@nyu.edu'
+            current_site = get_current_site(request)
+            mail_subject = 'Reset your NYUnite Account Password!'
+            message = render_to_string('password_reset_email.html', {
+                'domain': current_site.domain,
+                'token': account_activation_token.make_token(user),
+                'user': user,
+            })
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
 
-        return render(request, 'password_reset_check_email.html')
+            return render(request, "password_reset_check_email.html")
     else:
         form = ResetPasswordForm()
     return render(request, 'reset_password.html', {'form': form})
