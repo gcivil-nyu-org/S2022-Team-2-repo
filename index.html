@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>NYUnite Home</title>
     <!-- MDB icon -->
-    <link rel="icon" href="{% static 'NYUTorch.jpg' %}" type="image/x-icon" />
+    <link rel="icon" href="img/NYUTorch.jpg" type="image/x-icon" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
     <!-- Google Fonts Roboto -->
@@ -17,21 +16,16 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
     />
     <!-- MDB -->
-    <link rel="stylesheet" href="{% static 'mdb.min.css' %}" />
+    <link rel="stylesheet" href="css/mdb.min.css" />
     <!--Custom Style-->
-    <link rel="stylesheet" href="{% static 'styles.css' %}" />
-    <style>
-      #intro{
-        background-image: url("{% static 'homeImg.jpg' %}");
-        height: 400px;
-      }
-    </style>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style></style>
   </head>
   <body>
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #7B1FA2;">
         <div class="container">
-          <a class="navbar-brand" href="">NYUnite</a> 
+          <a class="navbar-brand" href="/index.html">NYUnite</a> 
           <button
             class="navbar-toggler"
             type="button"
@@ -45,7 +39,7 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-link active" aria-current="page" href="">Home</a>
+              <a class="nav-link active" aria-current="page" href="/index.html">Home</a>
               <a class="nav-link active" aria-current="page" href="#about">Our Vision</a>
               <a class="nav-link active" aria-current="page" href="#team">Team</a>
               
@@ -64,13 +58,13 @@
               <h4 class="mb-3">All-in-1 Place for NYU Student to Connect</h4>
               <a 
                 class="btn btn-primary btn-lg m-2" 
-                href="/signup" 
+                href="#!" 
                 role="button"
                 >Sign Up</a
               >
               <a 
                 class="btn btn-dark btn-lg m-2" 
-                href="/login" 
+                href="#!" 
                 role="button"
               >Log In</a
               >
@@ -90,7 +84,7 @@
               <h2>Connect with students across campus</h2>
             </div>
             <div class="col-md-4 text-right">
-              <p> Are you wondering if any student shares the same interest as yours?
+              <p> Are you wondering if any student share the share interests as yours?
               We got you covered! In NYUnite, you can openly look for fellow NYU students who are as passionate as you.
               Tell us what you like, we provide recommendations. It's that simple!
               Let's get started with us today!  
@@ -112,7 +106,7 @@
               </p>
             </div>
             <div class="col-md-4">
-              <img src="{% static 'NYUTorch.jpg' %}" alt="Connect" class="img-fluid"/>
+              <img src="img/NYUTorch.jpg" alt="Connect" class="img-fluid"/>
             </div>
           </div>
         </section>
@@ -127,7 +121,7 @@
                 <div class="row g-0">
                   <div class="col-md-4">
                     <img
-                      src="{% static 'placeholderPic.jpg' %}"
+                      src="/img/placeholderPic.jpg"
                       alt="teammate1"
                       class="img-fluid rounded-start"
                     />
@@ -150,7 +144,7 @@
                 <div class="row g-0">
                   <div class="col-md-4">
                     <img
-                      src="{% static 'placeholderPic.jpg' %}"
+                      src="/img/placeholderPic.jpg"
                       alt="teammate1"
                       class="img-fluid rounded-start"
                     />
@@ -173,7 +167,7 @@
                 <div class="row g-0">
                   <div class="col-md-4">
                     <img
-                      src="{% static 'placeholderPic.jpg' %}"
+                      src="/img/placeholderPic.jpg"
                       alt="teammate1"
                       class="img-fluid rounded-start"
                     />
@@ -196,7 +190,7 @@
                 <div class="row g-0">
                   <div class="col-md-4">
                     <img
-                      src="{% static 'placeholderPic.jpg' %}"
+                      src="/img/placeholderPic.jpg"
                       alt="teammate1"
                       class="img-fluid rounded-start"
                     />
@@ -219,7 +213,7 @@
                 <div class="row g-0">
                   <div class="col-md-4">
                     <img
-                      src="{% static 'placeholderPic.jpg' %}"
+                      src="/img/placeholderPic.jpg"
                       alt="teammate1"
                       class="img-fluid rounded-start"
                     />
@@ -271,7 +265,7 @@
 
   </body>
     <!-- MDB -->
-    <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+    <script type="text/javascript" src="js/mdb.min.js"></script>
     <!-- Custom scripts -->
     <script type="text/javascript"></script>
 </html>

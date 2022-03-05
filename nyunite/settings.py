@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+
 import os
 from pathlib import Path
 import django_heroku
@@ -75,6 +76,16 @@ TEMPLATES = [
         },
     },
 ]
+
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'user/templates'),
+    os.path.join(BASE_DIR, 'user/templates/css'),
+    os.path.join(BASE_DIR, 'user/templates/img'),
+    os.path.join(BASE_DIR, 'user/templates/js'),
+    os.path.join(BASE_DIR, 'user/templates/src'),
+)
 
 WSGI_APPLICATION = 'nyunite.wsgi.application'
 
