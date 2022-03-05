@@ -1,16 +1,17 @@
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.core.mail import EmailMessage
 from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from user.forms import SignupForm, ResetPasswordForm, LoginForm
 from user.models import UserDetails
-from user.tokens import account_activation_token
 
+from user.tokens import account_activation_token
+from user.models import UserDetails
 
 def home(request):
     return render(request, "home.html")
@@ -20,8 +21,11 @@ def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
+            to_email = form.cleaned_data.get('netid') + '@nyu.edu'
+
             user = form.save(commit=False)
             user.is_active = False
+            user.email = to_email
             user.save()
 
             current_site = get_current_site(request)
@@ -33,7 +37,6 @@ def signup(request):
                 'token': account_activation_token.make_token(user)
             })
 
-            to_email = form.cleaned_data.get('netID') + '@nyu.edu'
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
 
@@ -41,6 +44,9 @@ def signup(request):
 
     else:
         form = SignupForm()
+
+    # if form.errors:
+    #     Handle errors as popups
     return render(request, "signup.html", {'form': form})
 
 
@@ -96,3 +102,4 @@ def password_reset(request):
 
 def dashboard(request):
     return render(request, "dashboard.html")
+
