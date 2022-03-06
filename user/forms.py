@@ -2,7 +2,9 @@ import unicodedata
 from django import forms
 from django.contrib.auth import (password_validation, )
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.password_validation import validate_password
 
 from .models import UserDetails
 
@@ -70,6 +72,12 @@ class ResetPasswordForm(forms.Form):
     def clean_password(self):
         error_bool = False
         password1 = self.data['new_password1']
+        try:
+            validate_password(password1)
+        except ValidationError:
+            self.p_error = 'Please choose a stronger password.\n Your password should be at least 8 characters... '
+            error_bool = True
+            return error_bool, password1
         password2 = self.data['new_password2']
         if password1 and password2:
             if password1 != password2:

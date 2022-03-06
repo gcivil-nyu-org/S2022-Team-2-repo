@@ -14,6 +14,7 @@ Signup
 {% endblock %}
 
 
+
 {% block content %}
 
 
@@ -29,6 +30,8 @@ Signup
                             {{ field }}
                         </div>
                         {% endfor %}
+
+                        {{ form.errors }}
 
                         <button type="submit" class="btn btn-primary btn-block">Register</button>
                     </form>

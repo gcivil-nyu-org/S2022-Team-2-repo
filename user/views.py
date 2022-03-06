@@ -31,7 +31,7 @@ def signup(request):
 
             current_site = get_current_site(request)
             mail_subject = 'Activate your NYUnite Account!'
-            message = render_to_string('acc_active_email.html', {
+            message = render_to_string('activation_link_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -41,7 +41,7 @@ def signup(request):
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
 
-            return render(request, "activation_link_email.html")
+            return render(request, "activation_link_sent.html")
 
     else:
         form = SignupForm()
@@ -121,10 +121,11 @@ def password_reset(request, uidb64, token):
             form = ResetPasswordForm(request.POST)
             print(form.is_valid())
             if form.is_valid():
-                error_bool, password2 = form.clean_password()
+                error_bool, password = form.clean_password()
                 if error_bool:
                     return render(request, 'password_reset_form.html', {'form': form})
                 else:
+                    user.set_password(password)
                     user.save()
 
                 return render(request, 'password_reset_successful_signin.html')
