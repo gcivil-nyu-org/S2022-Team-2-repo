@@ -1,7 +1,6 @@
 import unicodedata
 from django import forms
-from django.contrib.auth import (
-    password_validation, )
+from django.contrib.auth import (password_validation, )
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.utils.translation import gettext_lazy as _
 
@@ -51,7 +50,8 @@ class ResetPasswordRequestForm(forms.Form):
 
 
 class ResetPasswordForm(forms.Form):
-    netid = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'NetID'}))
+
+    p_error = None
 
     new_password1 = forms.CharField(
         label=_("Password"),
@@ -59,12 +59,23 @@ class ResetPasswordForm(forms.Form):
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'placeholder': 'Password'}),
         help_text=password_validation.password_validators_help_text_html(),
     )
+
     new_password2 = forms.CharField(
         label=_("Password confirmation"),
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'placeholder': 'Retype Password'}),
         strip=False,
         help_text=_("Enter the same password as before, for verification."),
     )
+
+    def clean_password(self):
+        error_bool = False
+        password1 = self.data['new_password1']
+        password2 = self.data['new_password2']
+        if password1 and password2:
+            if password1 != password2:
+                self.p_error = 'Passwords do not match! Please try again.'
+                error_bool = True
+        return error_bool, password2
 
 
 class LoginForm(forms.ModelForm):

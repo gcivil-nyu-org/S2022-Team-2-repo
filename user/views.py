@@ -1,4 +1,5 @@
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -6,6 +7,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django import forms
 
 from user.forms import SignupForm, ResetPasswordForm, LoginForm, ResetPasswordRequestForm
 from user.models import UserDetails
@@ -117,13 +119,13 @@ def password_reset(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         if request.method == 'POST':
             form = ResetPasswordForm(request.POST)
+            print(form.is_valid())
             if form.is_valid():
-                netid = form.cleaned_data.get('netid')
-                password1 = form.cleaned_data.get('new_password1')
-
-                user = UserDetails.objects.get(netid=netid)
-                user.password = password1
-                user.save()
+                error_bool, password2 = form.clean_password()
+                if error_bool:
+                    return render(request, 'password_reset_form.html', {'form': form})
+                else:
+                    user.save()
 
                 return render(request, 'password_reset_successful_signin.html')
         else:
