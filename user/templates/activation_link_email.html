@@ -1,7 +1,10 @@
-{% extends 'base.html' %}
-{% block content %}
+Dear {{ user.first_name|safe }},
 
-    <h2> Thank you for signing up to join NYUnite!</h2>
-    <h3> Please check your NYU email for a link to activate your account.</h3>
+We're excited to have you join the NYUnite community!
 
-{% endblock %}
+Please click on the link below to confirm your registration:
+
+http://{{ domain|safe }}{% url 'activate' uidb64=uid token=token %}
+
+Best,
+The NYUnite Team
