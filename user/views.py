@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
@@ -7,7 +8,6 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django import forms
 
 from user.forms import SignupForm, ResetPasswordForm, LoginForm, ResetPasswordRequestForm
 from user.models import UserDetails
@@ -51,13 +51,20 @@ def signup(request):
     return render(request, "signup.html", {'form': form})
 
 
-def login(request):
+def login_form(request):
+
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            # Database stuff here later...
-            # Check if the user is active
-            return render(request, "dashboard.html")
+            netid = form.cleaned_data.get('netid')
+            password = form.cleaned_data.get('password')
+
+            user = authenticate(request, netid = netid, password = password)
+            if user is not None:
+                login(request, user)
+                return render(request, "dashboard.html")
+            else:
+                form.add_error("netid", "User not found")
     else:
         form = LoginForm()
     return render(request, "login.html", {'form': form})
@@ -76,7 +83,8 @@ def activate(request, uidb64, token):
         user = None
 
     if user is not None and account_activation_token.check_token(user, token):
-        # Set user to active
+        user.is_active = True
+        user.save()
         return render(request, 'activate-signin.html')
 
     else:

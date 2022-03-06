@@ -2,11 +2,11 @@
     <head>
         <title>Signup Page</title>
         <style>
-            body{
-                background-image: url("/static/images/nyunite_bak2.jpg");
-                font-family: Arial, Helvetica, sans-serif;
-                background-color: white;
-            }
+/*             body{ */
+/*                 background-image: url("/static/images/nyunite_bak2.jpg"); */
+/*                 font-family: Arial, Helvetica, sans-serif; */
+/*                 background-color: white; */
+/*             } */
             button{
                 background-color: #4CAF50;
                 width: 25%;
@@ -99,11 +99,14 @@
                    </div>
                    {% endfor %}
 
-                    <a class="gradient-button login_btn" href='/dashboard' type="submit">Login</a><br>
+                   {{ form.errors }}
+
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
             	    Don't have an account- <a style="color:white;" href="/signup"> Signup </a>
                     <div class="col text-center">
                         <a href="password_reset_request">Forgot password?</a>
                     </div>
+
         </form>
     </body>
 </html>
