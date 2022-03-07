@@ -23,6 +23,9 @@ class NetIdField(forms.CharField):
 
 
 class SignupForm(UserCreationForm):
+
+    p_error = None
+
     password1 = forms.CharField(
         label=_("Password"),
         strip=False,
@@ -86,21 +89,19 @@ class ResetPasswordForm(forms.Form):
         return error_bool, password2
 
 
-class LoginForm(forms.ModelForm):
-    class Meta:
-        model = UserDetails
+class LoginForm(forms.Form):
+    netid = forms.CharField(
+        label=_("NetID"),
+        strip=False,
+        widget=forms.TextInput(attrs={'autocomplete': 'netid', 'placeholder': 'NetID'}),
+    )
 
-        fields = ['netid', 'password']
-
-        labels = {
-            'netid': '',
-            'password': '',
-        }
-
-        widgets = {
-            'netid': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Net ID'}),
-            'password': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
-        }
+    password = forms.CharField(
+        label=_("Password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'placeholder': 'Password'}),
+        help_text=password_validation.password_validators_help_text_html(),
+    )
 
 
 class CustomUserChangeForm(UserChangeForm):
