@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'nyunite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'nyuniteapp',
+        'NAME': 'nyuniteapp.sqlite3',
     }
 }
 
