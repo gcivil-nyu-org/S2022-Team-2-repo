@@ -1,6 +1,6 @@
-
+{% load static %}
 #intro{
-    background-image: url("{% static 'homeImg.jpg' %}");
+    background-image: {% static 'images/homeImg.jpg' %};
     height: 400px;
 }
 

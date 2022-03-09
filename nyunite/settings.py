@@ -24,79 +24,71 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Loading .env file
 dotenv.read_dotenv()
 
-SECRET_KEY = str(os.environ.get('SECRET_KEY', 'django-insecure-x933uk5yv#^n$s)kn&u-$8^(h4i@b!cgum$c6c964e3=ehaa0o'))
+SECRET_KEY = str(
+    os.environ.get(
+        "SECRET_KEY",
+        "django-insecure-x933uk5yv#^n$s)kn&u-$8^(h4i@b!cgum$c6c964e3=ehaa0o",
+    )
+)
 
-DEBUG = bool(os.environ.get('DEBUG_MODE', True))
+DEBUG = bool(os.environ.get("DEBUG_MODE", True))
 
-ALLOWED_HOSTS = ['nyunite.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ["nyunite.herokuapp.com", "127.0.0.1"]
 
 # Configure email host server
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = str(os.environ.get('SMTP_EMAIL'))
-EMAIL_HOST_PASSWORD = str(os.environ.get('SMTP_PASSWORD'))
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = str(os.environ.get("SMTP_EMAIL"))
+EMAIL_HOST_PASSWORD = str(os.environ.get("SMTP_PASSWORD"))
 EMAIL_PORT = 587
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'user',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "user",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'nyunite.urls'
+ROOT_URLCONF = "nyunite.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["templates"],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": ["templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'user/templates'),
-    os.path.join(BASE_DIR, 'user/templates/css'),
-    os.path.join(BASE_DIR, 'user/templates/img'),
-    os.path.join(BASE_DIR, 'user/templates/js'),
-    os.path.join(BASE_DIR, 'user/templates/src'),
-)
-
-WSGI_APPLICATION = 'nyunite.wsgi.application'
+WSGI_APPLICATION = "nyunite.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'nyuniteapp.sqlite3',
-    }
+    "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "nyuniteapp.sqlite3"}
 }
 
 # Password validation
@@ -104,25 +96,19 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = "America/New_York"
 
 USE_I18N = True
 
@@ -130,16 +116,21 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/static/"
+STATICFILES_DIRS = (
+    ("images", os.path.join(BASE_DIR, "user/static/images")),
+    ("css", os.path.join(BASE_DIR, "user/static/css")),
+    ("js", os.path.join(BASE_DIR, "user/static/js")),
+    ("src", os.path.join(BASE_DIR, "user/static/src")),
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # User Auth Model
-AUTH_USER_MODEL = 'user.UserDetails'
+AUTH_USER_MODEL = "user.UserDetails"
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
