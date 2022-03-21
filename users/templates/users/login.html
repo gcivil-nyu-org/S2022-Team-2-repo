@@ -1,0 +1,70 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block style %}
+*{
+padding: 0;
+margin: 0;
+box-sizing: border-box;
+}
+body{
+/* background-color: antiquewhite; */
+background: rgb(192, 222, 226);
+}
+.row{
+background-color: white;
+border-radius: 30px;
+box-shadow: 2px 2px 2px;
+}
+.btn1{
+border: none;
+outline: none;
+height: 50px;
+width: 70%;
+background-image: linear-gradient(to right, #9b06b9 0%, #ec94e8 51%, #2da2f0 100%);
+color: white;
+border-radius: 4px;
+font-weight: bold;
+}
+.btn1:hover{
+border: 1px solid black ;
+color: white;
+box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+{% endblock %}
+
+{% block content %}
+<section class="Form my-4 mx-5">
+   <div class="container">
+      <div class="row no-gutters">
+         <div class="col-lg-5 p-5">
+            <img src="{% static 'images/home_img.jpg' %}" class="img-fluid" alt="login">
+         </div>
+         <div class="col-lg-7 px-5 pt-5">
+            <h1 class="font-weight-bold py-8">NYUnite</h1>
+            <h4> Sign into your account</h4>
+            <form class="bg-white  rounded-5 shadow-5-strong p-5" method="post">
+               {% csrf_token %}
+               {% for field in form %}
+               <div class="form-group form-outline mb-4">
+                  {{ field }}
+               </div>
+               {% endfor %}
+               {{ form.errors }}
+               <div class="form-row">
+                  <div class="col-lg-5">
+                     <button type="submit" class="btn1 mt-3 mb-1">Login</button>
+                  </div>
+               </div>
+               <a href="password_reset_request"> Forgot Password</a>
+               <p>Don't have an account? <a href="{% url 'signup' %}">Register here</a></p>
+            </form>
+         </div>
+      </div>
+   </div>
+</section>
+{% endblock %}
