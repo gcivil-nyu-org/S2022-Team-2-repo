@@ -20,7 +20,6 @@ Thumbs.db
 __pycache__
 
 # Random Files
-*.env
 staticfiles/
 
 # dependencies
