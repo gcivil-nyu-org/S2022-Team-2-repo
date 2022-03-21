@@ -1,54 +1,58 @@
 import {
-  Button,
-  Checkbox,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  Link,
-  Stack,
-  Image,
+  Button,  Flex,  FormControl, Heading, Input, Link,  Stack,  Image, Text, Box,
 } from '@chakra-ui/react';
+import loginPhoto from '../../assets/images/login_photo.jpg';
 
-export default function SplitScreen() {
+export default function LogInPage() {
   return (
-    <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
+    <Stack minH={'10vh'} direction={{ base: 'column', md: 'row' }}  bgColor={'#330662'}>
       <Flex flex={1}>
         <Image
           alt={'Login Image'}
           objectFit={'cover'}
-          src={
-            'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80'
-          }
+          src={loginPhoto}
         />
       </Flex>
+
+      
       <Flex p={8} flex={1} align={'center'} justify={'center'}>
-        <Stack spacing={4} w={'full'} maxW={'md'}>
-          <Heading fontSize={'2xl'}>Sign in to your account</Heading>
-          <FormControl id="email">
-            <FormLabel>Email address</FormLabel>
-            <Input type="email" />
-          </FormControl>
-          <FormControl id="password">
-            <FormLabel>Password</FormLabel>
-            <Input type="password" />
-          </FormControl>
-          <Stack spacing={6}>
-            <Stack
-              direction={{ base: 'column', sm: 'row' }}
-              align={'start'}
-              justify={'space-between'}
-            >
-              <Checkbox>Remember me</Checkbox>
-              <Link color={'blue.500'}>Forgot password?</Link>
-            </Stack>
-            <Button colorScheme={'blue'} variant={'solid'}>
-              Sign in
-            </Button>
+        <Box bg='white' w='100%' p={0} align={'center'} borderRadius='lg'>
+
+          <Stack color={'black'} >       
+            <Box bg='#a69db2' borderRadius='lg' p={3}>
+              <Heading fontSize={'xl'}>Log In</Heading>
+            </Box>
           </Stack>
-        </Stack>
+
+          <Stack spacing={4} w={'full'} maxW={'md'} color={'black'} bg='white' p={6} borderRadius='lg'>
+
+
+            <Stack align={'center'}>
+            <FormControl id="netId" borderColor={'#330662'} maxW='200px'>
+              <Input type="text"  placeholder='NetID' color={'#330662'} _placeholder={{ color: '#330662' }} />
+            </FormControl>
+            <FormControl id="password" borderColor={'#330662'} maxW='200px'>
+              <Input type="password" placeholder='Password' color={'#330662'} _placeholder={{ color: '#330662' }}/>
+            </FormControl>
+            </Stack>
+
+            <Stack spacing={6} align={'center'}>
+              
+                <Button borderRadius='md' bg='#330662' color='white' px={20} fontSize={20} maxW='150px' h='45px' _hover={{ bg:'#7b5aa6'}}>
+                  SIGN IN
+                </Button>
+            </Stack>
+
+            <Stack>
+              <Text fontSize={'x1'} color={'black'} fontWeight={'bold'}>Forget your password?</Text>                       
+              <Link href="/" color={'black'} fontWeight={'bold'} > <Text as ='u'>Reset your password</Text> </Link>
+            </Stack>
+
+          </Stack>
+
+        </Box>
       </Flex>
+
     </Stack>
   );
 }

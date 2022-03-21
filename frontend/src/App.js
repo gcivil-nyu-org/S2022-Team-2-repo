@@ -3,6 +3,7 @@ import { ChakraProvider, theme, Flex } from '@chakra-ui/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import NavBarApp from './components/layout/NavBarApp';
 import HomePage from './views/app/HomePage';
+import Authenticate from './views/authentication/Authenticate';
 
 function App() {
   return (
@@ -10,6 +11,9 @@ function App() {
       <div className="App">
         <Router>
           <NavBarApp />
+          
+          <Authenticate />
+
         </Router>
       </div>
       <div className='fill-window'>

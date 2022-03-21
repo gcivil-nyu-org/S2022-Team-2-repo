@@ -18,7 +18,7 @@ import logo_black from "../../assets/images/logo_black.png";
 import '../../style.css';
 
 export default function WfWf() {
-  const bg = useColorModeValue("#ab82c5", "#330662");
+  const bg = useColorModeValue("#ab82c5", "#57068c");
   const { toggleColorMode: toggleMode } = useColorMode();
   const text = useColorModeValue("dark", "light");
   const SwitchIcon = useColorModeValue(FaMoon, FaSun);
