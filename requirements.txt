@@ -1,5 +1,12 @@
-mysqlclient
-django-dotenv
 django
 gunicorn
+psycopg2
 django-heroku
+django-dotenv
+djangorestframework
+django-cors-headers
+django-crispy-forms
+django-autoslug
+pillow
+black
+flake8
