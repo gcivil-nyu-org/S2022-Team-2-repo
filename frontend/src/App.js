@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NavBarApp from './components/layout/NavBarApp';
 import HomePage from './views/app/HomePage';
 import Authenticate from './views/authentication/Authenticate';
+import PasswordReset from './views/authentication/PasswordReset';
 
 function App() {
   return (
@@ -23,9 +24,13 @@ function App() {
               </Route>
 
               <Route path="/signup">
-                
+
               </Route>
 
+              <Route path="/password_reset">
+                <NavBarApp />
+                <PasswordReset />                
+              </Route>
 
             </Switch>          
           </div>

@@ -34,7 +34,7 @@ export default function LogInPage() {
             <Box as='button' bg='#c7d0d8' borderRadius='5px 0 0px 5px' p={3} onClick={handleClickSignUp} w={'50%'}_hover={{ bg:'#D6BCFA'}}>
               <Heading fontSize={'xl'}>Sign Up</Heading>
             </Box>
-            <Box as='button' bg='#a69db2' borderRadius='0px 5px 5px 0px' p={3} onClick={handleClickLogIn} w={'50%'}_hover={{ bg:'#D6BCFA'}}>
+            <Box as='button' bg='#a69db2' borderRadius='0px 5px 5px 0px' p={3} onClick={handleClickLogIn} w={'50%'}_hover={{ bg:'#D6BCFA'}}   borderColor={'white'} borderWidth={3}>
               <Heading fontSize={'xl'}>Log In</Heading>
             </Box>
           </Flex>
@@ -58,7 +58,7 @@ export default function LogInPage() {
 
             <Stack>
               <Text fontSize={'x1'} color={'black'} fontWeight={'bold'}>Forget your password?</Text>                       
-              <Link href="/" color={'black'} fontWeight={'bold'} > <Text as ='u'>Reset your password</Text> </Link>
+              <Link href="/password_reset" color={'black'} fontWeight={'bold'} > <Text as ='u'>Reset your password</Text> </Link>
             </Stack>
 
           </Stack>
