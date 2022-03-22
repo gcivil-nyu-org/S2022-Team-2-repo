@@ -11,16 +11,20 @@ function App() {
       <div className="App">
         <Router>
           <NavBarApp />
-          
+
           <Authenticate />
 
         </Router>
-      </div>
-      <div className='fill-window'>
-        <HomePage />
       </div>
     </ChakraProvider>
   );
 }
 
 export default App;
+
+/*
+<div className='fill-window'>
+<HomePage />
+</div>
+
+*/

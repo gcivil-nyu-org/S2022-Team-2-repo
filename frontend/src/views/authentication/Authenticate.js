@@ -5,8 +5,10 @@ import loginPhoto from '../../assets/images/login_photo.jpg';
 
 export default function LogInPage() {
   return (
-    <Stack minH={'10vh'} direction={{ base: 'column', md: 'row' }}  bgColor={'#330662'}>
-      <Flex flex={1}>
+    
+    <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}  bgColor={'#330662'}>
+
+      <Flex flex={1} maxH={'100vh'}>
         <Image
           alt={'Login Image'}
           objectFit={'cover'}
@@ -15,8 +17,8 @@ export default function LogInPage() {
       </Flex>
 
       
-      <Flex p={8} flex={1} align={'center'} justify={'center'}>
-        <Box bg='white' w='100%' p={0} align={'center'} borderRadius='lg'>
+      <Flex p={8} flex={1} align={'center'} justify={'center'} >
+        <Box bg='white' w='50%' p={0} align={'center'} borderRadius='lg'>
 
           <Stack color={'black'} >       
             <Box bg='#a69db2' borderRadius='lg' p={3}>
@@ -29,10 +31,10 @@ export default function LogInPage() {
 
             <Stack align={'center'}>
             <FormControl id="netId" borderColor={'#330662'} maxW='200px'>
-              <Input type="text"  placeholder='NetID' color={'#330662'} _placeholder={{ color: '#330662' }} />
+              <Input type="text"  placeholder='NetID' color={'#330662'} _placeholder={{ color: '#330662' }} borderWidth={'2px'} />
             </FormControl>
             <FormControl id="password" borderColor={'#330662'} maxW='200px'>
-              <Input type="password" placeholder='Password' color={'#330662'} _placeholder={{ color: '#330662' }}/>
+              <Input type="password" placeholder='Password' color={'#330662'} _placeholder={{ color: '#330662' }} borderWidth={'2px'}/>
             </FormControl>
             </Stack>
 
