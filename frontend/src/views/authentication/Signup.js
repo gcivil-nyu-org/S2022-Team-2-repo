@@ -9,21 +9,23 @@ import {
     Link,
     Stack,
     HStack,
+    VStack,
     Image,
     Box,
   } from '@chakra-ui/react';
   import loginphoto from '../../assets/images/login.jpg';
-  
+ 
   export default function Signup() {
     return (
       <Stack
-      minH={'10vh'}
+      height={'865px'}
+    //   minH={'10vh'}
         direction={{ base: 'column', md: 'row' }}
         bgColor={'#330662'}
       >
           
-        <Flex flex={1}>
-          <Image alt={'Login Image'} objectFit={'cover'} src={loginphoto}   />
+        <Flex flex={1} w='100%' height='100%' >
+          <Image width='100%' height='860px'  alt={'Login Image'} objectFit={'fill'} src={loginphoto}   />
         </Flex>
         
         <Flex
@@ -31,7 +33,7 @@ import {
           flex={1}
           align={'center'}
           justify={'center'}
-          bgColor={'#57068c'}
+          bgColor={'#230542'}
           >
           <Box bg="white" w="50%" p={0} color="black" borderRadius="lg">
             <Stack spacing={4} w={'full'} maxW={'md'}>
