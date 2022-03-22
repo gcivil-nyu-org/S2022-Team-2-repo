@@ -3,6 +3,7 @@ import { ChakraProvider, theme, Flex } from '@chakra-ui/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import NavBarApp from './components/layout/NavBarApp';
 import HomePage from './views/app/HomePage';
+import Signup from './views/authentication/Signup';
 
 function App() {
   return (
@@ -10,12 +11,14 @@ function App() {
       <div className="App">
         <Router>
           <NavBarApp />
+          <Signup />
         </Router>
       </div>
-      <div className='fill-window'>
+      {/* <div className='fill-window'>
         <HomePage />
-      </div>
-    </ChakraProvider>
+      </div>*/}
+    </ChakraProvider> 
+
   );
 }
 
