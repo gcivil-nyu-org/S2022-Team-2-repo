@@ -10,7 +10,8 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from .models import Profile
+from .models import Profile, Preference
+from .preferences import *
 
 
 class UserRegisterForm(UserCreationForm):
@@ -146,3 +147,37 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = User
         fields = ["username"]
+
+
+class PreferencesPersonalityForm(forms.ModelForm):
+    # personality_type = forms.ChoiceField(
+    #     required=False,
+    #     widget=forms.RadioSelect,
+    #     choices=PERSONALITY_CHOICES,
+    # )
+    # stay_go_type = forms.ChoiceField(
+    #     required=False,
+    #     widget=forms.RadioSelect,
+    #     choices=STAY_GO_CHOICES,
+    # )
+    class Meta:
+        model = Preference
+        fields = ['personality_type',
+                  'stay_go_type',
+                  'movie_choices',
+                  'music_choices',
+                  'food_choices',
+                  'travel_choices',
+                  'art_choices',
+                  'dance_choices',
+                  'sports_choices',
+                  'pet_choices',
+                  'nyc_choices']
+
+
+class PreferencesHobbiesForm(forms.Form):
+    movie_type = forms.MultipleChoiceField(
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        choices=MOVIES_CHOICES,
+    )
