@@ -34,12 +34,12 @@ export default function WfWf() {
           <Spacer />
           <Box display="flex" alignItems="center">
             <HStack spacing={1}>
-            <Link display="flex" alignItems="center" href="/signup">
+            <Link display="flex" alignItems="center" href="/login">
               <Button colorScheme="brand" variant="ghost" size="sm">
                 Sign in
               </Button>
               </Link>
-              <Link display="flex" alignItems="center" href="/login">
+              <Link display="flex" alignItems="center" href="/signup">
               <Button colorScheme="brand" variant="ghost" size="sm">
                 Sign Up
               </Button>

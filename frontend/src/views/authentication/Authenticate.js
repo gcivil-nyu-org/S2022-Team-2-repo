@@ -1,9 +1,19 @@
 import {
   Button,  Flex,  FormControl, Heading, Input, Link,  Stack,  Image, Text, Box,
 } from '@chakra-ui/react';
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+
 import loginPhoto from '../../assets/images/login_photo.jpg';
 
 export default function LogInPage() {
+  const history=useHistory();
+  const handleClickSignUp = () => {
+    history.push('/signup');
+  }
+  const handleClickLogIn = () => {
+    history.push('/login');
+  }
+
   return (
     
     <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}  bgColor={'#330662'}>
@@ -20,22 +30,23 @@ export default function LogInPage() {
       <Flex p={8} flex={1} align={'center'} justify={'center'} >
         <Box bg='white' w='50%' p={0} align={'center'} borderRadius='lg'>
 
-          <Stack color={'black'} >       
-            <Box bg='#a69db2' borderRadius='lg' p={3}>
+          <Flex color={'black'} >       
+            <Box as='button' bg='#c7d0d8' borderRadius='5px 0 0px 5px' p={3} onClick={handleClickSignUp} w={'50%'}_hover={{ bg:'#D6BCFA'}}>
+              <Heading fontSize={'xl'}>Sign Up</Heading>
+            </Box>
+            <Box as='button' bg='#a69db2' borderRadius='0px 5px 5px 0px' p={3} onClick={handleClickLogIn} w={'50%'}_hover={{ bg:'#D6BCFA'}}>
               <Heading fontSize={'xl'}>Log In</Heading>
             </Box>
-          </Stack>
+          </Flex>
 
           <Stack spacing={4} w={'full'} maxW={'md'} color={'black'} bg='white' p={6} borderRadius='lg'>
 
-
             <Stack align={'center'}>
-            <FormControl id="netId" borderColor={'#330662'} maxW='200px'>
-              <Input type="text"  placeholder='NetID' color={'#330662'} _placeholder={{ color: '#330662' }} borderWidth={'2px'} />
-            </FormControl>
-            <FormControl id="password" borderColor={'#330662'} maxW='200px'>
-              <Input type="password" placeholder='Password' color={'#330662'} _placeholder={{ color: '#330662' }} borderWidth={'2px'}/>
-            </FormControl>
+              <FormControl >
+                <Input mb={1} id="netId" borderColor={'#330662'} maxW='200px' type="text"  placeholder='NetID' color={'#330662'} _placeholder={{ color: '#330662' }} borderWidth={'2px'} />
+                <br />
+                <Input  id="password" borderColor={'#330662'} maxW='200px' type="password" placeholder='Password' color={'#330662'} _placeholder={{ color: '#330662' }} borderWidth={'2px'}/>
+              </FormControl>
             </Stack>
 
             <Stack spacing={6} align={'center'}>
