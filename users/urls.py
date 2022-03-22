@@ -22,7 +22,7 @@ urlpatterns = [
     path("activate/<uidb64>/<token>/", user_views.activate, name="activate"),
     path("activate", user_views.signup, name="activate2"),
     path(
-        "password_reset_request",
+        "login/password_reset_request",
         user_views.password_reset_request,
         name="password_reset_request",
     ),
@@ -31,4 +31,16 @@ urlpatterns = [
         user_views.password_reset,
         name="reset_password",
     ),
+    path("preferences/page1",
+         user_views.preferences_personality,
+         name="preferences_personality",),
+    path("preferences/page2",
+         user_views.preferences_hobbies,
+         name="preferences_hobbies"),
+    path("dashboard",
+         user_views.dashboard,
+         name="dashboard"),
+    path("dashboard/preferences",
+         user_views.preferences,
+         name="preferences")
 ]

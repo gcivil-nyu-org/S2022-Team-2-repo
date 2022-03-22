@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
@@ -10,7 +11,10 @@ from users.forms import (
     UserRegisterForm,
     ResetPasswordRequestForm,
     ResetPasswordForm,
+    PreferencesPersonalityForm,
+    PreferencesHobbiesForm,
 )
+
 from users.tokens import account_activation_token
 
 User = get_user_model()
@@ -144,6 +148,51 @@ def password_reset(request, uidb64, token):
         # TODO: HTML Page here to go back to the password reset request page
         return render(request, "users/passwordreset/password_reset_request_form.html")
 
+
+def preferences_personality(request):
+    context_dict = {'form': None}
+    form = PreferencesPersonalityForm()
+
+    if request.method == 'GET':
+        context_dict['form'] = form
+    elif request.method == 'POST':
+        form = PreferencesPersonalityForm(request.POST)
+
+        context_dict['form'] = form
+        user = request.user
+        if form.is_valid() and user is not None:
+            prefs = form.save(commit=False)
+            prefs.user = user
+            prefs.save()
+            print()
+            return HttpResponseRedirect('/preferences/page2')
+
+    return render(request, 'users/preferences/preferences1.html', context_dict)
+
+
+def preferences_hobbies(request):
+    context_dict = {'form': None}
+    form = PreferencesHobbiesForm()
+
+    if request.method == 'GET':
+        context_dict['form'] = form
+    elif request.method == 'POST':
+        form = PreferencesHobbiesForm(request.POST)
+        context_dict['form'] = form
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            print(cleaned_data)
+            return HttpResponseRedirect('/dashboard')
+
+    return render(request, 'users/preferences/preferences1.html', context_dict)
+
+
+def dashboard(request):
+    return render(request, 'users/dashboard/dashboard.html')
+
+
+def preferences(request):
+    return render(request, 'users/dashboard/dashboard_preferences.html')
 
 # @login_required
 # def users_list(request):
