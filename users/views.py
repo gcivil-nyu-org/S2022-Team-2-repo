@@ -13,7 +13,6 @@ from users.forms import (
     ResetPasswordRequestForm,
     ResetPasswordForm,
     PreferencesPersonalityForm,
-    PreferencesHobbiesForm,
     LoginForm,
 )
 
@@ -182,29 +181,30 @@ def preferences_personality(request):
         user = request.user
         if form.is_valid() and user is not None:
             prefs = form.save(commit=False)
+            user = User.objects.get(id=user.id)
             prefs.user = user
             prefs.save()
             print()
-            return HttpResponseRedirect("/preferences/page2")
-
-    return render(request, "users/preferences/preferences1.html", context_dict)
-
-
-def preferences_hobbies(request):
-    context_dict = {"form": None}
-    form = PreferencesHobbiesForm()
-
-    if request.method == "GET":
-        context_dict["form"] = form
-    elif request.method == "POST":
-        form = PreferencesHobbiesForm(request.POST)
-        context_dict["form"] = form
-        if form.is_valid():
-            cleaned_data = form.cleaned_data
-            print(cleaned_data)
             return HttpResponseRedirect("/dashboard")
 
     return render(request, "users/preferences/preferences1.html", context_dict)
+
+
+# def preferences_hobbies(request):
+#     context_dict = {"form": None}
+#     form = PreferencesHobbiesForm()
+#
+#     if request.method == "GET":
+#         context_dict["form"] = form
+#     elif request.method == "POST":
+#         form = PreferencesHobbiesForm(request.POST)
+#         context_dict["form"] = form
+#         if form.is_valid():
+#             cleaned_data = form.cleaned_data
+#             print(cleaned_data)
+#             return HttpResponseRedirect("/dashboard")
+#
+#     return render(request, "users/preferences/preferences1.html", context_dict)
 
 
 @login_required
