@@ -3,6 +3,7 @@ import {
   Flex,
   VStack,
   Image,
+  Text,
   useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -21,20 +22,25 @@ export default function HomePage() {
   );
   return (
     <Flex
-      w={'full'}
-      h={'full'}
+      w={'100vw'}
+      h={'88vh'}
       backgroundImage={bg}
       backgroundSize={'cover'}
       backgroundPosition={'center center'}
     >
       <VStack
         w={'full'}
+        align={'center'}
         justify={'center'}
         px={useBreakpointValue({ base: 4, md: 8 })}
         bgGradient={mask}
       >
-        <Stack maxW={'2xl'} align={'flex-start'} spacing={6}>
+        <Stack maxW={'2xl'} align={'center'} spacing={6}>
           <Image src={logo} />
+          
+          <Text fontSize="3xl" align={'center'}>
+            An all-in-one place for NYU students to connect!
+          </Text>
         </Stack>
       </VStack>
     </Flex>

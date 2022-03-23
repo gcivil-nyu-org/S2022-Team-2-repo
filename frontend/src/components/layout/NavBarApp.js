@@ -16,6 +16,7 @@ import { FaMoon, FaSun } from 'react-icons/fa';
 import logo_white from '../../assets/images/logo_white.png';
 import logo_black from '../../assets/images/logo_black.png';
 import '../../style.css';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function WfWf() {
   const bg = useColorModeValue('#8900e1', '#330662');
@@ -23,6 +24,14 @@ export default function WfWf() {
   const text = useColorModeValue('dark', 'light');
   const SwitchIcon = useColorModeValue(FaMoon, FaSun);
   const logo = useColorModeValue(logo_black, logo_white);
+
+  const history = useHistory();
+  const handleClickSignUp = () => {
+    history.push('/signup');
+  };
+  const handleClickLogIn = () => {
+    history.push('/signin');
+  };
 
   const [isAuth, setIsAuth] = useState(false);
 
@@ -34,25 +43,38 @@ export default function WfWf() {
 
   return (
     <React.Fragment>
-      <chakra.header h="full" bg={bg} w="full" px={{ base: 2, sm: 4 }} py={4}>
+      <chakra.header
+        h="full"
+        bg={bg}
+        w="full"
+        px={{ base: 2, sm: 4 }}
+        py={4}
+        sticky
+      >
         <Flex alignItems="center" justifyContent="space-between" mx="auto">
           <Link display="flex" alignItems="center" href="/">
-            <img src={logo} className="photo" alt="NYUnite" />
+            <img src={logo} className="logo" alt="NYUnite" />
           </Link>
           <Spacer />
           <Box display="flex" alignItems="center">
             {isAuth === false ? (
               <HStack>
-                <Link display="flex" alignItems="center" href="/signup">
-                  <Button colorScheme="brand" variant="ghost" size="lg">
-                    Log in
-                  </Button>
-                </Link>
-                <Link display="flex" alignItems="center" href="/login">
-                  <Button colorScheme="brand" variant="ghost" size="lg">
-                    Sign Up
-                  </Button>
-                </Link>
+                <Button
+                  colorScheme="brand"
+                  variant="ghost"
+                  size="lg"
+                  onClick={handleClickLogIn}
+                >
+                  Sign in
+                </Button>
+                <Button
+                  colorScheme="brand"
+                  variant="ghost"
+                  size="lg"
+                  onClick={handleClickSignUp}
+                >
+                  Sign Up
+                </Button>
               </HStack>
             ) : (
               <HStack>

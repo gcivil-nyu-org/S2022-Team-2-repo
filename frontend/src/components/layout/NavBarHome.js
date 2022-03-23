@@ -15,14 +15,17 @@ function NavbarHome() {
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
         <div className={sidebar ? 'navbar-inactive' : 'navbar'}>
-          <Link to='#' className='menu-bars'>
-            <FaIcons.FaBars onClick={showSidebar} style={{ position: 'relative', zIndex: '1' }}/>
+          <Link to="#" className="menu-bars">
+            <FaIcons.FaBars
+              onClick={showSidebar}
+              style={{ position: 'relative', zIndex: '1' }}
+            />
           </Link>
         </div>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-          <ul className='nav-menu-items' onClick={showSidebar}>
-            <li className='navbar-toggle'>
-              <Link to='#' className='menu-bars'>
+          <ul className="nav-menu-items" onClick={showSidebar}>
+            <li className="navbar-toggle">
+              <Link to="#" className="menu-bars">
                 <AiIcons.AiOutlineClose />
               </Link>
             </li>
@@ -43,4 +46,4 @@ function NavbarHome() {
   );
 }
 
-export default NavbarHome
+export default NavbarHome;

@@ -3,7 +3,6 @@ from django.contrib.auth import password_validation
 from django.contrib.auth.forms import (
     UserChangeForm,
     UserCreationForm,
-    AuthenticationForm,
 )
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
@@ -116,7 +115,7 @@ class ResetPasswordForm(forms.Form):
         return error_bool, password2
 
 
-class LoginForm(AuthenticationForm):
+class LoginForm(forms.Form):
     username = forms.CharField(
         label=_("username"),
         strip=False,
@@ -130,7 +129,7 @@ class LoginForm(AuthenticationForm):
     )
 
     password = forms.CharField(
-        label=_("Password"),
+        label=_("password"),
         strip=False,
         widget=forms.PasswordInput(
             attrs={
@@ -162,17 +161,19 @@ class PreferencesPersonalityForm(forms.ModelForm):
     # )
     class Meta:
         model = Preference
-        fields = ['personality_type',
-                  'stay_go_type',
-                  'movie_choices',
-                  'music_choices',
-                  'food_choices',
-                  'travel_choices',
-                  'art_choices',
-                  'dance_choices',
-                  'sports_choices',
-                  'pet_choices',
-                  'nyc_choices']
+        fields = [
+            "personality_type",
+            "stay_go_type",
+            "movie_choices",
+            "music_choices",
+            "food_choices",
+            "travel_choices",
+            "art_choices",
+            "dance_choices",
+            "sports_choices",
+            "pet_choices",
+            "nyc_choices",
+        ]
 
 
 class PreferencesHobbiesForm(forms.Form):
