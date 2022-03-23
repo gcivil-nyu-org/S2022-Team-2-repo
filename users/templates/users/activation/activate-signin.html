@@ -1,8 +1,12 @@
 {% extends 'users/base.html' %}
 {% block content %}
 
+{% include 'users/navbars/navbarH.html' %}
+
+<div class="dashboard" align=center>
     <h3> Thank you for activating your account!</h3>
     <h3> Let's learn more about you!</h3>
     <button type="submit"><a href="{% url 'preferences_personality' %}">Submit your Preferences</a></button>
+</div>
 
 {% endblock %}

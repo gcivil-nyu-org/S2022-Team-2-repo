@@ -1,8 +1,12 @@
 {% extends 'users/base.html' %}
 {% block content %}
 
+{% include 'users/navbars/navbarH.html' %}
+
+<div>
     <h3> Your account activation link has expired!</h3>
     <h3> Please click here to sign up again:</h3>
     <button type="submit"><a href="{% url 'signup' %}">Signup</a></button>
+</div>
 
 {% endblock %}
