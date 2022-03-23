@@ -24,10 +24,7 @@ class Profile(models.Model):
 
 def post_save_user_model_receiver(sender, instance, created, *args, **kwargs):
     if created:
-        try:
-            Profile.objects.create(user=instance)
-        except:
-            pass
+        Profile.objects.create(user=instance)
 
 
 post_save.connect(post_save_user_model_receiver, sender=settings.AUTH_USER_MODEL)

@@ -28,7 +28,7 @@ staticfiles/
 .pnp.js
 
 # testing
-**/coverage
+**/.coverage
 
 # misc
 **/.DS_Store

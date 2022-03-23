@@ -10,3 +10,5 @@ django-autoslug
 pillow
 black
 flake8
+coverage
+coveralls
