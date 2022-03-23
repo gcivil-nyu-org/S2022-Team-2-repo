@@ -21,6 +21,13 @@ from users.tokens import account_activation_token
 User = get_user_model()
 
 
+# def checkloggedinuser(request):
+#     if request.user is not None:
+#         user = request.user
+#         if user.is_authenticated():
+#             return HttpResponseRedirect("/dashboard")
+
+
 def home(request):
     return render(request, "users/home.html")
 
@@ -215,7 +222,6 @@ def dashboard(request):
 @login_required
 def preferences(request):
     return render(request, "users/dashboard/dashboard_preferences.html")
-
 
 # @login_required
 # def users_list(request):
