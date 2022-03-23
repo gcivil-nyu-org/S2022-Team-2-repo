@@ -116,7 +116,7 @@ class ResetPasswordForm(forms.Form):
         return error_bool, password2
 
 
-class LoginForm(AuthenticationForm):
+class LoginForm(forms.Form):
     username = forms.CharField(
         label=_("username"),
         strip=False,
@@ -130,7 +130,7 @@ class LoginForm(AuthenticationForm):
     )
 
     password = forms.CharField(
-        label=_("Password"),
+        label=_("password"),
         strip=False,
         widget=forms.PasswordInput(
             attrs={

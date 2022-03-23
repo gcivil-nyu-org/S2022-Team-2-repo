@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect
@@ -71,9 +72,9 @@ def login_form(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return render(request, "dashboard.html")
+                return render(request, "users/dashboard/dashboard.html")
             else:
-                form.add_error("username", "User not found")
+                form.add_error("username", "User with that credentials not found.")
     else:
         form = LoginForm()
     return render(request, "users/authenticate/login.html", {"form": form})
@@ -206,13 +207,14 @@ def preferences_hobbies(request):
     return render(request, "users/preferences/preferences1.html", context_dict)
 
 
+@login_required
 def dashboard(request):
     return render(request, "users/dashboard/dashboard.html")
 
 
+@login_required
 def preferences(request):
     return render(request, "users/dashboard/dashboard_preferences.html")
-
 
 # @login_required
 # def users_list(request):

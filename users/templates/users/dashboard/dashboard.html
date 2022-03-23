@@ -1,7 +1,10 @@
 {% extends 'users/base.html' %}
-{% block content %}
 
-    <h3> Welcome to the NYUnite Dashboard</h3>
-    <button type="submit"><a href="{% url 'preferences' %}">Edit my preferences</a></button>
+{% block content %}
+{% include 'users/navbars/sidebar.html' %}
+
+<div class="dashboard" style="transform:translate(140px, 10px);">
+    <h1> Dashboard </h1>
+</div>
 
 {% endblock %}
