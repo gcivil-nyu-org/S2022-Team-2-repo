@@ -1,64 +1,97 @@
 {% extends 'users/base.html' %}
-{% load static %}
-
-{% block title %}
-Login
-{% endblock %}
 
 {% block style %}
-*{
-padding: 0;
-margin: 0;
-box-sizing: border-box;
-}
 body{
-/* background-color: antiquewhite; */
-background: rgb(192, 222, 226);
+color: #bcd0f7;
+background: #1A233A;
 }
-.row{
-background-color: white;
-border-radius: 30px;
-box-shadow: 2px 2px 2px;
+.account-settings .user-profile {
+margin: 0 0 1rem 0;
+padding-bottom: 1rem;
+text-align: center;
 }
-.btn1{
-border: none;
-outline: none;
-height: 50px;
-width: 70%;
-background-image: linear-gradient(to right, #9b06b9 0%, #ec94e8 51%, #2da2f0 100%);
-color: white;
-border-radius: 4px;
-font-weight: bold;
+.account-settings .user-profile .user-avatar {
+margin: 0 0 1rem 0;
 }
-.btn1:hover{
-border: 1px solid black ;
-color: white;
-box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+.account-settings .user-profile .user-avatar img {
+width: 90px;
+height: 90px;
+-webkit-border-radius: 100px;
+-moz-border-radius: 100px;
+border-radius: 100px;
+}
+.account-settings .user-profile h5.user-name {
+margin: 0 0 0.5rem 0;
+}
+.account-settings .user-profile h6.user-email {
+margin: 0;
+font-size: 0.8rem;
+font-weight: 400;
+}
+.account-settings .about {
+margin: 1rem 0 0 0;
+font-size: 0.8rem;
+text-align: center;
+}
+.card {
+background: #272E48;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+border: 0;
+margin-bottom: 1rem;
+}
+.form-control {
+border: 1px solid #596280;
+-webkit-border-radius: 2px;
+-moz-border-radius: 2px;
+border-radius: 2px;
+font-size: .825rem;
+background: #1A233A;
+color: #bcd0f7;
 }
 {% endblock %}
 
 {% block content %}
-<section class="Form my-4 mx-5">
-   <div class="container">
-      <div class="row no-gutters">
-         <div class="col-lg-7 px-5 pt-5">
-            <h4> Enter your preferences</h4>
-            <form class="bg-white  rounded-5 shadow-5-strong p-5" method="post">
-               {% csrf_token %}
-               {% for field in form %}
-               <div class="form-group form-outline mb-4">
-                  {{ field }}
-               </div>
-               {% endfor %}
-               {{ form.errors }}
-               <div class="form-row">
-                  <div class="col-lg-5">
-                     <button type="submit" class="btn1 mt-3 mb-1">Next</button>
+{% include 'users/navbars/navbarH.html' %}
+
+
+<div class="container">
+   <div class="row gutters">
+      <div class="card h-100">
+         <div class="card-body">
+            <div class="account-settings">
+               <div class="user-profile">
+                  <div class="user-avatar">
+                     <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Maxwell Admin">
                   </div>
+                  <h5 class="user-name"> {{user.first_name}} {{user.last_name}}</h5>
+                  <h6 class="user-email"> {{ user.email }}</h6>
                </div>
-            </form>
+               <div class="about">
+                  <h5 class="mb-2 text-primary">About</h5>
+                  <p>I'm {{ user.first_name }}. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.
+                  </p>
+               </div>
+               <form class="rounded-5 shadow-5-strong p-5" method="post">
+                  <h4> Preferences</h4>
+                  {% csrf_token %}
+                  {% for field in form %}
+                  {{ field.label }}
+                  <ul style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
+                     {{ field }}
+                  </ul>
+                  {% endfor %}
+                  {{ form.errors }}
+                  <div class="form-row">
+                     <div class="col-lg-5">
+                        <button type="submit" class="btn1 mt-3 mb-1">Next</button>
+                     </div>
+                  </div>
+               </form>
+            </div>
          </div>
       </div>
    </div>
-</section>
+</div>
 {% endblock %}
