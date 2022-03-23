@@ -13,7 +13,6 @@ from users.forms import (
     ResetPasswordRequestForm,
     ResetPasswordForm,
     PreferencesPersonalityForm,
-    PreferencesHobbiesForm,
     LoginForm,
 )
 
