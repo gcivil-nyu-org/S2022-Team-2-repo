@@ -17,12 +17,10 @@
               {% endfor %}
 
               {{ form.errors }}
-              <div class="form-row col-lg-5">
-                <button type="submit" class="btn1 mt-3 mb-1">Sign In</button>
-              </div>
+              <button type="submit" class="standard_button" style="width:150px">Sign in</button>
             </form>
             <div class="d-flex justify-content-around align-items-center mb-4">
-              <a href="{% url 'password_reset_request' %}">Forgot password?</a>
+                    <a href="{% url 'password_reset_request' %}">Forgot password?</a>
             </div>
           </div>
         </div>
