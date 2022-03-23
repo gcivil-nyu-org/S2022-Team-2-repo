@@ -223,6 +223,7 @@ def dashboard(request):
 def preferences(request):
     return render(request, "users/dashboard/dashboard_preferences.html")
 
+
 # @login_required
 # def users_list(request):
 #     users = Profile.objects.exclude(user=request.user)
