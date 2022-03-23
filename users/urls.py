@@ -29,9 +29,9 @@ urlpatterns = [
         user_views.preferences_personality,
         name="preferences_personality",
     ),
-    path(
-        "preferences/page2", user_views.preferences_hobbies, name="preferences_hobbies"
-    ),
+    # path(
+    #     "preferences/page2", user_views.preferences_hobbies, name="preferences_hobbies"
+    # ),
     path("dashboard/", user_views.dashboard, name="dashboard"),
     path("dashboard/preferences/", user_views.preferences, name="preferences"),
 ]
