@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.48885572.css",
+    "main.js": "/static/js/main.a270a59f.js",
+    "static/media/nyu_day.png": "/static/media/nyu_day.84e9e59db6232e5b5609.png",
+    "static/media/login_photo.jpg": "/static/media/login_photo.febb63d8296091b2433b.jpg",
+    "static/media/nyu_night.jpg": "/static/media/nyu_night.073b0d4d375dd9916c39.jpg",
+    "static/media/full_light.png": "/static/media/full_light.1983d70d63c247e1adb7.png",
+    "static/media/full_dark.png": "/static/media/full_dark.80811bb66e452dcf078b.png",
+    "index.html": "/index.html",
+    "main.48885572.css.map": "/static/css/main.48885572.css.map",
+    "main.a270a59f.js.map": "/static/js/main.a270a59f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.48885572.css",
+    "static/js/main.a270a59f.js"
+  ]
+}
