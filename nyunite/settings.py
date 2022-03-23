@@ -68,20 +68,22 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-# Rest Framework config. Add all of this.
-REST_FRAMEWORK = {
-    "DATETIME_FORMAT": "%m/%d/%Y %I:%M%P",
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.TokenAuthentication",
-    ],
-}
+# # Rest Framework config. Add all of this.
+# REST_FRAMEWORK = {
+#     "DATETIME_FORMAT": "%m/%d/%Y %I:%M%P",
+#     "DEFAULT_AUTHENTICATION_CLASSES": [
+#         "rest_framework.authentication.TokenAuthentication",
+#     ],
+# }
 
 ROOT_URLCONF = "nyunite.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            os.path.join(BASE_DIR, "users", "templates"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -140,23 +142,17 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_DIRS = (
-    ("images", os.path.join(BASE_DIR, "users/static/images")),
-    ("css", os.path.join(BASE_DIR, "users/static/css")),
-    ("js", os.path.join(BASE_DIR, "users/static/js")),
-)
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontend", "build", "static")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "users", "static")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-# Crispy setup
-CRISPY_TEMPLATE_PACK = "bootstrap4"
-
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-]
+#
+# CORS_ORIGIN_WHITELIST = [
+#     "http://localhost:3000",
+# ]
 
 # Default redirect urls
 LOGIN_REDIRECT_URL = "dashboard"

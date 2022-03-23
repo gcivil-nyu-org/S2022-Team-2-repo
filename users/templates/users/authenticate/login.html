@@ -1,0 +1,36 @@
+{% extends 'users/authenticate.html' %}
+
+{% block loginform %}
+
+<div class="tab-pane active" id="login">
+  <section style="height: 100%;">
+    <div class="container py-2 text-black">
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-16 col-md-10 col-lg-8 col-xl-7">
+          <div class="card" style="border-radius: 1rem; background-color: #f2f2f2;">
+            <form class="bg-white  rounded-5 shadow-5-strong p-5" method="post">
+              {% csrf_token %}
+              {% for field in form %}
+              <div class="form-group form-outline mb-4">
+                {{ field }}
+              </div>
+              {% endfor %}
+              {{ form.errors }}
+              <div class="form-row">
+                <div class="col-lg-5">
+                  <button type="submit" class="btn1 mt-3 mb-1">Login</button>
+                </div>
+              </div>
+              <p>Don't have an account? <a href="{% url 'signup' %}">Register here</a></p>
+            </form>
+            <div class="d-flex justify-content-around align-items-center mb-4">
+              <a href="{% url 'password_reset_request' %}">Forgot password?</a>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

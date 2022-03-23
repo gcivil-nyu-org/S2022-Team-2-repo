@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect
@@ -13,6 +13,7 @@ from users.forms import (
     ResetPasswordForm,
     PreferencesPersonalityForm,
     PreferencesHobbiesForm,
+    LoginForm,
 )
 
 from users.tokens import account_activation_token
@@ -57,7 +58,25 @@ def signup(request):
 
     # TODO: if form.errors:
     #     Handle errors as popups
-    return render(request, "users/signup.html", {"form": form})
+    return render(request, "users/authenticate/signup.html", {"form": form})
+
+
+def login_form(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return render(request, "dashboard.html")
+            else:
+                form.add_error("username", "User not found")
+    else:
+        form = LoginForm()
+    return render(request, "users/authenticate/login.html", {"form": form})
 
 
 def activate(request, uidb64, token):
@@ -150,49 +169,50 @@ def password_reset(request, uidb64, token):
 
 
 def preferences_personality(request):
-    context_dict = {'form': None}
+    context_dict = {"form": None}
     form = PreferencesPersonalityForm()
 
-    if request.method == 'GET':
-        context_dict['form'] = form
-    elif request.method == 'POST':
+    if request.method == "GET":
+        context_dict["form"] = form
+    elif request.method == "POST":
         form = PreferencesPersonalityForm(request.POST)
 
-        context_dict['form'] = form
+        context_dict["form"] = form
         user = request.user
         if form.is_valid() and user is not None:
             prefs = form.save(commit=False)
             prefs.user = user
             prefs.save()
             print()
-            return HttpResponseRedirect('/preferences/page2')
+            return HttpResponseRedirect("/preferences/page2")
 
-    return render(request, 'users/preferences/preferences1.html', context_dict)
+    return render(request, "users/preferences/preferences1.html", context_dict)
 
 
 def preferences_hobbies(request):
-    context_dict = {'form': None}
+    context_dict = {"form": None}
     form = PreferencesHobbiesForm()
 
-    if request.method == 'GET':
-        context_dict['form'] = form
-    elif request.method == 'POST':
+    if request.method == "GET":
+        context_dict["form"] = form
+    elif request.method == "POST":
         form = PreferencesHobbiesForm(request.POST)
-        context_dict['form'] = form
+        context_dict["form"] = form
         if form.is_valid():
             cleaned_data = form.cleaned_data
             print(cleaned_data)
-            return HttpResponseRedirect('/dashboard')
+            return HttpResponseRedirect("/dashboard")
 
-    return render(request, 'users/preferences/preferences1.html', context_dict)
+    return render(request, "users/preferences/preferences1.html", context_dict)
 
 
 def dashboard(request):
-    return render(request, 'users/dashboard/dashboard.html')
+    return render(request, "users/dashboard/dashboard.html")
 
 
 def preferences(request):
-    return render(request, 'users/dashboard/dashboard_preferences.html')
+    return render(request, "users/dashboard/dashboard_preferences.html")
+
 
 # @login_required
 # def users_list(request):

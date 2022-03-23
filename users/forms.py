@@ -162,17 +162,19 @@ class PreferencesPersonalityForm(forms.ModelForm):
     # )
     class Meta:
         model = Preference
-        fields = ['personality_type',
-                  'stay_go_type',
-                  'movie_choices',
-                  'music_choices',
-                  'food_choices',
-                  'travel_choices',
-                  'art_choices',
-                  'dance_choices',
-                  'sports_choices',
-                  'pet_choices',
-                  'nyc_choices']
+        fields = [
+            "personality_type",
+            "stay_go_type",
+            "movie_choices",
+            "music_choices",
+            "food_choices",
+            "travel_choices",
+            "art_choices",
+            "dance_choices",
+            "sports_choices",
+            "pet_choices",
+            "nyc_choices",
+        ]
 
 
 class PreferencesHobbiesForm(forms.Form):

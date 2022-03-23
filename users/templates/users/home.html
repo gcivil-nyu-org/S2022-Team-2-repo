@@ -1,276 +1,38 @@
+{% extends 'users\base.html' %}
 {% load static %}
-<html lang="en">
-  <head>
+{% block content %}
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>NYUnite Home</title>
-    <!-- MDB icon -->
-    <link rel="icon" href="{% static 'images/NYUTorch.jpg' %}" type="image/x-icon" />
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
-    <!-- Google Fonts Roboto -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
-    />
-    <!-- MDB -->
-    <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
-    <!--Custom Style-->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <style>
-      #intro{
-        background-image: url("{% static 'images/home_img.jpg' %}");
-        height: 400px;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #7B1FA2;">
-        <div class="container">
-          <a class="navbar-brand" href="">NYUnite</a> 
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-mdb-toggle="collapse"
-            data-mdb-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <i class="fas fa-bars"></i>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <a class="nav-link active" aria-current="page" href="">Home</a>
-              <a class="nav-link active" aria-current="page" href="#about">Our Vision</a>
-              <a class="nav-link active" aria-current="page" href="#team">Team</a>
-              
-              </a>
-            </div>
-          </div>
-        </div>
-      </nav>
-      
-      <!-- Background image -->
-      <div class="p-5 text-center bg-image" id="intro">
-        <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
-          <div class="d-flex justify-content-center align-items-center h-100">
-            <div class="text-white">
-              <h1 class="mb-3">NYUnite</h1>
-              <h4 class="mb-3">All-in-1 Place for NYU Student to Connect</h4>
-              <a 
-                class="btn btn-primary btn-lg m-2" 
-                href="/signup" 
-                role="button"
-                >Sign Up</a
-              >
-              <a 
-                class="btn btn-dark btn-lg m-2" 
-                href="/login" 
-                role="button"
-              >Log In</a
-              >
-            </div>
-          </div>
-        </div>
+<header>
+  {% include 'users\navbars\navbarH.html' %}
+</header>
+
+<body>
+  <div class="image-container">
+    <img class="bg-style" src="{% static 'images/nyu_night.jpg' %}" />
+    <div class="mask" style="background-color: rgba(0, 0, 0, 0.6)"></div>
+    <div class="centered">
+      <img src="{% static 'images/full_light.png' %}" />
+      <br />
+      <div class="text-white" style="transform: translateX(10px)">
+        <h3 class="mb-4">An all-in-one place for NYU Students to connect!</h3>
       </div>
-      <!-- Background image -->
-    
-    </header>
-    <main>
+      <ul id="navlist">
+        <li>
+          <button type="button" class="btn btn-dark" style="height:50px; width: 100px; border-radius: 10px;">
+            <a class="text-white text-center" style="text-decoration: none;"  href="/signup">Signup</a>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-dark" style="height:50px; width: 100px; border-radius: 10px;">
+            <a class="text-white text-center" style="text-decoration: none;" href="/login">Login</a>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
 
-      <div class="container-fluid px-0">
-        <section class="divider py-5">
-          <div class="row justify-content-center align-items-center">
-            <div class="col-md-4 text-right pr-5">
-              <h2>Connect with students across campus</h2>
-            </div>
-            <div class="col-md-4 text-right">
-              <p> Are you wondering if any student shares the same interest as yours?
-              We got you covered! In NYUnite, you can openly look for fellow NYU students who are as passionate as you.
-              Tell us what you like, we provide recommendations. It's that simple!
-              Let's get started with us today!  
-              </p>
-            </div>
-
-          </div>
-        </section>
-      
-        <!--Our Vision -->
-        <section id="about" class="text-center">
-          <h2 class="my-4">Our Vision:</h2>
-
-          <div class="row justify-content-center align-items-center">
-            <div class="col-md-4 text-right">
-              <h2>Bridge Across all Schools</h2>
-              <p>Bring the NYU community together regardless of schools or departments. 
-                Students from diverse background can look for common or explore new interest among each other.  
-              </p>
-            </div>
-            <div class="col-md-4">
-              <img src="{% static 'images/NYUTorch.jpg' %}" alt="Connect" class="img-fluid"/>
-            </div>
-          </div>
-        </section>
-       
-        <!--our team section -cards -->
-        <section id="team" class="text-center">
-          <h2 class="my-5">Our Team:</h2>
-          <!--Member 1-->
-          <div class="row justify-content-center align-items-center">
-            <div class="col-md-2">
-              <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img
-                      src="{% static 'images/placeholderPic.jpg' %}"
-                      alt="teammate1"
-                      class="img-fluid rounded-start"
-                    />
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">Name1</h5>
-                      <p class="card-text">
-                        Put brief text
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!--Member 2-->
-            <div class="col-md-2">
-              <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img
-                      src="{% static 'images/placeholderPic.jpg' %}"
-                      alt="teammate1"
-                      class="img-fluid rounded-start"
-                    />
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">Name1</h5>
-                      <p class="card-text">
-                        Put brief text
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!--Member 3-->
-            <div class="col-md-2">
-              <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img
-                      src="{% static 'images/placeholderPic.jpg' %}"
-                      alt="teammate1"
-                      class="img-fluid rounded-start"
-                    />
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">Name1</h5>
-                      <p class="card-text">
-                        Put brief text
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!--Member 4-->
-            <div class="col-md-2">
-              <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img
-                      src="{% static 'images/placeholderPic.jpg' %}"
-                      alt="teammate1"
-                      class="img-fluid rounded-start"
-                    />
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">Name1</h5>
-                      <p class="card-text">
-                        Put brief text
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!--Member 5-->
-            <div class="col-md-2">
-              <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img
-                      src="{% static 'images/placeholderPic.jpg' %}"
-                      alt="teammate1"
-                      class="img-fluid rounded-start"
-                    />
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">Name1</h5>
-                      <p class="card-text">
-                        Put brief text
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </section>
-      </div> 
-    </main>
-
-    <footer>
-      <footer class="bg-light text-black text-center text-lg-start" >
-        <!-- Grid container -->
-        <div class="container p-3">
-          <!--Grid row-->
-          <div class="row">
-            <!--Grid column-->
-            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-              <h5 class="text-uppercase">Contact Us</h5>
-              <p>
-                nyuniteapp@gmail.com
-              </p>
-            </div>
-            <!--Grid column-->
-          </div>
-          <!--Grid row-->
-        </div>
-        <!-- Grid container -->
-      
-        <!-- Copyright -->
-        <div class="text-white text-center p-3" style="background-color: #7B1FA2;">
-          © 2020 Copyright:
-          <a class="text-white" href="https://nyunite.herokuapp.com/">NYUnite</a>
-        </div>
-        <!-- Copyright -->
-      </footer>
-    </footer>
-
-  </body>
-    <!-- MDB -->
-    <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
-    <!-- Custom scripts -->
-    <script type="text/javascript"></script>
-</html>
+<footer>
+  <div class="d-flex p-4" style="background-color: #57068c"></div>
+</footer>
+{% endblock content %}

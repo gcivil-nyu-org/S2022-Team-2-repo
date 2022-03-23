@@ -1,56 +1,95 @@
-{% load static %}
-#intro{
-    background-image: {% static 'images/home_img.jpg' %};
-    height: 400px;
+.logo {
+  width: auto;
+  max-height: 6vh;
 }
 
-@media(min-width: 576px){
-    #intro{
-        height: 600px;
-    }
+.bg-style {
+  max-height: 85vh;
+  width: 100vw;
+  object-fit: cover;
+  overflow: hidden;
 }
 
-body{
-    /* background-color: antiquewhite; */
-    background: linear-gradient(#e66465, #9198e5);
+.image-container {
+  position: relative;
+  text-align: center;
 }
 
-.divider{
-    background-color: whitesmoke;
-    
+.mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-attachment: fixed;
 }
 
-.team{
-    background-color: aqua;
+.centered {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
 }
 
-.navbar .navbar-nav .nav-link {
-    color: #fff;
-    font-size: 1.1em;
-}
-.navbar .navbar-nav .nav-link:hover {
-  background-color: #c875d3;
-  color: #fff;
-}
-.navbar .navbar-nav .nav-link {
-  padding: 1em 0.7em;
-  transition: all 0.5s;
+#navlist li {
+  display: inline;
+  list-style-type: none;
+  padding-right: 20px;
 }
 
-.navbar .navbar-nav .nav-link {
-  padding: 0.6em;
+#splitcontainer {
+  width: 100vw;
 }
-.navbar .navbar-brand {
-  padding: 0 0.6em;
+.left-column {
+  float: left;
+  width: 30%;
+  height: 85vh;
+  background-color: #330662;
 }
-@media only screen and (min-width: 992px) {
-  .navbar {
-    padding: 0;
-  }
-  .navbar .navbar-nav .nav-link {
-    padding: 1em 0.7em;
-  }
-  .navbar .navbar-brand {
-    padding: 0 0.8em;
-  }
+.right-column {
+  float: right;
+  width: 70%;
+  height: 85vh;
+  background-color: #330662;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #b8b8b8;
+  height: 45px;
+}
+
+.nav-tabs .nav-link {
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  width: 100%;
+  height: 40px;
+}
+
+.nav-tabs .nav-link:hover {
+  background-color: #ab82c5;
+}
+
+.nav-tabs .nav-item {
+  width: 50%;
+}
+
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
 }
