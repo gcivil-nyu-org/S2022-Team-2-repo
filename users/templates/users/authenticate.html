@@ -3,31 +3,23 @@
 
 {% block content %}
 
-<header>{% include 'users/navbars/navbarH.html' %}</header>
+<header>{% include 'users/navbars/navbar.html' %}</header>
 
 <body>
-    <div id="main">
-        <div class="left-column" align="center">
-            <img style="height: 100%; border-radius: 5px;" src="{% static 'images/login_photo.jpg' %}" />
+    <div id="splitcontainer">
+        <div class="left-column">
+            <img style="border-radius: 5px; max-height: 100%; min-width: 100%; object-fit: cover;"
+                src="{% static 'images/login_photo.jpg' %}" />
         </div>
         <div class="right-column" align="center">
             <section style="height: 100%;">
-                <div class="container py-2 text-black">
+                <div class="container py-2">
                     <div class="row d-flex justify-content-center align-items-center py-5">
-                        <div class="col-16 col-md-10 col-lg-8 col-xl-7">
-                            <div class="card shadow-sm" style="border-radius: 10px; background-color: #f2f2f2;">
-                                <ul class="nav nav-tabs justify-content-center align-items-center">
-                                    <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">Signup</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                        {% block loginform %}
-                                        {% endblock %}
-                                        {% block signupform %}
-                                        {% endblock %}
-
-                                </div>
-                            </div>
+                        <div class="card shadow-sm" style="border-radius: 10px; background-color: #f2f2f2;">
+                            {% block loginform %}
+                            {% endblock %}
+                            {% block signupform %}
+                            {% endblock %}
                         </div>
                     </div>
                 </div>
@@ -36,6 +28,6 @@
     </div>
 </body>
 <footer>
-    <div class="d-flex p-4" style="background-color: #57068c"></div>
+    <div class="d-flex p-1" style="background-color: #330662"></div>
 </footer>
 {% endblock %}
