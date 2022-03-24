@@ -1,33 +1,37 @@
 {% extends 'users/authenticate.html' %}
 
 {% block signupform %}
+<ul class="nav nav-tabs">
+    <li class="nav-item"><a class="nav-link active" href="{% url 'signup' %}">Signup</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="signup">
+        <section style="height: 100%;">
+            <div class="container py-2 text-black">
+                <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col-16 col-md-10 col-lg-8 col-xl-7">
+                        <div class="card" style="border-radius: 1rem; background-color: #f2f2f2;">
 
-<div class="tab-pane active" id="signup">
-    <section style="height: 100%;">
-        <div class="container py-2 text-black">
-            <div class="row d-flex justify-content-center align-items-center">
-                <div class="col-16 col-md-10 col-lg-8 col-xl-7">
-                    <div class="card" style="border-radius: 1rem; background-color: #f2f2f2;">
+                            <form class="bg-white  rounded-5 shadow-5-strong p-5" method="POST">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                <div class="form-group form-outline mb-3">
+                                    {{ field }}
+                                </div>
+                                {% endfor %}
 
-                        <form class="bg-white  rounded-5 shadow-5-strong p-5" method="POST">
-                            {% csrf_token %}
-                            {% for field in form %}
-                            <div class="form-group form-outline mb-3">
-                                {{ field }}
-                            </div>
-                            {% endfor %}
+                                {{ form.errors }}
+                                <div class="form-row">
+                                    <button type="submit" class="standard_button">Register</button>
+                                </div>
+                            </form>
 
-                            {{ form.errors }}
-                            <div class="form-row">
-                                <button type="submit" class="standard_button" style="width:150px">Register</button>
-                            </div>
-                        </form>
-
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </div>
-
 {% endblock %}

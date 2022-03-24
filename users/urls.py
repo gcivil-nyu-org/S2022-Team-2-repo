@@ -1,4 +1,3 @@
-from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from users import views as user_views
@@ -9,7 +8,7 @@ urlpatterns = [
     path("login/", user_views.login_form, name="login"),
     path(
         "logout/",
-        auth_views.LogoutView.as_view(template_name="users/logout.html"),
+        user_views.logout_request,
         name="logout",
     ),
     path("activate/<uidb64>/<token>/", user_views.activate, name="activate"),
