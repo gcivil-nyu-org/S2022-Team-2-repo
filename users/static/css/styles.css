@@ -41,20 +41,32 @@
   padding-right: 20px;
 }
 
+#navlist a {
+  text-decoration: none;
+  width: 150px;
+  background-color: #330662;
+}
+
 #splitcontainer {
   width: 100vw;
+  height: 90vh;
 }
 .left-column {
   float: left;
-  width: 30%;
-  height: 85vh;
-  background-color: #330662;
+  width: 40%;
+  height: 90vh;
+  background-color: #230542;
+  align-content: center;
+  align-items: center;
+  padding: 10px;
 }
 .right-column {
   float: right;
-  width: 70%;
-  height: 85vh;
-  background-color: #330662;
+  width: 60%;
+  height: 90vh;
+  background-color: #230542;
+  align-content: center;
+  align-items: center;
 }
 
 .nav-tabs .nav-link.active {
@@ -142,13 +154,13 @@
   text-decoration: none;
 }
 
-.sidebar a.active{
-    border-left: 5px solid #ab82c5;
-    color: #ab82c5;
+.sidebar a.active {
+  border-left: 5px solid #ab82c5;
+  color: #ab82c5;
 }
-.sidebar a:hover{
-    border-left: 5px solid #ab82c5;
-    color: #ab82c5;
+.sidebar a:hover {
+  border-left: 5px solid #ab82c5;
+  color: #ab82c5;
 }
 
 .sidebar a i {
@@ -251,6 +263,7 @@ body {
   font-family: "Montserrat", sans-serif;
   font-size: 24px;
   color: white;
+  align-items: center;
 }
 
 .standard_button {
@@ -265,8 +278,9 @@ body {
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
   transition-duration: 0.4s;
+  width:150px
 }
 
 .standard_button:hover {
-    background-color: #ab82c5;
+  background-color: #ab82c5;
 }

@@ -1,0 +1,19 @@
+{% load static %}
+<nav class="navbar navbar-dark navbar-expand" style="background-color: #330662">
+  <div class="container-fluid">
+    <a href="/"><img class="logo" src="{% static 'images/logo_white.png' %}" /></a>
+  </div>
+  <div class="mr-auto">
+    {% if user.is_authenticated %}
+      <ul>
+        <li>
+          Hi, {{ user.first_name }}
+        </li>
+        <li>
+          <a class="text-white text-center btn btn-dark btn-lg" style="text-decoration: none; width: 150px;"
+            href="{% url 'logout' %}">Logout</a>
+        </li>
+      </ul>
+    {% endif %}
+  </div>
+</nav>

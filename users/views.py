@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
@@ -19,13 +19,6 @@ from users.forms import (
 from users.tokens import account_activation_token
 
 User = get_user_model()
-
-
-# def checkloggedinuser(request):
-#     if request.user is not None:
-#         user = request.user
-#         if user.is_authenticated():
-#             return HttpResponseRedirect("/dashboard")
 
 
 def home(request):
@@ -84,6 +77,14 @@ def login_form(request):
     else:
         form = LoginForm()
     return render(request, "users/authenticate/login.html", {"form": form})
+
+
+@login_required()
+def logout_request(request):
+    user = request.user
+    if user is not None and user.is_authenticated:
+        logout(request)
+        return HttpResponseRedirect("/dashboard")
 
 
 def activate(request, uidb64, token):
@@ -175,6 +176,7 @@ def password_reset(request, uidb64, token):
         return render(request, "users/passwordreset/password_reset_request_form.html")
 
 
+@login_required()
 def preferences_personality(request):
     context_dict = {"form": None}
     form = PreferencesPersonalityForm()
