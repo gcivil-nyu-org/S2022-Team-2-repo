@@ -16,6 +16,7 @@ from users.forms import (
     LoginForm,
     PreferencesHobbiesForm,
 )
+from users.models import Preference
 
 from users.tokens import account_activation_token
 
@@ -179,25 +180,42 @@ def password_reset(request, uidb64, token):
 
 @login_required()
 def preferences_personality(request):
-    context_dict = {"form": None}
-    form = PreferencesPersonalityForm()
+    try:
+        prefs = request.user.preferences
+    except:
+        prefs = Preference(user=request.user)
 
-    if request.method == "GET":
-        context_dict["form"] = form
-    elif request.method == "POST":
-        form = PreferencesPersonalityForm(request.POST)
-
-        context_dict["form"] = form
-        user = request.user
-        if form.is_valid() and user is not None:
-            prefs = form.save(commit=False)
-            user = User.objects.get(id=user.id)
-            prefs.user = user
-            prefs.save()
-            print()
+    if request.method == "POST":
+        form = PreferencesPersonalityForm(request.POST, instance=prefs)
+        if form.is_valid():
+            form.save(commit=False)
             return HttpResponseRedirect("/preferences/page2")
+    else:
+        form = PreferencesPersonalityForm(instance=prefs)
+    return render(request, "users/preferences/preferences1.html", {'form': form})
 
-    return render(request, "users/preferences/preferences1.html", context_dict)
+
+# def preferences_personality(request):
+#     context_dict = {"form": None}
+#     form = PreferencesPersonalityForm()
+#
+#     if request.method == "GET":
+#         context_dict["form"] = form
+#     elif request.method == "POST":
+#         form = PreferencesPersonalityForm(request.POST)
+#
+#         context_dict["form"] = form
+#         user = request.user
+#
+#         if form.is_valid() and user is not None:
+#             prefs = form.save(commit=False)
+#             user = User.objects.get(id=user.id)
+#             prefs.user = user
+#             prefs.save()
+#             print()
+#             return HttpResponseRedirect("/preferences/page2")
+#
+#     return render(request, "users/preferences/preferences1.html", context_dict)
 
 
 def preferences_hobbies(request):
@@ -225,7 +243,6 @@ def dashboard(request):
 @login_required
 def preferences(request):
     return render(request, "users/dashboard/dashboard_preferences.html")
-
 
 # @login_required
 # def users_list(request):
