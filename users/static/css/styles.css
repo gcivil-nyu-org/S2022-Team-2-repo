@@ -1,3 +1,14 @@
+body {
+  background-color: #230542;
+}
+
+.purple-text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  color: #330662;
+  align-items: center;
+}
+
 .logo {
   width: auto;
   max-height: 6vh;
@@ -253,10 +264,6 @@ label #cancel {
     opacity: 1;
     visibility: visible;
   }
-}
-
-body {
-  background-color: #230542;
 }
 
 .dashboard {

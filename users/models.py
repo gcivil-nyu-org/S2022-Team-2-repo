@@ -46,6 +46,11 @@ class FriendRequest(models.Model):
 class Preference(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
 
+    bio = models.CharField(
+        max_length=100,
+        help_text='Write a short biography about yourself.',
+    )
+
     personality_type = models.CharField(
         max_length=50,
         choices=PERSONALITY_CHOICES,
@@ -80,7 +85,7 @@ class Preference(models.Model):
     )
     sports_choices = models.CharField(
         max_length=50,
-        choices=PLAYWATCHSPORTS_CHOICES,
+        choices=SPORTS_CHOICES,
     )
     pet_choices = models.CharField(
         max_length=50,

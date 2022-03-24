@@ -14,6 +14,7 @@ from users.forms import (
     ResetPasswordForm,
     PreferencesPersonalityForm,
     LoginForm,
+    PreferencesHobbiesForm,
 )
 
 from users.tokens import account_activation_token
@@ -194,26 +195,26 @@ def preferences_personality(request):
             prefs.user = user
             prefs.save()
             print()
-            return HttpResponseRedirect("/dashboard")
+            return HttpResponseRedirect("/preferences/page2")
 
     return render(request, "users/preferences/preferences1.html", context_dict)
 
 
-# def preferences_hobbies(request):
-#     context_dict = {"form": None}
-#     form = PreferencesHobbiesForm()
-#
-#     if request.method == "GET":
-#         context_dict["form"] = form
-#     elif request.method == "POST":
-#         form = PreferencesHobbiesForm(request.POST)
-#         context_dict["form"] = form
-#         if form.is_valid():
-#             cleaned_data = form.cleaned_data
-#             print(cleaned_data)
-#             return HttpResponseRedirect("/dashboard")
-#
-#     return render(request, "users/preferences/preferences1.html", context_dict)
+def preferences_hobbies(request):
+    context_dict = {"form": None}
+    form = PreferencesHobbiesForm()
+
+    if request.method == "GET":
+        context_dict["form"] = form
+    elif request.method == "POST":
+        form = PreferencesHobbiesForm(request.POST)
+        context_dict["form"] = form
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            print(cleaned_data)
+            return HttpResponseRedirect("/dashboard")
+
+    return render(request, "users/preferences/preferences2.html", context_dict)
 
 
 @login_required

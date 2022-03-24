@@ -1,10 +1,7 @@
 {% extends 'users/base.html' %}
 
 {% block style %}
-body{
-color: #bcd0f7;
-background: #1A233A;
-}
+
 .account-settings .user-profile {
 margin: 0 0 1rem 0;
 padding-bottom: 1rem;
@@ -34,7 +31,7 @@ font-size: 0.8rem;
 text-align: center;
 }
 .card {
-background: #272E48;
+background: #ffffff;
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
 border-radius: 5px;
@@ -58,23 +55,25 @@ color: #bcd0f7;
 
 <div class="container">
    <div class="row gutters">
-      <div class="card h-100">
+      <div class="card h-100" style="transform:translateY(50px)">
          <div class="card-body">
             <div class="account-settings">
                <div class="user-profile">
                   <div class="user-avatar">
                      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Maxwell Admin">
                   </div>
-                  <h5 class="user-name"> {{user.first_name}} {{user.last_name}}</h5>
-                  <h6 class="user-email"> {{ user.email }}</h6>
+                  <h5 class="purple-text"> Welcome {{user.first_name}}! </h5>
+                  <h6 class="purple-text", style="font-size:20px"> {{ user.email }}</h6>
                </div>
                <div class="about">
-                  <h5 class="mb-2 text-primary">About</h5>
-                  <p>I'm {{ user.first_name }}. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.
-                  </p>
+                  <h5 class="purple-text" style="font-weight:bold" >About Me</h5>
+                  {% csrf_token %}
+                  {{ form.bio }}
                </div>
                <form class="rounded-5 shadow-5-strong p-5" method="post">
-                  <h4> Preferences</h4>
+                  <div>
+                  <h4 class="purple-text"> Personality Questions </h4>
+                  </div>
                   {% csrf_token %}
                   {% for field in form %}
                   {{ field.label }}
@@ -85,7 +84,7 @@ color: #bcd0f7;
                   {{ form.errors }}
                   <div class="form-row">
                      <div class="col-lg-5">
-                        <button type="submit" class="btn1 mt-3 mb-1">Next</button>
+                        <button type="submit" class="standard_button">Next Page</button>
                      </div>
                   </div>
                </form>
