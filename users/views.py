@@ -75,7 +75,7 @@ def login_form(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return render(request, "users/dashboard/dashboard.html")
+                return HttpResponseRedirect(request.GET["next"])
             else:
                 form.add_error("username", "User with that credentials not found.")
     else:
@@ -88,7 +88,7 @@ def logout_request(request):
     user = request.user
     if user is not None and user.is_authenticated:
         logout(request)
-        return HttpResponseRedirect("/dashboard")
+        return HttpResponseRedirect("/")
 
 
 def activate(request, uidb64, token):
@@ -184,9 +184,9 @@ def password_reset(request, uidb64, token):
 @login_required()
 def preferences_personality(request):
     print(request.user.first_name)
-    try:
+    if request.user.preferences is not None:
         prefs = request.user.preferences
-    except:
+    else:
         prefs = Preference(user=request.user)
 
     if request.method == "POST":
@@ -196,7 +196,7 @@ def preferences_personality(request):
             return HttpResponseRedirect("/preferences/page2")
     else:
         form = PreferencesPersonalityForm(instance=prefs)
-    return render(request, "users/preferences/preferences1.html", {'form': form})
+    return render(request, "users/preferences/preferences1.html", {"form": form})
 
 
 @login_required
@@ -225,7 +225,6 @@ def dashboard(request):
 @login_required
 def preferences(request):
     return render(request, "users/dashboard/dashboard_preferences.html")
-
 
 
 # @login_required

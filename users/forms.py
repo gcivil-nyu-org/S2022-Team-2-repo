@@ -7,7 +7,6 @@ from django.contrib.auth.forms import (
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from django.forms import CharField
 from django.utils.translation import gettext_lazy as _
 
 from .models import Profile, Preference
@@ -150,8 +149,12 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class PreferencesPersonalityForm(forms.ModelForm):
-    personality_type = forms.ChoiceField(choices=PERSONALITY_CHOICES, widget=forms.RadioSelect())
-    stay_go_type = forms.ChoiceField(choices=STAY_GO_CHOICES, widget=forms.RadioSelect())
+    personality_type = forms.ChoiceField(
+        choices=PERSONALITY_CHOICES, widget=forms.RadioSelect()
+    )
+    stay_go_type = forms.ChoiceField(
+        choices=STAY_GO_CHOICES, widget=forms.RadioSelect()
+    )
 
     class Meta:
         model = Preference
@@ -163,15 +166,33 @@ class PreferencesPersonalityForm(forms.ModelForm):
 
 
 class PreferencesHobbiesForm(forms.ModelForm):
-    movie_choices = forms.ChoiceField(choices=MOVIES_CHOICES, widget=forms.CheckboxSelectMultiple())
-    music_choices = forms.ChoiceField(choices=MUSIC_CHOICES, widget=forms.CheckboxSelectMultiple())
-    food_choices = forms.ChoiceField(choices=COOKEAT_CHOICES, widget=forms.CheckboxSelectMultiple())
-    travel_choices = forms.ChoiceField(choices=TRAVEL_CHOICES, widget=forms.CheckboxSelectMultiple())
-    art_choices = forms.ChoiceField(choices=ART_CHOICES, widget=forms.CheckboxSelectMultiple())
-    dance_choices = forms.ChoiceField(choices=DANCE_CHOICES, widget=forms.CheckboxSelectMultiple())
-    sports_choices = forms.ChoiceField(choices=SPORTS_CHOICES, widget=forms.CheckboxSelectMultiple())
-    pet_choices = forms.ChoiceField(choices=PET_CHOICES, widget=forms.CheckboxSelectMultiple())
-    nyc_choices = forms.ChoiceField(choices=NYC_CHOICES, widget=forms.CheckboxSelectMultiple())
+    movie_choices = forms.ChoiceField(
+        choices=MOVIES_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    music_choices = forms.ChoiceField(
+        choices=MUSIC_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    food_choices = forms.ChoiceField(
+        choices=COOKEAT_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    travel_choices = forms.ChoiceField(
+        choices=TRAVEL_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    art_choices = forms.ChoiceField(
+        choices=ART_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    dance_choices = forms.ChoiceField(
+        choices=DANCE_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    sports_choices = forms.ChoiceField(
+        choices=SPORTS_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    pet_choices = forms.ChoiceField(
+        choices=PET_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    nyc_choices = forms.ChoiceField(
+        choices=NYC_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
 
     class Meta:
         model = Preference
