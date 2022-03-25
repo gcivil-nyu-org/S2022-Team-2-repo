@@ -33,4 +33,6 @@ urlpatterns = [
     # ),
     path("dashboard/", user_views.dashboard, name="dashboard"),
     path("dashboard/preferences/", user_views.preferences, name="preferences"),
+    path("preferences/add_preferences/", user_views.add_preferences, name="add_preferences"),
 ]
+
