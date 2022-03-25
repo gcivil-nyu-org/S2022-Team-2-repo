@@ -118,6 +118,7 @@
   text-decoration: none;
 }
 
+/* siderbar */
 .sidebar {
   position: fixed;
   top: 0;
@@ -159,7 +160,7 @@
   color: #ab82c5;
 }
 .sidebar a:hover {
-  border-left: 5px solid #ab82c5;
+  border-left: 5px solid white;
   color: #ab82c5;
 }
 
@@ -176,15 +177,15 @@
 #check {
   display: none;
 }
-
+/* sidebar button */
 label #btn,
 label #cancel {
   position: absolute;
   cursor: pointer;
   color: white;
   border-radius: 5px;
-  border: 1px solid #262626;
-  margin: 15px 30px;
+  border: 0px solid #262626;
+  margin: -53px 30px;
   font-size: 29px;
   background: #330662;
   height: 45px;
@@ -197,6 +198,8 @@ label #cancel {
 label #cancel {
   opacity: 0;
   visibility: hidden;
+  border: 1px solid #262626;
+
 }
 
 #check:checked ~ .sidebar {
@@ -216,6 +219,9 @@ label #cancel {
 }
 
 @media (max-width: 860px) {
+  .sidebar img{
+    height: 24px;
+  }
   .sidebar {
     height: auto;
     width: 70px;
@@ -254,7 +260,7 @@ label #cancel {
     visibility: visible;
   }
 }
-
+/* --- */
 body {
   background-color: #230542;
 }
@@ -283,4 +289,8 @@ body {
 
 .standard_button:hover {
   background-color: #ab82c5;
+}
+
+nav div form #navSearchBox::placeholder{
+  color:white;
 }
