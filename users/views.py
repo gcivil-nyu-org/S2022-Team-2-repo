@@ -38,6 +38,8 @@ def signup(request):
             user.email = to_email
             user.save()
 
+            print(user.first_name)
+
             current_site = get_current_site(request)
             mail_subject = "Activate your NYUnite Account!"
             message = render_to_string(
@@ -103,6 +105,7 @@ def activate(request, uidb64, token):
     if account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
+        login(request, user)
         return render(request, "users/activation/activate-signin.html")
 
     else:
@@ -180,6 +183,7 @@ def password_reset(request, uidb64, token):
 
 @login_required()
 def preferences_personality(request):
+    print(request.user.first_name)
     try:
         prefs = request.user.preferences
     except:
@@ -195,29 +199,7 @@ def preferences_personality(request):
     return render(request, "users/preferences/preferences1.html", {'form': form})
 
 
-# def preferences_personality(request):
-#     context_dict = {"form": None}
-#     form = PreferencesPersonalityForm()
-#
-#     if request.method == "GET":
-#         context_dict["form"] = form
-#     elif request.method == "POST":
-#         form = PreferencesPersonalityForm(request.POST)
-#
-#         context_dict["form"] = form
-#         user = request.user
-#
-#         if form.is_valid() and user is not None:
-#             prefs = form.save(commit=False)
-#             user = User.objects.get(id=user.id)
-#             prefs.user = user
-#             prefs.save()
-#             print()
-#             return HttpResponseRedirect("/preferences/page2")
-#
-#     return render(request, "users/preferences/preferences1.html", context_dict)
-
-
+@login_required
 def preferences_hobbies(request):
     context_dict = {"form": None}
     form = PreferencesHobbiesForm()
@@ -243,6 +225,8 @@ def dashboard(request):
 @login_required
 def preferences(request):
     return render(request, "users/dashboard/dashboard_preferences.html")
+
+
 
 # @login_required
 # def users_list(request):
