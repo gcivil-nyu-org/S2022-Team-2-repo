@@ -24,7 +24,7 @@ urlpatterns = [
         name="reset_password",
     ),
     path(
-        "preferences",
+        "preferences/page1",
         user_views.preferences_personality,
         name="preferences_personality",
     ),
