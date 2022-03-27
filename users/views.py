@@ -75,7 +75,8 @@ def login_form(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect(request.GET["next"])
+                next_url = request.GET.get("next", "/dashboard")
+                return HttpResponseRedirect(next_url)
             else:
                 form.add_error("username", "User with that credentials not found.")
     else:
@@ -183,16 +184,21 @@ def password_reset(request, uidb64, token):
 
 @login_required()
 def preferences_personality(request):
-    print(request.user.first_name)
-    if request.user.preferences is not None:
-        prefs = request.user.preferences
-    else:
+
+    prefs = None
+
+    try:
+        prefs = Preference.objects.get(user=request.user)
+        print("user found")
+    except Exception as ex:
+        print(ex)
         prefs = Preference(user=request.user)
+        prefs.save()
 
     if request.method == "POST":
         form = PreferencesPersonalityForm(request.POST, instance=prefs)
         if form.is_valid():
-            form.save(commit=False)
+            form.save()
             return HttpResponseRedirect("/preferences/page2")
     else:
         form = PreferencesPersonalityForm(instance=prefs)
@@ -201,20 +207,22 @@ def preferences_personality(request):
 
 @login_required
 def preferences_hobbies(request):
-    context_dict = {"form": None}
-    form = PreferencesHobbiesForm()
+    try:
+        prefs = Preference.objects.get(user=request.user)
+        print("user found")
+    except Exception as ex:
+        print(ex)
+        prefs = Preference(user=request.user)
+        prefs.save()
 
-    if request.method == "GET":
-        context_dict["form"] = form
-    elif request.method == "POST":
-        form = PreferencesHobbiesForm(request.POST)
-        context_dict["form"] = form
+    if request.method == "POST":
+        form = PreferencesHobbiesForm(request.POST, instance=prefs)
         if form.is_valid():
-            cleaned_data = form.cleaned_data
-            print(cleaned_data)
+            form.save()
             return HttpResponseRedirect("/dashboard")
-
-    return render(request, "users/preferences/preferences2.html", context_dict)
+    else:
+        form = PreferencesHobbiesForm(instance=prefs)
+    return render(request, "users/preferences/preferences2.html", {"form": form})
 
 
 @login_required

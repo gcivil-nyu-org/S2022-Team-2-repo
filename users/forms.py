@@ -159,38 +159,37 @@ class PreferencesPersonalityForm(forms.ModelForm):
     class Meta:
         model = Preference
         fields = [
-            "bio",
             "personality_type",
             "stay_go_type",
         ]
 
 
 class PreferencesHobbiesForm(forms.ModelForm):
-    movie_choices = forms.ChoiceField(
+    movie_choices = forms.MultipleChoiceField(
         choices=MOVIES_CHOICES, widget=forms.CheckboxSelectMultiple()
     )
-    music_choices = forms.ChoiceField(
+    music_choices = forms.MultipleChoiceField(
         choices=MUSIC_CHOICES, widget=forms.CheckboxSelectMultiple()
     )
-    food_choices = forms.ChoiceField(
+    food_choices = forms.MultipleChoiceField(
         choices=COOKEAT_CHOICES, widget=forms.CheckboxSelectMultiple()
     )
-    travel_choices = forms.ChoiceField(
+    travel_choices = forms.MultipleChoiceField(
         choices=TRAVEL_CHOICES, widget=forms.CheckboxSelectMultiple()
     )
-    art_choices = forms.ChoiceField(
+    art_choices = forms.MultipleChoiceField(
         choices=ART_CHOICES, widget=forms.CheckboxSelectMultiple()
     )
-    dance_choices = forms.ChoiceField(
+    dance_choices = forms.MultipleChoiceField(
         choices=DANCE_CHOICES, widget=forms.CheckboxSelectMultiple()
     )
-    sports_choices = forms.ChoiceField(
+    sports_choices = forms.MultipleChoiceField(
         choices=SPORTS_CHOICES, widget=forms.CheckboxSelectMultiple()
     )
-    pet_choices = forms.ChoiceField(
+    pet_choices = forms.MultipleChoiceField(
         choices=PET_CHOICES, widget=forms.CheckboxSelectMultiple()
     )
-    nyc_choices = forms.ChoiceField(
+    nyc_choices = forms.MultipleChoiceField(
         choices=NYC_CHOICES, widget=forms.CheckboxSelectMultiple()
     )
 

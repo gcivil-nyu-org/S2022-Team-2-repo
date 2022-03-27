@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
+from multiselectfield import MultiSelectField
 
 from .preferences import *
 
@@ -46,48 +47,69 @@ class FriendRequest(models.Model):
 class Preference(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
 
-    bio = models.CharField(max_length=255, blank=True)
-
-    personality_type = models.CharField(
+    personality_type = MultiSelectField(
         max_length=50,
         choices=PERSONALITY_CHOICES,
+        blank=True,
+        null=True,
     )
-    stay_go_type = models.CharField(
+    stay_go_type = MultiSelectField(
         max_length=50,
         choices=STAY_GO_CHOICES,
+        blank=True,
+        null=True,
     )
-    movie_choices = models.CharField(
+    movie_choices = MultiSelectField(
         max_length=50,
+        choices=MOVIES_CHOICES,
+        blank=True,
+        null=True,
     )
-    music_choices = models.CharField(
+    music_choices = MultiSelectField(
         max_length=50,
         choices=MUSIC_CHOICES,
+        blank=True,
+        null=True,
     )
-    food_choices = models.CharField(
+    food_choices = MultiSelectField(
         max_length=50,
         choices=COOKEAT_CHOICES,
+        blank=True,
+        null=True,
     )
-    travel_choices = models.CharField(
+    travel_choices = MultiSelectField(
         max_length=50,
         choices=TRAVEL_CHOICES,
+        blank=True,
+        null=True,
     )
-    art_choices = models.CharField(
+    art_choices = MultiSelectField(
         max_length=50,
         choices=ART_CHOICES,
+        blank=True,
+        null=True,
     )
-    dance_choices = models.CharField(
+    dance_choices = MultiSelectField(
         max_length=50,
         choices=DANCE_CHOICES,
+        blank=True,
+        null=True,
     )
-    sports_choices = models.CharField(
+    sports_choices = MultiSelectField(
         max_length=50,
         choices=SPORTS_CHOICES,
+        blank=True,
+        null=True,
     )
-    pet_choices = models.CharField(
+    pet_choices = MultiSelectField(
         max_length=50,
         choices=PET_CHOICES,
+        blank=True,
+        null=True,
     )
-    nyc_choices = models.CharField(
+    nyc_choices = MultiSelectField(
         max_length=50,
         choices=NYC_CHOICES,
+        blank=True,
+        null=True,
     )

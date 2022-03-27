@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "corsheaders",
     "rest_framework",
+    "multiselectfield",
 ]
 
 MIDDLEWARE = [

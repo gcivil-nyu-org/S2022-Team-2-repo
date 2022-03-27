@@ -7,6 +7,7 @@ djangorestframework
 django-cors-headers
 django-crispy-forms
 django-autoslug
+django-multiselectfield
 pillow
 black
 flake8
