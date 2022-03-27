@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block body %}
+<body >
+    
 <style>
     h4{
         font-size: large; color: #ab82c5;
@@ -54,9 +56,9 @@
         </div>
 
         <div class="col">
-            <a style="color:white" href="#" id="id_profilepic" role="button">
+            <a style="color:white" href="#" id="id_profilepic" role="button" >
                 <!-- Currently using our logo as placeholder -->
-                <img src="{% static 'favicon.ico' %}" height="100" alt="user pic upload">
+                <img src="{% static 'favicon.ico' %}" height="100" alt="user pic upload" >
             </a>
         </div>
     </div>
@@ -66,11 +68,19 @@
     <!-- 3rd row -->
     <div class="row">
         <div class="col">
-            <h3 class="fw-bold  fs-4" > Preferences
+            <h3 class="fw-bold  fs-4" > Edit Preferences
                 <a href="/preferences/add_preferences">
                     <i class="fa-solid fa-pen-to-square  fw-normal fs-5" style="color: white;"></i>
                 </a>
-                <p>
+
+                <!-- testing on getting data, .items list on the 'columns in the prefs table' -->
+                    <!--{% for key,value in prefs.items %}
+                            {% if key != "id" and key != "user" %}
+                                <h4>{{ value }}</h4>
+                            {% endif %}
+                        {% endfor %} -->
+
+                <h4 id="prefList">
                 Introverted/Extroverted: {{prefs.personality_type}} <br>
                 Rather Stay In or Go Out: {{prefs.stay_go_type}} <br>
                 Favorite Movie Types: {{prefs.movie_choices}} <br>
@@ -81,7 +91,7 @@
                 Favorite Dance Genres: {{prefs.dance_choices}} <br>
                 Favorite Sports: {{prefs.sports_choices}} <br>
                 Favorite Things to Do in NYC: {{prefs.nyc_choices}}
-                </p>
+                </h4>
             </h3>
         </div>
     </div>
@@ -89,5 +99,13 @@
     {% endif %}
  
  </div>
+ <script>
+     function testReplace(){
+        document.body.innerHTML
+                = document.body.innerHTML
+                .replace("Introverted/Extroverted:", "IE");
+     }
+ </script>
+</body>
 
 {% endblock %}
