@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
+from django.forms import model_to_dict
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template.loader import render_to_string
@@ -232,7 +233,11 @@ def dashboard(request):
 
 @login_required
 def preferences(request):
-    return render(request, "users/dashboard/dashboard_preferences.html")
+    prefs = Preference.objects.get(user=request.user)
+    print(model_to_dict(prefs))
+
+    return render(request, "users/dashboard/dashboard_preferences.html", {"user": request.user, "prefs": model_to_dict(prefs)})
+
 
 @login_required
 def add_preferences(request):

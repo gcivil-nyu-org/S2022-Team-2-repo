@@ -35,7 +35,7 @@
             <!-- inner col and row -->
             <div class="row row-cols-auto">
                <div class="col">
-                    <h4 >{{ user.first_name }}</h4>
+                    <h4 >{{ user.first_name }} </h4>
                 </div>
                 <div class="col">
                     <h4 >{{ user.last_name }}</h4>
@@ -43,7 +43,7 @@
             </div>
                 <!-- 3rd row -->
             <div class="row">
-                <h4>Password: ******</h4>
+                <h4>NetID: {{user.username}}</h4>
             </div>
             <!-- inner end -->
         </div>
@@ -66,10 +66,22 @@
     <!-- 3rd row -->
     <div class="row">
         <div class="col">
-            <h3 class="fw-bold  fs-4"> Preferences Update 
+            <h3 class="fw-bold  fs-4" > Preferences
                 <a href="/preferences/add_preferences">
                     <i class="fa-solid fa-pen-to-square  fw-normal fs-5" style="color: white;"></i>
                 </a>
+                <p>
+                Introverted/Extroverted: {{prefs.personality_type}} <br>
+                Rather Stay In or Go Out: {{prefs.stay_go_type}} <br>
+                Favorite Movie Types: {{prefs.movie_choices}} <br>
+                Favorite Music Genres: {{prefs.music_choices}} <br>
+                Favorite Cuisines: {{prefs.food_choices}} <br>
+                Favorite Places to Travel: {{prefs.travel_choices}} <br>
+                Favorite Artistic Activities: {{prefs.art_choices}} <br>
+                Favorite Dance Genres: {{prefs.dance_choices}} <br>
+                Favorite Sports: {{prefs.sports_choices}} <br>
+                Favorite Things to Do in NYC: {{prefs.nyc_choices}}
+                </p>
             </h3>
         </div>
     </div>
