@@ -257,7 +257,11 @@ def preferences(request):
     prefs = Preference.objects.get(user=request.user)
     print(model_to_dict(prefs))
 
-    return render(request, "users/dashboard/dashboard_preferences.html", {"user": request.user, "prefs": model_to_dict(prefs)})
+    return render(
+        request,
+        "users/dashboard/dashboard_preferences.html",
+        {"user": request.user, "prefs": model_to_dict(prefs)},
+    )
 
 
 @login_required

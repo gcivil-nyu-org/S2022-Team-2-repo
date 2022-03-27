@@ -113,4 +113,3 @@ class Preference(models.Model):
         blank=True,
         null=True,
     )
-

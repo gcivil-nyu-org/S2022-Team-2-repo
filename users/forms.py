@@ -187,6 +187,7 @@ class PreferencesMediaForm(forms.ModelForm):
             "dance_choices",
         ]
 
+
 class PreferencesExploreForm(forms.ModelForm):
     food_choices = forms.MultipleChoiceField(
         choices=COOKEAT_CHOICES, widget=forms.CheckboxSelectMultiple()

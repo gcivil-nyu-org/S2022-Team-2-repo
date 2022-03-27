@@ -78,3 +78,9 @@
     #linebreak{  /*hr tag*/
        height:3px; width:100%; border-width:0; color:#8548ad; background-color:#8548ad"
    }
+   nav div form #navSearchBox{
+      color:white;
+      border-radius: 0.25rem;
+      font-size: 1rem;
+    }
+    
