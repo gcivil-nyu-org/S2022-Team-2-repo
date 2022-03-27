@@ -24,12 +24,15 @@ urlpatterns = [
         name="reset_password",
     ),
     path(
-        "preferences/page1",
+        "preferences",
         user_views.preferences_personality,
         name="preferences_personality",
     ),
     path(
-        "preferences/page2", user_views.preferences_hobbies, name="preferences_hobbies"
+        "preferences/page2", user_views.preferences_media, name="preferences_hobbies"
+    ),
+    path(
+        "preferences/page3", user_views.preferences_explore, name="preferences_explore"
     ),
     path("dashboard/", user_views.dashboard, name="dashboard"),
     path("dashboard/preferences/", user_views.preferences, name="preferences"),

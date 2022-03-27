@@ -164,18 +164,12 @@ class PreferencesPersonalityForm(forms.ModelForm):
         ]
 
 
-class PreferencesHobbiesForm(forms.ModelForm):
+class PreferencesMediaForm(forms.ModelForm):
     movie_choices = forms.MultipleChoiceField(
         choices=MOVIES_CHOICES, widget=forms.CheckboxSelectMultiple()
     )
     music_choices = forms.MultipleChoiceField(
         choices=MUSIC_CHOICES, widget=forms.CheckboxSelectMultiple()
-    )
-    food_choices = forms.MultipleChoiceField(
-        choices=COOKEAT_CHOICES, widget=forms.CheckboxSelectMultiple()
-    )
-    travel_choices = forms.MultipleChoiceField(
-        choices=TRAVEL_CHOICES, widget=forms.CheckboxSelectMultiple()
     )
     art_choices = forms.MultipleChoiceField(
         choices=ART_CHOICES, widget=forms.CheckboxSelectMultiple()
@@ -183,25 +177,38 @@ class PreferencesHobbiesForm(forms.ModelForm):
     dance_choices = forms.MultipleChoiceField(
         choices=DANCE_CHOICES, widget=forms.CheckboxSelectMultiple()
     )
-    sports_choices = forms.MultipleChoiceField(
-        choices=SPORTS_CHOICES, widget=forms.CheckboxSelectMultiple()
-    )
-    pet_choices = forms.MultipleChoiceField(
-        choices=PET_CHOICES, widget=forms.CheckboxSelectMultiple()
-    )
-    nyc_choices = forms.MultipleChoiceField(
-        choices=NYC_CHOICES, widget=forms.CheckboxSelectMultiple()
-    )
 
     class Meta:
         model = Preference
         fields = [
             "movie_choices",
             "music_choices",
-            "food_choices",
-            "travel_choices",
             "art_choices",
             "dance_choices",
+        ]
+
+class PreferencesExploreForm(forms.ModelForm):
+    food_choices = forms.MultipleChoiceField(
+        choices=COOKEAT_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    travel_choices = forms.MultipleChoiceField(
+        choices=TRAVEL_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    sports_choices = forms.MultipleChoiceField(
+        choices=SPORTS_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    nyc_choices = forms.MultipleChoiceField(
+        choices=NYC_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    pet_choices = forms.MultipleChoiceField(
+        choices=PET_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+
+    class Meta:
+        model = Preference
+        fields = [
+            "food_choices",
+            "travel_choices",
             "sports_choices",
             "pet_choices",
             "nyc_choices",

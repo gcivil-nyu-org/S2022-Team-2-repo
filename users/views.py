@@ -15,7 +15,8 @@ from users.forms import (
     ResetPasswordForm,
     PreferencesPersonalityForm,
     LoginForm,
-    PreferencesHobbiesForm,
+    PreferencesMediaForm,
+    PreferencesExploreForm,
 )
 from users.models import Preference
 
@@ -207,7 +208,7 @@ def preferences_personality(request):
 
 
 @login_required
-def preferences_hobbies(request):
+def preferences_media(request):
     try:
         prefs = Preference.objects.get(user=request.user)
         print("user found")
@@ -217,13 +218,33 @@ def preferences_hobbies(request):
         prefs.save()
 
     if request.method == "POST":
-        form = PreferencesHobbiesForm(request.POST, instance=prefs)
+        form = PreferencesMediaForm(request.POST, instance=prefs)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/preferences/page3")
+    else:
+        form = PreferencesMediaForm(instance=prefs)
+    return render(request, "users/preferences/preferences2.html", {"form": form})
+
+
+@login_required
+def preferences_explore(request):
+    try:
+        prefs = Preference.objects.get(user=request.user)
+        print("user found")
+    except Exception as ex:
+        print(ex)
+        prefs = Preference(user=request.user)
+        prefs.save()
+
+    if request.method == "POST":
+        form = PreferencesExploreForm(request.POST, instance=prefs)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect("/dashboard")
     else:
-        form = PreferencesHobbiesForm(instance=prefs)
-    return render(request, "users/preferences/preferences2.html", {"form": form})
+        form = PreferencesExploreForm(instance=prefs)
+    return render(request, "users/preferences/preferences3.html", {"form": form})
 
 
 @login_required
