@@ -1,10 +1,58 @@
-{% extends 'users/base.html' %}
+{% extends 'users/dashboard_base.html' %}
 
-{% block content %}
-{% include 'users/navbars/sidebar.html' %}
+{% block body %}
+<section>
+    <div class="container-md mt-3">
+        <div class="row">
+            <h2> Welcome, {{user.first_name}} !</h2>
+        </div>
+        <div class="row ">
+            <h5>Recent contacts</h5>
+            <div class="col">1
+                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            </div>
+            <div class="col">2
+                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            </div>
+            <div class="col">3
+                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            </div>
+            <div class="col">4
+                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            </div>
 
-<div class="dashboard" style="transform:translate(140px, 10px);">
-    <h1> Dashboard </h1>
-</div>
+            <div class="col">5
+                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container-md mt-3">
+        <div class="row ">
+            <h5>Favorite contacts</h5>
+            <div class="col">1
+                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            </div>
+            <div class="col">2
+                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            </div>
+            <div class="col">3
+                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            </div>
+            <div class="col">4
+                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            </div>
+    
+            <div class="col">5
+                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            </div>
+    
+        </div>
+    
+</section>
+
 
 {% endblock %}

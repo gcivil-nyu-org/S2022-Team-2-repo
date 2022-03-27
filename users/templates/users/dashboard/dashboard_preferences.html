@@ -1,10 +1,81 @@
-{% extends 'users/base.html' %}
-{% block content %}
+{% extends 'users/dashboard_base.html' %}
+{% load static %}
 
-{% include 'users/navbars/sidebar.html' %}
+{% block body %}
+<style>
+    h4{
+        font-size: large; color: #ab82c5;
+    }
+    div #linebreak{  /*hr tag*/
+        height:3px; width:100%; border-width:0; color:#8548ad; background-color:#8548ad"
+    }
+</style>
+<!-- --- -->
 
-<div class="dashboard" style="transform:translate(140px, 10px);">
-    <h3> Preferences </h3>
-</div>
+ <div class="container-md">
+     <!-- 1st row -->
+    <div class="row">
+        <div class="col mt-3">
+            <h2 class="fw-bold"> Preferences </h2>
+        </div>
+    </div>
+
+    <hr id="linebreak">
+    {% if user.is_authenticated %}
+
+    <!-- 2nd row -->
+    <div class="row">
+        <div class="col-6">
+            <h3 class="fw-bold fs-4"> Profile 
+                <a href="#">
+                    <i class="fa-solid fa-pen-to-square fw-normal fs-5" style="color: white;"></i>
+                </a>
+            </h3>
+
+            <!-- inner col and row -->
+            <div class="row row-cols-auto">
+               <div class="col">
+                    <h4 >{{ user.first_name }}</h4>
+                </div>
+                <div class="col">
+                    <h4 >{{ user.last_name }}</h4>
+                </div>
+            </div>
+                <!-- 3rd row -->
+            <div class="row">
+                <h4>Password: ******</h4>
+            </div>
+            <!-- inner end -->
+        </div>
+
+        <div class="col-4">
+            <!-- placeholder for now -->
+            <h4></h4>
+        </div>
+
+        <div class="col">
+            <a style="color:white" href="#" id="id_profilepic" role="button">
+                <!-- Currently using our logo as placeholder -->
+                <img src="{% static 'favicon.ico' %}" height="100" alt="user pic upload">
+            </a>
+        </div>
+    </div>
+    
+    <hr id="linebreak">
+
+    <!-- 3rd row -->
+    <div class="row">
+        <div class="col">
+            <h3 class="fw-bold  fs-4"> Preferences Update 
+                <a href="/preferences/add_preferences">
+                    <i class="fa-solid fa-pen-to-square  fw-normal fs-5" style="color: white;"></i>
+                </a>
+            </h3>
+        </div>
+    </div>
+
+    {% endif %}
+ 
+ </div>
 
 {% endblock %}

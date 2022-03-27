@@ -234,6 +234,10 @@ def dashboard(request):
 def preferences(request):
     return render(request, "users/dashboard/dashboard_preferences.html")
 
+@login_required
+def add_preferences(request):
+    return render(request, "users/preferences/add_preferences.html")
+
 
 # @login_required
 # def users_list(request):
