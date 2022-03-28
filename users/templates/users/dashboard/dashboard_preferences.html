@@ -74,37 +74,79 @@
                 </a>
 
                 <!-- testing on getting data, .items list on the 'columns in the prefs table' -->
-                    <!--{% for key,value in prefs.items %}
-                            {% if key != "id" and key != "user" %}
-                                <h4>{{ value }}</h4>
-                            {% endif %}
-                        {% endfor %} -->
-
-                <h4 id="prefList">
-                Introverted/Extroverted: {{prefs.personality_type}} <br>
-                Rather Stay In or Go Out: {{prefs.stay_go_type}} <br>
-                Favorite Movie Types: {{prefs.movie_choices}} <br>
-                Favorite Music Genres: {{prefs.music_choices}} <br>
-                Favorite Cuisines: {{prefs.food_choices}} <br>
-                Favorite Places to Travel: {{prefs.travel_choices}} <br>
-                Favorite Artistic Activities: {{prefs.art_choices}} <br>
-                Favorite Dance Genres: {{prefs.dance_choices}} <br>
-                Favorite Sports: {{prefs.sports_choices}} <br>
-                Favorite Things to Do in NYC: {{prefs.nyc_choices}}
-                </h4>
+                <div id="prefList" class="mt-2">
+                {% for key,value in prefs.items %}
+                    {% if key != "id" and key != "user" %}
+                        <h5 id="prefKey">{{ key }}</h5>
+                        <h4> {{ value }}</h4>
+                    {% endif %}
+                {% endfor %}
+                </div>
             </h3>
         </div>
     </div>
 
-    {% endif %}
- 
+    <!-- 4th row -->
+    <div class="row">
+        <!-- placeholder to align right -->
+        <div class="col-10"></div>
+        <div class="col-2" id="deleteProfile">
+            <button class="btn standard_button" data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
+                Delete Profile
+            </button>
+
+              <!-- Modal -->
+                <div class="modal fade text-black" id="deleteProfileModal" tabindex="-1" role="dialog" aria-labelledby="Delete-Profile" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="Delete-Profile">Delete Proflie</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+                            <p>Are you sure to delete your profile?</p>
+                            </div>
+
+                            <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal ends -->
+        
+        </div>
+    </div>
+
+    {% endif %} 
  </div>
+
  <script>
-     function testReplace(){
-        document.body.innerHTML
-                = document.body.innerHTML
-                .replace("Introverted/Extroverted:", "IE");
-     }
+     window.onload = function replacePrefId(){
+         let dict = {"Introverted/Extroverted:": "IE",
+            "Rather Stay In or Go Out": "in or out",
+            "personality_type" : "Introverted/Extroverted:",
+            "stay_go_type" : "Rather Stay In or Go Out:",
+            "movie_choices" : "Favorite Movie Types:",
+            "music_choices" : "Favorite Music Genres:",
+            "food_choices": "Favorite Cuisines:",
+            "travel_choices": "Favorite Places to Travel:",
+            "art_choices" : "Favorite Artistic Activities:",
+            "dance_choices" : "Favorite Dance Genres:",
+            "sports_choices" : "Favorite Sports:",
+            "pet_choices" : "Favorite Pets",
+            "nyc_choices" : "Favorite Things to Do in NYC:",
+
+        };
+        for(const key of Object.keys(dict)){
+            document.getElementById("prefList").innerHTML
+                    = document.getElementById("prefList").innerHTML
+                        .replace(key, dict[key]);
+        }        
+    }
  </script>
 </body>
 

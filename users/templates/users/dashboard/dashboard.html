@@ -1,4 +1,5 @@
 {% extends 'users/dashboard_base.html' %}
+{% load static %}
 
 {% block body %}
 <section>
@@ -7,24 +8,48 @@
             <h2> Welcome, {{user.first_name}} !</h2>
         </div>
         <div class="row ">
-            <h5>Recent contacts</h5>
-            <div class="col">1
-                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            <h4>Recent contacts</h4>
+            <div class="col">
+                <!-- card component here -->
+                <div class="card  justify-content-center text-center" style=" height: 15rem; background-color: #57068c;">
+                    <img src="{% static 'images/seal_white.png' %}" height="180" class="card-img-top rounded-circle p-2" alt="user pic">
+                    <div class="card-body">
+                      <h5 class="card-title">User 1</h5>
+                    </div>
+                </div>
             </div>
-            <div class="col">2
-                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            <div class="col">
+                <div class="card  justify-content-center text-center" style=" height: 15rem; background-color: #57068c;">
+                    <i class="fa-solid fa-user fa-10x  rounded-circle p-2" ></i>
+                    <div class="card-body">
+                      <h5 class="card-title">User 2</h5>
+                    </div>
+                </div>
             </div>
-            <div class="col">3
-                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            <div class="col">
+                <div class="card  justify-content-center text-center" style=" height: 15rem; background-color: #57068c;">
+                    <img src="{% static 'images/logo_white.png' %}" height="180" class="card-img-top rounded-circle" alt="user pic">
+                    <div class="card-body">
+                      <h5 class="card-title">User 3</h5>
+                    </div>
+                </div>
             </div>
-            <div class="col">4
-                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            <div class="col">
+                <div class="card  justify-content-center text-center" style=" height: 15rem; background-color: #57068c;">
+                    <img src="{% static 'images/torch.jpg' %}" height="180" class="card-img-top  rounded-circle p-2" alt="user pic">
+                    <div class="card-body">
+                      <h5 class="card-title">User 4</h5>
+                    </div>
+                </div>
             </div>
-
-            <div class="col">5
-                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            <div class="col">
+                <div class="card  justify-content-center text-center" style=" height: 15rem; background-color: #57068c;">
+                    <img src="{% static 'images/logo_black.png' %}" height="180" class="card-img-top  rounded-circle p-2" alt="user pic">
+                    <div class="card-body">
+                      <h5 class="card-title">User 5</h5>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
 </section>
@@ -32,22 +57,47 @@
 <section>
     <div class="container-md mt-3">
         <div class="row ">
-            <h5>Favorite contacts</h5>
-            <div class="col">1
-                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            <h4>Favorite contacts</h4>
+            <div class="col">
+                <!-- card component here -->
+                <div class="card  justify-content-center text-center" style=" height: 15rem; background-color: #57068c;">
+                    <img src="{% static 'images/seal_white.png' %}" height="180" class="card-img-top rounded-circle p-2" alt="user pic">
+                    <div class="card-body">
+                      <h5 class="card-title">User 1</h5>
+                    </div>
+                </div>
             </div>
-            <div class="col">2
-                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            <div class="col">
+                <div class="card  justify-content-center text-center" style=" height: 15rem; background-color: #57068c;">
+                    <i class="fa-solid fa-user fa-10x  rounded-circle p-2" ></i>
+                    <div class="card-body">
+                      <h5 class="card-title">User 2</h5>
+                    </div>
+                </div>
             </div>
-            <div class="col">3
-                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            <div class="col">
+                <div class="card  justify-content-center text-center" style=" height: 15rem; background-color: #57068c;">
+                    <img src="{% static 'images/logo_white.png' %}" height="180" class="card-img-top rounded-circle" alt="user pic">
+                    <div class="card-body">
+                      <h5 class="card-title">User 3</h5>
+                    </div>
+                </div>
             </div>
-            <div class="col">4
-                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            <div class="col">
+                <div class="card  justify-content-center text-center" style=" height: 15rem; background-color: #57068c;">
+                    <img src="{% static 'images/torch.jpg' %}" height="180" class="card-img-top  rounded-circle p-2" alt="user pic">
+                    <div class="card-body">
+                      <h5 class="card-title">User 4</h5>
+                    </div>
+                </div>
             </div>
-    
-            <div class="col">5
-                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, cupiditate.</span>
+            <div class="col">
+                <div class="card  justify-content-center text-center" style=" height: 15rem; background-color: #57068c;">
+                    <img src="{% static 'images/logo_black.png' %}" height="180" class="card-img-top  rounded-circle p-2" alt="user pic">
+                    <div class="card-body">
+                      <h5 class="card-title">User 5</h5>
+                    </div>
+                </div>
             </div>
     
         </div>
