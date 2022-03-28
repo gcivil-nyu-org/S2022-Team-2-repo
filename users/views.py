@@ -8,7 +8,6 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.contrib import messages
 
 from users.forms import (
     ProfileUpdateForm,
@@ -199,10 +198,10 @@ def profile(request):
     if request.method == "POST":
         form = ProfileUpdateForm(request.POST, instance=prof)
         if form.is_valid():
-            ans=form.save()
+            ans = form.save()
 
-            if 'image' in request.FILES:
-                ans.image = request.FILES['image']
+            if "image" in request.FILES:
+                ans.image = request.FILES["image"]
 
             ans.save()
             return HttpResponseRedirect("/dashboard")

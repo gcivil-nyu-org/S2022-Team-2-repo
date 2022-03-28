@@ -4,14 +4,15 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from multiselectfield import MultiSelectField
-from PIL import Image
 
 from .preferences import *
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default="default.jpg",upload_to='media', null=True, blank=True)
+    image = models.ImageField(
+        default="default.jpg", upload_to="media", null=True, blank=True
+    )
     slug = AutoSlugField(populate_from="user")
     bio = models.CharField(max_length=255, blank=True)
 
