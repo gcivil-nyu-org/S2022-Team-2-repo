@@ -75,7 +75,8 @@ def login_form(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect(request.GET["next"])
+                next_url=request.GET.get("next","/dashboard")
+                return HttpResponseRedirect(next_url)
             else:
                 form.add_error("username", "User with that credentials not found.")
     else:
@@ -196,7 +197,12 @@ def profile(request):
     if request.method == "POST":
         form = ProfileUpdateForm(request.POST, instance=prof)
         if form.is_valid():
-            form.save()
+            ans=form.save()
+
+            if 'image' in request.FILES:
+                ans.image = request.FILES['image']
+
+            ans.save()
             return HttpResponseRedirect("/dashboard")
     else:
         form = ProfileUpdateForm(instance=prof)
