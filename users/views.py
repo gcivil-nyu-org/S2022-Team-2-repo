@@ -8,8 +8,10 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib import messages
 
 from users.forms import (
+    ProfileUpdateForm,
     UserRegisterForm,
     ResetPasswordRequestForm,
     ResetPasswordForm,
@@ -18,7 +20,7 @@ from users.forms import (
     PreferencesMediaForm,
     PreferencesExploreForm,
 )
-from users.models import Preference
+from users.models import Preference, Profile
 
 from users.tokens import account_activation_token
 
@@ -39,8 +41,6 @@ def signup(request):
             user.is_active = False
             user.email = to_email
             user.save()
-
-            print(user.first_name)
 
             current_site = get_current_site(request)
             mail_subject = "Activate your NYUnite Account!"
@@ -182,6 +182,33 @@ def password_reset(request, uidb64, token):
     else:
         # TODO: HTML Page here to go back to the password reset request page
         return render(request, "users/passwordreset/password_reset_request_form.html")
+
+
+@login_required()
+def profile(request):
+    prof = None
+
+    try:
+        prof = Profile.objects.get(user=request.user)
+        print("user found")
+    except Exception as ex:
+        print(ex)
+        prof = Profile(user=request.user)
+        prof.save()
+
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, instance=prof)
+        if form.is_valid():
+            ans=form.save()
+
+            if 'image' in request.FILES:
+                ans.image = request.FILES['image']
+
+            ans.save()
+            return HttpResponseRedirect("/dashboard")
+    else:
+        form = ProfileUpdateForm(instance=prof)
+    return render(request, "users/profile.html", {"form": form})
 
 
 @login_required()
