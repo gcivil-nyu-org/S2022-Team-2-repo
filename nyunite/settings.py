@@ -97,8 +97,8 @@ WSGI_APPLICATION = "nyunite.wsgi.application"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 host = os.environ.get("DATABASE_URL", "")
 name = os.environ.get("DATABASE_NAME", "nyunite")
-user = os.environ.get("DATABASE_USER", "nyuniteadmin")
-password = os.environ.get("DATABASE_PASSWORD", "django1234")
+user = os.environ.get("DATABASE_USER", "postgres")
+password = os.environ.get("DATABASE_PASSWORD", "")
 
 DATABASES = {
     "default": {
