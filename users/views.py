@@ -186,6 +186,7 @@ def password_reset(request, uidb64, token):
 @login_required()
 def profile(request):
     prof = None
+   
 
     try:
         prof = Profile.objects.get(user=request.user)

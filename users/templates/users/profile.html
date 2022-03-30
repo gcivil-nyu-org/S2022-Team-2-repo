@@ -1,6 +1,7 @@
 {%  extends 'users/base.html' %}
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/pref_css.css' %}">
 
 <style>
 	.profile-pic{
@@ -8,34 +9,48 @@
 		max-height:200px;
 		margin: 0 auto;
 		border-radius: 50%;
+		margin-top: 20px;
+		margin-left: 300px;
 	}
+	
 </style>
 
 <br>
-<div class="row">
-	<div class="col-md-3">
-		<div class="card card-body">
-			<a class="btn btn-warning" href="{% url 'dashboard' %}"> &#8592; Back to Profile</a>
-			<hr>
-			<h3 style="text-align: center">Account Settings</h3>
-			<hr>
-			<img class="profile-pic" src="{{request.user.profile.image.url}}" >
-		
-		</div>
+
+<div class="container" >
+	<div class="row gutters">
+	   <div class="card h-100" style="transform:translateY(50px)">
+		  <div class="card-body" style="align-items: center">
+			 
+			 
+			 <div class="title"> <h2 >Add Details</h2> </div>
+ 
+			 <div class="account-settings">
+				<div class="user-profile">
+					<p class="purple-text"> Welcome, {{user.first_name}}! </p>
+					<div class="col-md-3">
+						<img class="profile-pic" src="{{request.user.profile.image.url}}" >
+				</div> 
+				   </div>
+				
+				</div>
+				<form class=" rounded-5 shadow-5-strong p-4" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<style>
+						label{font-family: "Montserrat";font-size: 1.4rem;color: #330662; align-items: center;} 
+						input{padding-left: 6px; width:400px; border-radius: 10px; border-color: #330662;} 
+					</style> 
+					{{form.as_p}}
+					{{ form.errors }}
+				   <div class="form-row">
+					  <div class="col-lg-5">
+						 <button type="submit" style="margin-left:630px;"class="standard_button">Next Page</button>
+					  </div>
+				   </div>
+				</form>
+			 </div>
+		  </div>
+	   </div>
 	</div>
-	<div class="col-md-9">
-		<div class="card card-body">
-			
-			<form method="POST" action="" enctype="multipart/form-data">
-				{% csrf_token %}
-				{{form.as_p}}
-		
-			<input class="btn btn-primary" type="submit" name="Update Information">
-			</form>
-		</div>
-	</div>
-</div>
-
-
-
+ </div>
 {% endblock %}

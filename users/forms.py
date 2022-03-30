@@ -11,6 +11,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import Profile, Preference
 from .preferences import *
+from .models import Profile
 
 
 class UserRegisterForm(UserCreationForm):
@@ -64,6 +65,8 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["bio", "image"]
+
+       
 
 
 class ResetPasswordRequestForm(forms.Form):
