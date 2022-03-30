@@ -7,13 +7,24 @@ import multiselectfield.db.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='preference',
-            name='personality_type',
-            field=multiselectfield.db.fields.MultiSelectField(blank=True, choices=[('VeryEX', 'Very Extroverted'), ('SomewhatEX', 'Somewhat Extroverted'), ('Neutral', 'Neutral'), ('SomewhatIN', 'Somewhat Introverted'), ('VeryIN', 'Very Introverted')], max_length=50, null=True),
+            model_name="preference",
+            name="personality_type",
+            field=multiselectfield.db.fields.MultiSelectField(
+                blank=True,
+                choices=[
+                    ("VeryEX", "Very Extroverted"),
+                    ("SomewhatEX", "Somewhat Extroverted"),
+                    ("Neutral", "Neutral"),
+                    ("SomewhatIN", "Somewhat Introverted"),
+                    ("VeryIN", "Very Introverted"),
+                ],
+                max_length=50,
+                null=True,
+            ),
         ),
     ]
