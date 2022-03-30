@@ -99,6 +99,7 @@ host = os.environ.get("DATABASE_URL", "localhost")
 name = os.environ.get("DATABASE_NAME", "nyunite")
 user = os.environ.get("DATABASE_USER", "postgres")
 password = os.environ.get("DATABASE_PASSWORD", "")
+port = os.environ.get("DATABASE_PORT", "5432")
 
 DATABASES = {
     "default": {
@@ -107,6 +108,7 @@ DATABASES = {
         "NAME": name,
         "USER": user,
         "PASSWORD": password,
+        "PORT": port,
     }
 }
 
