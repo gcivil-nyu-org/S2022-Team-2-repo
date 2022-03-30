@@ -6,31 +6,16 @@
 {% block body %}
 
 <link rel="stylesheet" href="{% static 'css/pref_css.css' %}">
-
-<!-- <div class="row">
-	<div class="col-md-3">
-		<div class="card card-body">
-			<a class="btn btn-warning" href="{% url 'dashboard' %}"> &#8592; Back to Profile</a>
-			<hr>
-			<h3 style="text-align: center">Account Settings</h3>
-			<hr>
-			<img class="profile-pic" src="{{request.user.profile.image.url}}" >
-		
-		</div>
-	</div>
-	<div class="col-md-9">
-		<div class="card card-body">
-			
-			<form method="POST" action="" enctype="multipart/form-data">
-				{% csrf_token %}
-				{{form.as_p}}
-		
-			<input class="btn btn-primary" type="submit" name="Update Information" value="Next page">
-			</form>
-		</div>
-	</div>
-</div> -->
-
+<style>
+   .profile-pic{
+      max-width: 200px;
+      max-height:200px;
+      margin: 0 auto;
+      border-radius: 50%;
+      margin-top: 20px;
+      margin-left: 320px;
+   }
+</style>
 <div class="container">
    <div class="row gutters">
       <div class="card h-100" style="transform:translateY(50px)">
@@ -39,22 +24,22 @@
             
             <div class="title"> <h2 >Add Preferences</h2> </div>
 
-            <div class="account-settings">
+            <div class="account-settings ">
                <div class="user-profile">
                   <!-- <div class="user-avatar">
                      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Maxwell Admin">
                   </div> -->
                   <div class="col-md-3">
                      <img class="profile-pic" src="{{request.user.profile.image.url}}" >
-               </div> 
+                  </div> 
                   <p class="purple-text"> Welcome, {{user.first_name}}! </p>
                   <!-- <p class="purple-text", style="font-size:20px"> {{ user.email }}</p> -->
-                  </div>
+               </div>
                <!-- <div class="about"> -->
                   <!-- <h4 class="purple-text1"  >About Me</h4> -->
 <!--                   {% csrf_token %} -->
                    <!-- {{ form.bio }}  -->
-               </div>
+            </div>
                <form class="rounded-5 shadow-5-strong p-5 " method="post">
                   <div>
                   <h4 class="purple-text1"> Personality Questions </h4>

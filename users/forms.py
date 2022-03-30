@@ -66,8 +66,6 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = ["bio", "image"]
 
-       
-
 
 class ResetPasswordRequestForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Net ID"}))
