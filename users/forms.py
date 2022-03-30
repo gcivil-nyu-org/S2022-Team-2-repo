@@ -11,7 +11,6 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import Profile, Preference
 from .preferences import *
-from .models import Profile
 
 
 class UserRegisterForm(UserCreationForm):
