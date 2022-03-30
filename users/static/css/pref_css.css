@@ -48,7 +48,7 @@
 		margin: 0 auto;
 		border-radius: 50%;
 		margin-top: 20px;
-		margin-left: 300px;
+		margin-left: 327px;
 	}
     .form-control {
     border: 1px solid #596280;
@@ -92,3 +92,49 @@
       font-size: 1rem;
     }
     
+   
+    .form-control1 {
+       padding-top: 20px;;
+       width: 100%;
+       font-family: "Montserrat";
+       font-size: 20px;
+       color: #330662; 
+       font-weight: bold;
+       
+    }
+    input[type="checkbox"] {
+       appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 0.75em;
+    height: 0.75em;
+    border: 0.10em solid currentColor;
+    border-radius:  0.15em;
+    transform: translateY(-0.075em);
+     }
+     .form-control1 + .form-control1 {
+       margin-top: 1em;
+     }
+     input[type="checkbox"]::before {
+       content: "";
+       width: 0.55em;
+       height: 0.55em;
+       border-radius: 50%;
+       transform: scale(0);
+       transition: 120ms transform ease-in-out;
+       box-shadow: inset 1em 1em var(--form-control-color);
+       display: grid;
+       
+       background-color:#8900e1;
+     }
+     input[type="checkbox"]:checked::before {
+       transform: scale(1);
+       transform-origin: bottom left;
+       clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+     }
+     input[type="checkbox"]:focus {
+       outline: max(1px, 0.05em) solid currentColor;
+       outline-offset: max(2px, 0.15em);
+     }

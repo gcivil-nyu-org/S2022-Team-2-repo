@@ -7,29 +7,55 @@
 
 <link rel="stylesheet" href="{% static 'css/pref_css.css' %}">
 
-<!-- <div class="row">
-	<div class="col-md-3">
-		<div class="card card-body">
-			<a class="btn btn-warning" href="{% url 'dashboard' %}"> &#8592; Back to Profile</a>
-			<hr>
-			<h3 style="text-align: center">Account Settings</h3>
-			<hr>
-			<img class="profile-pic" src="{{request.user.profile.image.url}}" >
-		
-		</div>
-	</div>
-	<div class="col-md-9">
-		<div class="card card-body">
-			
-			<form method="POST" action="" enctype="multipart/form-data">
-				{% csrf_token %}
-				{{form.as_p}}
-		
-			<input class="btn btn-primary" type="submit" name="Update Information" value="Next page">
-			</form>
-		</div>
-	</div>
-</div> -->
+<style>
+   .form-control1 {
+      padding-top: 20px;;
+      width: 100%;
+      font-family: "Montserrat";
+      font-size: 20px;
+      color: #330662; 
+      font-weight: bold;
+      
+   }
+   input[type="radio"] {
+      appearance: none;
+   background-color: #fff;
+   margin: 0;
+   font: inherit;
+   color: currentColor;
+   width: 0.75em;
+   height: 0.75em;
+   border: 0.10em solid currentColor;
+   border-radius: 50%;
+   transform: translateY(-0.075em);
+    }
+    .form-control1 + .form-control1 {
+      margin-top: 1em;
+    }
+    input[type="radio"]::before {
+      content: "";
+      width: 0.55em;
+      height: 0.55em;
+      border-radius: 50%;
+      transform: scale(0);
+      transition: 120ms transform ease-in-out;
+      box-shadow: inset 1em 1em var(--form-control-color);
+      display: grid;
+      
+      background-color:#8900e1;
+    }
+    input[type="radio"]:checked::before {
+      transform: scale(1);
+    }
+    .form-control1:focus-within {
+      color: var(#8900e1);
+    }
+    input[type="radio"]:focus {
+      outline: max(1px, 0.05em) solid currentColor;
+      outline-offset: max(2px, 0.15em);
+    }
+    
+</style>
 
 <div class="container">
    <div class="row gutters">
@@ -41,33 +67,28 @@
 
             <div class="account-settings">
                <div class="user-profile">
-                  <!-- <div class="user-avatar">
-                     <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Maxwell Admin">
-                  </div> -->
                   <div class="col-md-3">
                      <img class="profile-pic" src="{{request.user.profile.image.url}}" >
                </div> 
                   <p class="purple-text"> Welcome, {{user.first_name}}! </p>
-                  <!-- <p class="purple-text", style="font-size:20px"> {{ user.email }}</p> -->
                   </div>
-               <!-- <div class="about"> -->
-                  <!-- <h4 class="purple-text1"  >About Me</h4> -->
-<!--                   {% csrf_token %} -->
-                   <!-- {{ form.bio }}  -->
                </div>
                <form class="rounded-5 shadow-5-strong p-5 " method="post">
                   <div>
                   <h4 class="purple-text1"> Personality Questions </h4>
                   </div>
+                  <label class="form-control1">
                   {% csrf_token %}
                   {% for field in form %}
                   {{ field.label }}
-                  <ul style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
+                  <ul style="columns: 2; -webkit-columns: 2; -moz-columns: 2; ">
+                     
                      {{ field }}
                   </ul>
                   <hr id="linebreak">
                   {% endfor %}
                   {{ form.errors }}
+               </label>
                   <div class="form-row">
                      <div class="col-lg-5">
                         <button type="submit" style="margin-left:580px;" class="standard_button">Next Page</button>
