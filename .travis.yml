@@ -6,6 +6,9 @@ python:
 env:
   - DJANGO=4.2.0
 
+addons:
+  postgresql: "14"
+
 services:
   - postgresql
 
