@@ -14,7 +14,7 @@ install:
 
 before_script:
   - psql -c 'create database nyunite;' -U postgres
-  - psql -c 'create user nyuniteadmin with password 'django1234';' -U postgres
+  - psql -c 'create user nyuniteadmin with password "django1234";' -U postgres
   - psql -c 'grant all privileges on database nyunite to nyuniteadmin;' -U postgres
 
 script:
