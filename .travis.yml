@@ -15,9 +15,6 @@ services:
 install:
   - pip install -r requirements.txt
 
-before_script:
-  - psql -c 'create database nyunite_test;' -U postgres
-
 script:
   - black . --check
   - flake8 --count
