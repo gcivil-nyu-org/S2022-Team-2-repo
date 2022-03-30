@@ -15,6 +15,7 @@
                   <div>
                   <h4 class="purple-text1"> Hobbies & Interests </h4>
                   </div>
+                  <label class="form-control1">
                   {% csrf_token %}
                   {% for field in form %}
                   {{ field.label }}
@@ -24,10 +25,11 @@
                   <hr id="linebreak">
                   {% endfor %}
                   {{ form.errors }}
+                  </label>
                   <div class="form-row">
                      <div class="col-lg-20">
-                        <a href='/preferences/page1/'> <button class="standard_button2"> Previous Page </button> </a>
-<!--                         <a type="button" class="standard_button" href="/preferences/page1">Previous Page</a> -->
+                        <a type="button" href= "{% url 'preferences_personality' %}" class="standard_button2"> Previous Page </a>
+<!--                         <a type="button" class="standard_button2" href="/preferences/page1">Previous Page</a> -->
                         <!-- <button type="submit" class="standard_button">Previous Page</button> -->
                         <button type="submit" style="margin-left:430px;" class="standard_button"> Next Page</button>
                      </div>
