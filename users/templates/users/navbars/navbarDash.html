@@ -1,4 +1,10 @@
 {% load static %}
+<script>
+ function getInitials() {
+    return user.first_name.charAt(0) + user.last_name.charAt(0)
+ }
+</script>
+
 <nav class="navbar fixed-top navbar-expand-md navbar-dark p-2 " style="background-color: #330662; z-index:1">
 
     <div class="container-md ">
@@ -15,10 +21,10 @@
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent" >
 
-            <!-- Seach box -->
+            <!-- Search box -->
             <form class="d-flex me-4">
                 <input class="form-control me-2 text-white " id="navSearchBox" style="background-color:#57068c; width: 300px; border-width: 1px; border-color: white;" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-secondary " type="submit" style="background-color: #230542;">Search</button>
+                <button class="standard_button" style="background-color:#230542;" type="submit" >Search</button>
             </form>
 
             <!-- Nav items -->

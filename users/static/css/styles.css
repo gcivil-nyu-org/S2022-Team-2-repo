@@ -303,6 +303,25 @@ label #cancel {
   background-color: #ab82c5;
 }
 
+.standard_button2 {
+  background-color: #AB82C5;
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  transition-duration: 0.4s;
+  width:150px
+}
+
+.standard_button2:hover {
+  background-color: #A69DB2;
+}
+
 nav div form #navSearchBox::placeholder{
   color:white;
 }
