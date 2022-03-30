@@ -98,11 +98,11 @@ PET_CHOICES = [
     ("NI", "Not interested in Pets"),
 ]
 PERSONALITY_CHOICES = [
-    ("1", "1"),
-    ("2", "2"),
-    ("3", "3"),
-    ("4", "4"),
-    ("5", "5"),
+    ("VeryEX", "Very Extroverted"),
+    ("SomewhatEX", "Somewhat Extroverted"),
+    ("Neutral", "Neutral"),
+    ("SomewhatIN", "Somewhat Introverted"),
+    ("VeryIN", "Very Introverted"),
 ]
 STAY_GO_CHOICES = [
     ("PI", "Prefer to Stay In"),
