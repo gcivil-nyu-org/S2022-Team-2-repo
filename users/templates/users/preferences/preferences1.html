@@ -1,91 +1,61 @@
-{% extends 'users/base.html' %}
+{% extends 'users/dashboard_base.html' %}
+{% load static %}
 
-{% block style %}
-body{
-color: #bcd0f7;
-background: #1A233A;
-}
-.account-settings .user-profile {
-margin: 0 0 1rem 0;
-padding-bottom: 1rem;
-text-align: center;
-}
-.account-settings .user-profile .user-avatar {
-margin: 0 0 1rem 0;
-}
-.account-settings .user-profile .user-avatar img {
-width: 90px;
-height: 90px;
--webkit-border-radius: 100px;
--moz-border-radius: 100px;
-border-radius: 100px;
-}
-.account-settings .user-profile h5.user-name {
-margin: 0 0 0.5rem 0;
-}
-.account-settings .user-profile h6.user-email {
-margin: 0;
-font-size: 0.8rem;
-font-weight: 400;
-}
-.account-settings .about {
-margin: 1rem 0 0 0;
-font-size: 0.8rem;
-text-align: center;
-}
-.card {
-background: #272E48;
--webkit-border-radius: 5px;
--moz-border-radius: 5px;
-border-radius: 5px;
-border: 0;
-margin-bottom: 1rem;
-}
-.form-control {
-border: 1px solid #596280;
--webkit-border-radius: 2px;
--moz-border-radius: 2px;
-border-radius: 2px;
-font-size: .825rem;
-background: #1A233A;
-color: #bcd0f7;
-}
-{% endblock %}
+  
 
-{% block content %}
-{% include 'users/navbars/navbar.html' %}
+{% block body %}
 
-
+<link rel="stylesheet" href="{% static 'css/pref_css.css' %}">
+<style>
+   .profile-pic{
+      max-width: 200px;
+      max-height:200px;
+      margin: 0 auto;
+      border-radius: 50%;
+      margin-top: 20px;
+      margin-left: 320px;
+   }
+</style>
 <div class="container">
    <div class="row gutters">
-      <div class="card h-100">
+      <div class="card h-100" style="transform:translateY(50px)">
          <div class="card-body">
-            <div class="account-settings">
+            
+            
+            <div class="title"> <h2 >Add Preferences</h2> </div>
+
+            <div class="account-settings ">
                <div class="user-profile">
-                  <div class="user-avatar">
+                  <!-- <div class="user-avatar">
                      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Maxwell Admin">
+                  </div> -->
+                  <div class="col-md-3">
+                     <img class="profile-pic" src="{{request.user.profile.image.url}}" >
+                  </div> 
+                  <p class="purple-text"> Welcome, {{user.first_name}}! </p>
+                  <!-- <p class="purple-text", style="font-size:20px"> {{ user.email }}</p> -->
+               </div>
+               <!-- <div class="about"> -->
+                  <!-- <h4 class="purple-text1"  >About Me</h4> -->
+<!--                   {% csrf_token %} -->
+                   <!-- {{ form.bio }}  -->
+            </div>
+               <form class="rounded-5 shadow-5-strong p-5 " method="post">
+                  <div>
+                  <h4 class="purple-text1"> Personality Questions </h4>
                   </div>
-                  <h5 class="user-name"> {{user.first_name}} {{user.last_name}}</h5>
-                  <h6 class="user-email"> {{ user.email }}</h6>
-               </div>
-               <div class="about">
-                  <h5 class="mb-2 text-primary">About</h5>
-                  <p>I'm {{ user.first_name }}. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.
-                  </p>
-               </div>
-               <form class="rounded-5 shadow-5-strong p-5" method="post">
-                  <h4> Preferences</h4>
                   {% csrf_token %}
                   {% for field in form %}
                   {{ field.label }}
                   <ul style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
                      {{ field }}
                   </ul>
+                  <hr id="linebreak">
                   {% endfor %}
                   {{ form.errors }}
                   <div class="form-row">
                      <div class="col-lg-5">
-                        <button type="submit" class="btn1 mt-3 mb-1">Next</button>
+                        <button type="submit" style="margin-left:580px;" class="standard_button">Next Page</button>
                      </div>
                   </div>
                </form>

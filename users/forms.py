@@ -149,36 +149,68 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class PreferencesPersonalityForm(forms.ModelForm):
-    # personality_type = forms.ChoiceField(
-    #     required=False,
-    #     widget=forms.RadioSelect,
-    #     choices=PERSONALITY_CHOICES,
-    # )
-    # stay_go_type = forms.ChoiceField(
-    #     required=False,
-    #     widget=forms.RadioSelect,
-    #     choices=STAY_GO_CHOICES,
-    # )
+    personality_type = forms.ChoiceField(
+        choices=PERSONALITY_CHOICES, widget=forms.RadioSelect()
+    )
+    stay_go_type = forms.ChoiceField(
+        choices=STAY_GO_CHOICES, widget=forms.RadioSelect()
+    )
+
     class Meta:
         model = Preference
         fields = [
             "personality_type",
             "stay_go_type",
+        ]
+
+
+class PreferencesMediaForm(forms.ModelForm):
+    movie_choices = forms.MultipleChoiceField(
+        choices=MOVIES_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    music_choices = forms.MultipleChoiceField(
+        choices=MUSIC_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    art_choices = forms.MultipleChoiceField(
+        choices=ART_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    dance_choices = forms.MultipleChoiceField(
+        choices=DANCE_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+
+    class Meta:
+        model = Preference
+        fields = [
             "movie_choices",
             "music_choices",
-            "food_choices",
-            "travel_choices",
             "art_choices",
             "dance_choices",
+        ]
+
+
+class PreferencesExploreForm(forms.ModelForm):
+    food_choices = forms.MultipleChoiceField(
+        choices=COOKEAT_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    travel_choices = forms.MultipleChoiceField(
+        choices=TRAVEL_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    sports_choices = forms.MultipleChoiceField(
+        choices=SPORTS_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    nyc_choices = forms.MultipleChoiceField(
+        choices=NYC_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    pet_choices = forms.MultipleChoiceField(
+        choices=PET_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+
+    class Meta:
+        model = Preference
+        fields = [
+            "food_choices",
+            "travel_choices",
             "sports_choices",
             "pet_choices",
             "nyc_choices",
         ]
-
-
-class PreferencesHobbiesForm(forms.Form):
-    movie_type = forms.MultipleChoiceField(
-        required=False,
-        widget=forms.CheckboxSelectMultiple,
-        choices=MOVIES_CHOICES,
-    )

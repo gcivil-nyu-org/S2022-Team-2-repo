@@ -1,3 +1,14 @@
+body {
+  background-color: #230542;
+}
+
+.purple-text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  color: #330662;
+  align-items: center;
+}
+
 .logo {
   width: auto;
   max-height: 6vh;
@@ -75,7 +86,7 @@
 }
 
 .nav-tabs .nav-link {
-  background-color: #f2f2f2;
+  background-color: #c7d0d8;
   border-radius: 10px;
   padding-left: 3rem;
   padding-right: 3rem;
@@ -118,6 +129,7 @@
   text-decoration: none;
 }
 
+/* siderbar */
 .sidebar {
   position: fixed;
   top: 0;
@@ -137,7 +149,9 @@
   user-select: none;
   font-family: "Montserrat", sans-serif;
 }
-
+.sidebar img{
+  margin-left: 30px;
+}
 .sidebar a {
   display: block;
   height: 65px;
@@ -159,7 +173,7 @@
   color: #ab82c5;
 }
 .sidebar a:hover {
-  border-left: 5px solid #ab82c5;
+  border-left: 5px solid white;
   color: #ab82c5;
 }
 
@@ -176,15 +190,15 @@
 #check {
   display: none;
 }
-
+/* sidebar button */
 label #btn,
 label #cancel {
   position: absolute;
   cursor: pointer;
   color: white;
   border-radius: 5px;
-  border: 1px solid #262626;
-  margin: 15px 30px;
+  border: 0px solid #262626;
+  margin: -53px 30px;
   font-size: 29px;
   background: #330662;
   height: 45px;
@@ -197,6 +211,8 @@ label #cancel {
 label #cancel {
   opacity: 0;
   visibility: hidden;
+  border: 1px solid #262626;
+
 }
 
 #check:checked ~ .sidebar {
@@ -216,6 +232,10 @@ label #cancel {
 }
 
 @media (max-width: 860px) {
+  .sidebar img{
+    height: 24px;
+    margin-left: 0;
+  }
   .sidebar {
     height: auto;
     width: 70px;
@@ -230,7 +250,9 @@ label #cancel {
   }
 
   span {
-    position: absolute;
+    position: fixed;
+    font-size: 12px;
+    color: white;
     margin-left: 23px;
     opacity: 0;
     visibility: hidden;
@@ -245,7 +267,7 @@ label #cancel {
   }
 
   a:hover {
-    width: 200px;
+    width: 220px;
     background: inherit;
   }
 
@@ -253,10 +275,6 @@ label #cancel {
     opacity: 1;
     visibility: visible;
   }
-}
-
-body {
-  background-color: #230542;
 }
 
 .dashboard {
@@ -284,3 +302,8 @@ body {
 .standard_button:hover {
   background-color: #ab82c5;
 }
+
+nav div form #navSearchBox::placeholder{
+  color:white;
+}
+

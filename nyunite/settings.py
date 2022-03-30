@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # Loading .env file
+# TODO: Remove .env from repo and reset secret key
 dotenv.read_dotenv()
 
 SECRET_KEY = str(
@@ -34,7 +35,7 @@ SECRET_KEY = str(
 DEBUG = bool(os.environ.get("DEBUG_MODE", True))
 
 # Host settings
-ALLOWED_HOSTS = ["nyunite.herokuapp.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["nyunite.herokuapp.com", "nyunite-prod.herokuapp.com", "127.0.0.1"]
 
 # Configure email host server
 EMAIL_USE_TLS = True
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "corsheaders",
     "rest_framework",
+    "multiselectfield",
 ]
 
 MIDDLEWARE = [
@@ -68,13 +70,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-# # Rest Framework config. Add all of this.
-# REST_FRAMEWORK = {
-#     "DATETIME_FORMAT": "%m/%d/%Y %I:%M%P",
-#     "DEFAULT_AUTHENTICATION_CLASSES": [
-#         "rest_framework.authentication.TokenAuthentication",
-#     ],
-# }
 
 ROOT_URLCONF = "nyunite.urls"
 
@@ -100,11 +95,18 @@ WSGI_APPLICATION = "nyunite.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+host = os.environ.get("DATABASE_URL", "")
+name = os.environ.get("DATABASE_NAME", "nyunite")
+user = os.environ.get("DATABASE_USER", "nyuniteadmin")
+password = os.environ.get("DATABASE_PASSWORD", "django1234")
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "HOST": host,
+        "NAME": name,
+        "USER": user,
+        "PASSWORD": password,
     }
 }
 
@@ -144,6 +146,11 @@ STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontend", "build", "static")]
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "users", "static")]
+MEDIA_ROOT = os.path.join(
+    BASE_DIR, "media/"
+)  # Directory where uploaded media is saved.
+MEDIA_URL = "/images/"  # Public URL at the browser
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -155,7 +162,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # ]
 
 # Default redirect urls
-LOGIN_REDIRECT_URL = "dashboard"
 LOGIN_URL = "login"
 
 # Activate Django-Heroku.

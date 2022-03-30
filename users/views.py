@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
+from django.forms import model_to_dict
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template.loader import render_to_string
@@ -9,12 +10,16 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from users.forms import (
+    ProfileUpdateForm,
     UserRegisterForm,
     ResetPasswordRequestForm,
     ResetPasswordForm,
     PreferencesPersonalityForm,
     LoginForm,
+    PreferencesMediaForm,
+    PreferencesExploreForm,
 )
+from users.models import Preference, Profile
 
 from users.tokens import account_activation_token
 
@@ -71,7 +76,8 @@ def login_form(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return render(request, "users/dashboard/dashboard.html")
+                next_url = request.GET.get("next", "/dashboard")
+                return HttpResponseRedirect(next_url)
             else:
                 form.add_error("username", "User with that credentials not found.")
     else:
@@ -84,7 +90,7 @@ def logout_request(request):
     user = request.user
     if user is not None and user.is_authenticated:
         logout(request)
-        return HttpResponseRedirect("/dashboard")
+        return HttpResponseRedirect("/")
 
 
 def activate(request, uidb64, token):
@@ -101,6 +107,7 @@ def activate(request, uidb64, token):
     if account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
+        login(request, user)
         return render(request, "users/activation/activate-signin.html")
 
     else:
@@ -177,43 +184,93 @@ def password_reset(request, uidb64, token):
 
 
 @login_required()
-def preferences_personality(request):
-    context_dict = {"form": None}
-    form = PreferencesPersonalityForm()
+def profile(request):
+    prof = None
 
-    if request.method == "GET":
-        context_dict["form"] = form
-    elif request.method == "POST":
-        form = PreferencesPersonalityForm(request.POST)
+    try:
+        prof = Profile.objects.get(user=request.user)
+        print("user found")
+    except Exception as ex:
+        print(ex)
+        prof = Profile(user=request.user)
+        prof.save()
 
-        context_dict["form"] = form
-        user = request.user
-        if form.is_valid() and user is not None:
-            prefs = form.save(commit=False)
-            user = User.objects.get(id=user.id)
-            prefs.user = user
-            prefs.save()
-            print()
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, instance=prof)
+        if form.is_valid():
+            ans = form.save()
+
+            if "image" in request.FILES:
+                ans.image = request.FILES["image"]
+
+            ans.save()
             return HttpResponseRedirect("/dashboard")
+    else:
+        form = ProfileUpdateForm(instance=prof)
+    return render(request, "users/profile.html", {"form": form})
 
-    return render(request, "users/preferences/preferences1.html", context_dict)
+
+@login_required()
+def preferences_personality(request):
+
+    prefs = None
+
+    try:
+        prefs = Preference.objects.get(user=request.user)
+        print("user found")
+    except Exception as ex:
+        print(ex)
+        prefs = Preference(user=request.user)
+        prefs.save()
+
+    if request.method == "POST":
+        form = PreferencesPersonalityForm(request.POST, instance=prefs)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/preferences/page2")
+    else:
+        form = PreferencesPersonalityForm(instance=prefs)
+    return render(request, "users/preferences/preferences1.html", {"form": form})
 
 
-# def preferences_hobbies(request):
-#     context_dict = {"form": None}
-#     form = PreferencesHobbiesForm()
-#
-#     if request.method == "GET":
-#         context_dict["form"] = form
-#     elif request.method == "POST":
-#         form = PreferencesHobbiesForm(request.POST)
-#         context_dict["form"] = form
-#         if form.is_valid():
-#             cleaned_data = form.cleaned_data
-#             print(cleaned_data)
-#             return HttpResponseRedirect("/dashboard")
-#
-#     return render(request, "users/preferences/preferences1.html", context_dict)
+@login_required
+def preferences_media(request):
+    try:
+        prefs = Preference.objects.get(user=request.user)
+        print("user found")
+    except Exception as ex:
+        print(ex)
+        prefs = Preference(user=request.user)
+        prefs.save()
+
+    if request.method == "POST":
+        form = PreferencesMediaForm(request.POST, instance=prefs)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/preferences/page3")
+    else:
+        form = PreferencesMediaForm(instance=prefs)
+    return render(request, "users/preferences/preferences2.html", {"form": form})
+
+
+@login_required
+def preferences_explore(request):
+    try:
+        prefs = Preference.objects.get(user=request.user)
+        print("user found")
+    except Exception as ex:
+        print(ex)
+        prefs = Preference(user=request.user)
+        prefs.save()
+
+    if request.method == "POST":
+        form = PreferencesExploreForm(request.POST, instance=prefs)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/dashboard")
+    else:
+        form = PreferencesExploreForm(instance=prefs)
+    return render(request, "users/preferences/preferences3.html", {"form": form})
 
 
 @login_required
@@ -223,7 +280,19 @@ def dashboard(request):
 
 @login_required
 def preferences(request):
-    return render(request, "users/dashboard/dashboard_preferences.html")
+    prefs = Preference.objects.get(user=request.user)
+    print(model_to_dict(prefs))
+
+    return render(
+        request,
+        "users/dashboard/dashboard_preferences.html",
+        {"user": request.user, "prefs": model_to_dict(prefs)},
+    )
+
+
+@login_required
+def add_preferences(request):
+    return render(request, "users/preferences/add_preferences.html")
 
 
 # @login_required

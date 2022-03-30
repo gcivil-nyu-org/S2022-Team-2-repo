@@ -7,6 +7,7 @@ MOVIES_CHOICES = [
     ("MY", "Mystery"),
     ("RO", "Romance"),
     ("TH", "Thriller"),
+    ("NI", "Not interested in Movies"),
 ]
 MUSIC_CHOICES = [
     ("RO", "Rock"),
@@ -15,6 +16,7 @@ MUSIC_CHOICES = [
     ("RP", "Rap"),
     ("CL", "Classical"),
     ("IN", "Indian"),
+    ("NI", "Not interested in Music"),
 ]
 COOKEAT_CHOICES = [
     ("CA", "Caribbean"),
@@ -29,6 +31,7 @@ COOKEAT_CHOICES = [
     ("TH", "Thai"),
     ("LB", "Lebanese"),
     ("AM", "American"),
+    ("NI", "Not interested in Cooking/Cuisines"),
 ]
 TRAVEL_CHOICES = [
     ("MO", "Mountains"),
@@ -37,6 +40,7 @@ TRAVEL_CHOICES = [
     ("IP", "Ice Places"),
     ("CT", "City"),
     ("VI", "Village"),
+    ("NI", "Not interested in Traveling"),
 ]
 ART_CHOICES = [
     ("DR", "Drawing"),
@@ -47,6 +51,7 @@ ART_CHOICES = [
     ("PH", "Photography"),
     ("SL", "Sculpture"),
     ("CA", "Calligraphy"),
+    ("NI", "Not interested in Art"),
 ]
 DANCE_CHOICES = [
     ("HH", "HipHop"),
@@ -58,8 +63,9 @@ DANCE_CHOICES = [
     ("ID", "Irish Dance"),
     ("BO", "Bollywood"),
     ("SW", "Swing"),
+    ("NI", "Not interested in Dance"),
 ]
-PLAYWATCHSPORTS_CHOICES = [
+SPORTS_CHOICES = [
     ("FB", "Football"),
     ("BK", "Basketball"),
     ("CR", "Cricket"),
@@ -80,6 +86,7 @@ PLAYWATCHSPORTS_CHOICES = [
     ("MA", "Martial arts"),
     ("GO", "Golf"),
     ("BC", "Bicycling"),
+    ("NI", "Not interested in Sports"),
 ]
 PET_CHOICES = [
     ("DG", "Dogs"),
@@ -88,11 +95,14 @@ PET_CHOICES = [
     ("FI", "Fish"),
     ("HR", "Horses"),
     ("RT", "Reptiles"),
+    ("NI", "Not interested in Pets"),
 ]
 PERSONALITY_CHOICES = [
-    ("IN", "Introvert"),
-    ("EX", "Extrovert"),
-    ("AB", "Ambivert"),
+    ("1", "1"),
+    ("2", "2"),
+    ("3", "3"),
+    ("4", "4"),
+    ("5", "5"),
 ]
 STAY_GO_CHOICES = [
     ("PI", "Prefer to Stay In"),
@@ -106,4 +116,5 @@ NYC_CHOICES = [
     ("CL", "Club"),
     ("TH", "Theater"),
     ("SW", "Street walk"),
+    ("NI", "Not interested in Exploring NYC"),
 ]

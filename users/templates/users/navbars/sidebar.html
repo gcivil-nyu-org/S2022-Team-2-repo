@@ -1,12 +1,16 @@
+{% load static %}
+
 <input type="checkbox" id="check">
+
 <label for="check">
-    <i class="fas fa-bars" id="btn" style="z-index:1"></i>
-    <i class="fas fa-times" id="cancel" style="z-index:1"></i>
+    <i class="fas fa-bars " id="btn" style="z-index:5"></i>
+    <i class="fas fa-times " id="cancel" style="z-index:5"></i>
 </label>
-<div class="sidebar" style="z-index:1">
-    <header>MENU</header>
+
+<div class="sidebar" style="z-index:5">
+    <img src="{% static 'images/logo_white.png' %}" height="60" alt="logo pic" id="sidebarlogo" >
     <a href="/dashboard" class="active">
-        <i class="fas fa-qrcode"></i>
+        <i class="fa-solid fa-chalkboard-user"></i>
         <span>Dashboard</span>
     </a>
     <a href="#">

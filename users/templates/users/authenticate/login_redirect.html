@@ -1,9 +1,8 @@
 {% extends 'users/authenticate.html' %}
 
 {% block loginform %}
-<ul class="nav nav-tabs" style="border-bottom: 0">
-  <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}" style="background-color:#c7d0d8; border-radius: 10px 10px 0px 0px">Sign Up</a></li>
-  <li class="nav-item"><a class="nav-link  " href="{% url 'login' %}" style="background-color:#a69fb2; border-radius: 10px 10px 0px 0px">Login</a></li>
+<ul class="nav nav-tabs" style="border-bottom: 0;">
+  <li class="nav-item" style="width:100%"><a class="nav-link  " href="{% url 'login' %}" style="background-color:#a69fb2; border-radius: 10px 10px 0px 0px">Login</a></li>
 </ul>
 <div class="tab-content ">
   <div class="tab-pane active" id="login">
@@ -16,7 +15,7 @@
                 {% csrf_token %}
                 {% for field in form %}
                 <div class="form-group form-outline mb-3" >
-                  <style> input{padding-left: 6px;border-radius: 10px; border-color: #330662;}</style>  
+                  <style> input{border-radius: 10px; border-color: #330662;}</style>  
                   {{ field }}
                 </div>
 

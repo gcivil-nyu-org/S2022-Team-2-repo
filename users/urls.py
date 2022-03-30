@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 
 from users import views as user_views
 
@@ -28,9 +30,18 @@ urlpatterns = [
         user_views.preferences_personality,
         name="preferences_personality",
     ),
-    # path(
-    #     "preferences/page2", user_views.preferences_hobbies, name="preferences_hobbies"
-    # ),
+    path("preferences/page2", user_views.preferences_media, name="preferences_hobbies"),
+    path(
+        "preferences/page3", user_views.preferences_explore, name="preferences_explore"
+    ),
     path("dashboard/", user_views.dashboard, name="dashboard"),
     path("dashboard/preferences/", user_views.preferences, name="preferences"),
+    path(
+        "preferences/add_preferences/",
+        user_views.add_preferences,
+        name="add_preferences",
+    ),
+    path("dashboard/preferences/updateprofile/", user_views.profile, name="profile"),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
