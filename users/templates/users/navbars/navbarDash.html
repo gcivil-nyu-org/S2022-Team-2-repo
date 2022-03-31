@@ -38,7 +38,7 @@
                 <li class="nav-item dropdown ">
                     <a class="nav-link dropdown-toggle" style="color:white" href="#" id="navbarDashDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <!-- Currently using our logo as placeholder -->
-                        <img src="{% static 'favicon.ico' %}" height="40" alt="user pic">
+                        <img src="{{ user.profile.image.url }}" style="height:40px; width:40px; object-fit:cover; border-radius:50%" alt="user pic">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDashDropdown">
                         <li><a class="dropdown-item" href="{% url 'dashboard' %}">
