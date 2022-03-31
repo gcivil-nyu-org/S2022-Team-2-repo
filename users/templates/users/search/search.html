@@ -6,9 +6,12 @@
     <div class="container-md mt-3">
         <div class="row">
             <h2 class="fw-bold"> Search Results </h2>
-            <p> Number of results: {{queryset.count}} </p>
-            {% for query in queryset %}
-            <p> {{query.first_name}} {{query.last_name}} </p>
+            <p> You searched: {{search}}; Number of results: {{queryset.count}} </p>
+
+            {% for user in queryset %}
+            <p> {{user.first_name}} {{user.last_name}} </p>
+            <p> Bio: {{user.profile.bio}} </p>
+            <img src="{{ user.profile.image.url }}" alt="user pic upload" style="height:100px; width:100px; object-fit:cover; border-radius:50%">
             {% endfor %}
         </div>
     </div>

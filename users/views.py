@@ -303,15 +303,13 @@ def get_search(request):
     firstname_query = Q(first_name__icontains=search_query)
     lastname_query = Q(last_name__icontains=search_query)
     query_set = User.objects.filter(username_query | firstname_query | lastname_query)
-    return query_set
+    return search_query, query_set
 
 
 @login_required
 def search(request):
-    if request.method == "GET":
-        query_set = get_search(request)
-        return render(request, "users/search/search.html", {"queryset": query_set})
-    return render(request, "users/search/search.html")
+    search_query, query_set = get_search(request)
+    return render(request, "users/search/search.html", {"queryset": query_set, "search": search_query})
 
 
 # @login_required
