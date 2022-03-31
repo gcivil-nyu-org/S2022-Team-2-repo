@@ -298,22 +298,22 @@ def add_preferences(request):
 
 # Helper function for searching
 def get_search(request):
-    search_query = request.GET.get('navSearch', '')
-    query_set = User.objects.filter(Q(username__icontains=search_query)|
-                                    Q(first_name__icontains=search_query)|
-                                    Q(last_name__icontains=search_query))
+    search_query = request.GET.get("navSearch", "")
+    query_set = User.objects.filter(
+        Q(username__icontains=search_query)
+        | Q(first_name__icontains=search_query)
+        | Q(last_name__icontains=search_query)
+    )
     return query_set
 
 
 @login_required
 def search(request):
-    if request.method == 'GET':
+    if request.method == "GET":
         query_set = get_search(request)
         print(query_set)
-        return render(request, 'users/search/search.html', {"queryset": query_set})
+        return render(request, "users/search/search.html", {"queryset": query_set})
     return render(request, "users/search/search.html")
-
-
 
 
 # @login_required
