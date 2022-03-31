@@ -309,7 +309,11 @@ def get_search(request):
 @login_required
 def search(request):
     search_query, query_set = get_search(request)
-    return render(request, "users/search/search.html", {"queryset": query_set, "search": search_query})
+    return render(
+        request,
+        "users/search/search.html",
+        {"queryset": query_set, "search": search_query},
+    )
 
 
 # @login_required
