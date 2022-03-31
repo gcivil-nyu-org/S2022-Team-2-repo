@@ -2,7 +2,8 @@ from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.db.models import Q
+from django.db.models import Q, Value as V
+from django.db.models.functions import Concat
 from django.forms import model_to_dict
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -300,9 +301,11 @@ def add_preferences(request):
 def get_search(request):
     search_query = request.GET.get("navSearch", "").strip()
     username_query = Q(username__icontains=search_query)
-    firstname_query = Q(first_name__icontains=search_query)
-    lastname_query = Q(last_name__icontains=search_query)
-    query_set = User.objects.filter(username_query | firstname_query | lastname_query)
+    fullname_query = Q(full_name__icontains=search_query)
+
+    query_set = User.objects.annotate(
+        full_name=Concat("first_name", V(" "), "last_name")
+    ).filter(username_query | fullname_query)
     return search_query, query_set
 
 
