@@ -42,6 +42,7 @@ urlpatterns = [
         name="add_preferences",
     ),
     path("dashboard/preferences/updateprofile/", user_views.profile, name="profile"),
+    path("dashboard/search", user_views.search, name="search")
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

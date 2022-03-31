@@ -1,0 +1,19 @@
+{% extends 'users/dashboard_base.html' %}
+{% load static %}
+
+{% block body %}
+<section>
+    <div class="container-md mt-3">
+        <div class="row">
+            <h2 class="fw-bold"> Search Results </h2>
+            <p> Number of results: {{queryset.count}} </p>
+            {% for query in queryset %}
+            <p> {{query.first_name}} {{query.last_name}} </p>
+            {% endfor %}
+        </div>
+    </div>
+
+</section>
+
+
+{% endblock %}

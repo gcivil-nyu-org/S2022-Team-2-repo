@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
+from django.db.models import Q
 from django.forms import model_to_dict
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -293,6 +294,26 @@ def preferences(request):
 @login_required
 def add_preferences(request):
     return render(request, "users/preferences/add_preferences.html")
+
+
+# Helper function for searching
+def get_search(request):
+    search_query = request.GET.get('navSearch', '')
+    query_set = User.objects.filter(Q(username__icontains=search_query)|
+                                    Q(first_name__icontains=search_query)|
+                                    Q(last_name__icontains=search_query))
+    return query_set
+
+
+@login_required
+def search(request):
+    if request.method == 'GET':
+        query_set = get_search(request)
+        print(query_set)
+        return render(request, 'users/search/search.html', {"queryset": query_set})
+    return render(request, "users/search/search.html")
+
+
 
 
 # @login_required
