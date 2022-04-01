@@ -21,7 +21,7 @@ from users.forms import (
     PreferencesMediaForm,
     PreferencesExploreForm,
 )
-from users.models import Preference, Profile
+from users.models import Preference, Profile, FriendRequest
 
 from users.tokens import account_activation_token
 
@@ -305,18 +305,33 @@ def get_search(request):
 
     query_set = User.objects.annotate(
         full_name=Concat("first_name", V(" "), "last_name")
-    ).filter(username_query | fullname_query)
+    ).filter(username_query | fullname_query)\
+        .exclude(id=request.user.id)
+    # .exclude(is_staff='t')
     return search_query, query_set
 
 
 @login_required
+def send_friend_request(request, id):
+    user = User.objects.get(id=id)
+    FriendRequest.objects.get_or_create(from_user=request.user, to_user=user)
+    print(user.username)
+    return None
+
+
+@login_required
 def search(request):
+    button_id = request.GET.get("friendRequest")
+    if button_id is not None:
+        send_friend_request(request, button_id)
+
     search_query, query_set = get_search(request)
     return render(
         request,
         "users/search/search.html",
-        {"queryset": query_set, "search": search_query},
+        {"queryset": query_set},
     )
+
 
 
 # @login_required
