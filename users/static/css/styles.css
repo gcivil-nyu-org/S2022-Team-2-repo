@@ -322,7 +322,7 @@ label #cancel {
   background-color: #A69DB2;
 }
 
-nav div form #navSearchBox::placeholder{
+nav div form #navSearch::placeholder{
   color:white;
 }
 

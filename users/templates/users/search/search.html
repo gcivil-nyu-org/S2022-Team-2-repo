@@ -2,21 +2,166 @@
 {% load static %}
 
 {% block body %}
+
 <section>
     <div class="container-md mt-3">
         <div class="row">
-            <h2 class="fw-bold"> Search Results </h2>
-            <p> You searched: {{search}}; Number of results: {{queryset.count}} </p>
-
-            {% for user in queryset %}
+            <h2 class="fw-bold"> Search Results </h2> 
+            <!-- return a User object -->
+            <div class="d-flex align-items-end flex-column">
+            {% if queryset.count == 1 %}
+                <h5> {{queryset.count}} profile found with your search: {{search}} </h5>
+            {% else %}    
+                <h5> {{queryset.count}} profiles found with your search: {{search}} </h5>
+            {% endif %}
+            </div>
+            <!-- {% for user in queryset %}
             <p> {{user.first_name}} {{user.last_name}} </p>
             <p> Bio: {{user.profile.bio}} </p>
+            <p>{{user.id}}</p>
             <img src="{{ user.profile.image.url }}" alt="user pic upload" style="height:100px; width:100px; object-fit:cover; border-radius:50%">
-            {% endfor %}
+            {% endfor %} -->
         </div>
     </div>
 
 </section>
+<p>{{user.preference}}</p>
+
+{% for user in queryset %}
+<!-- result block -->
+<section class="mt-3">
+<div class="container" id="searchFriendBox" style="background-color: #57068c; border-radius: 10px;">
+    <div class="row">
+        <!-- 1st pic -->
+        <div class="col-sm-2 justify-content-center p-3">
+            <img src="{{ user.profile.image.url }}" alt="user pic upload" style="height:100px; width:100px; object-fit:cover; border-radius:50%">
+        </div>
+        <!-- 2nd info -->
+        <div class="col-sm-5 d-flex flex-column mt-3 ">
+            <!-- Name -->
+            <div class="col fw-bold">
+                <span>{{user.first_name}} </span>
+                <span>{{user.last_name}}</span>
+            </div>
+            <!-- email -->
+            <div class="col">
+                <p>{{user.email}}</p>
+            </div>
+            <!-- Bio -->
+            <div class="col">
+                <p>{{user.profile.bio}}</p>
+            </div>        
+        </div>
+        <!-- 3nd placeholder -->
+        <div class="col-1"> </div>
+        <!-- 4th buttons -->
+        <div class="col-4 d-flex flex-column">
+            <!-- passing name 'friendRequest + user_id' -->
+            <div class="col-sm d-flex justify-content-center align-items-start mt-4 mb-1">
+                <button id="friendRequest{{user.id}}" value="{{user.id}}" name="friendRequest" type="submit" class="standard_button" style="width: 200px; height: 40px;">Send Friend Request</button>
+            </div>
+            <div class="col-sm d-flex justify-content-center align-items-start mb-3">
+                <button id="friendviewpref{{user.id}}" value="{{user.id}}" onclick="replacePrefId(this.value)" name="friendviewpref{{user.id}}" data-bs-toggle="modal"  data-bs-target="#viewSearchPref{{user.id}}" class="standard_button" style="width: 200px; height: 40px;">View Preferences</button>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+    <!-- Modal -->
+    <div class="modal fade text-black" id="viewSearchPref{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="View-Serach-Profile" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" >
+                    <!-- <h5 class="modal-title" id="View-Serach-Profile">Search Target name</h5> -->
+                    <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close" style="border-radius: 10px; background-color:#57068c ; opacity: 1;">
+                    </button>
+                </div>
+    
+                <div class="modal-body">
+                    <div class="container-sm">
+                        <div class="row">
+                            <div class="col d-flex justify-content-center">
+                                <img src="{{ user.profile.image.url }}" alt="user pic upload" style="height:100px; width:100px; object-fit:cover; border-radius:50%">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-center fw-bold fs-3"  style="color:#57068c ;">
+                                <span id="userFirstName">{{user.first_name}} </span> &nbsp;
+                                <span> {{user.last_name}}</span>            
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-center fs-6" style="color:#230542 ;">
+                                <p>{{user.email}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p>User pref needed here</p>
+                    <span>Intro vs Extro:</span> <span id="prefValue">Somewhat Intro</span>
+                    <!-- need to get the pref list on each user -->
+                    <div id="prefList{{user.id}}" >
+                        {% for key,value in user.preference.items %}
+                            {% if key != "id" and key != "user" %}
+                                <span id="prefKey">{{ key }}</span> <span id="prefValue">{{ value }}</span> <br>
+                                {% endif %}
+                        {% endfor %}
+                    </div> 
+
+                </div>
+                
+                <div class="modal-footer justify-content-center">
+                    <button id="friendRequest{{user.id}}" value="{{user.id}}" name="friendRequest" type="submit" class="standard_button"  onclick="whenClick(this.id)" style="width: 200px;">Send Friend Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <Style>
+        .modal-body span{
+            color:#57068c;
+            font-weight: bold;
+        }
+        .modal-body #prefValue{
+            color:#230542;
+        }
+    </Style>
+    
+    <!-- Modal ends -->
+
+{% endfor %}
+
+<script>
+    function whenClick(id){
+        console.log(id);
+    }
+</script>
+<script>
+    // document.getElementById("prefList{{user.id}}").addEventListener('click',replacePrefId(id));
+    function replacePrefId(id){
+
+        let dict = {
+           "personality_type" : "Introverted/Extroverted:",
+           "stay_go_type" : "Rather Stay In or Go Out:",
+           "movie_choices" : "Favorite Movie Types:",
+           "music_choices" : "Favorite Music Genres:",
+           "food_choices": "Favorite Cuisines:",
+           "travel_choices": "Favorite Places to Travel:",
+           "art_choices" : "Favorite Artistic Activities:",
+           "dance_choices" : "Favorite Dance Genres:",
+           "sports_choices" : "Favorite Sports:",
+           "pet_choices" : "Favorite Pets",
+           "nyc_choices" : "Favorite Things to Do in NYC:",
+
+       };
+       for(const key of Object.keys(dict)){
+           document.getElementById("prefList{{user.id}}").innerHTML
+                   = document.getElementById("prefList{{user.id}}").innerHTML
+                       .replace(key, dict[key]);
+       } 
+       
+}
+</script>
 
 
 {% endblock %}

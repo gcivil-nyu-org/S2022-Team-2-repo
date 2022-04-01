@@ -1,9 +1,4 @@
 {% load static %}
-<script>
- function getInitials() {
-    return user.first_name.charAt(0) + user.last_name.charAt(0)
- }
-</script>
 
 <nav class="navbar fixed-top navbar-expand-md navbar-dark p-2 " style="background-color: #330662; z-index:1">
 
@@ -11,7 +6,7 @@
         
         <!-- Current page Name -->
         <a class="navbar-brand ms-5" href="{% url 'dashboard' %}" >
-            <span class="fw-bold fs-3 " id="currPageName">Dashboard</span>  
+            <span class="fw-bold fs-3 " id="currPageName"></span>  
         </a>
 
         <!-- Navbar toggler for mobile -->
@@ -68,14 +63,14 @@
     </div>
 
     <script>
-        {
+        window.onload = function navDashText(){
             let currPath =  window.location.pathname;
             console.log(currPath);
             if (currPath == '/dashboard/' || currPath == '/login/' ){
                 currPath = "Dashboard";
             }else{
                 currPath =" ";
-                const searchBoxSize = document.getElementById("navSearchBox");
+                const searchBoxSize = document.getElementById("navSearch");
                 searchBoxSize.style.width = "500px"; //extent the bar a bit
             }
             document.getElementById("currPageName").innerText=currPath;
