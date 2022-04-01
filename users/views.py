@@ -333,6 +333,11 @@ def search(request):
     )
 
 
+@login_required
+def my_friends(request):
+    return render(request, 'users/friends/my_friends.html')
+
+
 
 # @login_required
 # def users_list(request):

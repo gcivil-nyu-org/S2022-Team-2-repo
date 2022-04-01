@@ -43,6 +43,7 @@ urlpatterns = [
     ),
     path("dashboard/preferences/updateprofile/", user_views.profile, name="profile"),
     path("dashboard/search", user_views.search, name="search"),
+    path("dashboard/my_friends", user_views.my_friends, name="my_friends"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

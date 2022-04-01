@@ -25,7 +25,7 @@
             <!-- Nav items -->
             {% if user.is_authenticated %}
 
-            <a href="{% url 'preferences' %}">
+            <a href="{% url 'my_friends' %}">
                 <i class="fa-solid fa-bell fa-2x" style="color:white"></i>
             </a>
 
@@ -42,20 +42,20 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDashDropdown">
                         <li><a class="dropdown-item" href="{% url 'dashboard' %}">
-                            <i class="fa-solid fa-user"></i>
-                            Dashboard
+                            <i class="fa-solid fa-user" style="color:#230542"></i>
+                            <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Dashboard </span>
                             </a>
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{% url 'preferences' %}">
-                            <i class="fas fa-gear"></i>
-                             Preferences
+                            <i class="fas fa-gear" style="color:#230542"></i>
+                            <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Preferences </span>
                             </a>
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}"> 
-                            <i class="fa-solid fa-right-from-bracket"></i> 
-                             Logout
+                            <i class="fa-solid fa-right-from-bracket" style="color:#230542"></i>
+                            <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Logout </span>
                             </a>
                         </li>
                     </ul>
