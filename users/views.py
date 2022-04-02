@@ -305,25 +305,22 @@ def get_search(request):
 
     query_set = User.objects.annotate(
         full_name=Concat("first_name", V(" "), "last_name")
-    ).filter(username_query | fullname_query)\
-        .exclude(id=request.user.id)
+    ).filter(username_query | fullname_query).exclude(id=request.user.id)
     # .exclude(is_staff='t')
     return search_query, query_set
 
 
-@login_required
-def send_friend_request(request, id):
-    user = User.objects.get(id=id)
-    FriendRequest.objects.get_or_create(from_user=request.user, to_user=user)
-    print(user.username)
-    return None
+# Helper function
+def send_friend_request(user, id):
+    to_user = User.objects.get(id=id)
+    FriendRequest.objects.get_or_create(from_user=user, to_user=to_user)
 
 
 @login_required
 def search(request):
     button_id = request.GET.get("friendRequest")
     if button_id is not None:
-        send_friend_request(request, button_id)
+        send_friend_request(request.user, button_id)
 
     search_query, query_set = get_search(request)
     return render(

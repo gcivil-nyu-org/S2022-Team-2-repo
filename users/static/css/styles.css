@@ -326,3 +326,19 @@ nav div form #navSearch::placeholder{
   color:white;
 }
 
+.icon-wrapper {
+   position:relative;
+   float:left;
+}
+
+.badge {
+   background:blue;
+   width:auto;
+   height:auto;
+   margin:0;
+   border-radius:51%;
+   position:absolute;
+   top:-20px;
+   right:-9px;
+   padding:6px;
+}
