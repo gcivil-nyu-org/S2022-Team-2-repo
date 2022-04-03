@@ -57,8 +57,10 @@
         <div class="col-4 d-flex flex-column">
             <!-- passing name 'friendRequest + user_id' -->
             <div class="col-sm d-flex justify-content-center align-items-start mt-4 mb-1">
-            <form method='get'>
-                <button id="friendRequest{{user.id}}" value="{{user.id}}" name="friendRequest" type="submit" class="standard_button" style="width: 200px; height: 40px;">Send Friend Request</button>
+                <p id="requestSentfriendRequest{{user.id}}"></p>
+            <form method='POST'>
+                {% csrf_token %}
+                <button id="friendRequest{{user.id}}" value="{{user.id}}" name="friendRequest" type="submit" class="standard_button" onclick="whenClick(this.id)" style="width: 200px; height: 40px;">Send Friend Request</button>
             </form>
             </div>
             <div class="col-sm d-flex justify-content-center align-items-start mb-3">
@@ -99,8 +101,19 @@
                         </div>
                     </div>
 
-                    <p>User pref needed here</p>
-                    <span>Intro vs Extro:</span> <span id="prefValue">Somewhat Intro</span>
+                    <!-- <p>User pref needed here</p> -->
+                    <span>Introverted/Extroverted:</span> <span id="prefValue">{{user.preference.personality_type}}</span><br>
+                    <span>Rather Stay In or Go Out:</span> <span id="prefValue">{{user.preference.stay_go_type}}</span><br>
+                    <span>Favorite Movie Types:</span> <span id="prefValue">{{user.preference.movie_choices}}</span><br>
+                    <span>Favorite Music Genres:</span> <span id="prefValue">{{user.preference.music_choices}}</span><br>
+                    <span>Favorite Cuisines:</span> <span id="prefValue">{{user.preference.food_choices}}</span><br>
+                    <span>Favorite Places to Travel:</span> <span id="prefValue">{{user.preference.travel_choices}}</span><br>
+                    <span>Favorite Artistic Activities:</span> <span id="prefValue">{{user.preference.art_choices}}</span><br>
+                    <span>Favorite Dance Genres:</span> <span id="prefValue">{{user.preference.dance_choices}}</span><br>
+                    <span>Favorite Sports:</span> <span id="prefValue">{{user.preference.sports_choices}}</span><br>
+                    <span>Favorite Pets:</span> <span id="prefValue">{{user.preference.pet_choices}}</span><br>
+                    <span>Favorite Things to Do in NYC:</span> <span id="prefValue">{{user.preference.nyc_choices}}</span><br>
+         
                     <!-- need to get the pref list on each user -->
                     <div id="prefList{{user.id}}" >
                         {% for key,value in user.preference.items %}
@@ -113,7 +126,8 @@
                 </div>
                 
                 <div class="modal-footer justify-content-center">
-                    <form method='get'>
+                    <form method='POST'>
+                        {% csrf_token %}
                     <button id="friendRequest{{user.id}}" value="{{user.id}}" name="friendRequest" type="submit" class="standard_button"  onclick="whenClick(this.id)" style="width: 200px;">Send Friend Request</button>
                     </form>
                 </div>
@@ -137,6 +151,9 @@
 <script>
     function whenClick(id){
         console.log(id);
+        document.getElementById(id).style.display = 'none';        
+        document.getElementById("requestSent"+id).innerHTML = "Friend Request Sent! " + `<i class="fa-solid fa-circle-check fa-1x" style="color:white"></i>`;
+        console.log('ran');
     }
 </script>
 <script>
@@ -153,7 +170,7 @@
            "art_choices" : "Favorite Artistic Activities:",
            "dance_choices" : "Favorite Dance Genres:",
            "sports_choices" : "Favorite Sports:",
-           "pet_choices" : "Favorite Pets",
+           "pet_choices" : "Favorite Pets:",
            "nyc_choices" : "Favorite Things to Do in NYC:",
 
        };
