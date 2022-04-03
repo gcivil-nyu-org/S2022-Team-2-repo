@@ -82,6 +82,7 @@ def login_form(request):
                     prof = Profile.objects.get(user=request.user)
                     print(prof)
                 except Exception as ex:
+                    print(ex)
                     return redirect("/profile/setup")
 
                 next_url = request.GET.get("next", "/dashboard")
@@ -332,9 +333,11 @@ def get_search(request):
     username_query = Q(username__icontains=search_query)
     fullname_query = Q(full_name__icontains=search_query)
 
-    query_set = User.objects.annotate(
-        full_name=Concat("first_name", V(" "), "last_name")
-    ).filter(username_query | fullname_query).exclude(id=request.user.id)
+    query_set = (
+        User.objects.annotate(full_name=Concat("first_name", V(" "), "last_name"))
+        .filter(username_query | fullname_query)
+        .exclude(id=request.user.id)
+    )
     # .exclude(is_staff='t')
     return search_query, query_set
 
@@ -367,7 +370,9 @@ def search(request):
 def my_friends(request):
     invitations = FriendRequest.objects.filter(to_user_id=request.user)
     print(invitations)
-    return render(request, 'users/friends/my_friends.html',{"invitations": invitations})
+    return render(
+        request, "users/friends/my_friends.html", {"invitations": invitations}
+    )
 
 
 @login_required
