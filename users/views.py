@@ -349,14 +349,14 @@ def send_friend_request(user, id):
 def search(request):
     search_query, query_set = get_search(request)
 
-    button_id = request.GET.get("friendRequest")
+    button_id = request.POST.get("friendRequest")
     if button_id is not None:
         send_friend_request(request.user, button_id)
 
     return render(
         request,
         "users/search/search.html",
-        {"queryset": query_set},
+        {"queryset": query_set, "query": search_query},
     )
 
 
