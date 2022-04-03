@@ -32,7 +32,8 @@
                   <div class="col-md-3">
                      <img class="profile-pic" src="{{request.user.profile.image.url}}" >
                   </div> 
-                  <p class="purple-text"> Welcome, {{user.first_name}}! </p>
+                  <p class="purple-text"> {{user.first_name}} {{user.last_name}}</p>
+                  <p class="purple-text"> {{user.username}}@nyu.edu </p>
                   <!-- <p class="purple-text", style="font-size:20px"> {{ user.email }}</p> -->
                </div>
                <!-- <div class="about"> -->
@@ -56,8 +57,11 @@
                   {{ form.errors }}
                   </label>
                   <div class="form-row">
-                     <div class="col-lg-5">
-                        <button type="submit" style="margin-left:580px;" class="standard_button">Next Page</button>
+                     <div class="col-lg-20">
+                        <a type="button" href= "{% url 'profile_setup' %}" class="standard_button2"> Previous Page </a>
+<!--                         <a type="button" class="standard_button2" href="/preferences/page1">Previous Page</a> -->
+                        <!-- <button type="submit" class="standard_button">Previous Page</button> -->
+                        <button type="submit" style="margin-left:430px;" class="standard_button"> Next Page</button>
                      </div>
                   </div>
                </form>

@@ -9,6 +9,13 @@ body {
   align-items: center;
 }
 
+.white-text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  color: #FFFFFF;
+  align-items: center;
+}
+
 .logo {
   width: auto;
   max-height: 6vh;

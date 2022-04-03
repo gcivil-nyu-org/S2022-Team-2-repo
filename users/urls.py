@@ -8,40 +8,18 @@ urlpatterns = [
     path("", user_views.home, name="home"),
     path("signup/", user_views.signup, name="signup"),
     path("login/", user_views.login_form, name="login"),
-    path(
-        "logout/",
-        user_views.logout_request,
-        name="logout",
-    ),
+    path("logout/", user_views.logout_request, name="logout",),
     path("activate/<uidb64>/<token>/", user_views.activate, name="activate"),
     path("activate", user_views.signup, name="activate2"),
-    path(
-        "login/password_reset_request/",
-        user_views.password_reset_request,
-        name="password_reset_request",
-    ),
-    path(
-        "reset_password/<uidb64>/<token>/",
-        user_views.password_reset,
-        name="reset_password",
-    ),
-    path(
-        "preferences/page1",
-        user_views.preferences_personality,
-        name="preferences_personality",
-    ),
+    path("login/password_reset_request/", user_views.password_reset_request, name="password_reset_request",),
+    path("reset_password/<uidb64>/<token>/", user_views.password_reset, name="reset_password",),
+    path("profile/setup", user_views.profile_setup, name="profile_setup"),
+    path("preferences/page1", user_views.preferences_personality, name="preferences_personality",),
     path("preferences/page2", user_views.preferences_media, name="preferences_hobbies"),
-    path(
-        "preferences/page3", user_views.preferences_explore, name="preferences_explore"
-    ),
+    path("preferences/page3", user_views.preferences_explore, name="preferences_explore"),
     path("dashboard/", user_views.dashboard, name="dashboard"),
     path("dashboard/preferences/", user_views.preferences, name="preferences"),
-    path(
-        "preferences/add_preferences/",
-        user_views.add_preferences,
-        name="add_preferences",
-    ),
-    path("dashboard/preferences/updateprofile/", user_views.profile, name="profile"),
+    path("dashboard/preferences/updateprofile/", user_views.update_profile, name="profile"),
     path("dashboard/search", user_views.search, name="search"),
     path("dashboard/my_friends", user_views.my_friends, name="my_friends"),
 ]
