@@ -18,7 +18,7 @@
 
             <!-- Search box -->
             <form action="{% url 'search' %}" type='get' class="d-flex me-4">
-                <input class="form-control me-2 text-white " id="navSearch" style="background-color:#57068c; width: 300px; border-width: 1px; border-color: white;" type="text" name="navSearch" placeholder="Search Friends" aria-label="Search">
+                <input class="form-control me-2 text-white " required id="navSearch" style="background-color:#57068c; width: 300px; border-width: 1px; border-color: white;" type="text" name="navSearch" placeholder="Search" aria-label="Search" value="{{query}}">
                 <button class="standard_button" style="background-color:#230542;" type="submit"> Search </button>
             </form>
 
@@ -27,7 +27,7 @@
 
                 <a class="position-relative" href="{% url 'my_friends' %}">
                     <i class="fa-solid fa-bell fa-2x" style="color:white"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background-color:#57068c;" > # </span> 
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background-color:#57068c;" > # </span>
                 </a>
 
             <ul class="navbar-nav ">

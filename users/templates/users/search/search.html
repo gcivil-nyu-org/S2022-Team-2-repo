@@ -10,9 +10,9 @@
             <!-- return a User object -->
             <div class="d-flex align-items-end flex-column">
             {% if queryset.count == 1 %}
-                <h5> {{queryset.count}} profile found with your search</h5>
+                <h5> {{queryset.count}} profile found with your search: "{{query}}"</h5>
             {% else %}    
-                <h5> {{queryset.count}} profiles found with your search</h5>
+                <h5> {{queryset.count}} profiles found with your search: "{{query}}"</h5>
             {% endif %}
             </div>
             <!-- {% for user in queryset %}
@@ -57,11 +57,9 @@
         <div class="col-4 d-flex flex-column">
             <!-- passing name 'friendRequest + user_id' -->
             <div class="col-sm d-flex justify-content-center align-items-start mt-4 mb-1">
-                <p id="requestSentfriendRequest{{user.id}}"></p>
-            <form method='POST'>
-                {% csrf_token %}
-                <button id="friendRequest{{user.id}}" value="{{user.id}}" name="friendRequest" type="submit" class="standard_button" onclick="whenClick(this.id)" style="width: 200px; height: 40px;">Send Friend Request</button>
-            </form>
+            <div>
+                <button id="friendRequest{{user.id}}" value="{{user.id}}" onclick="friendRequest({{user.id}})" name="friendRequest" class="standard_button" style="width: 200px; height: 40px;">Send Friend Request</button>
+            </div>
             </div>
             <div class="col-sm d-flex justify-content-center align-items-start mb-3">
                 <button id="friendviewpref{{user.id}}" value="{{user.id}}" onclick="replacePrefId(this.value)" name="friendviewpref{{user.id}}" data-bs-toggle="modal"  data-bs-target="#viewSearchPref{{user.id}}" class="standard_button" style="width: 200px; height: 40px;">View Preferences</button>
@@ -113,7 +111,7 @@
                     <span>Favorite Sports:</span> <span id="prefValue">{{user.preference.sports_choices}}</span><br>
                     <span>Favorite Pets:</span> <span id="prefValue">{{user.preference.pet_choices}}</span><br>
                     <span>Favorite Things to Do in NYC:</span> <span id="prefValue">{{user.preference.nyc_choices}}</span><br>
-         
+
                     <!-- need to get the pref list on each user -->
                     <div id="prefList{{user.id}}" >
                         {% for key,value in user.preference.items %}
@@ -126,10 +124,13 @@
                 </div>
                 
                 <div class="modal-footer justify-content-center">
-                    <form method='POST'>
-                        {% csrf_token %}
-                    <button id="friendRequest{{user.id}}" value="{{user.id}}" name="friendRequest" type="submit" class="standard_button"  onclick="whenClick(this.id)" style="width: 200px;">Send Friend Request</button>
-                    </form>
+<!--                     <form method='get'> -->
+<!--                     <button id="friendRequest{{user.id}}" value="{{user.id}}" name="friendRequest" type="submit" class="standard_button"  onclick="whenClick(this.id)" style="width: 200px;">Send Friend Request</button> -->
+<!--                     </form> -->
+
+                    <div>
+                        <button id="friendRequest{{user.id}}" value="{{user.id}}" onclick="friendRequest({{user.id}})" name="friendRequest" class="standard_button" style="width: 200px; height: 40px;">Send Friend Request</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -147,16 +148,49 @@
     <!-- Modal ends -->
 
 {% endfor %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+<!-- <script> -->
+<!--     function whenClick(id){ -->
+<!--         console.log(id); -->
+<!--     } -->
+<!-- </script> -->
 <script>
     function whenClick(id){
         console.log(id);
-        document.getElementById(id).style.display = 'none';        
+        document.getElementById(id).style.display = 'none';
         document.getElementById("requestSent"+id).innerHTML = "Friend Request Sent! " + `<i class="fa-solid fa-circle-check fa-1x" style="color:white"></i>`;
         console.log('ran');
     }
 </script>
+
+<script type="text/javascript">
+    var token = '{{csrf_token}}';
+
+    function friendRequest(id){
+        console.log(id)
+        let data = {};
+        data["friendRequest"] = id;
+
+        let url = "{% url 'friend_request' %}";
+        $.ajax({
+            headers: {"X-CSRFToken": token},
+            method: "POST",
+            url: url,
+            data: data
+        })
+
+// When the request is successful
+// @Daryl, please update this to change the appearance of button!
+
+// .done(function(msg) {
+//         $('span').text('user is successfully created with Id ' + msg.id);
+//         });
+    }
+    </script>
+
 <script>
+
     // document.getElementById("prefList{{user.id}}").addEventListener('click',replacePrefId(id));
     function replacePrefId(id){
 

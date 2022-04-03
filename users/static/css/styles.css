@@ -9,6 +9,13 @@ body {
   align-items: center;
 }
 
+.white-text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  color: #FFFFFF;
+  align-items: center;
+}
+
 .logo {
   width: auto;
   max-height: 6vh;
@@ -326,3 +333,19 @@ nav div form #navSearch::placeholder{
   color:white;
 }
 
+.icon-wrapper {
+   position:relative;
+   float:left;
+}
+
+.badge {
+   background:blue;
+   width:auto;
+   height:auto;
+   margin:0;
+   border-radius:51%;
+   position:absolute;
+   top:-20px;
+   right:-9px;
+   padding:6px;
+}

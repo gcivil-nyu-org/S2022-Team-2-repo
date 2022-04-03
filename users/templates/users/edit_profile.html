@@ -25,16 +25,17 @@
 		  <div class="card-body" style="align-items: center">
 			 
 			 
-			 <div class="title"> <h2 >Add Details</h2> </div>
+			 <div class="title"> <h2> Edit Profile </h2> </div>
  
 			 <div class="account-settings">
 				<div class="user-profile">
-					<p class="purple-text"> Welcome, {{user.first_name}}! </p>
-					<div class="col-md-3">
-						<img class="profile-pic" src="{{request.user.profile.image.url}}" >
-				</div> 
-				   </div>
-				
+				<div class="col-md-3">
+                     <img class="profile-pic" src="{{request.user.profile.image.url}}" >
+                  </div>
+                  <p class="purple-text"> {{user.first_name}} {{user.last_name}}</p>
+                  <p class="purple-text"> {{user.username}}@nyu.edu </p>
+				</div>
+
 				</div>
 				<form class=" rounded-5 shadow-5-strong p-4" method="POST" enctype="multipart/form-data">
 					{% csrf_token %}
@@ -45,8 +46,8 @@
 					{{form.as_p}}
 					{{ form.errors }}
 				   <div class="form-row">
-					  <div class="col-lg-5">
-						 <button type="submit" style="margin-left:630px;"class="standard_button">Next Page</button>
+					  <div style="text-align: center;">
+						 <button type="submit" class="standard_button"> Submit </button>
 					  </div>
 				   </div>
 				</form>
