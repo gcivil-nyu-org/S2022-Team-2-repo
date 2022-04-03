@@ -337,7 +337,11 @@ def search(request):
 def my_friends(request):
     return render(request, 'users/friends/my_friends.html')
 
-
+@login_required
+def my_friends(request):
+    invitations = FriendRequest.objects.filter(to_user_id=request.user)
+    print(invitations)
+    return render(request, 'users/friends/my_friends.html',{"invitations": invitations})
 
 # @login_required
 # def users_list(request):

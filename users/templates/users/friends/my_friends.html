@@ -9,6 +9,7 @@
 		margin-left: 15px;
 		margin-top: 15px;;
         border-radius: 50%;
+        margin-bottom: 15px;
         
 		
 	}
@@ -17,23 +18,26 @@
 <section>
     <div class="container-md mt-3">
         <h4>Invitations</h4>
+        {% for invite in invitations %}
         <div class="container" style="background-color: #57068c; border-radius: 10px;">
-        
-        <div class="row" >
-            <img src="{{ user.profile.image.url }}" class="user-pic" height="150"  alt="user pic" style="height:100px; width:100%; object-fit:cover; border-radius:50%" >
+            
+            
+            
+         <div class="row" >
+            <img src="{{ invite.from_user.profile.image.url }}" class="user-pic" height="150"  alt="user pic" style="height:100px; width:100%; object-fit:cover; border-radius:50%" >
             <div class="col d-flex flex-column mt-3 ">
                 
-                <div class="col fw-bold">
-                    <span>Akshat </span>
-                    <span>Shah</span>
-                    <p>as15098@nyu.edu</p>
+                <div class="col fw-bold" style="padding-left:75px;">
+                    <span>{{invite.from_user.first_name}}  </span>
+                    <span>{{invite.from_user.last_name}}</span>
+                    
 
                 </div>
-                <!-- <div class="col">
-                    <p>as15098@nyu.edu</p>
-                </div> -->
-                <div class="col">
-                    <p>Hi Everyone! Here is my bio</p>
+                <div class="col" style="padding-left:75px;">
+                    <p>{{invite.from_user.username}}@nyu.edu</p>
+                </div>
+                <div class="col" style="padding-left:75px;">
+                    <p>{{invite.from_user.profile.bio}}</p>
                 </div>        
             </div>
             <div class="col-4 d-flex flex-column ">
@@ -47,13 +51,16 @@
                 </div>
             </div>
             </div>
+           
         </div>
-        
+        <br>
+        {% endfor %}
         </div>
 
     </div>
     
 </section>
+
 
 <section>
     <div class="container-md mt-3">
