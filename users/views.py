@@ -379,7 +379,7 @@ def my_friends(request):
 @login_required
 def notifications(request):
     num_notifications = len(FriendRequest.objects.filter(to_user_id=request.user))
-    print(num_notifications)
+    return HttpResponse(str(num_notifications), content_type="text/plain")
 
 
 # @login_required

@@ -27,7 +27,7 @@
 
                 <a class="position-relative" href="{% url 'my_friends' %}">
                     <i class="fa-solid fa-bell fa-2x" style="color:white"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background-color:#57068c;" > # </span>
+                    <span id="bell" class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background-color:#57068c;"> </span>
                 </a>
 
             <ul class="navbar-nav ">
@@ -68,6 +68,8 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <script>
         window.onload = function navDashText(){
             let currPath =  window.location.pathname;
@@ -81,6 +83,30 @@
             }
             document.getElementById("currPageName").innerText=currPath;
         }
+    </script>
+
+    <script type="text/javascript">
+
+    window.onload = function notification(){
+        let data = {};
+        data["user"] = "{{user}}";
+
+        let url = "{% url 'notification_count' %}";
+        $.ajax({
+            method: "GET",
+            url: url,
+            data: data,
+        }).done(function(msg) {
+            var count = parseInt(msg);
+            if (count===0){
+                document.getElementById('bell').style.display='none';
+            }
+            else{
+                $('#bell').text(count);
+            }
+        });
+    }
+
     </script>
 
 </nav>
