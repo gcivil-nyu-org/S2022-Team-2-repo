@@ -5,7 +5,7 @@ from django.core.mail import EmailMessage
 from django.db.models import Q, Value as V
 from django.db.models.functions import Concat
 from django.forms import model_to_dict
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
@@ -353,6 +353,7 @@ def friend_request_query(request):
     user_id = request.POST.get("friendRequest")
     if user_id is not None:
         send_friend_request(request.user, user_id)
+    return HttpResponse()
 
 
 @login_required
