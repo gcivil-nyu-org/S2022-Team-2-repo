@@ -326,8 +326,8 @@ def preferences(request):
 # Helper function for searching
 def get_search(request):
     search_query = request.GET.get("navSearch", "").strip()
-    if len(search_query) == 0:
-        return search_query, User.objects.none()
+    # if len(search_query) == 0:
+    #     return search_query, User.objects.none()
 
     username_query = Q(username__icontains=search_query)
     fullname_query = Q(full_name__icontains=search_query)
@@ -346,12 +346,15 @@ def send_friend_request(user, id):
 
 
 @login_required
+def friend_request_query(request):
+    user_id = request.POST.get("friendRequest")
+    if user_id is not None:
+        send_friend_request(request.user, user_id)
+
+
+@login_required
 def search(request):
     search_query, query_set = get_search(request)
-
-    button_id = request.POST.get("friendRequest")
-    if button_id is not None:
-        send_friend_request(request.user, button_id)
 
     return render(
         request,
@@ -362,7 +365,15 @@ def search(request):
 
 @login_required
 def my_friends(request):
+    notifications(request)
     return render(request, "users/friends/my_friends.html")
+
+
+@login_required
+def notifications(request):
+    num_notifications = len(FriendRequest.objects.filter(to_user_id=request.user))
+    print(num_notifications)
+
 
 # @login_required
 # def users_list(request):

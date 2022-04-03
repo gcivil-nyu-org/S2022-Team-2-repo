@@ -22,6 +22,8 @@ urlpatterns = [
     path("dashboard/preferences/updateprofile/", user_views.update_profile, name="profile"),
     path("dashboard/search", user_views.search, name="search"),
     path("dashboard/my_friends", user_views.my_friends, name="my_friends"),
+    path("user/friends/request", user_views.friend_request_query, name="friend_request"),
+    path("user/notification/count", user_views.notifications, name="notification_count"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
