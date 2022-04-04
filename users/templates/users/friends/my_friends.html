@@ -43,10 +43,13 @@
             <div class="col-4 d-flex flex-column ">
                 <div class="row align-top">
                     <div class="col-sm d-flex justify-content-end pt-3 mt-4 mb-3 ">
-                        <button class="standard_button fw-bold" >Ignore</button>
+                        <button id="ignoreRequest{{invite.from_user.id}}" value="{{invite.from_user.id}}" name="ignoreRequest"  class="standard_button fw-bold" >Ignore</button>
                     </div>
                 <div class="col-sm d-flex justify-content-start align-items-start pt-3 mt-4 mb-3">
-                    <button class="standard_button fw-bold" >Accept</button>
+                <p id="requestAccepted{{invite.from_user.id}}"></p>
+                <div>
+                    <button id="acceptRequest{{invite.from_user.id}}" value="{{invite.from_user.id}}" name="acceptRequest" onclick="acceptRequest({{invite.from_user.id}})" class="standard_button fw-bold" >Accept</button>
+                </div>
                 </div>
                 </div>
             </div>
@@ -119,6 +122,28 @@
 
 
 
+<script type="text/javascript">
+  var token = "{{csrf_token}}";
 
+  function acceptRequest(id) {
+    console.log(id);
+    let data = {};
+    data["acceptRequest"] = id;
+    let url = "{% url 'accept_request' %}";
+    $.ajax({
+      headers: { "X-CSRFToken": token },
+      method: "POST",
+      url: url,
+      data: data,
+    }).done(function (msg) {
+      // When the request is accepted
+      document.getElementById("acceptRequest" + id).style.display = "none";
+      document.getElementById("requestAccepted" + id).innerHTML =
+        "Friend Request Accepted! " +
+        `<i class="fa-solid fa-circle-check fa-1x" style="color:white"></i>`;
+      document.getElementById("ignoreRequest" + id).style.display = "none";
+    });
+  }
+</script>
 
 {% endblock %}
