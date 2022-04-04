@@ -17,6 +17,7 @@
     <PkgFable_Core Condition=" '$(PkgFable_Core)' == '' ">C:\Users\tejas\.nuget\packages\fable.core\3.2.5</PkgFable_Core>
     <PkgThoth_Json Condition=" '$(PkgThoth_Json)' == '' ">C:\Users\tejas\.nuget\packages\thoth.json\5.1.0</PkgThoth_Json>
     <PkgNETStandard_Library Condition=" '$(PkgNETStandard_Library)' == '' ">C:\Users\tejas\.nuget\packages\netstandard.library\2.0.3</PkgNETStandard_Library>
+    <PkgFSharp_Data Condition=" '$(PkgFSharp_Data)' == '' ">C:\Users\tejas\.nuget\packages\fsharp.data\4.2.8</PkgFSharp_Data>
     <PkgFable_Fetch Condition=" '$(PkgFable_Fetch)' == '' ">C:\Users\tejas\.nuget\packages\fable.fetch\2.2.0</PkgFable_Fetch>
     <PkgFable_Browser_WebSocket Condition=" '$(PkgFable_Browser_WebSocket)' == '' ">C:\Users\tejas\.nuget\packages\fable.browser.websocket\1.0.1</PkgFable_Browser_WebSocket>
     <PkgFable_Browser_Url Condition=" '$(PkgFable_Browser_Url)' == '' ">C:\Users\tejas\.nuget\packages\fable.browser.url\1.0.0</PkgFable_Browser_Url>

@@ -64,12 +64,15 @@ module AppTypes =
                 )
 
     type UserInfoResponse =
-        { pk: string; username: string }
+        { pk: string; username: string; image: string; first_name: string; last_name: string}
         static member Decoder : Decoder<UserInfoResponse> =
             Decode.object
                 (fun get ->
                     { pk = get.Required.Field "pk" Decode.string
                       username = get.Required.Field "username" Decode.string
+                      image = get.Required.Field "image" Decode.string
+                      first_name = get.Required.Field "first_name" Decode.string
+                      last_name = get.Required.Field "last_name" Decode.string
                     }
                 )
 
