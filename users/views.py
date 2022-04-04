@@ -356,25 +356,28 @@ def friend_request_query(request):
     return HttpResponse()
 
 
-def accept_request(user,id):
+def accept_request(user, id):
     from_user = User.objects.get(id=id)
     frequest = FriendRequest.objects.filter(from_user=from_user, to_user=user).first()
     user1 = frequest.to_user
     user2 = from_user
     user1.profile.friends.add(user2.profile)
     user2.profile.friends.add(user1.profile)
-    if (FriendRequest.objects.filter(from_user=user, to_user=from_user).first()):
-        request_rev = FriendRequest.objects.filter(from_user=user, to_user=from_user).first()
+    if FriendRequest.objects.filter(from_user=user, to_user=from_user).first():
+        request_rev = FriendRequest.objects.filter(
+            from_user=user, to_user=from_user
+        ).first()
         request_rev.delete()
     frequest.delete()
-    
+
 
 @login_required
 def accept_request_query(request):
     user_id = request.POST.get("acceptRequest")
     if user_id is not None:
-        accept_request(request.user,user_id)
+        accept_request(request.user, user_id)
     return HttpResponse()
+
 
 @login_required
 def search(request):
