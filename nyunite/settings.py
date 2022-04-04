@@ -172,3 +172,4 @@ LOGIN_URL = "login"
 
 # Activate Django-Heroku.
 django_heroku.settings(locals(), test_runner=False)
+
