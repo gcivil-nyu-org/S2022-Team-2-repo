@@ -25,6 +25,7 @@ urlpatterns = [
         user_views.password_reset,
         name="reset_password",
     ),
+    path("profile/setup", user_views.profile_setup, name="profile_setup"),
     path(
         "preferences/page1",
         user_views.preferences_personality,
@@ -37,11 +38,18 @@ urlpatterns = [
     path("dashboard/", user_views.dashboard, name="dashboard"),
     path("dashboard/preferences/", user_views.preferences, name="preferences"),
     path(
-        "preferences/add_preferences/",
-        user_views.add_preferences,
-        name="add_preferences",
+        "dashboard/preferences/updateprofile/",
+        user_views.update_profile,
+        name="profile",
     ),
-    path("dashboard/preferences/updateprofile/", user_views.profile, name="profile"),
+    path("dashboard/search", user_views.search, name="search"),
+    path("dashboard/my_friends", user_views.my_friends, name="my_friends"),
+    path(
+        "user/friends/request", user_views.friend_request_query, name="friend_request"
+    ),
+    path(
+        "user/notification/count", user_views.notifications, name="notification_count"
+    ),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

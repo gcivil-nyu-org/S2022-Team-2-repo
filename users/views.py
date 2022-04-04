@@ -2,9 +2,11 @@ from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
+from django.db.models import Q, Value as V
+from django.db.models.functions import Concat
 from django.forms import model_to_dict
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -19,7 +21,7 @@ from users.forms import (
     PreferencesMediaForm,
     PreferencesExploreForm,
 )
-from users.models import Preference, Profile
+from users.models import Preference, Profile, FriendRequest
 
 from users.tokens import account_activation_token
 
@@ -76,6 +78,13 @@ def login_form(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                try:
+                    prof = Profile.objects.get(user=request.user)
+                    print(prof)
+                except Exception as ex:
+                    print(ex)
+                    return redirect("/profile/setup")
+
                 next_url = request.GET.get("next", "/dashboard")
                 return HttpResponseRedirect(next_url)
             else:
@@ -108,7 +117,7 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user)
-        return render(request, "users/activation/activate-signin.html")
+        return profile_setup(request)
 
     else:
         return render(request, "users/activation/activation_link_expired.html")
@@ -184,7 +193,33 @@ def password_reset(request, uidb64, token):
 
 
 @login_required()
-def profile(request):
+def profile_setup(request):
+    prof = None
+
+    try:
+        prof = Profile.objects.get(user=request.user)
+    except Exception as ex:
+        print(ex)
+        prof = Profile(user=request.user)
+        prof.save()
+
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, instance=prof)
+        if form.is_valid():
+            ans = form.save()
+
+            if "image" in request.FILES:
+                ans.image = request.FILES["image"]
+
+            ans.save()
+            return HttpResponseRedirect("/preferences/page1")
+    else:
+        form = ProfileUpdateForm(instance=prof)
+    return render(request, "users/preferences/profile_setup.html", {"form": form})
+
+
+@login_required()
+def update_profile(request):
     prof = None
 
     try:
@@ -207,12 +242,11 @@ def profile(request):
             return HttpResponseRedirect("/dashboard")
     else:
         form = ProfileUpdateForm(instance=prof)
-    return render(request, "users/profile.html", {"form": form})
+    return render(request, "users/edit_profile.html", {"form": form})
 
 
 @login_required()
 def preferences_personality(request):
-
     prefs = None
 
     try:
@@ -290,9 +324,62 @@ def preferences(request):
     )
 
 
+# Helper function for searching
+def get_search(request):
+    search_query = request.GET.get("navSearch", "").strip()
+    # if len(search_query) == 0:
+    #     return search_query, User.objects.none()
+
+    username_query = Q(username__icontains=search_query)
+    fullname_query = Q(full_name__icontains=search_query)
+
+    query_set = (
+        User.objects.annotate(full_name=Concat("first_name", V(" "), "last_name"))
+        .filter(username_query | fullname_query)
+        .exclude(id=request.user.id)
+    )
+    # .exclude(is_staff='t')
+    return search_query, query_set
+
+
+# Helper function
+def send_friend_request(user, id):
+    to_user = User.objects.get(id=id)
+    FriendRequest.objects.get_or_create(from_user=user, to_user=to_user)
+
+
 @login_required
-def add_preferences(request):
-    return render(request, "users/preferences/add_preferences.html")
+def friend_request_query(request):
+    user_id = request.POST.get("friendRequest")
+    if user_id is not None:
+        send_friend_request(request.user, user_id)
+    return HttpResponse()
+
+
+@login_required
+def search(request):
+    search_query, query_set = get_search(request)
+
+    return render(
+        request,
+        "users/search/search.html",
+        {"queryset": query_set, "query": search_query},
+    )
+
+
+@login_required
+def my_friends(request):
+    invitations = FriendRequest.objects.filter(to_user_id=request.user)
+    print(invitations)
+    return render(
+        request, "users/friends/my_friends.html", {"invitations": invitations}
+    )
+
+
+@login_required
+def notifications(request):
+    num_notifications = len(FriendRequest.objects.filter(to_user_id=request.user))
+    return HttpResponse(str(num_notifications), content_type="text/plain")
 
 
 # @login_required
@@ -434,7 +521,7 @@ def add_preferences(request):
 #         'rec_friend_requests': rec_friend_requests,
 #     }
 #
-#     return render(request, 'users/profile.html', context)
+#     return render(request, 'users/edit_profile.html', context)
 #
 #
 # @login_required
@@ -499,7 +586,7 @@ def add_preferences(request):
 #         'rec_friend_requests': rec_friend_requests,
 #     }
 #
-#     return render(request, 'users/profile.html', context)
+#     return render(request, 'users/edit_profile.html', context)
 #
 #
 # @login_required

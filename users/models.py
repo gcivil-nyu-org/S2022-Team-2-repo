@@ -15,8 +15,7 @@ class Profile(models.Model):
     )
     slug = AutoSlugField(populate_from="user")
     bio = models.CharField(max_length=255, blank=True)
-
-    # friends = models.ManyToManyField("Profile", blank=True)
+    friends = models.ManyToManyField("Profile", blank=True)
 
     def __str__(self):
         return str(self.user.username)
