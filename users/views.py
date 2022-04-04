@@ -382,7 +382,6 @@ def notifications(request):
     return HttpResponse(str(num_notifications), content_type="text/plain")
 
 
-
 # @login_required
 # def users_list(request):
 #     users = Profile.objects.exclude(user=request.user)
