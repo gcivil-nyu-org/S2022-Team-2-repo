@@ -70,7 +70,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-
 ROOT_URLCONF = "nyunite.urls"
 
 TEMPLATES = [
@@ -95,20 +94,28 @@ WSGI_APPLICATION = "nyunite.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-host = os.environ.get("DATABASE_URL", "")
-name = os.environ.get("DATABASE_NAME", "nyunite")
-user = os.environ.get("DATABASE_USER", "nyuniteadmin")
-password = os.environ.get("DATABASE_PASSWORD", "django1234")
+database = {}
 
-DATABASES = {
-    "default": {
+if os.environ.get("TEST_DB", False):
+    database = {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "test.sqlite3",
+    }
+else:
+    host = os.environ.get("DATABASE_URL", "")
+    name = os.environ.get("DATABASE_NAME", "nyunite")
+    user = os.environ.get("DATABASE_USER", "nyuniteadmin")
+    password = os.environ.get("DATABASE_PASSWORD", "django1234")
+
+    database = {
         "ENGINE": "django.db.backends.postgresql",
         "HOST": host,
         "NAME": name,
         "USER": user,
         "PASSWORD": password,
     }
-}
+
+DATABASES = {"default": database}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -151,7 +158,6 @@ MEDIA_ROOT = os.path.join(
 )  # Directory where uploaded media is saved.
 MEDIA_URL = "/images/"  # Public URL at the browser
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -165,4 +171,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = "login"
 
 # Activate Django-Heroku.
-django_heroku.settings(locals())
+django_heroku.settings(locals(), test_runner=False)

@@ -12,6 +12,7 @@ install:
 script:
   - black . --check
   - flake8 --count
+  - python manage.py collectstatic
   - coverage run manage.py test
 
 after_success:
