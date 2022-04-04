@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import (
@@ -38,6 +40,29 @@ class UserRegisterForm(UserCreationForm):
         strip=False,
         help_text=_("Enter the same password as before, for verification."),
     )
+
+    def clean(self):
+        # Get the user submitted names from the cleaned_data dictionary
+        cleaned_data = super().clean()
+        username = cleaned_data.get("username")
+        first_name = cleaned_data.get("first_name")
+        last_name = cleaned_data.get("last_name")
+
+        # NetID validation
+        if not re.match(r"^[a-zA-Z]+[0-9]+", username):
+            self.errors[
+                "username"
+            ] = "Invalid NetID. Net ID should contain only characters followed by numbers."
+
+        # Name validation
+        if not re.match(r"^[a-zA-Z]+", first_name):
+            self.errors[
+                "first_name"
+            ] = "Invalid First Name. Cannot contain numbers or special characters."
+        if not re.match(r"^[a-zA-Z]+", last_name):
+            self.errors[
+                "last_name"
+            ] = "Invalid Last Name. Cannot contain numbers or special characters."
 
     class Meta:
         model = User

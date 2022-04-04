@@ -5,6 +5,7 @@ python:
 
 env:
   - DJANGO=4.2.0
+  - TEST_DB=True
 
 install:
   - pip install -r requirements.txt
@@ -12,6 +13,7 @@ install:
 script:
   - black . --check
   - flake8 --count
+  - python manage.py collectstatic
   - coverage run manage.py test
 
 after_success:
