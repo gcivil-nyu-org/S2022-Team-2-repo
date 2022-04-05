@@ -379,6 +379,20 @@ def accept_request_query(request):
     return HttpResponse()
 
 
+def decline_request(user, id):
+    from_user = User.objects.get(id=id)
+    frequest = FriendRequest.objects.filter(from_user=from_user, to_user=user).first()
+    frequest.delete()
+
+
+@login_required
+def decline_request_query(request):
+    user_id = request.POST.get("declineRequest")
+    if user_id is not None:
+        decline_request(request.user, user_id)
+    return HttpResponse()
+
+
 @login_required
 def search(request):
     search_query, query_set = get_search(request)

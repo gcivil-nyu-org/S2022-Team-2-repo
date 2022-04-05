@@ -43,7 +43,7 @@
             <div class="col-4 d-flex flex-column ">
                 <div class="row align-top">
                     <div class="col-sm d-flex justify-content-end pt-3 mt-4 mb-3 ">
-                        <button id="ignoreRequest{{invite.from_user.id}}" value="{{invite.from_user.id}}" name="ignoreRequest"  class="standard_button fw-bold" >Ignore</button>
+                        <button id="declineRequest{{invite.from_user.id}}" value="{{invite.from_user.id}}" name="declineRequest" onclick="declineRequest({{invite.from_user.id}})" class="standard_button fw-bold" >Decline</button>
                     </div>
                 <div class="col-sm d-flex justify-content-start align-items-start pt-3 mt-4 mb-3">
                 <p id="requestAccepted{{invite.from_user.id}}"></p>
@@ -141,7 +141,27 @@
       document.getElementById("requestAccepted" + id).innerHTML =
         "Friend Request Accepted! " +
         `<i class="fa-solid fa-circle-check fa-1x" style="color:white"></i>`;
-      document.getElementById("ignoreRequest" + id).style.display = "none";
+      document.getElementById("declineRequest" + id).style.display = "none";
+    });
+  }
+
+  function declineRequest(id) {
+    console.log(id);
+    let data = {};
+    data["declineRequest"] = id;
+    let url = "{% url 'decline_request' %}";
+    $.ajax({
+      headers: { "X-CSRFToken": token },
+      method: "POST",
+      url: url,
+      data: data,
+    }).done(function (msg) {
+      // When the request is accepted
+      document.getElementById("acceptRequest" + id).style.display = "none";
+      document.getElementById("declineRequest" + id).style.display = "none";
+      document.getElementById("requestAccepted" + id).innerHTML =
+        "Friend Request Rejected! " +
+        `<i class="fa-solid fa-times-circle fa-1x" style="color:white"></i>`;
     });
   }
 </script>
