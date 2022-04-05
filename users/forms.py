@@ -85,7 +85,7 @@ class UserRegisterForm(UserCreationForm):
         }
 
 
-class ProfileUpdateForm(forms.ModelForm):
+class ProfileUpdateForm(forms.ModelForm):  # pragma: no cover
     class Meta:
         model = Profile
         fields = ["bio", "image"]

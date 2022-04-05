@@ -31,7 +31,9 @@ urlpatterns = [
         user_views.preferences_personality,
         name="preferences_personality",
     ),
-    path("preferences/page2", user_views.preferences_media, name="preferences_hobbies"),
+    path(
+        "preferences/page2", user_views.preferences_hobbies, name="preferences_hobbies"
+    ),
     path(
         "preferences/page3", user_views.preferences_explore, name="preferences_explore"
     ),
