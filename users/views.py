@@ -32,7 +32,7 @@ def home(request):
     return render(request, "users/home.html")
 
 
-def signup(request):
+def signup(request):  # pragma: no cover
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -102,7 +102,7 @@ def logout_request(request):
         return HttpResponseRedirect("/")
 
 
-def activate(request, uidb64, token):
+def activate(request, uidb64, token):  # pragma: no cover
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
@@ -123,7 +123,7 @@ def activate(request, uidb64, token):
         return render(request, "users/activation/activation_link_expired.html")
 
 
-def password_reset_request(request):
+def password_reset_request(request):  # pragma: no cover
     if request.method == "POST":
         form = ResetPasswordRequestForm(request.POST)
         if form.is_valid():
@@ -154,7 +154,7 @@ def password_reset_request(request):
     )
 
 
-def password_reset(request, uidb64, token):
+def password_reset(request, uidb64, token):  # pragma: no cover
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
@@ -268,7 +268,7 @@ def preferences_personality(request):
 
 
 @login_required
-def preferences_media(request):
+def preferences_hobbies(request):
     try:
         prefs = Preference.objects.get(user=request.user)
         print("user found")
