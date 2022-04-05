@@ -51,7 +51,9 @@ urlpatterns = [
         "user/notification/count", user_views.notifications, name="notification_count"
     ),
     path("user/friends/accept", user_views.accept_request_query, name="accept_request"),
-    path("user/friends/decline", user_views.decline_request_query, name="decline_request"),
+    path(
+        "user/friends/decline", user_views.decline_request_query, name="decline_request"
+    ),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
