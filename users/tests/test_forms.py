@@ -6,7 +6,7 @@ from users.forms import (
     PreferencesExploreForm,
     ResetPasswordForm,
     PreferencesPersonalityForm,
-    PreferencesMediaForm,
+    PreferencesHobbiesForm,
 )
 
 dummy_user_right = {
@@ -87,9 +87,9 @@ class PreferencesPersonalityFormTest(TestCase):
         self.assertFalse(form.errors)
 
 
-class PreferencesMediaFormTest(TestCase):
+class PreferencesHobbiesFormTest(TestCase):
     def test_pass(self):
-        form = PreferencesMediaForm(
+        form = PreferencesHobbiesForm(
             data={
                 "movie_choices": ["NI"],
                 "music_choices": ["NI"],

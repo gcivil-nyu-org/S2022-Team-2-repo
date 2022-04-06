@@ -182,7 +182,7 @@ class PreferencesPersonalityForm(forms.ModelForm):
         ]
 
 
-class PreferencesMediaForm(forms.ModelForm):
+class PreferencesHobbiesForm(forms.ModelForm):
     movie_choices = forms.MultipleChoiceField(
         choices=MOVIES_CHOICES, widget=forms.CheckboxSelectMultiple()
     )

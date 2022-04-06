@@ -18,7 +18,7 @@ from users.forms import (
     ResetPasswordForm,
     PreferencesPersonalityForm,
     LoginForm,
-    PreferencesMediaForm,
+    PreferencesHobbiesForm,
     PreferencesExploreForm,
 )
 from users.models import Preference, Profile, FriendRequest
@@ -220,9 +220,7 @@ def update_profile(request):
 
     try:
         prof = Profile.objects.get(user=request.user)
-        print("user found")
-    except Exception as ex:
-        print(ex)
+    except Exception:
         prof = Profile(user=request.user)
         prof.save()
 
@@ -247,9 +245,7 @@ def preferences_personality(request):
 
     try:
         prefs = Preference.objects.get(user=request.user)
-        print("user found")
-    except Exception as ex:
-        print(ex)
+    except Exception:
         prefs = Preference(user=request.user)
         prefs.save()
 
@@ -267,19 +263,17 @@ def preferences_personality(request):
 def preferences_hobbies(request):
     try:
         prefs = Preference.objects.get(user=request.user)
-        print("user found")
-    except Exception as ex:
-        print(ex)
+    except Exception:
         prefs = Preference(user=request.user)
         prefs.save()
 
     if request.method == "POST":
-        form = PreferencesMediaForm(request.POST, instance=prefs)
+        form = PreferencesHobbiesForm(request.POST, instance=prefs)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect("/preferences/page3")
     else:
-        form = PreferencesMediaForm(instance=prefs)
+        form = PreferencesHobbiesForm(instance=prefs)
     return render(request, "users/preferences/preferences2.html", {"form": form})
 
 
@@ -287,9 +281,7 @@ def preferences_hobbies(request):
 def preferences_explore(request):
     try:
         prefs = Preference.objects.get(user=request.user)
-        print("user found")
-    except Exception as ex:
-        print(ex)
+    except Exception:
         prefs = Preference(user=request.user)
         prefs.save()
 
