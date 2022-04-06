@@ -11,11 +11,12 @@
             <img style="border-radius: 5px; max-height: 100%; min-width: 100%; object-fit: cover;"
                 src="{% static 'images/login_photo.jpg' %}" />
         </div>
-        <div class="right-column" align="center" >
+        <div class="right-column" align="center">
             <section style="height: 100%; ">
-                <div class="container py-4" >
+                <div class="container py-4">
                     <div class="row d-flex justify-content-center align-items-center py-5">
-                        <div class="card shadow-sm" style="border-radius: 10px; background-color: #230542; width: 40rem;">
+                        <div class="card shadow-sm"
+                            style="border-radius: 10px; background-color: #230542; width: 40rem;">
                             {% block loginform %}
                             {% endblock %}
                             {% block signupform %}

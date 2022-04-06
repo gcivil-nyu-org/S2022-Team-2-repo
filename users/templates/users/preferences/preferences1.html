@@ -6,16 +6,6 @@
 {% block body %}
 
 <link rel="stylesheet" href="{% static 'css/pref_css.css' %}">
-<style>
-   .profile-pic{
-      max-width: 200px;
-      max-height:200px;
-      margin: 0 auto;
-      border-radius: 50%;
-      margin-top: 20px;
-      margin-left: 320px;
-   }
-</style>
 <div class="container">
    <div class="row gutters">
       <div class="card h-100" style="transform:translateY(50px)">
@@ -26,12 +16,9 @@
 
             <div class="account-settings ">
                <div class="user-profile">
-                  <!-- <div class="user-avatar">
-                     <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Maxwell Admin">
-                  </div> -->
-                  <div class="col-md-3">
-                     <img class="profile-pic" src="{{request.user.profile.image.url}}" >
-                  </div> 
+                  <div style="align-items: center;">
+                     <img style="border-radius: 50%; width: 300px;" src="{{request.user.profile.image.url}}" >
+                  </div>
                   <p class="purple-text"> {{user.first_name}} {{user.last_name}}</p>
                   <p class="purple-text"> {{user.username}}@nyu.edu </p>
                   <!-- <p class="purple-text", style="font-size:20px"> {{ user.email }}</p> -->

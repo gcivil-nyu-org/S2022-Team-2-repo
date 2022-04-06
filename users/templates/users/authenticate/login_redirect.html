@@ -2,20 +2,26 @@
 
 {% block loginform %}
 <ul class="nav nav-tabs" style="border-bottom: 0;">
-  <li class="nav-item" style="width:100%"><a class="nav-link  " href="{% url 'login' %}" style="background-color:#a69fb2; border-radius: 10px 10px 0px 0px">Login</a></li>
+  <li class="nav-item" style="width:100%"><a class="nav-link  " href="{% url 'login' %}"
+      style="background-color:#a69fb2; border-radius: 10px 10px 0px 0px">Login</a></li>
 </ul>
 <div class="tab-content ">
   <div class="tab-pane active" id="login">
     <section style="height: 100%; background-color:#a69fb2; border-radius: 0px 0px 10px 10px">
       <div class="container py-2 ">
         <div class="row d-flex justify-content-center align-items-center ">
-          <div class="col-16 col-md-10 col-lg-8 col-xl-7 " >
+          <div class="col-16 col-md-10 col-lg-8 col-xl-7 ">
             <div class="card" style="border-radius: 1rem; background-color: #a69fb2; border-width: 0;">
               <form class=" rounded-5 shadow-5-strong p-4" method="POST">
                 {% csrf_token %}
                 {% for field in form %}
-                <div class="form-group form-outline mb-3" >
-                  <style> input{border-radius: 10px; border-color: #330662;}</style>  
+                <div class="form-group form-outline mb-3">
+                  <style>
+                    input {
+                      border-radius: 10px;
+                      border-color: #330662;
+                    }
+                  </style>
                   {{ field }}
                 </div>
 
