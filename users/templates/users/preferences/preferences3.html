@@ -4,7 +4,6 @@
 {% block body %}
 <link rel="stylesheet" href="{% static 'css/pref_css.css' %}">
 
-
 <div class="container">
    <div class="row gutters">
       <div class="card h-100" style="transform:translateY(50px)">
@@ -15,7 +14,7 @@
             <div class="account-settings">
                <form class="rounded-5 shadow-5-strong p-5" method="post">
                   <div>
-                     <h4 class="purple-text1"> Hobbies & Interests </h4>
+                     <h4 class="purple-text1"> <u>Hobbies & Interests </u></h4>
                   </div>
                   <label class="form-control1">
                      {% csrf_token %}
@@ -30,11 +29,9 @@
                   </label>
                   <div class="form-row">
                      <div class="col-lg-20">
-                        <a type="button" href="{% url 'preferences_personality' %}" class="standard_button2"> Previous
-                           Page </a>
-                        <!--                         <a type="button" class="standard_button2" href="/preferences/page1">Previous Page</a> -->
-                        <!-- <button type="submit" class="standard_button">Previous Page</button> -->
-                        <button type="submit" style="margin-left:430px;" class="standard_button"> Next Page</button>
+                        <a type="button" href="{% url 'preferences_hobbies' %}" class="standard_button2"> Previous Page
+                        </a>
+                        <button type="submit" style="margin-left:430px;" class="standard_button"> Submit </button>
                      </div>
                   </div>
                </form>

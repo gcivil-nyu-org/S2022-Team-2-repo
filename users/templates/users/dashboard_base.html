@@ -1,0 +1,22 @@
+{% extends 'users/base.html' %}
+
+<!-- Thi is where we put sidebar and nav bar -->
+{% block content %}
+{% include 'users/navbars/sidebar.html' %}
+{% include 'users/navbars/navbarDash.html' %}
+
+
+<!-- This the body of the actual page -->
+<Style>
+    /* only for content body post-login page (to offset Navbar width) */
+    /* container-md for all body content*/
+    body {
+        margin-top: 50px;
+        color: white;
+    }
+</Style>
+
+{% block body %}
+{% endblock %}
+
+{% endblock %}

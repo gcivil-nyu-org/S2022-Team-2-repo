@@ -1,14 +1,12 @@
 {% extends 'users/authenticate.html' %}
 
-{% block signupform %}
-<ul class="nav nav-tabs" style="border-bottom: 0">
-  <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}"
-      style="background-color:#a69fb2; border-radius: 10px 10px 0px 0px">Sign Up</a></li>
-  <li class="nav-item"><a class="nav-link  " href="{% url 'login' %}"
-      style="background-color:#c7d0d8; border-radius: 10px 10px 0px 0px">Login</a></li>
+{% block loginform %}
+<ul class="nav nav-tabs" style="border-bottom: 0;">
+  <li class="nav-item" style="width:100%"><a class="nav-link  " href="{% url 'login' %}"
+      style="background-color:#a69fb2; border-radius: 10px 10px 0px 0px">Login</a></li>
 </ul>
 <div class="tab-content ">
-  <div class="tab-pane active" id="signup">
+  <div class="tab-pane active" id="login">
     <section style="height: 100%; background-color:#a69fb2; border-radius: 0px 0px 10px 10px">
       <div class="container py-2 ">
         <div class="row d-flex justify-content-center align-items-center ">
@@ -20,7 +18,6 @@
                 <div class="form-group form-outline mb-3">
                   <style>
                     input {
-                      padding-left: 6px;
                       border-radius: 10px;
                       border-color: #330662;
                     }
@@ -31,8 +28,15 @@
                 {% endfor %}
 
                 {{ form.errors }}
-                <button type="submit" class="standard_button fw-bold mt-3">REGISTER</button>
+                <button type="submit" class="standard_button fw-bold mt-3">SIGN IN</button>
               </form>
+              <div class="d-flex justify-content-around align-items-center ">
+                <div>
+                  <span class="fw-bold text-black">Forgot your password?</span>
+                  <br>
+                  <a class="fw-bold text-black" href="{% url 'password_reset_request' %}">Reset your password</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

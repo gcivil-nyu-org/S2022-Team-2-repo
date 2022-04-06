@@ -1,38 +1,38 @@
-from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.db.models import Q, Value as V
+from django.db.models.functions import Concat
+from django.forms import model_to_dict
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from users.forms import (
+    ProfileUpdateForm,
     UserRegisterForm,
     ResetPasswordRequestForm,
     ResetPasswordForm,
     PreferencesPersonalityForm,
     LoginForm,
+    PreferencesHobbiesForm,
+    PreferencesExploreForm,
 )
+from users.models import Preference, Profile, FriendRequest
 
 from users.tokens import account_activation_token
 
 User = get_user_model()
 
 
-# def checkloggedinuser(request):
-#     if request.user is not None:
-#         user = request.user
-#         if user.is_authenticated():
-#             return HttpResponseRedirect("/dashboard")
-
-
 def home(request):
     return render(request, "users/home.html")
 
 
-def signup(request):
+def signup(request):  # pragma: no cover
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -78,7 +78,13 @@ def login_form(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return render(request, "users/dashboard/dashboard.html")
+                try:
+                    Profile.objects.get(user=request.user)
+                except Exception:
+                    return redirect("/profile/setup")
+
+                next_url = request.GET.get("next", "/dashboard")
+                return HttpResponseRedirect(next_url)
             else:
                 form.add_error("username", "User with that credentials not found.")
     else:
@@ -86,7 +92,15 @@ def login_form(request):
     return render(request, "users/authenticate/login.html", {"form": form})
 
 
-def activate(request, uidb64, token):
+@login_required()
+def logout_request(request):
+    user = request.user
+    if user is not None and user.is_authenticated:
+        logout(request)
+        return HttpResponseRedirect("/")
+
+
+def activate(request, uidb64, token):  # pragma: no cover
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
@@ -100,13 +114,14 @@ def activate(request, uidb64, token):
     if account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        return render(request, "users/activation/activate-signin.html")
+        login(request, user)
+        return profile_setup(request)
 
     else:
         return render(request, "users/activation/activation_link_expired.html")
 
 
-def password_reset_request(request):
+def password_reset_request(request):  # pragma: no cover
     if request.method == "POST":
         form = ResetPasswordRequestForm(request.POST)
         if form.is_valid():
@@ -137,7 +152,7 @@ def password_reset_request(request):
     )
 
 
-def password_reset(request, uidb64, token):
+def password_reset(request, uidb64, token):  # pragma: no cover
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
@@ -148,7 +163,6 @@ def password_reset(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         if request.method == "POST":
             form = ResetPasswordForm(request.POST)
-            print(form.is_valid())
             if form.is_valid():
                 error_bool, password = form.clean_password()
                 if error_bool:
@@ -175,43 +189,110 @@ def password_reset(request, uidb64, token):
         return render(request, "users/passwordreset/password_reset_request_form.html")
 
 
-def preferences_personality(request):
-    context_dict = {"form": None}
-    form = PreferencesPersonalityForm()
+@login_required()
+def profile_setup(request):
+    prof = None
 
-    if request.method == "GET":
-        context_dict["form"] = form
-    elif request.method == "POST":
-        form = PreferencesPersonalityForm(request.POST)
+    try:
+        prof = Profile.objects.get(user=request.user)
+    except Exception:
+        prof = Profile(user=request.user)
+        prof.save()
 
-        context_dict["form"] = form
-        user = request.user
-        if form.is_valid() and user is not None:
-            prefs = form.save(commit=False)
-            user = User.objects.get(id=user.id)
-            prefs.user = user
-            prefs.save()
-            print()
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, instance=prof)
+        if form.is_valid():
+            ans = form.save()
+
+            if "image" in request.FILES:
+                ans.image = request.FILES["image"]
+
+            ans.save()
+            return HttpResponseRedirect("/preferences/page1")
+    else:
+        form = ProfileUpdateForm(instance=prof)
+    return render(request, "users/preferences/profile_setup.html", {"form": form})
+
+
+@login_required()
+def update_profile(request):
+    prof = None
+
+    try:
+        prof = Profile.objects.get(user=request.user)
+    except Exception:
+        prof = Profile(user=request.user)
+        prof.save()
+
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, instance=prof)
+        if form.is_valid():
+            ans = form.save()
+
+            if "image" in request.FILES:
+                ans.image = request.FILES["image"]
+
+            ans.save()
             return HttpResponseRedirect("/dashboard")
+    else:
+        form = ProfileUpdateForm(instance=prof)
+    return render(request, "users/edit_profile.html", {"form": form})
 
-    return render(request, "users/preferences/preferences1.html", context_dict)
+
+@login_required()
+def preferences_personality(request):
+    prefs = None
+
+    try:
+        prefs = Preference.objects.get(user=request.user)
+    except Exception:
+        prefs = Preference(user=request.user)
+        prefs.save()
+
+    if request.method == "POST":
+        form = PreferencesPersonalityForm(request.POST, instance=prefs)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/preferences/page2")
+    else:
+        form = PreferencesPersonalityForm(instance=prefs)
+    return render(request, "users/preferences/preferences1.html", {"form": form})
 
 
-# def preferences_hobbies(request):
-#     context_dict = {"form": None}
-#     form = PreferencesHobbiesForm()
-#
-#     if request.method == "GET":
-#         context_dict["form"] = form
-#     elif request.method == "POST":
-#         form = PreferencesHobbiesForm(request.POST)
-#         context_dict["form"] = form
-#         if form.is_valid():
-#             cleaned_data = form.cleaned_data
-#             print(cleaned_data)
-#             return HttpResponseRedirect("/dashboard")
-#
-#     return render(request, "users/preferences/preferences1.html", context_dict)
+@login_required
+def preferences_hobbies(request):
+    try:
+        prefs = Preference.objects.get(user=request.user)
+    except Exception:
+        prefs = Preference(user=request.user)
+        prefs.save()
+
+    if request.method == "POST":
+        form = PreferencesHobbiesForm(request.POST, instance=prefs)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/preferences/page3")
+    else:
+        form = PreferencesHobbiesForm(instance=prefs)
+    return render(request, "users/preferences/preferences2.html", {"form": form})
+
+
+@login_required
+def preferences_explore(request):
+    try:
+        prefs = Preference.objects.get(user=request.user)
+    except Exception:
+        prefs = Preference(user=request.user)
+        prefs.save()
+
+    if request.method == "POST":
+        form = PreferencesExploreForm(request.POST, instance=prefs)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/dashboard")
+    else:
+        form = PreferencesExploreForm(instance=prefs)
+    return render(request, "users/preferences/preferences3.html", {"form": form})
 
 
 @login_required
@@ -221,7 +302,114 @@ def dashboard(request):
 
 @login_required
 def preferences(request):
-    return render(request, "users/dashboard/dashboard_preferences.html")
+    try:
+        prefs = Preference.objects.get(user=request.user)
+    except Exception:
+        prefs = Preference(user=request.user)
+        prefs.save()
+
+    return render(
+        request,
+        "users/dashboard/dashboard_preferences.html",
+        {"user": request.user, "prefs": model_to_dict(prefs)},
+    )
+
+
+# Helper function for searching
+def get_search(request):
+    search_query = request.GET.get("navSearch", "").strip()
+
+    username_query = Q(username__icontains=search_query)
+    fullname_query = Q(full_name__icontains=search_query)
+
+    query_set = (
+        User.objects.annotate(full_name=Concat("first_name", V(" "), "last_name"))
+        .filter(username_query | fullname_query)
+        .exclude(id=request.user.id)
+        .exclude(is_staff="t")
+    )
+    return search_query, query_set
+
+
+# Helper function
+def send_friend_request(user, id):
+    to_user = User.objects.get(id=id)
+    FriendRequest.objects.get_or_create(from_user=user, to_user=to_user)
+
+
+@login_required
+def friend_request_query(request):
+    user_id = request.POST.get("friendRequest")
+    if user_id is not None:
+        send_friend_request(request.user, user_id)
+    return HttpResponse()
+
+
+def accept_request(user, id):
+    from_user = User.objects.get(id=id)
+    frequest = FriendRequest.objects.filter(from_user=from_user, to_user=user).first()
+    user1 = frequest.to_user
+    user2 = from_user
+    user1.profile.friends.add(user2.profile)
+    user2.profile.friends.add(user1.profile)
+    if FriendRequest.objects.filter(from_user=user, to_user=from_user).first():
+        request_rev = FriendRequest.objects.filter(
+            from_user=user, to_user=from_user
+        ).first()
+        request_rev.delete()
+    frequest.delete()
+
+
+@login_required
+def accept_request_query(request):
+    user_id = request.POST.get("acceptRequest")
+    if user_id is not None:
+        accept_request(request.user, user_id)
+    return HttpResponse()
+
+
+def decline_request(user, id):
+    from_user = User.objects.get(id=id)
+    frequest = FriendRequest.objects.filter(from_user=from_user, to_user=user).first()
+    frequest.delete()
+
+
+@login_required
+def decline_request_query(request):
+    user_id = request.POST.get("declineRequest")
+    if user_id is not None:
+        decline_request(request.user, user_id)
+    return HttpResponse()
+
+
+@login_required
+def search(request):
+    search_query, query_set = get_search(request)
+    friend_list = request.user.profile.friends.all()
+    friend_list_ids = []
+    for friend in friend_list:
+        friend_list_ids.append(friend.id)
+
+    return render(
+        request,
+        "users/search/search.html",
+        {"queryset": query_set, "query": search_query, "friend_list": friend_list_ids},
+    )
+
+
+@login_required
+def my_friends(request):
+    invitations = FriendRequest.objects.filter(to_user_id=request.user)
+    p = request.user.profile
+    friends = p.friends.all()
+    context = {"friends": friends, "invitations": invitations}
+    return render(request, "users/friends/my_friends.html", context)
+
+
+@login_required
+def notifications(request):
+    num_notifications = len(FriendRequest.objects.filter(to_user_id=request.user))
+    return HttpResponse(str(num_notifications), content_type="text/plain")
 
 
 # @login_required
@@ -363,7 +551,7 @@ def preferences(request):
 #         'rec_friend_requests': rec_friend_requests,
 #     }
 #
-#     return render(request, 'users/profile.html', context)
+#     return render(request, 'users/edit_profile.html', context)
 #
 #
 # @login_required
@@ -428,7 +616,7 @@ def preferences(request):
 #         'rec_friend_requests': rec_friend_requests,
 #     }
 #
-#     return render(request, 'users/profile.html', context)
+#     return render(request, 'users/edit_profile.html', context)
 #
 #
 # @login_required

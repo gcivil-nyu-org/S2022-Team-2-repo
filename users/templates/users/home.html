@@ -3,7 +3,7 @@
 {% block content %}
 
 <header>
-  {% include 'users/navbars/navbarH.html' %}
+  {% include 'users/navbars/navbar.html' %}
 </header>
 
 <body>
@@ -18,10 +18,10 @@
       </div>
       <ul id="navlist">
         <li>
-            <a class="text-white text-center btn btn-dark btn-lg" style="text-decoration: none;"  href="/signup">Signup</a>
+          <a class="text-white text-center btn btn-dark btn-lg" href="{% url 'signup' %}">Signup</a>
         </li>
         <li>
-            <a class="text-white text-center btn btn-dark btn-lg" style="text-decoration: none;" href="/login">Login</a>
+          <a class="text-white text-center btn btn-dark btn-lg" href="{% url 'login' %}">Login</a>
         </li>
       </ul>
     </div>
@@ -29,6 +29,6 @@
 </body>
 
 <footer>
-  <div class="d-flex p-4" style="background-color: #57068c"></div>
+  <div class="d-flex p-4" style="background-color: #330662"></div>
 </footer>
 {% endblock content %}

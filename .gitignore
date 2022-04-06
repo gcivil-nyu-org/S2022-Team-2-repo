@@ -21,6 +21,7 @@ __pycache__
 
 # Random Files
 staticfiles/
+media/media
 
 # dependencies
 **/node_modules
@@ -29,6 +30,7 @@ staticfiles/
 
 # testing
 **/.coverage
+.coverage
 
 # misc
 **/.DS_Store

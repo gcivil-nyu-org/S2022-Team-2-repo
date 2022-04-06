@@ -1,0 +1,145 @@
+{% extends 'users/dashboard_base.html' %}
+{% load static %}
+
+{% block body %}
+<style>
+  .user-pic {
+    max-width: 120px;
+    max-height: 90px;
+    margin-left: 15px;
+    margin-top: 15px;
+    ;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+
+  .col-md-2-5 {
+    width: 20%;
+  }
+</style>
+
+<section>
+  <div class="container-md mt-3">
+    <h1 class="fw-bold"> My Friends </h1>
+    <h3>Invitations</h3>
+    <div class="d-flex align-items-start flex-column">
+      {% if invitations.count == 0 %}
+      <h5 style="color:#ab82c5;"> You have no pending requests! </h5>
+      {% else %}
+      {% for invite in invitations %}
+      <div class="container" style="background-color: #57068c; border-radius: 10px;">
+        <div class="row">
+          <img src="{{ invite.from_user.profile.image.url }}" class="user-pic" height="150" alt="user pic"
+            style="height:100px; width:100%; object-fit:cover; border-radius:50%">
+          <div class="col d-flex flex-column mt-3 ">
+
+            <div class="col fw-bold" style="padding-left:75px;">
+              <span>{{invite.from_user.first_name}} </span>
+              <span>{{invite.from_user.last_name}}</span>
+            </div>
+            <div class="col" style="padding-left:75px;">
+              <p>{{invite.from_user.username}}@nyu.edu</p>
+            </div>
+            <div class="col" style="padding-left:75px;">
+              <p>{{invite.from_user.profile.bio}}</p>
+            </div>
+          </div>
+          <div class="col-4 d-flex flex-column ">
+            <div class="row align-top">
+              <div class="col-sm d-flex justify-content-end pt-3 mt-4 mb-3 ">
+                <button id="declineRequest{{invite.from_user.id}}" value="{{invite.from_user.id}}" name="declineRequest"
+                  onclick="declineRequest({{invite.from_user.id}})" class="standard_button fw-bold">Decline</button>
+              </div>
+              <div class="col-sm d-flex justify-content-start align-items-start pt-3 mt-4 mb-3">
+                <p id="requestAccepted{{invite.from_user.id}}"></p>
+                <div>
+                  <button id="acceptRequest{{invite.from_user.id}}" value="{{invite.from_user.id}}" name="acceptRequest"
+                    onclick="acceptRequest({{invite.from_user.id}})" class="standard_button fw-bold">Accept</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+  </div>
+</section>
+
+
+
+<section>
+  <div class="container-md mt-3">
+    <h3> My Friends </h3>
+    {% if friends.count == 0 %}
+    <h5 style="color:#ab82c5;"> You haven't added any friends yet! </h5>
+    {% else %}
+    <div class="row ">
+      {% for frnd in friends %}
+      <div class="col-md-2 col-md-2-5">
+        <div class="card  justify-content-center text-center"
+          style=" height: 17rem; width:15rem; background-color: #57068c;  border-radius:10px; padding:6px;">
+          <img src="{{ frnd.user.profile.image.url }}" height="130" class="card-img-top  rounded-circle p-2"
+            alt="user pic" style="margin-left:40px; width:65%">
+          <div class="card-body align-bottom" style="padding: 10px;">
+            <h5 class="card-title" style="padding-bottom:10px;">{{frnd.user.first_name}} {{frnd.user.last_name}}</h5>
+            <button type="submit" class="standard_button" style="margin-bottom:20px;"> Chat</button>
+          </div>
+        </div>
+        <hr id="linebreak" style="width:15rem;">
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+<script type="text/javascript">
+  var token = "{{csrf_token}}";
+
+  function acceptRequest(id) {
+    console.log(id);
+    let data = {};
+    data["acceptRequest"] = id;
+    let url = "{% url 'accept_request' %}";
+    $.ajax({
+      headers: { "X-CSRFToken": token },
+      method: "POST",
+      url: url,
+      data: data,
+    }).done(function (msg) {
+      // When the request is accepted
+      document.getElementById("acceptRequest" + id).style.display = "none";
+      document.getElementById("requestAccepted" + id).innerHTML =
+        "Friend Request Accepted! " +
+        `<i class="fa-solid fa-circle-check fa-1x" style="color:white"></i>`;
+      document.getElementById("declineRequest" + id).style.display = "none";
+    });
+  }
+
+  function declineRequest(id) {
+    console.log(id);
+    let data = {};
+    data["declineRequest"] = id;
+    let url = "{% url 'decline_request' %}";
+    $.ajax({
+      headers: { "X-CSRFToken": token },
+      method: "POST",
+      url: url,
+      data: data,
+    }).done(function (msg) {
+      // When the request is accepted
+      document.getElementById("acceptRequest" + id).style.display = "none";
+      document.getElementById("declineRequest" + id).style.display = "none";
+      document.getElementById("requestAccepted" + id).innerHTML =
+        "Friend Request Rejected! " +
+        `<i class="fa-solid fa-times-circle fa-1x" style="color:white"></i>`;
+    });
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'users/dashboard_base.html' %}
+
+{% load static %}
+
+{% block body %}
+<link rel="stylesheet" href="{% static 'css/pref_css.css' %}">
+
+<style>
+	.profile-pic {
+		max-width: 200px;
+		max-height: 200px;
+		margin: 0 auto;
+		border-radius: 50%;
+		margin-top: 20px;
+		margin-left: 300px;
+	}
+</style>
+
+<br>
+
+<div>
+	<p class="white-text" style="text-align:center; font-size:24px; transform:translateY(10px)"> Welcome,
+		{{user.first_name}}! </p>
+	<p class="white-text" style="text-align:center; font-size:24px;"> Complete the following forms to set up your
+		profile and preferences. </p>
+</div>
+
+<div class="container" style="transform:translateY(-30px)">
+	<div class="row gutters">
+		<div class="card h-100" style="transform:translateY(50px)">
+			<div class="card-body" style="align-items: center">
+
+
+				<div class="title">
+					<h2> Set up your profile </h2>
+				</div>
+
+				<div class="account-settings">
+					<div class="user-profile">
+						<p class="purple-text"> {{user.first_name}} {{user.last_name}}</p>
+						<p class="purple-text"> {{user.username}}@nyu.edu </p>
+					</div>
+
+				</div>
+				<form class=" rounded-5 shadow-5-strong p-4" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<style>
+						label {
+							font-family: "Montserrat";
+							font-size: 1.4rem;
+							color: #330662;
+							align-items: center;
+						}
+
+						input {
+							padding-left: 6px;
+							width: 400px;
+							border-radius: 10px;
+							border-color: #330662;
+						}
+					</style>
+					{{form.as_p}}
+					{{ form.errors }}
+					<div class="form-row">
+						<div class="col-lg-5">
+							<button type="submit" style="margin-left:580px;" class="standard_button">Next Page</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock %}

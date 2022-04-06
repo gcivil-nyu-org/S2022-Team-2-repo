@@ -1,7 +1,8 @@
+import re
+
 from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import (
-    UserChangeForm,
     UserCreationForm,
 )
 from django.contrib.auth.models import User
@@ -39,6 +40,29 @@ class UserRegisterForm(UserCreationForm):
         help_text=_("Enter the same password as before, for verification."),
     )
 
+    def clean(self):
+        # Get the user submitted names from the cleaned_data dictionary
+        cleaned_data = super().clean()
+        username = cleaned_data.get("username")
+        first_name = cleaned_data.get("first_name")
+        last_name = cleaned_data.get("last_name")
+
+        # NetID validation
+        if not re.match(r"^[a-zA-Z]+[0-9]+", username):
+            self.errors[
+                "username"
+            ] = "Invalid NetID. Net ID should contain only characters followed by numbers."
+
+        # Name validation
+        if not re.match(r"^[a-zA-Z]+", first_name):
+            self.errors[
+                "first_name"
+            ] = "Invalid First Name. Cannot contain numbers or special characters."
+        if not re.match(r"^[a-zA-Z]+", last_name):
+            self.errors[
+                "last_name"
+            ] = "Invalid Last Name. Cannot contain numbers or special characters."
+
     class Meta:
         model = User
         fields = [
@@ -60,7 +84,7 @@ class UserRegisterForm(UserCreationForm):
         }
 
 
-class ProfileUpdateForm(forms.ModelForm):
+class ProfileUpdateForm(forms.ModelForm):  # pragma: no cover
     class Meta:
         model = Profile
         fields = ["bio", "image"]
@@ -142,43 +166,69 @@ class LoginForm(forms.Form):
     )
 
 
-class CustomUserChangeForm(UserChangeForm):
-    class Meta:
-        model = User
-        fields = ["username"]
-
-
 class PreferencesPersonalityForm(forms.ModelForm):
-    # personality_type = forms.ChoiceField(
-    #     required=False,
-    #     widget=forms.RadioSelect,
-    #     choices=PERSONALITY_CHOICES,
-    # )
-    # stay_go_type = forms.ChoiceField(
-    #     required=False,
-    #     widget=forms.RadioSelect,
-    #     choices=STAY_GO_CHOICES,
-    # )
+    personality_type = forms.ChoiceField(
+        choices=PERSONALITY_CHOICES, widget=forms.RadioSelect()
+    )
+    stay_go_type = forms.ChoiceField(
+        choices=STAY_GO_CHOICES, widget=forms.RadioSelect()
+    )
+
     class Meta:
         model = Preference
         fields = [
             "personality_type",
             "stay_go_type",
+        ]
+
+
+class PreferencesHobbiesForm(forms.ModelForm):
+    movie_choices = forms.MultipleChoiceField(
+        choices=MOVIES_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    music_choices = forms.MultipleChoiceField(
+        choices=MUSIC_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    art_choices = forms.MultipleChoiceField(
+        choices=ART_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    dance_choices = forms.MultipleChoiceField(
+        choices=DANCE_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+
+    class Meta:
+        model = Preference
+        fields = [
             "movie_choices",
             "music_choices",
-            "food_choices",
-            "travel_choices",
             "art_choices",
             "dance_choices",
+        ]
+
+
+class PreferencesExploreForm(forms.ModelForm):
+    food_choices = forms.MultipleChoiceField(
+        choices=COOKEAT_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    travel_choices = forms.MultipleChoiceField(
+        choices=TRAVEL_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    sports_choices = forms.MultipleChoiceField(
+        choices=SPORTS_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    nyc_choices = forms.MultipleChoiceField(
+        choices=NYC_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+    pet_choices = forms.MultipleChoiceField(
+        choices=PET_CHOICES, widget=forms.CheckboxSelectMultiple()
+    )
+
+    class Meta:
+        model = Preference
+        fields = [
+            "food_choices",
+            "travel_choices",
             "sports_choices",
             "pet_choices",
             "nyc_choices",
         ]
-
-
-class PreferencesHobbiesForm(forms.Form):
-    movie_type = forms.MultipleChoiceField(
-        required=False,
-        widget=forms.CheckboxSelectMultiple,
-        choices=MOVIES_CHOICES,
-    )
