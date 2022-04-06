@@ -407,10 +407,12 @@ def search(request):
 @login_required
 def my_friends(request):
     invitations = FriendRequest.objects.filter(to_user_id=request.user)
+    p = request.user.profile
+    friends = p.friends.all()
     print(invitations)
-    return render(
-        request, "users/friends/my_friends.html", {"invitations": invitations}
-    )
+    print(friends)
+    context = {"friends": friends, "invitations": invitations}
+    return render(request, "users/friends/my_friends.html", context)
 
 
 @login_required
