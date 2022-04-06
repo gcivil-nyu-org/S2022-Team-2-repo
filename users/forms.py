@@ -3,7 +3,6 @@ import re
 from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import (
-    UserChangeForm,
     UserCreationForm,
 )
 from django.contrib.auth.models import User
@@ -167,12 +166,6 @@ class LoginForm(forms.Form):
     )
 
 
-class CustomUserChangeForm(UserChangeForm):
-    class Meta:
-        model = User
-        fields = ["username"]
-
-
 class PreferencesPersonalityForm(forms.ModelForm):
     personality_type = forms.ChoiceField(
         choices=PERSONALITY_CHOICES, widget=forms.RadioSelect()
@@ -189,7 +182,7 @@ class PreferencesPersonalityForm(forms.ModelForm):
         ]
 
 
-class PreferencesMediaForm(forms.ModelForm):
+class PreferencesHobbiesForm(forms.ModelForm):
     movie_choices = forms.MultipleChoiceField(
         choices=MOVIES_CHOICES, widget=forms.CheckboxSelectMultiple()
     )

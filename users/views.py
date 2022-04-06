@@ -18,7 +18,7 @@ from users.forms import (
     ResetPasswordForm,
     PreferencesPersonalityForm,
     LoginForm,
-    PreferencesMediaForm,
+    PreferencesHobbiesForm,
     PreferencesExploreForm,
 )
 from users.models import Preference, Profile, FriendRequest
@@ -220,9 +220,7 @@ def update_profile(request):
 
     try:
         prof = Profile.objects.get(user=request.user)
-        print("user found")
-    except Exception as ex:
-        print(ex)
+    except Exception:
         prof = Profile(user=request.user)
         prof.save()
 
@@ -247,9 +245,7 @@ def preferences_personality(request):
 
     try:
         prefs = Preference.objects.get(user=request.user)
-        print("user found")
-    except Exception as ex:
-        print(ex)
+    except Exception:
         prefs = Preference(user=request.user)
         prefs.save()
 
@@ -267,19 +263,17 @@ def preferences_personality(request):
 def preferences_hobbies(request):
     try:
         prefs = Preference.objects.get(user=request.user)
-        print("user found")
-    except Exception as ex:
-        print(ex)
+    except Exception:
         prefs = Preference(user=request.user)
         prefs.save()
 
     if request.method == "POST":
-        form = PreferencesMediaForm(request.POST, instance=prefs)
+        form = PreferencesHobbiesForm(request.POST, instance=prefs)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect("/preferences/page3")
     else:
-        form = PreferencesMediaForm(instance=prefs)
+        form = PreferencesHobbiesForm(instance=prefs)
     return render(request, "users/preferences/preferences2.html", {"form": form})
 
 
@@ -287,9 +281,7 @@ def preferences_hobbies(request):
 def preferences_explore(request):
     try:
         prefs = Preference.objects.get(user=request.user)
-        print("user found")
-    except Exception as ex:
-        print(ex)
+    except Exception:
         prefs = Preference(user=request.user)
         prefs.save()
 
@@ -326,8 +318,6 @@ def preferences(request):
 # Helper function for searching
 def get_search(request):
     search_query = request.GET.get("navSearch", "").strip()
-    # if len(search_query) == 0:
-    #     return search_query, User.objects.none()
 
     username_query = Q(username__icontains=search_query)
     fullname_query = Q(full_name__icontains=search_query)
@@ -336,8 +326,8 @@ def get_search(request):
         User.objects.annotate(full_name=Concat("first_name", V(" "), "last_name"))
         .filter(username_query | fullname_query)
         .exclude(id=request.user.id)
-    ).exclude(is_staff="t")
-    #
+        .exclude(is_staff="t")
+    )
     return search_query, query_set
 
 
