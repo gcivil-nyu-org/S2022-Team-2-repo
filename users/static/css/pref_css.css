@@ -1,0 +1,182 @@
+.container{
+   width: 850px;
+   padding: 20px;
+   
+}
+.account-settings .user-profile {
+   margin: 0 0 1rem 0;
+   /* padding-bottom: 1rem; */
+   text-align: center;
+
+   }
+   
+   .account-settings .user-profile .user-avatar img {
+   width: 90px;
+   height: 90px;
+   -webkit-border-radius: 100px;
+   -moz-border-radius: 100px;
+   border-radius: 100px;
+   padding: 10px;
+   }
+   .account-settings .user-profile h5.user-name {
+   margin: 0 0 0.5rem 0;
+   }
+   .account-settings .user-profile h6.user-email {
+   margin: 0;
+   font-size: 0.8rem;
+   font-weight: 400;
+   }
+   .account-settings .about {
+   margin: 1rem 0 0 0;
+   font-size: 0.8rem;
+   text-align: center;
+   
+   }
+   .card {
+   background: #ffffff;
+   color: black;
+   -webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+   border-radius: 10px;
+   border: 0;
+   margin-bottom: 1rem;
+   padding:0px;
+   
+   }
+   .profile-pic{
+     max-width: 200px;
+     max-height:200px;
+     margin: 0 auto;
+     border-radius: 50%;
+     margin-top: 20px;
+     margin-left: 327px;
+  }
+   .form-control {
+   border: 1px solid #596280;
+   -webkit-border-radius: 2px;
+   -moz-border-radius: 2px;
+   border-radius: 2px;
+   font-size: .825rem;
+   background: #1A233A;
+   color: #bcd0f7;
+   }
+   .title{
+      background-color:#a69db2 ;
+      height: 56px;
+      border-radius: 8px 8px 8px 8px ;
+   }
+   h2{
+      text-align: center; 
+      font-weight:bold; 
+      color: #330662;
+      padding-top: 10px;
+   }
+   .card-body{
+      padding:0px;
+   }
+   .purple-text{
+      margin-bottom: 0px;
+      font-size: 20px;
+   }
+   .purple-text1{
+      color: #330662;
+      font-weight: 600;
+      text-align:center;
+      text-decoration-line: underline;
+   }
+   #linebreak{  /*hr tag*/
+      height:3px; width:100%; border-width:0; color:#8548ad; background-color:#8548ad"
+  }
+  nav div form #navSearchBox{
+     color:white;
+     border-radius: 0.25rem;
+     font-size: 1rem;
+   }
+   
+  
+   .form-control1 {
+      padding-top: 20px;;
+      width: 100%;
+      font-family: "Montserrat";
+      font-size: 20px;
+      color: #330662; 
+      font-weight: bold;
+      
+   }
+  
+
+
+    input[type="radio"] {
+     appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 0.75em;
+  height: 0.75em;
+  border: 0.10em solid currentColor;
+  border-radius:  50%;
+  transform: translateY(-0.075em);
+   }
+   .form-control1 + .form-control1 {
+     margin-top: 1em;
+   }
+   input[type="radio"]::before {
+     content: "";
+     width: 0.58em;
+     height: 0.58em;
+     border-radius: 50%;
+     transform: scale(0);
+     transition: 120ms transform ease-in-out;
+     box-shadow: inset 1em 1em var(--form-control-color);
+     display: grid;
+     
+     background-color:#8900e1;
+   }
+   input[type="radio"]:checked::before {
+     transform: scale(1);
+     
+   }
+   input[type="radio"]:focus {
+     outline: max(1px, 0.05em) solid currentColor;
+     outline-offset: max(2px, 0.15em);
+   }
+    
+
+
+   input[type="checkbox"] {
+     appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 0.75em;
+  height: 0.75em;
+  border: 0.10em solid currentColor;
+  border-radius:  0.15em;
+  transform: translateY(-0.075em);
+   }
+   .form-control1 + .form-control1 {
+     margin-top: 1em;
+   }
+   input[type="checkbox"]::before {
+     content: "";
+     width: 0.55em;
+     height: 0.55em;
+     border-radius: 50%;
+     transform: scale(0);
+     transition: 120ms transform ease-in-out;
+     box-shadow: inset 1em 1em var(--form-control-color);
+     display: grid;
+     
+     background-color:#8900e1;
+   }
+   input[type="checkbox"]:checked::before {
+     transform: scale(1);
+     transform-origin: bottom left;
+     clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+   }
+   input[type="checkbox"]:focus {
+     outline: max(1px, 0.05em) solid currentColor;
+     outline-offset: max(2px, 0.15em);
+   }

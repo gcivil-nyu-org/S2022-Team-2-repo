@@ -1,3 +1,21 @@
+body {
+  background-color: #230542;
+}
+
+.purple-text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  color: #330662;
+  align-items: center;
+}
+
+.white-text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  color: #FFFFFF;
+  align-items: center;
+}
+
 .logo {
   width: auto;
   max-height: 6vh;
@@ -41,20 +59,32 @@
   padding-right: 20px;
 }
 
+#navlist a {
+  text-decoration: none;
+  width: 150px;
+  background-color: #330662;
+}
+
 #splitcontainer {
   width: 100vw;
+  height: 90vh;
 }
 .left-column {
   float: left;
-  width: 30%;
-  height: 85vh;
-  background-color: #330662;
+  width: 40%;
+  height: 90vh;
+  background-color: #230542;
+  align-content: center;
+  align-items: center;
+  padding: 10px;
 }
 .right-column {
   float: right;
-  width: 70%;
-  height: 85vh;
-  background-color: #330662;
+  width: 60%;
+  height: 90vh;
+  background-color: #230542;
+  align-content: center;
+  align-items: center;
 }
 
 .nav-tabs .nav-link.active {
@@ -63,7 +93,7 @@
 }
 
 .nav-tabs .nav-link {
-  background-color: #f2f2f2;
+  background-color: #c7d0d8;
   border-radius: 10px;
   padding-left: 3rem;
   padding-right: 3rem;
@@ -106,6 +136,7 @@
   text-decoration: none;
 }
 
+/* siderbar */
 .sidebar {
   position: fixed;
   top: 0;
@@ -125,7 +156,9 @@
   user-select: none;
   font-family: "Montserrat", sans-serif;
 }
-
+.sidebar img{
+  margin-left: 30px;
+}
 .sidebar a {
   display: block;
   height: 65px;
@@ -142,13 +175,13 @@
   text-decoration: none;
 }
 
-.sidebar a.active{
-    border-left: 5px solid #ab82c5;
-    color: #ab82c5;
+.sidebar a.active {
+  border-left: 5px solid #ab82c5;
+  color: #ab82c5;
 }
-.sidebar a:hover{
-    border-left: 5px solid #ab82c5;
-    color: #ab82c5;
+.sidebar a:hover {
+  border-left: 5px solid white;
+  color: #ab82c5;
 }
 
 .sidebar a i {
@@ -164,15 +197,15 @@
 #check {
   display: none;
 }
-
+/* sidebar button */
 label #btn,
 label #cancel {
   position: absolute;
   cursor: pointer;
   color: white;
   border-radius: 5px;
-  border: 1px solid #262626;
-  margin: 15px 30px;
+  border: 0px solid #262626;
+  margin: -53px 30px;
   font-size: 29px;
   background: #330662;
   height: 45px;
@@ -185,6 +218,8 @@ label #cancel {
 label #cancel {
   opacity: 0;
   visibility: hidden;
+  border: 1px solid #262626;
+
 }
 
 #check:checked ~ .sidebar {
@@ -204,6 +239,10 @@ label #cancel {
 }
 
 @media (max-width: 860px) {
+  .sidebar img{
+    height: 24px;
+    margin-left: 0;
+  }
   .sidebar {
     height: auto;
     width: 70px;
@@ -218,7 +257,9 @@ label #cancel {
   }
 
   span {
-    position: absolute;
+    position: fixed;
+    font-size: 12px;
+    color: white;
     margin-left: 23px;
     opacity: 0;
     visibility: hidden;
@@ -233,7 +274,7 @@ label #cancel {
   }
 
   a:hover {
-    width: 200px;
+    width: 220px;
     background: inherit;
   }
 
@@ -243,14 +284,11 @@ label #cancel {
   }
 }
 
-body {
-  background-color: #230542;
-}
-
 .dashboard {
   font-family: "Montserrat", sans-serif;
   font-size: 24px;
   color: white;
+  align-items: center;
 }
 
 .standard_button {
@@ -265,8 +303,49 @@ body {
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
   transition-duration: 0.4s;
+  width:150px
 }
 
 .standard_button:hover {
-    background-color: #ab82c5;
+  background-color: #ab82c5;
+}
+
+.standard_button2 {
+  background-color: #AB82C5;
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  transition-duration: 0.4s;
+  width:150px
+}
+
+.standard_button2:hover {
+  background-color: #A69DB2;
+}
+
+nav div form #navSearch::placeholder{
+  color:white;
+}
+
+.icon-wrapper {
+   position:relative;
+   float:left;
+}
+
+.badge {
+   background:blue;
+   width:auto;
+   height:auto;
+   margin:0;
+   border-radius:51%;
+   position:absolute;
+   top:-20px;
+   right:-9px;
+   padding:6px;
 }
