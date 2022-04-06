@@ -1,7 +1,7 @@
-DEVELOP - [![Coverage Status](https://coveralls.io/repos/github/gcivil-nyu-org/S2022-Team-2-repo/badge.svg?branch=develop&kill_cache=1)](https://coveralls.io/github/gcivil-nyu-org/S2022-Team-2-repo?branch=develop)
+DEVELOP - [![Coverage Status](https://coveralls.io/repos/github/gcivil-nyu-org/S2022-Team-2-repo/badge.svg?branch=develop&kill_cache=1)](https://coveralls.io/github/gcivil-nyu-org/S2022-Team-2-repo?branch=develop&kill_cache=1)
 [![Build Status](https://app.travis-ci.com/gcivil-nyu-org/S2022-Team-2-repo.svg?branch=develop&kill_cache=1)](https://app.travis-ci.com/gcivil-nyu-org/S2022-Team-2-repo)
 
-MAIN - [![Coverage Status](https://coveralls.io/repos/github/gcivil-nyu-org/S2022-Team-2-repo/badge.svg?branch=main&kill_cache=1)](https://coveralls.io/github/gcivil-nyu-org/S2022-Team-2-repo?branch=main)
+MAIN - [![Coverage Status](https://coveralls.io/repos/github/gcivil-nyu-org/S2022-Team-2-repo/badge.svg?branch=main&kill_cache=1)](https://coveralls.io/github/gcivil-nyu-org/S2022-Team-2-repo?branch=main&kill_cache=1)
 [![Build Status](https://app.travis-ci.com/gcivil-nyu-org/S2022-Team-2-repo.svg?branch=main)](https://app.travis-ci.com/gcivil-nyu-org/S2022-Team-2-repo)
 
 
