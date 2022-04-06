@@ -79,10 +79,8 @@ def login_form(request):
             if user is not None:
                 login(request, user)
                 try:
-                    prof = Profile.objects.get(user=request.user)
-                    print(prof)
-                except Exception as ex:
-                    print(ex)
+                    Profile.objects.get(user=request.user)
+                except Exception:
                     return redirect("/profile/setup")
 
                 next_url = request.GET.get("next", "/dashboard")
@@ -165,7 +163,6 @@ def password_reset(request, uidb64, token):  # pragma: no cover
     if user is not None and account_activation_token.check_token(user, token):
         if request.method == "POST":
             form = ResetPasswordForm(request.POST)
-            print(form.is_valid())
             if form.is_valid():
                 error_bool, password = form.clean_password()
                 if error_bool:
@@ -198,8 +195,7 @@ def profile_setup(request):
 
     try:
         prof = Profile.objects.get(user=request.user)
-    except Exception as ex:
-        print(ex)
+    except Exception:
         prof = Profile(user=request.user)
         prof.save()
 
@@ -314,8 +310,11 @@ def dashboard(request):
 
 @login_required
 def preferences(request):
-    prefs = Preference.objects.get(user=request.user)
-    print(model_to_dict(prefs))
+    try:
+        prefs = Preference.objects.get(user=request.user)
+    except Exception:
+        prefs = Preference(user=request.user)
+        prefs.save()
 
     return render(
         request,
@@ -337,8 +336,8 @@ def get_search(request):
         User.objects.annotate(full_name=Concat("first_name", V(" "), "last_name"))
         .filter(username_query | fullname_query)
         .exclude(id=request.user.id)
-    )
-    # .exclude(is_staff='t')
+    ).exclude(is_staff="t")
+    #
     return search_query, query_set
 
 
@@ -396,11 +395,15 @@ def decline_request_query(request):
 @login_required
 def search(request):
     search_query, query_set = get_search(request)
+    friend_list = request.user.profile.friends.all()
+    friend_list_ids = []
+    for friend in friend_list:
+        friend_list_ids.append(friend.id)
 
     return render(
         request,
         "users/search/search.html",
-        {"queryset": query_set, "query": search_query},
+        {"queryset": query_set, "query": search_query, "friend_list": friend_list_ids},
     )
 
 
@@ -409,8 +412,6 @@ def my_friends(request):
     invitations = FriendRequest.objects.filter(to_user_id=request.user)
     p = request.user.profile
     friends = p.friends.all()
-    print(invitations)
-    print(friends)
     context = {"friends": friends, "invitations": invitations}
     return render(request, "users/friends/my_friends.html", context)
 
