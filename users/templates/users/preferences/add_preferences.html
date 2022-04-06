@@ -4,390 +4,395 @@
 
 {% block style %}
 body{
-  font-family: "Montserrat";
+font-family: "Montserrat";
 }
+
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-  }
-  .account-settings .user-profile {
-    
-    padding-bottom: 1rem;
-    text-align: center;
-    }
-    .account-settings .user-profile .user-avatar {
-    margin: 0 0 1rem 0;
-    }
-    .account-settings .user-profile .user-avatar img {
-    width: 90px;
-    height: 90px;
-    -webkit-border-radius: 100px;
-    -moz-border-radius: 100px;
-    border-radius: 100px;
-    }
-    .account-settings .user-profile h5.user-name {
-    margin: 0 0 0.5rem 0;
-    }
-    .account-settings .user-profile h6.user-email {
-    margin: 0;
-    font-size: 0.8rem;
-    font-weight: 400;
-    }
-    .account-settings .about {
-    margin: 1rem 0 0 0;
-    font-size: 0.8rem;
-    text-align: center;
-    }
-    .card {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background-color: #230542;
-    border: 0;
-    margin-bottom: 1rem;
-    
-    }
-    .form-control {
-    border: 1px solid #596280;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
-    font-size: .825rem;
-    color: #702b9d;
-    }
-     #linebreak{  /*hr tag*/
-            height:3px; width:100%; border-width:0; color:#8548ad; background-color:#8548ad"
-        }
-    h2{
-        text-align: center; 
-        font-weight:bold; 
-        color: #330662;
-        padding-top: 10px;
-    }
-    .title{
-        background-color:#a69db2 ;
-        height: 56px;
-        border-radius: 8px 8px 0 0;
-    }
-    
-      section {
-       
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #230542;
-      }
-      .container {
-        max-width: 800px;
-        width: 90%;
-        padding: 20px;
-        box-shadow: 0px 0px 20px #00000020;
-        border-radius: 8px;
-        background: #eee6f3;
-        color: black;
-            }
-      .step {
-        display: none;
-      }
-      .step.active {
-        display: block;
-      }
-      .form-group {
-        width: 100%;
-        margin-top: 20px;
-      }
-      .form-group input {
-        width: 100%;
-        border: 1.5px solid rgba(128, 128, 128, 0.418);
-        padding: 5px;
-        font-size: 18px;
-        margin-top: 5px;
-        border-radius: 4px;
-      }
-      
-      button.next-btn,
-      button.previous-btn,
-      button.submit-btn {
-        float: right;
-        margin-top: 20px;
-        padding: 10px 30px;
-        border: none;
-        outline: none;
-        background-color: #7b5aa6;
-        font-family: "Montserrat";
-        font-size: 18px;
-        cursor: pointer;
-        /* text-align: right; */
-      }
-      button.previous-btn {
-        float: left;
-      }
-      button.submit-btn {
-        background-color: #7b5aa6;
-      }
-    
-      ::placeholder {
-        font-style: italic;
-        font-size: 14px;
-        color: grey;
-        padding: 15px;
-      }
-      .slidecontainer {
-        width: 45%; /* Width of the outside container */
-      }
-      .slider {
-        -webkit-appearance: none;
-        width: 100%;
-        height: 2px;
-        border-radius: 5px;  
-        background:#ab82c5;
-        outline: none;
-        opacity: 0.7;
-        -webkit-transition: .2s;
-        transition: opacity .2s;
-      }
-      
-      .slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 25px;
-        height: 25px;
-        border-radius: 50%; 
-        background: #330662;
-        cursor: pointer;
-      }
-      
-      .slider::-moz-range-thumb {
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-        background:#330662;
-        cursor: pointer;
-      }
-    
+padding: 0;
+margin: 0;
+box-sizing: border-box;
+}
+
+.account-settings .user-profile {
+
+padding-bottom: 1rem;
+text-align: center;
+}
+.account-settings .user-profile .user-avatar {
+margin: 0 0 1rem 0;
+}
+.account-settings .user-profile .user-avatar img {
+width: 90px;
+height: 90px;
+-webkit-border-radius: 100px;
+-moz-border-radius: 100px;
+border-radius: 100px;
+}
+.account-settings .user-profile h5.user-name {
+margin: 0 0 0.5rem 0;
+}
+.account-settings .user-profile h6.user-email {
+margin: 0;
+font-size: 0.8rem;
+font-weight: 400;
+}
+.account-settings .about {
+margin: 1rem 0 0 0;
+font-size: 0.8rem;
+text-align: center;
+}
+.card {
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+background-color: #230542;
+border: 0;
+margin-bottom: 1rem;
+
+}
+.form-control {
+border: 1px solid #596280;
+-webkit-border-radius: 2px;
+-moz-border-radius: 2px;
+border-radius: 2px;
+font-size: .825rem;
+color: #702b9d;
+}
+#linebreak{ /*hr tag*/
+height:3px; width:100%; border-width:0; color:#8548ad; background-color:#8548ad"
+}
+h2{
+text-align: center;
+font-weight:bold;
+color: #330662;
+padding-top: 10px;
+}
+.title{
+background-color:#a69db2 ;
+height: 56px;
+border-radius: 8px 8px 0 0;
+}
+
+section {
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: #230542;
+}
+.container {
+max-width: 800px;
+width: 90%;
+padding: 20px;
+box-shadow: 0px 0px 20px #00000020;
+border-radius: 8px;
+background: #eee6f3;
+color: black;
+}
+.step {
+display: none;
+}
+.step.active {
+display: block;
+}
+.form-group {
+width: 100%;
+margin-top: 20px;
+}
+.form-group input {
+width: 100%;
+border: 1.5px solid rgba(128, 128, 128, 0.418);
+padding: 5px;
+font-size: 18px;
+margin-top: 5px;
+border-radius: 4px;
+}
+
+button.next-btn,
+button.previous-btn,
+button.submit-btn {
+float: right;
+margin-top: 20px;
+padding: 10px 30px;
+border: none;
+outline: none;
+background-color: #7b5aa6;
+font-family: "Montserrat";
+font-size: 18px;
+cursor: pointer;
+/* text-align: right; */
+}
+button.previous-btn {
+float: left;
+}
+button.submit-btn {
+background-color: #7b5aa6;
+}
+
+::placeholder {
+font-style: italic;
+font-size: 14px;
+color: grey;
+padding: 15px;
+}
+.slidecontainer {
+width: 45%; /* Width of the outside container */
+}
+.slider {
+-webkit-appearance: none;
+width: 100%;
+height: 2px;
+border-radius: 5px;
+background:#ab82c5;
+outline: none;
+opacity: 0.7;
+-webkit-transition: .2s;
+transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+-webkit-appearance: none;
+appearance: none;
+width: 25px;
+height: 25px;
+border-radius: 50%;
+background: #330662;
+cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+width: 25px;
+height: 25px;
+border-radius: 50%;
+background:#330662;
+cursor: pointer;
+}
+
 {% endblock %}
+
 {% block body %}
 
 {% if user.is_authenticated %}
 
 
 <!-- <div class="container"> -->
-    <div class="row gutters">
-       <div class="card h-100">
-          <div class="card-body">
-             <div class="account-settings">
-                 
-                <div class="user-profile">
-                   <div class="user-avatar">
-                      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Maxwell Admin">
-                   </div>
-                   <h5 class="user-name" style="color:#7b5aa6"> Welcome, {{user.first_name}} {{user.last_name}}!</h5>
-                   
-                </div>
-                <!-- <div class="about">
+<div class="row gutters">
+  <div class="card h-100">
+    <div class="card-body">
+      <div class="account-settings">
+
+        <div class="user-profile">
+          <div class="user-avatar">
+            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Maxwell Admin">
+          </div>
+          <h5 class="user-name" style="color:#7b5aa6"> Welcome, {{user.first_name}} {{user.last_name}}!</h5>
+
+        </div>
+        <!-- <div class="about">
                     <h5 style="color:blue" class="about-me"> About me</h5>
                     <input type="text" id="about" size="10">
                 </div> -->
-             </div>
-          </div>
-       </div>
+      </div>
     </div>
- <!-- </div> -->
- <!-- <div class="title"> <h2 >Add preferences</h2> <hr id="linebreak"></div> -->
+  </div>
+</div>
+<!-- </div> -->
+<!-- <div class="title"> <h2 >Add preferences</h2> <hr id="linebreak"></div> -->
 
- <section>
-    <div class="container">
-      <form>
-        <div class="title"> <h2 >Add Preferences</h2> <hr id="linebreak"></div>
+<section>
+  <div class="container">
+    <form>
+      <div class="title">
+        <h2>Add Preferences</h2>
+        <hr id="linebreak">
+      </div>
 
-        <div class="step step-1 active">
-          <div class="form-group">
-            <label for="AboutMe">About Me</label>
-            
-            <input type="text" id="aboutme" placeholder="Add your bio">
-          </div>
-          <hr id="linebreak">
-          <div class="form-group">
-            <label >How introverted or extroverted are you?</label>
-            <div class="slidecontainer">
-                <label>Introvert</label>
-                <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                <label>Extrovert</label>
-                <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-              </div>
-          </div>
-          <hr id="linebreak">
-          <div class="form-group">
-            <label>On a typical weekend, do you prefer to stay in or go out?</label>
-            <input type="radio" name="radio" id="myRadioId" class="radio_input" > Radio
-            <input type="radio" name="radio"> Radio - checked
-          </div>
-          <button type="button" class="next-btn">Next</button>
+      <div class="step step-1 active">
+        <div class="form-group">
+          <label for="AboutMe">About Me</label>
+
+          <input type="text" id="aboutme" placeholder="Add your bio">
         </div>
-  
-        <div class="step step-2">
-            
-          <div class="form-group">
-              <label class="control"> What genres of movies do you enjoy watching?</label>
-              <div class="container-md">
-                <div class="row">
-                  <div class="col-sm">
-                    <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Action
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Comedy
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Drama
-                  </div>
-                  <div class="col-sm">
-                    
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Fantasy
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Horror
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Mystery
-                  </div>
-                  <div class="col-sm">
-                    
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Romance
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Thriller
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            I don't prefer watching movies
-                  </div>
-                </div>
-              </div>
-            
+        <hr id="linebreak">
+        <div class="form-group">
+          <label>How introverted or extroverted are you?</label>
+          <div class="slidecontainer">
+            <label>Introvert</label>
+            <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+            <label>Extrovert</label>
+            <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
           </div>
-          <button type="button" class="previous-btn">Prev</button>
-          <button type="button" class="next-btn">Next</button>
         </div>
-  
-        
-  
-        <div class="step step-3">
-            
-          <div class="form-group">
-              <label class="control"> What kind of music do you like to listen?</label>
-              <div class="container-md">
-                <div class="row">
-                  <div class="col-sm">
-                    <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Rock
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Pop
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Hip hop
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Classical
-                  </div>
-                  <div class="col-sm">
-                    
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Indian
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Folk
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            EDM
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Alternative
-                  </div>
-                  <div class="col-sm">
-                    
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Rap
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Reggae
-            <input type="checkbox" class="control__input">
-            <span class="control__indicator"></span>
-            Latin
-                  </div>
-                </div>
+        <hr id="linebreak">
+        <div class="form-group">
+          <label>On a typical weekend, do you prefer to stay in or go out?</label>
+          <input type="radio" name="radio" id="myRadioId" class="radio_input"> Radio
+          <input type="radio" name="radio"> Radio - checked
+        </div>
+        <button type="button" class="next-btn">Next</button>
+      </div>
+
+      <div class="step step-2">
+
+        <div class="form-group">
+          <label class="control"> What genres of movies do you enjoy watching?</label>
+          <div class="container-md">
+            <div class="row">
+              <div class="col-sm">
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Action
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Comedy
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Drama
               </div>
-            
+              <div class="col-sm">
+
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Fantasy
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Horror
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Mystery
+              </div>
+              <div class="col-sm">
+
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Romance
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Thriller
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                I don't prefer watching movies
+              </div>
+            </div>
           </div>
-          <button type="button" class="previous-btn">Prev</button>
-          <button type="button" class="next-btn">Next</button>
+
         </div>
-        
-  
-      </form>
-    </div>
-  </section>
-  <script>
-    //forms js
-const steps = Array.from(document.querySelectorAll("form .step"));
-const nextBtn = document.querySelectorAll("form .next-btn");
-const prevBtn = document.querySelectorAll("form .previous-btn");
-const form = document.querySelector("form");
+        <button type="button" class="previous-btn">Prev</button>
+        <button type="button" class="next-btn">Next</button>
+      </div>
 
-nextBtn.forEach((button) => {
-  button.addEventListener("click", () => {
-    changeStep("next");
-  });
-});
-prevBtn.forEach((button) => {
-  button.addEventListener("click", () => {
-    changeStep("prev");
-  });
-});
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const inputs = [];
-  form.querySelectorAll("input").forEach((input) => {
-    const { name, value } = input;
-    inputs.push({ name, value });
-  });
-  console.log(inputs);
-  form.reset();
-});
 
-function changeStep(btn) {
-  let index = 0;
-  const active = document.querySelector(".active");
-  index = steps.indexOf(active);
-  steps[index].classList.remove("active");
-  if (btn === "next") {
-    index++;
-  } else if (btn === "prev") {
-    index--;
+      <div class="step step-3">
+
+        <div class="form-group">
+          <label class="control"> What kind of music do you like to listen?</label>
+          <div class="container-md">
+            <div class="row">
+              <div class="col-sm">
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Rock
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Pop
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Hip hop
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Classical
+              </div>
+              <div class="col-sm">
+
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Indian
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Folk
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                EDM
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Alternative
+              </div>
+              <div class="col-sm">
+
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Rap
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Reggae
+                <input type="checkbox" class="control__input">
+                <span class="control__indicator"></span>
+                Latin
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <button type="button" class="previous-btn">Prev</button>
+        <button type="button" class="next-btn">Next</button>
+      </div>
+
+
+    </form>
+  </div>
+</section>
+<script>
+  //forms js
+  const steps = Array.from(document.querySelectorAll("form .step"));
+  const nextBtn = document.querySelectorAll("form .next-btn");
+  const prevBtn = document.querySelectorAll("form .previous-btn");
+  const form = document.querySelector("form");
+
+  nextBtn.forEach((button) => {
+    button.addEventListener("click", () => {
+      changeStep("next");
+    });
+  });
+  prevBtn.forEach((button) => {
+    button.addEventListener("click", () => {
+      changeStep("prev");
+    });
+  });
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const inputs = [];
+    form.querySelectorAll("input").forEach((input) => {
+      const { name, value } = input;
+      inputs.push({ name, value });
+    });
+    console.log(inputs);
+    form.reset();
+  });
+
+  function changeStep(btn) {
+    let index = 0;
+    const active = document.querySelector(".active");
+    index = steps.indexOf(active);
+    steps[index].classList.remove("active");
+    if (btn === "next") {
+      index++;
+    } else if (btn === "prev") {
+      index--;
+    }
+    steps[index].classList.add("active");
   }
-  steps[index].classList.add("active");
-}
 
-//slider js
-var slider = document.getElementById("myRange");
-var output = document.getElementById("demo");
-output.innerHTML = slider.value; // Display the default slider value
+  //slider js
+  var slider = document.getElementById("myRange");
+  var output = document.getElementById("demo");
+  output.innerHTML = slider.value; // Display the default slider value
 
-// Update the current slider value (each time you drag the slider handle)
-slider.oninput = function() {
-  output.innerHTML = this.value;
-} 
+  // Update the current slider value (each time you drag the slider handle)
+  slider.oninput = function () {
+    output.innerHTML = this.value;
+  } 
 </script>
 
 

@@ -2,101 +2,112 @@
 {% load static %}
 
 {% block body %}
-<body >
-    
-<style>
-    h4{
-        font-size: large; color: #ab82c5;
-    }
-    div #linebreak{  /*hr tag*/
-        height:3px; width:100%; border-width:0; color:#8548ad; background-color:#8548ad"
-    }
-</style>
-<!-- --- -->
 
- <div class="container-md">
-     <!-- 1st row -->
-    <div class="row">
-        <div class="col mt-3">
-            <h2 class="fw-bold"> Preferences </h2>
-        </div>
-    </div>
+<body>
 
-    <hr id="linebreak">
-    {% if user.is_authenticated %}
+    <style>
+        h4 {
+            font-size: large;
+            color: #ab82c5;
+        }
 
-    <!-- 2nd row -->
-    <div class="row">
-        <div class="col-6">
-            <h3 class="fw-bold fs-4"> Profile 
-                <a href="updateprofile/">
-                    <i class="fa-solid fa-pen-to-square fw-normal fs-5" style="color: white;"></i>
-                </a>
-            </h3>
+        div #linebreak {
+            /*hr tag*/
+            height: 3px;
+            width: 100%;
+            border-width: 0;
+            color: #8548ad;
+            background-color: #8548ad"
 
-            <!-- inner col and row -->
-            <div class="row row-cols-auto">
-               <div class="col">
-                    <h4 >{{ user.first_name }} </h4>
-                </div>
-                <div class="col">
-                    <h4 >{{ user.last_name }}</h4>
-                </div>
+        }
+    </style>
+    <!-- --- -->
+
+    <div class="container-md">
+        <!-- 1st row -->
+        <div class="row">
+            <div class="col mt-3">
+                <h2 class="fw-bold"> Preferences </h2>
             </div>
+        </div>
+
+        <hr id="linebreak">
+        {% if user.is_authenticated %}
+
+        <!-- 2nd row -->
+        <div class="row">
+            <div class="col-6">
+                <h3 class="fw-bold fs-4"> Profile
+                    <a href="updateprofile/">
+                        <i class="fa-solid fa-pen-to-square fw-normal fs-5" style="color: white;"></i>
+                    </a>
+                </h3>
+
+                <!-- inner col and row -->
+                <div class="row row-cols-auto">
+                    <div class="col">
+                        <h4>{{ user.first_name }} </h4>
+                    </div>
+                    <div class="col">
+                        <h4>{{ user.last_name }}</h4>
+                    </div>
+                </div>
                 <!-- 3rd row -->
-            <div class="row">
-                <h4>NetID: {{user.username}}</h4>
+                <div class="row">
+                    <h4>NetID: {{user.username}}</h4>
+                </div>
+                <!-- inner end -->
             </div>
-            <!-- inner end -->
-        </div>
 
-        <div class="col-4">
-            <!-- placeholder for now -->
-            <h4></h4>
-        </div>
+            <div class="col-4">
+                <!-- placeholder for now -->
+                <h4></h4>
+            </div>
 
-        <div class="col">
-            <a style="color:white" href="updateprofile/" id="id_profilepic" role="button" >
-                <!-- Currently using our logo as placeholder -->
-                <img src="{{ user.profile.image.url }}" alt="user pic upload" style="height:100px; width:100px; object-fit:cover; border-radius:50%">
-            </a>
-        </div>
-    </div>
-    
-    <hr id="linebreak">
-
-    <!-- 3rd row -->
-    <div class="row">
-        <div class="col">
-            <h3 class="fw-bold  fs-4" > Preferences
-                <a href="/preferences/page1">
-                    <i class="fa-solid fa-pen-to-square  fw-normal fs-5" style="color: white;"></i>
+            <div class="col">
+                <a style="color:white" href="updateprofile/" id="id_profilepic" role="button">
+                    <!-- Currently using our logo as placeholder -->
+                    <img src="{{ user.profile.image.url }}" alt="user pic upload"
+                        style="height:100px; width:100px; object-fit:cover; border-radius:50%">
                 </a>
+            </div>
+        </div>
 
-                <!-- testing on getting data, .items list on the 'columns in the prefs table' -->
-                <div id="prefList" class="mt-2">
-                {% for key,value in prefs.items %}
-                    {% if key != "id" and key != "user" %}
+        <hr id="linebreak">
+
+        <!-- 3rd row -->
+        <div class="row">
+            <div class="col">
+                <h3 class="fw-bold  fs-4"> Preferences
+                    <a href="/preferences/page1">
+                        <i class="fa-solid fa-pen-to-square  fw-normal fs-5" style="color: white;"></i>
+                    </a>
+
+                    <!-- testing on getting data, .items list on the 'columns in the prefs table' -->
+                    <div id="prefList" class="mt-2">
+                        {% for key,value in prefs.items %}
+                        {% if key != "id" and key != "user" %}
                         <h5 id="prefKey">{{ key }}</h5>
                         <h4> {{ value }}</h4>
-                    {% endif %}
-                {% endfor %}
-                </div>
-            </h3>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </h3>
+            </div>
         </div>
-    </div>
 
-    <!-- 4th row -->
-    <div class="row">
-        <!-- placeholder to align right -->
-        <div class="col-10"></div>
-        <div class="col-2" id="deleteProfile">
-            <button class="btn standard_button" data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
-                Delete Profile
-            </button>
+        <!-- 4th row -->
+        <div class="row">
+            <!-- placeholder to align right -->
+            <div class="col-10"></div>
+            <div class="col-2" id="deleteProfile">
+                <button class="btn standard_button" data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
+                    Delete Profile
+                </button>
 
-              <!-- Modal -->
-                <div class="modal fade text-black" id="deleteProfileModal" tabindex="-1" role="dialog" aria-labelledby="Delete-Profile" aria-hidden="true">
+                <!-- Modal -->
+                <div class="modal fade text-black" id="deleteProfileModal" tabindex="-1" role="dialog"
+                    aria-labelledby="Delete-Profile" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -106,48 +117,49 @@
                             </div>
 
                             <div class="modal-body">
-                            <p>Are you sure to delete your profile?</p>
+                                <p>Are you sure to delete your profile?</p>
                             </div>
 
                             <div class="modal-footer">
-                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button class="btn btn-primary" type="submit">Confirm</button>
+                                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button class="btn btn-primary" type="submit">Confirm</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Modal ends -->
-        
+
+            </div>
         </div>
+
+        {% endif %}
     </div>
 
-    {% endif %} 
- </div>
+    <script>
+        window.onload = function replacePrefId() {
+            let dict = {
+                "Introverted/Extroverted:": "IE",
+                "Rather Stay In or Go Out": "in or out",
+                "personality_type": "Introverted/Extroverted:",
+                "stay_go_type": "Rather Stay In or Go Out:",
+                "movie_choices": "Favorite Movie Types:",
+                "music_choices": "Favorite Music Genres:",
+                "food_choices": "Favorite Cuisines:",
+                "travel_choices": "Favorite Places to Travel:",
+                "art_choices": "Favorite Artistic Activities:",
+                "dance_choices": "Favorite Dance Genres:",
+                "sports_choices": "Favorite Sports:",
+                "pet_choices": "Favorite Pets:",
+                "nyc_choices": "Favorite Things to Do in NYC:",
 
- <script>
-     window.onload = function replacePrefId(){
-         let dict = {"Introverted/Extroverted:": "IE",
-            "Rather Stay In or Go Out": "in or out",
-            "personality_type" : "Introverted/Extroverted:",
-            "stay_go_type" : "Rather Stay In or Go Out:",
-            "movie_choices" : "Favorite Movie Types:",
-            "music_choices" : "Favorite Music Genres:",
-            "food_choices": "Favorite Cuisines:",
-            "travel_choices": "Favorite Places to Travel:",
-            "art_choices" : "Favorite Artistic Activities:",
-            "dance_choices" : "Favorite Dance Genres:",
-            "sports_choices" : "Favorite Sports:",
-            "pet_choices" : "Favorite Pets:",
-            "nyc_choices" : "Favorite Things to Do in NYC:",
-
-        };
-        for(const key of Object.keys(dict)){
-            document.getElementById("prefList").innerHTML
+            };
+            for (const key of Object.keys(dict)) {
+                document.getElementById("prefList").innerHTML
                     = document.getElementById("prefList").innerHTML
                         .replace(key, dict[key]);
-        }        
-    }
- </script>
+            }
+        }
+    </script>
 </body>
 
 {% endblock %}
