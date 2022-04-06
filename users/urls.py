@@ -56,6 +56,7 @@ urlpatterns = [
     path(
         "user/friends/decline", user_views.decline_request_query, name="decline_request"
     ),
+    path("user/friends/recommend", user_views.recommend_user, name="recommend-user"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

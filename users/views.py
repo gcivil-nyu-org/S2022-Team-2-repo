@@ -324,9 +324,9 @@ def get_search(request):
 
     query_set = (
         User.objects.annotate(full_name=Concat("first_name", V(" "), "last_name"))
-        .filter(username_query | fullname_query)
-        .exclude(id=request.user.id)
-        .exclude(is_staff="t")
+            .filter(username_query | fullname_query)
+            .exclude(id=request.user.id)
+            .exclude(is_staff="t")
     )
     return search_query, query_set
 
@@ -411,6 +411,33 @@ def notifications(request):
     num_notifications = len(FriendRequest.objects.filter(to_user_id=request.user))
     return HttpResponse(str(num_notifications), content_type="text/plain")
 
+
+def get_match(user):
+    potential_matches = User.objects.exclude(id=user.id) \
+        .exclude(id__in=user.profile.friends.all().values_list('id', flat=True)).exclude(is_staff="t")
+    # .exclude(id__in=user.profile.declined_users.all().values_list('id', flat=True))
+    preference_fields = Preference._meta.get_fields()
+
+    similarity = []
+
+    for match in potential_matches:
+        count = 0
+
+        for i in range(4, len(preference_fields)):
+            val1 = preference_fields[i].value_from_object(match.preference)
+            val2 = preference_fields[i].value_from_object(user.preference)
+            count += len(set(val1).intersection(list(val2)))
+
+        similarity.append(count)
+
+    match_index = similarity.index(max(similarity))
+    return potential_matches[match_index]
+
+
+@login_required
+def recommend_user(request):
+    print(get_match(request.user))
+    return HttpResponse()
 
 # @login_required
 # def users_list(request):
