@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
+from django.urls import reverse
 
 dummy_user_right = {
     "username": "test1234",
@@ -49,3 +50,16 @@ class LogoutViewTest(TestCase):
         self.client.force_login(user=self.user)
         response = self.client.get("/logout/", follow=True)
         self.assertRedirects(response, "/")
+
+
+class ProfileSetupTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.client = Client()
+        cls.user = User.objects.create_user(
+            username=dummy_user_right["username"], password=dummy_user_right["username"]
+        )
+
+    def test_call_view_deny_anonymous(self):
+        response = self.client.get(reverse("profile_setup"), follow=True)
+        self.assertRedirects(response, "/login/?next=/profile/setup")

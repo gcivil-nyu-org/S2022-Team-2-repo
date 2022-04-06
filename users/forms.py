@@ -3,7 +3,6 @@ import re
 from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import (
-    UserChangeForm,
     UserCreationForm,
 )
 from django.contrib.auth.models import User
@@ -165,12 +164,6 @@ class LoginForm(forms.Form):
         ),
         help_text=password_validation.password_validators_help_text_html(),
     )
-
-
-class CustomUserChangeForm(UserChangeForm):
-    class Meta:
-        model = User
-        fields = ["username"]
 
 
 class PreferencesPersonalityForm(forms.ModelForm):

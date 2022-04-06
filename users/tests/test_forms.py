@@ -4,6 +4,9 @@ from users.forms import (
     UserRegisterForm,
     ResetPasswordRequestForm,
     PreferencesExploreForm,
+    ResetPasswordForm,
+    PreferencesPersonalityForm,
+    PreferencesMediaForm,
 )
 
 dummy_user_right = {
@@ -44,6 +47,56 @@ class SignupFormTest(TestCase):
 class ResetPasswordRequestFormTest(TestCase):
     def test_pass_normal(self):
         form = ResetPasswordRequestForm(data={"username": "Crypt1234"})
+        self.assertFalse(form.errors)
+
+
+class ResetPasswordFormTest(TestCase):
+    def setUp(self):
+        self.correct_password = "Crypt1234"
+        self.wrong_password = "test1234"
+
+    def test_pass_normal(self):
+        form = ResetPasswordForm(
+            data={
+                "new_password1": self.correct_password,
+                "new_password2": self.correct_password,
+            }
+        )
+        form.clean_password()
+        self.assertFalse(form.p_error)
+
+    def test_fail(self):
+        form = ResetPasswordForm(
+            data={
+                "new_password1": self.wrong_password,
+                "new_password2": self.correct_password,
+            }
+        )
+        form.clean_password()
+        self.assertTrue(form.p_error)
+
+
+class PreferencesPersonalityFormTest(TestCase):
+    def test_pass(self):
+        form = PreferencesPersonalityForm(
+            data={
+                "personality_type": "VeryIN",
+                "stay_go_type": "PI",
+            }
+        )
+        self.assertFalse(form.errors)
+
+
+class PreferencesMediaFormTest(TestCase):
+    def test_pass(self):
+        form = PreferencesMediaForm(
+            data={
+                "movie_choices": ["NI"],
+                "music_choices": ["NI"],
+                "art_choices": ["NI"],
+                "dance_choices": ["NI"],
+            }
+        )
         self.assertFalse(form.errors)
 
 

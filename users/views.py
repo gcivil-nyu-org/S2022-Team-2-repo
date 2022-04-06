@@ -165,7 +165,6 @@ def password_reset(request, uidb64, token):  # pragma: no cover
     if user is not None and account_activation_token.check_token(user, token):
         if request.method == "POST":
             form = ResetPasswordForm(request.POST)
-            print(form.is_valid())
             if form.is_valid():
                 error_bool, password = form.clean_password()
                 if error_bool:
@@ -327,8 +326,6 @@ def preferences(request):
 # Helper function for searching
 def get_search(request):
     search_query = request.GET.get("navSearch", "").strip()
-    # if len(search_query) == 0:
-    #     return search_query, User.objects.none()
 
     username_query = Q(username__icontains=search_query)
     fullname_query = Q(full_name__icontains=search_query)
@@ -337,8 +334,8 @@ def get_search(request):
         User.objects.annotate(full_name=Concat("first_name", V(" "), "last_name"))
         .filter(username_query | fullname_query)
         .exclude(id=request.user.id)
+        .exclude(is_staff="t")
     )
-    # .exclude(is_staff='t')
     return search_query, query_set
 
 
