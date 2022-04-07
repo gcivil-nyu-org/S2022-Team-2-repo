@@ -1,49 +1,55 @@
 {% extends 'users/authenticate.html' %}
-
+{% load widget_tweaks %}
 {% block loginform %}
 <ul class="nav nav-tabs" style="border-bottom: 0">
-  <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}"
-      style="background-color:#c7d0d8; border-radius: 10px 10px 0px 0px">Sign Up</a></li>
-  <li class="nav-item"><a class="nav-link  " href="{% url 'login' %}"
-      style="background-color:#a69fb2; border-radius: 10px 10px 0px 0px">Login</a></li>
+  <li class="nav-item"><a class="nav-link purple-text" href="{% url 'signup' %}"
+      style="background-color:#c7d0d8; border-radius: 5px 5px 0px 0px">Sign Up</a></li>
+  <li class="nav-item"><a class="nav-link purple-text" href="{% url 'login' %}"
+      style="background-color:#ffffff; border-radius: 5px 5px 0px 0px">Login</a></li>
 </ul>
 <div class="tab-content ">
   <div class="tab-pane active" id="login">
-    <section style="height: 100%; background-color:#a69fb2; border-radius: 0px 0px 10px 10px">
-      <div class="container py-2 ">
+    <section style="min-height: 350px; background-color:#ffffff; border-radius: 0px 0px 10px 10px;">
+      <div class="container py-2">
         <div class="row d-flex justify-content-center align-items-center ">
-          <div class="col-16 col-md-10 col-lg-8 col-xl-7 ">
-            <div class="card" style="border-radius: 1rem; background-color: #a69fb2; border-width: 0;">
-              <form class=" rounded-5 shadow-5-strong p-4" method="POST">
-                {% csrf_token %}
-                {% for field in form %}
-                <div class="form-group form-outline mb-3">
-                  <style>
-                    input {
-                      padding-left: 6px;
-                      border-radius: 10px;
-                      border-color: #330662;
-                    }
-                  </style>
-                  {{ field }}
-                </div>
+          <form class="rounded-5 shadow-5-strong" method="POST">
+            {% csrf_token %}
+            <style>
+              input {
+                padding-left: 10px;
+                border-radius: 5px;
+                border-color: #330662;
+                font-size: 18px;
+                margin-top: 10px;
+              }
 
-                {% endfor %}
+              ::placeholder {
+                /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: #330662;
+                opacity: 0.8;
+                /* Firefox */
+              }
+            </style>
 
-                {{ form.errors }}
-                <button type="submit" class="standard_button fw-bold mt-3">SIGN IN</button>
-              </form>
-              <div class="d-flex justify-content-around align-items-center ">
-                <div>
-                  <span class="fw-bold text-black">Forgot your password?</span>
-                  <br>
-                  <a class="fw-bold text-black" href="{% url 'password_reset_request' %}">Reset your password</a>
-                </div>
-              </div>
+            {% with WIDGET_ERROR_CLASS='error' WIDGET_REQUIRED_CLASS='is-required' %}
+            <div class="col">
+              {% render_field form.username placeholder='Net ID'%}
+            </div>
+            <div class="col">
+              {% render_field form.password placeholder='Password' %}
+            </div>
+
+            {% endwith %}
+            <button type="submit" class="standard_button fw-bold mt-3">SIGN IN</button>
+          </form>
+          <div class="d-flex justify-content-around align-items-center ">
+            <div>
+              <span class="fw-bold text-black">Forgot your password?</span>
+              <br>
+              <a class="fw-bold text-black" href="{% url 'password_reset_request' %}">Reset your password</a>
             </div>
           </div>
         </div>
-      </div>
     </section>
   </div>
 </div>

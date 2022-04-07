@@ -1,40 +1,58 @@
 {% extends 'users/authenticate.html' %}
+{% load widget_tweaks %}
 
 {% block signupform %}
 <ul class="nav nav-tabs" style="border-bottom: 0">
   <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}"
-      style="background-color:#a69fb2; border-radius: 10px 10px 0px 0px">Sign Up</a></li>
+      style="background-color:#ffffff; border-radius: 5px 5px 0px 0px">Sign Up</a></li>
   <li class="nav-item"><a class="nav-link  " href="{% url 'login' %}"
-      style="background-color:#c7d0d8; border-radius: 10px 10px 0px 0px">Login</a></li>
+      style="background-color:#c7d0d8; border-radius: 5px 5px 0px 0px">Login</a></li>
 </ul>
 <div class="tab-content ">
   <div class="tab-pane active" id="signup">
-    <section style="height: 100%; background-color:#a69fb2; border-radius: 0px 0px 10px 10px">
+    <section style="min-height: 350px; background-color:#ffffff; border-radius: 0px 0px 5px 5px">
       <div class="container py-2 ">
-        <div class="row d-flex justify-content-center align-items-center ">
-          <div class="col-16 col-md-10 col-lg-8 col-xl-7 ">
-            <div class="card" style="border-radius: 1rem; background-color: #a69fb2; border-width: 0;">
-              <form class=" rounded-5 shadow-5-strong p-4" method="POST">
-                {% csrf_token %}
-                {% for field in form %}
-                <div class="form-group form-outline mb-3">
-                  <style>
-                    input {
-                      padding-left: 6px;
-                      border-radius: 10px;
-                      border-color: #330662;
-                    }
-                  </style>
-                  {{ field }}
-                </div>
+        <div class="row d-flex">
+          <form class="rounded-5 shadow-5-strong p-4" method="POST">
+            {% csrf_token %}
+            <style>
+              input {
+                padding-left: 10px;
+                border-radius: 5px;
+                border-color: #330662;
+                font-size: 18px;
+                margin-top: 10px;
 
-                {% endfor %}
+              }
 
-                {{ form.errors }}
-                <button type="submit" class="standard_button fw-bold mt-3">REGISTER</button>
-              </form>
+              ::placeholder {
+                /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: #330662;
+                opacity: 0.8;
+                /* Firefox */
+              }
+            </style>
+
+            {% with WIDGET_ERROR_CLASS='error' WIDGET_REQUIRED_CLASS='required' %}
+            <div class="col">
+              {% render_field form.username placeholder='Net ID' %}
             </div>
-          </div>
+            <div class="col align-self-center">
+              {% render_field form.first_name placeholder='First Name' %}
+            </div>
+            <div class="col align-self-center">
+              {% render_field form.last_name placeholder='Last Name' %}
+            </div>
+            <div class="col align-self-center">
+              {% render_field form.password1 placeholder='Password' %}
+            </div>
+            <div class="col align-self-center">
+              {% render_field form.password2 placeholder='Retype Password' %}
+            </div>
+            {% endwith %}
+
+            <button type="submit" class="standard_button fw-bold mt-3">REGISTER</button>
+          </form>
         </div>
       </div>
     </section>

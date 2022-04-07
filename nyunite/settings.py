@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "multiselectfield",
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [

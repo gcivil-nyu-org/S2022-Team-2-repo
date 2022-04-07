@@ -72,7 +72,7 @@ body {
 .left-column {
   float: left;
   width: 40%;
-  height: 90vh;
+  height: 85vh;
   background-color: #230542;
   align-content: center;
   align-items: center;
@@ -81,7 +81,7 @@ body {
 .right-column {
   float: right;
   width: 60%;
-  height: 90vh;
+  height: 85vh;
   background-color: #230542;
   align-content: center;
   align-items: center;

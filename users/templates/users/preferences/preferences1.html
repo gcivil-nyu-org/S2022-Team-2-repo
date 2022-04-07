@@ -14,13 +14,12 @@
             
             <div class="title"> <h2 >Add Preferences</h2> </div>
 
-            <div class="account-settings ">
+            <div class="account-settings">
                <div class="user-profile">
                   <div style="align-items: center;">
                      <img style="border-radius: 50%; width: 300px;" src="{{request.user.profile.image.url}}" >
                   </div>
                   <p class="purple-text"> {{user.first_name}} {{user.last_name}}</p>
-                  <p class="purple-text"> {{user.username}}@nyu.edu </p>
                   <!-- <p class="purple-text", style="font-size:20px"> {{ user.email }}</p> -->
                </div>
                <!-- <div class="about"> -->
@@ -28,10 +27,7 @@
 <!--                   {% csrf_token %} -->
                    <!-- {{ form.bio }}  -->
             </div>
-               <form class="rounded-5 shadow-5-strong p-5 " method="post">
-                  <div>
-                  <h4 class="purple-text1"> Personality Questions </h4>
-                  </div>
+               <form class="rounded-5 shadow-5-strong p-4" method="post">
                   <label class="form-control1">
                   {% csrf_token %}
                   {% for field in form %}

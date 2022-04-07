@@ -63,7 +63,7 @@ class ResetPasswordFormTest(TestCase):
             }
         )
         form.clean_password()
-        self.assertFalse(form.p_error)
+        self.assertFalse(form.errors)
 
     def test_fail(self):
         form = ResetPasswordForm(
@@ -73,7 +73,7 @@ class ResetPasswordFormTest(TestCase):
             }
         )
         form.clean_password()
-        self.assertTrue(form.p_error)
+        self.assertTrue(form.errors)
 
 
 class PreferencesPersonalityFormTest(TestCase):
