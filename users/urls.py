@@ -1,13 +1,14 @@
+from typing import List
+
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.urls import path, re_path, include
-from django.conf.urls.static import static
-from django.conf import settings
 from django.views.generic import ListView, TemplateView
-from typing import List
 
 from users import views as user_views
 

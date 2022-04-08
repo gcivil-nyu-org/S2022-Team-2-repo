@@ -46,10 +46,14 @@ post_save.connect(post_save_user_model_receiver, sender=settings.AUTH_USER_MODEL
 
 class FriendRequest(models.Model):
     to_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name="to_user_friend", on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        related_name="to_user_friend",
+        on_delete=models.CASCADE,
     )
     from_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name="from_user_friend", on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        related_name="from_user_friend",
+        on_delete=models.CASCADE,
     )
     timestamp = models.DateTimeField(auto_now_add=True)
 

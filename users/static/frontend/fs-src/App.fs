@@ -224,7 +224,7 @@ let sendMessageReadMessage (sock: WebSocket) (user_pk: string) (message_id: int6
     ]
     sock.send (msgTypeEncoder MessageTypes.MessageRead data)
 
-let backendUrl = window.location.host
+let backendUrl = "http://127.0.0.1"
 JS.console.log(backendUrl)
 let messagesEndpoint = sprintf "%s/messages/" backendUrl
 let dialogsEndpoint = sprintf "%s/dialogs/" backendUrl

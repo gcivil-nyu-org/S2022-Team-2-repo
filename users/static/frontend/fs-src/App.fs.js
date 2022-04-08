@@ -220,7 +220,7 @@ export function sendMessageReadMessage(sock, user_pk, message_id) {
     sock.send(msgTypeEncoder(6, data));
 }
 
-export const backendUrl = window.location.host;
+export const backendUrl = "http://127.0.0.1";
 console.log(backendUrl)
 export const messagesEndpoint = toText(printf("%s/messages/"))(backendUrl);
 
