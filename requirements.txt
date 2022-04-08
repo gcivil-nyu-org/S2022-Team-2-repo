@@ -1,4 +1,4 @@
-django
+django~=4.0.3
 gunicorn
 psycopg2
 django-heroku
@@ -6,10 +6,13 @@ django-dotenv
 djangorestframework
 django-cors-headers
 django-crispy-forms
-django-autoslug
+django-autoslug~=1.9.8
 django-multiselectfield
-pillow
+django_private_chat2
+django_extensions
+pillow~=9.1.0
 black
 flake8
 coverage
 coveralls
+channels~=3.0.4

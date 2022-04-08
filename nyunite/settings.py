@@ -57,6 +57,9 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "multiselectfield",
+    "django_private_chat2",
+    "channels",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -89,8 +92,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = "nyunite.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -151,7 +152,6 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontend", "build", "static")]
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "users", "static")]
 MEDIA_ROOT = os.path.join(
     BASE_DIR, "media/"
@@ -169,6 +169,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Default redirect urls
 LOGIN_URL = "login"
+
+ASGI_APPLICATION = "nyunite.routing.application"
+
+CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
 
 # Activate Django-Heroku.
 django_heroku.settings(locals(), test_runner=False)

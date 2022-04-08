@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css" media="all">
+    <title>{% block title %}Chat{% endblock %}</title>
+    {% block css %}{% endblock %}
+</head>
+
+<body>
+    <nav class="navbar fixed-top navbar-expand-md navbar-dark p-2 " style="background-color: #330662; z-index:1">
+
+        <div class="container-md ">
+
+            <!-- Current page Name -->
+            <a class="navbar-brand ms-5" href="{% url 'dashboard' %}">
+                <span class="fw-bold fs-3 " id="currPageName"></span>
+            </a>
+
+            <!-- Navbar toggler for mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+
+                <!-- Search box -->
+                <form action="{% url 'search' %}" type='get' class="d-flex me-4">
+                    <input class="form-control me-2 text-white " required id="navSearch"
+                           style="background-color:#57068c; width: 300px; border-width: 1px; border-color: white;"
+                           type="text"
+                           name="navSearch" placeholder="Search" aria-label="Search" value="{{query}}">
+                    <button class="standard_button" style="background-color:#230542;" type="submit"> Search</button>
+                </form>
+
+                <!-- Nav items -->
+                {% if user.is_authenticated %}
+
+                <a class="position-relative" href="{% url 'my_friends' %}">
+                    <i class="fa-solid fa-bell fa-2x" style="color:white"></i>
+                    <span id="bell" class="position-absolute top-0 start-90 translate-middle badge rounded-pill "
+                          style="background-color:#57068c; right: auto;"> </span>
+                </a>
+
+                <ul class="navbar-nav ">
+                    <li class="nav-item me-2 mt-2 ms-2" id="firstName">
+                        <!-- can redirect to My profile -->
+                        <span class="nav-link " style="color:white">Hi, {{ user.first_name }}</span>
+                    </li>
+                    <!-- dropdown icon menu -->
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle" style="color:white" href="#" id="navbarDashDropdown"
+                           role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <!-- Currently using our logo as placeholder -->
+                            <img src="{{ user.profile.image.url }}"
+                                 style="height:40px; width:40px; object-fit:cover; border-radius:50%" alt="user pic">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDashDropdown">
+                            <li><a class="dropdown-item" href="{% url 'dashboard' %}">
+                                <i class="fa-solid fa-user" style="color:#230542"></i>
+                                <span class="purple-text"
+                                      style="font-size:12pt; position:absolute; transform:translate(15px)"> Dashboard
+                                    </span>
+                            </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'preferences' %}">
+                                <i class="fas fa-gear" style="color:#230542"></i>
+                                <span class="purple-text"
+                                      style="font-size:12pt; position:absolute; transform:translate(15px)"> Preferences
+                                    </span>
+                            </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">
+                                <i class="fa-solid fa-right-from-bracket" style="color:#230542"></i>
+                                <span class="purple-text"
+                                      style="font-size:12pt; position:absolute; transform:translate(15px)"> Logout </span>
+                            </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <script>
+            window.onload = function navDashText() {
+                let currPath = window.location.pathname;
+                console.log(currPath);
+                if (currPath == '/dashboard/' || currPath == '/login/') {
+                    currPath = "Dashboard";
+                } else {
+                    currPath = " ";
+                    const searchBoxSize = document.getElementById("navSearch");
+                    searchBoxSize.style.width = "500px"; //extent the bar a bit
+                }
+                document.getElementById("currPageName").innerText = currPath;
+            }
+
+
+        </script>
+
+        <script type="text/javascript">
+
+            window.onload = function notification() {
+                let data = {};
+                data["user"] = "{{user}}";
+
+                let url = "{% url 'notification_count' %}";
+                $.ajax({
+                    method: "GET",
+                    url: url,
+                    data: data,
+                }).done(function (msg) {
+                    var count = parseInt(msg);
+                    if (count === 0) {
+                        document.getElementById('bell').style.display = 'none';
+                    }
+                    else {
+                        $('#bell').text(count);
+                    }
+                });
+            }
+
+
+
+        </script>
+
+    </nav>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+    </body>
+
+</html>
