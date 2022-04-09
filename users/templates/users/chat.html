@@ -106,6 +106,7 @@
         sendButton.style.width= '100%';
         sendButton.innerHTML = `<i class="fa-solid fa-paper-plane fa-1x"></i>`;
 
+    //item to fix
         //left msg box color<<<<
         // const leftMsgBox = document.getElementsByClassName('rce-mbox');
         // console.log(leftMsgBox);
@@ -115,10 +116,10 @@
         // leftMsgBoxTri.style.fill = '#775a9d';
 
         // //right msg box color
-        // const rightMsgBox = document.querySelectorAll('#root > div > div.right-panel > div.rce-container-mlist.message-list > div > div:nth-child(1) > div');
+        // const rightMsgBox = document.getElementsByClassName('rce-mbox-right');
         // console.log("rightMsg triggered");
         // console.log(rightMsgBox);
-        // const arr = Array.prototype.slice.call(rightMsgBox);
+        // const arr = Array.from(rightMsgBox);
         // console.log(arr);
         // arr.forEach(box=>{
         //     box.style.backgroundColor = '#57068c';
@@ -129,13 +130,11 @@
 
         //chat list item <<<
         // const chatLstItem = document.querySelectorAll('#root > div > div.chat-list > div > div:nth-child(1) > span > div.rce-container-clist > div:nth-child(1) > div');
-        const chatLstItem = document.querySelectorAll('.rce-citem');
-        console.log(chatLstItem);
-        chatLstItem.forEach(item=>{
-            item.style.backgroundColor = '#57068c';
-        })
-
-
+        // const chatLstItem = document.querySelectorAll('.rce-citem');
+        // console.log(chatLstItem);
+        // chatLstItem.forEach(item=>{
+        //     item.style.backgroundColor = '#57068c';
+        // })
 
     </script>
     <style>#root div div.right-panel div.rce-container-input textarea.rce-input::placeholder{color: white;}
