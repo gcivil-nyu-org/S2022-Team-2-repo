@@ -35,22 +35,111 @@
 
     <!-- style customization -->
     <script>
-        const test = document.querySelector('#root > div > div.right-panel > div.rce-navbar.light');
-        test.style.backgroundColor = '#230542';
+        //Chat id box navbar
+        const chatNavBar = document.querySelector('#root > div > div.right-panel > div.rce-navbar.light');
+        chatNavBar.style.backgroundColor = '#230542';
+        chatNavBar.style.borderRadius = '0px 5px 0px 0px';
+
+        // friend id box with img
         const idBox = document.querySelector('#root > div > div.right-panel > div.rce-navbar.light > div.rce-navbar-item.rce-navbar-item__left > div > div');
         idBox.style.backgroundColor = '#57068c';
         idBox.style.borderRadius = '5px';
         idBox.style.fontWeight = 'bold';
+        idBox.style.color = 'white';
+
+        //Entire Chat window
         const mainContainer = document.querySelector('#root > div');
         mainContainer.style.minHeight = '80%';
         mainContainer.style.marginTop = '5rem';
         mainContainer.style.marginBottom = '1rem';
-        // sidebar button fix
+
+        //sidebar button fix
         const sideBarButttonOpen = document.querySelector('label #btn');
         const sideBarButttonClose = document.querySelector('label #cancel');
         sideBarButttonOpen.style.marginTop = '0px';
         sideBarButttonClose.style.marginTop = '0px';
 
+        //msg list bg-color
+        const msgList = document.querySelector('#root > div > div.right-panel > div.rce-container-mlist.message-list > div');
+        msgList.style.backgroundColor = '#330662';
+
+        //left chat list
+        const chatList = document.querySelector('#root > div > div.chat-list > div');
+        chatList.style.background = '#57068c';
+        chatList.style.borderRadius = '5px 0px 0px 5px';
+
+        //chat list search box
+        const chatLstSearchBox = document.querySelector('#root > div > div.chat-list > div > div:nth-child(1) > span > div.rce-container-input');
+        chatLstSearchBox.style.backgroundColor = '#230542';
+        chatLstSearchBox.style.borderRadius = '5px 5px 0px 0px';
+        //chat list search area
+        const chatLstSearchArea = document.querySelector('#root > div > div.chat-list > div > div:nth-child(1) > span > div.rce-container-input > input');
+        chatLstSearchArea.style.backgroundColor = '#57068c';
+        chatLstSearchArea.style.color = 'white';
+        chatLstSearchArea.style.margin = '1%';
+        chatLstSearchArea.style.marginLeft = '5px';
+        chatLstSearchArea.style.fontSize = '1rem';
+        chatLstSearchArea.style.height = '34px';
+        
+        //all icons to white
+        const allIcons = document.querySelectorAll('.rce-button');
+        allIcons.forEach(icon =>{
+            icon.style.color = 'white';
+        })
+
+        //text box
+        const textBox = document.querySelector('#root > div > div.right-panel > div.rce-container-input');
+        textBox.style.borderRadius = '0px 0px 5px 0px';
+        textBox.style.backgroundColor = '#230542';
+        textBox.style.minHeight = '6%';
+        //textbox text area
+        const textArea = document.querySelector('#root > div > div.right-panel > div.rce-container-input > textarea');
+        textArea.style.backgroundColor = '#57068c';
+        textArea.style.height = '41px';
+        textArea.style.fontSize = '1rem';
+        textArea.style.color = 'white'; //placeholder white style added at bottom
+        //send button
+        const sendButton = document.querySelector('#root > div > div.right-panel > div.rce-container-input > div:nth-child(3) > button');
+        sendButton.classList.add("standard_button");
+        sendButton.style.backgroundColor= '#57068c';
+        sendButton.style.width= '100%';
+        sendButton.innerHTML = `<i class="fa-solid fa-paper-plane fa-1x"></i>`;
+
+        //left msg box color<<<<
+        // const leftMsgBox = document.getElementsByClassName('rce-mbox');
+        // console.log(leftMsgBox);
+        // leftMsgBox.style.backgroundColor = '#775a9d';
+        // //left msg box triangle color (same)
+        // const leftMsgBoxTri = document.querySelector('#root > div > div.right-panel > div.rce-container-mlist.message-list > div > div:nth-child(4) > div > div:nth-child(2) > svg');
+        // leftMsgBoxTri.style.fill = '#775a9d';
+
+        // //right msg box color
+        // const rightMsgBox = document.querySelectorAll('#root > div > div.right-panel > div.rce-container-mlist.message-list > div > div:nth-child(1) > div');
+        // console.log("rightMsg triggered");
+        // console.log(rightMsgBox);
+        // const arr = Array.prototype.slice.call(rightMsgBox);
+        // console.log(arr);
+        // arr.forEach(box=>{
+        //     box.style.backgroundColor = '#57068c';
+        // })
+        // //right msg box triangle color (same)
+        // const rightMsgBoxTri = document.querySelector('#root > div > div.right-panel > div.rce-container-mlist.message-list > div > div:nth-child(1) > div > svg');
+        // rightMsgBoxTri.style.fill = '#57068c';
+
+        //chat list item <<<
+        // const chatLstItem = document.querySelectorAll('#root > div > div.chat-list > div > div:nth-child(1) > span > div.rce-container-clist > div:nth-child(1) > div');
+        const chatLstItem = document.querySelectorAll('.rce-citem');
+        console.log(chatLstItem);
+        chatLstItem.forEach(item=>{
+            item.style.backgroundColor = '#57068c';
+        })
+
+
+
     </script>
-    <!-- -->
+    <style>#root div div.right-panel div.rce-container-input textarea.rce-input::placeholder{color: white;}
+    #root > div > div.chat-list > div > div:nth-child(1) > span > div.rce-container-input > input::placeholder{color:white;}
+    </style>
+    <!-- ---- -->
+
 </html>

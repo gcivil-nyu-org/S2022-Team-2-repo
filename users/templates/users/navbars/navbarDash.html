@@ -5,7 +5,7 @@
     <div class="container-md ">
 
         <!-- Current page Name -->
-        <a class="navbar-brand ms-5" href="{% url 'dashboard' %}">
+        <a class="navbar-brand ms-5" >
             <span class="fw-bold fs-3 " id="currPageName"></span>
         </a>
 
@@ -85,7 +85,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <script>
+    <!-- <script>
         window.onload = function navDashText() {
             let currPath = window.location.pathname;
             console.log(currPath);
@@ -98,7 +98,7 @@
             }
             document.getElementById("currPageName").innerText = currPath;
         }
-    </script>
+    </script> -->
 
     <script type="text/javascript">
 
@@ -121,6 +121,21 @@
                 }
             });
         }
+
+        let currPath = window.location.pathname;
+        console.log(currPath);
+        if (currPath == '/dashboard/' || currPath == '/login/') {
+            currPath = "Dashboard";
+        }else if(currPath == '/dashboard/my_friends'){
+            currPath = "My Friends";
+        }else if(currPath == '/dashboard/preferences/'){
+            currPath = "Preference";
+        }else {
+            currPath = " ";
+            const searchBoxSize = document.getElementById("navSearch");
+            searchBoxSize.style.width = "500px"; //extent the bar a bit
+        }
+        document.getElementById("currPageName").innerText = currPath;
 
     </script>
 

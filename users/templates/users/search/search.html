@@ -149,9 +149,12 @@
                 <p hidden id="requestSentModal{{user.id}}" class="standard_button" style="width: 200px; height: 40px;">
                 </p>
                 <div>
+                    {% if user.id in friend_list %}
+                    {% else %}
                     <button id="friendRequest{{user.id}}" value="{{user.id}}" onclick="friendRequest({{user.id}})"
                         name="friendRequest" class="standard_button friend_request{{user.id}}"
                         style="width: 200px; height: 40px;">Send Friend Request</button>
+                    {% endif %}
                 </div>
             </div>
         </div>
