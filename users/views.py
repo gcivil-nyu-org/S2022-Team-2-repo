@@ -10,6 +10,9 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+import numpy as np
+import random
+
 
 from users.forms import (
     ProfileUpdateForm,
@@ -412,32 +415,84 @@ def notifications(request):
     return HttpResponse(str(num_notifications), content_type="text/plain")
 
 
-def get_match(user):
-    potential_matches = User.objects.exclude(id=user.id) \
-        .exclude(id__in=user.profile.friends.all().values_list('id', flat=True)).exclude(is_staff="t")
-    # .exclude(id__in=user.profile.declined_users.all().values_list('id', flat=True))
+def reject_suggestion(request):
+    user_id = request.POST.get("friendID")
+    if user_id is not None:
+        # Add them to request.user profile seen user
+        rejector = User.objects.get(id=request.user.id)
+        rejectee = User.objects.get(id=user_id)
+        rejector.profile.seen_users.add(rejectee.profile)
+
+    return HttpResponse()
+
+
+def approve_suggestion(request):
+    user_id = request.POST.get("friendID")
+    if user_id is not None:
+        # Add them to request.user profile seen user
+        accepter = User.objects.get(id=request.user.id)
+        acceptee = User.objects.get(id=user_id)
+        accepter.profile.seen_users.add(acceptee.profile)
+        print(accepter.profile.seen_users)
+
+        # Send a friend request
+        send_friend_request(request.user, user_id)
+
+    return HttpResponse()
+
+
+def get_matches(user):
+    matches = list(User.objects.exclude(id=user.id) \
+        .exclude(id__in=user.profile.friends.all().values_list('id', flat=True)).exclude(id__in=user.profile.seen_users.all().values_list('id', flat=True)).exclude(is_staff="t"))
     preference_fields = Preference._meta.get_fields()
 
     similarity = []
+    common_interests = []
 
-    for match in potential_matches:
+    for match in matches:
         count = 0
+
+        common_list = set()
 
         for i in range(4, len(preference_fields)):
             val1 = preference_fields[i].value_from_object(match.preference)
             val2 = preference_fields[i].value_from_object(user.preference)
-            count += len(set(val1).intersection(list(val2)))
+            common = set(val1).intersection(list(val2))
+            common_list = common_list.union(common)
+            count += len(common)
+
+        if 'NI' in common_list:
+            common_list.remove('NI')
 
         similarity.append(count)
+        common_interests.append(list(common_list))
 
-    match_index = similarity.index(max(similarity))
-    return potential_matches[match_index]
+    # Reorder the matches by similarity
+    similarity = np.array(similarity)
+    matches = np.array(matches)
+    common_interests = np.array(common_interests)
+    inds = similarity.argsort()[::-1]
+    ordered_matches = matches[inds]
+    ordered_interests = common_interests[inds]
+
+    return ordered_matches, ordered_interests
 
 
 @login_required
-def recommend_user(request):
-    print(get_match(request.user))
-    return HttpResponse()
+def friend_finder(request):
+    matches, interests = get_matches(request.user)
+    match_list = []
+    print(interests[0])
+    for index, match in enumerate(matches):
+        match_list.append({
+            "id": match.id,
+            "username": match.username,
+            "first_name": match.first_name,
+            "last_name": match.last_name,
+            "profile": Profile.objects.get(user=match),
+            "common_interests": random.choices(interests[index], k=3),
+        })
+    return render(request, "users/friends/friend_finder.html", {"matches": match_list})
 
 # @login_required
 # def users_list(request):

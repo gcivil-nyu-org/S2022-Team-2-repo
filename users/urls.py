@@ -56,7 +56,9 @@ urlpatterns = [
     path(
         "user/friends/decline", user_views.decline_request_query, name="decline_request"
     ),
-    path("user/friends/recommend", user_views.recommend_user, name="recommend-user"),
+    path("dashboard/friend_finder", user_views.friend_finder, name="friend-finder"),
+    path("suggestion/reject", user_views.reject_suggestion, name="reject-suggestion"),
+    path("suggestion/approve", user_views.approve_suggestion, name="approve-suggestion"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
