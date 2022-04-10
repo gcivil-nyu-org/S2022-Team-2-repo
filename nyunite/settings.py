@@ -110,7 +110,7 @@ if os.environ.get("TEST_DB", False):
         "NAME": BASE_DIR / "test.sqlite3",
     }
 else:
-    database = dj_database_url.config(env="DATABASE_URL")
+    database = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 DATABASES = {"default": database}
 

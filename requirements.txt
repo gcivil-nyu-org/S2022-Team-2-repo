@@ -1,6 +1,6 @@
 django~=4.0.3
 gunicorn
-psycopg2
+psycopg2-binary
 dj-database-url
 django-heroku
 django-dotenv
