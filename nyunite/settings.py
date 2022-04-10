@@ -167,10 +167,9 @@ MEDIA_URL = "/images/"  # Public URL at the browser
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-#
-# CORS_ORIGIN_WHITELIST = [
-#     "http://localhost:3000",
-# ]
+
+# CSRF
+CSRF_TRUSTED_ORIGINS = ["https://*.herokuapp.com", "https://*127.0.0.1*"]
 
 # Default redirect urls
 LOGIN_URL = "login"
