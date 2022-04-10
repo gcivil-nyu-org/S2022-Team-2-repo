@@ -67,12 +67,13 @@
         const chatList = document.querySelector('#root > div > div.chat-list > div');
         chatList.style.background = '#57068c';
         chatList.style.borderRadius = '5px 0px 0px 5px';
-        chatList.style.maxWidth = '310px';
+        chatList.style.maxWidth = '291px';
 
         //chat list search box
         const chatLstSearchBox = document.querySelector('#root > div > div.chat-list > div > div:nth-child(1) > span > div.rce-container-input');
         chatLstSearchBox.style.backgroundColor = '#230542';
         chatLstSearchBox.style.borderRadius = '5px 5px 0px 0px';
+        chatLstSearchBox.style.padding = '6px';
         //chat list search area
         const chatLstSearchArea = document.querySelector('#root > div > div.chat-list > div > div:nth-child(1) > span > div.rce-container-input > input');
         chatLstSearchArea.style.backgroundColor = '#57068c';
@@ -90,11 +91,12 @@
         })
 
         
-        // typing container
-        const container = document.querySelectorAll('.rce-container-input');
-        container.forEach(cont =>{
-            cont.style.height = "52px";
-        })
+        // // typing container <<< see above 'chat list search box' padding Akshat
+        // const container = document.querySelectorAll('.rce-container-input');
+        // container.forEach(cont =>{
+        //     cont.style.height = "52px";
+        // })
+        
         //text box
         const textBox = document.querySelector('#root > div > div.right-panel > div.rce-container-input');
         textBox.style.borderRadius = '0px 0px 5px 0px';
@@ -131,7 +133,13 @@
     .rce-mbox{background-color: #775a9d; color: white;}
     .rce-mbox-left-notch{fill: #775a9d;}
     .rce-mbox-time{color:#a69db2;}
-    .rce-mbox-title{display: none;} /*hide msgBox img and name*/    
+    .rce-mbox-title{display: none;} /*hide msgBox img and name */
+    /* chat list style */
+    .chat-list{max-width: 310px;}
+    .rce-citem{background:#775a9d; color:white;}    
+    .rce-citem:hover{background:#230542;}
+    .rce-citem-body--bottom-title{color:#a69db2;}
+    .rce-citem:hover .rce-citem-body--top-time{color:#a69db2;} /* timebox onhover */
     </style>
     <!-- ---- -->
 
