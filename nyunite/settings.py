@@ -110,11 +110,10 @@ if os.environ.get("TEST_DB", False):
         "NAME": BASE_DIR / "test.sqlite3",
     }
 else:
-
     database = dj_database_url.config(
         default="postgres://nyuniteadmin:django1234@localhost:5432/nyunite",
-        conn_max_age=600,
-        ssl_require=False,
+        conn_max_age=60,
+        ssl_require=True,
     )
 
 
