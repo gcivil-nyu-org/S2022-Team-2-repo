@@ -107,27 +107,6 @@
         sendButton.innerHTML = `<i class="fa-solid fa-paper-plane fa-1x"></i>`;
 
     //item to fix
-        //left msg box color<<<<
-        // const leftMsgBox = document.getElementsByClassName('rce-mbox');
-        // console.log(leftMsgBox);
-        // leftMsgBox.style.backgroundColor = '#775a9d';
-        // //left msg box triangle color (same)
-        // const leftMsgBoxTri = document.querySelector('#root > div > div.right-panel > div.rce-container-mlist.message-list > div > div:nth-child(4) > div > div:nth-child(2) > svg');
-        // leftMsgBoxTri.style.fill = '#775a9d';
-
-        // //right msg box color
-        // const rightMsgBox = document.getElementsByClassName('rce-mbox-right');
-        // console.log("rightMsg triggered");
-        // console.log(rightMsgBox);
-        // const arr = Array.from(rightMsgBox);
-        // console.log(arr);
-        // arr.forEach(box=>{
-        //     box.style.backgroundColor = '#57068c';
-        // })
-        // //right msg box triangle color (same)
-        // const rightMsgBoxTri = document.querySelector('#root > div > div.right-panel > div.rce-container-mlist.message-list > div > div:nth-child(1) > div > svg');
-        // rightMsgBoxTri.style.fill = '#57068c';
-
         //chat list item <<<
         // const chatLstItem = document.querySelectorAll('#root > div > div.chat-list > div > div:nth-child(1) > span > div.rce-container-clist > div:nth-child(1) > div');
         // const chatLstItem = document.querySelectorAll('.rce-citem');
@@ -139,6 +118,11 @@
     </script>
     <style>#root div div.right-panel div.rce-container-input textarea.rce-input::placeholder{color: white;}
     #root > div > div.chat-list > div > div:nth-child(1) > span > div.rce-container-input > input::placeholder{color:white;}
+    .rce-mbox.rce-mbox-right{background-color: #57068c; color: white;}
+    .rce-mbox-right-notch{fill: #57068c;}
+    .rce-mbox{background-color: #775a9d; color: white;}
+    .rce-mbox-left-notch{fill: #775a9d;}
+    .rce-mbox-time{color:#a69db2;}
     </style>
     <!-- ---- -->
 
