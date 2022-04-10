@@ -274,7 +274,6 @@ let fetchUsersList(existing: ChatItem array) =
         | Result.Ok r ->
             let! text = r.text()
             let decoded = Decode.fromString (Decode.array UserInfoResponse.Decoder) text
-            JS.console.log("DECODED " + text)
             return decoded
         | Result.Error e -> return Result.Error e.Message
     }

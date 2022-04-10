@@ -90,7 +90,7 @@ export class App extends Component {
             if (this.searchInput) this.searchInput.clear();
         };
 
-
+        var ws_type = window.location.protocol === 'https:' ? 'wss' : 'ws';
         this.state = {
             socketConnectionState: 0,
             showNewChatPopup: false,
@@ -104,7 +104,7 @@ export class App extends Component {
             onlinePKs: [],
             selfInfo: null,
             selectedDialog: null,
-            socket: new ReconnectingWebSocket('ws://' + window.location.host + '/chat_ws')
+            socket: new ReconnectingWebSocket(ws_type + '://' + window.location.host + '/chat_ws')
         };
         //some js magic
         this.performSendingMessage = this.performSendingMessage.bind(this);
