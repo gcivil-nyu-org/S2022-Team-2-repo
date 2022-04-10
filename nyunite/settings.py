@@ -110,14 +110,11 @@ if os.environ.get("TEST_DB", False):
         "NAME": BASE_DIR / "test.sqlite3",
     }
 else:
-    ssl_require = True
-    if not os.environ.get("DATABASE_URL", False):
-        ssl_require = False
 
     database = dj_database_url.config(
         default="postgres://nyuniteadmin:django1234@localhost:5432/nyunite",
         conn_max_age=600,
-        ssl_require=ssl_require,
+        ssl_require=False,
     )
 
 
