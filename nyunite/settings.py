@@ -35,7 +35,7 @@ SECRET_KEY = str(
 DEBUG = bool(os.environ.get("DEBUG_MODE", True))
 
 # Host settings
-ALLOWED_HOSTS = ["nyunite.herokuapp.com", "nyunite-prod.herokuapp.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["nyunite.herokuapp.com", "nyunite-prod.herokuapp.com", "127.0.0.1", "*.herokuapp.com"]
 
 # Configure email host server
 EMAIL_USE_TLS = True
