@@ -1,1 +1,1 @@
-web: daphne nyunite.asgi:application
+web: daphne nyunite.asgi:application -p $PORT
