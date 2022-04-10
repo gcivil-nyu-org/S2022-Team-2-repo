@@ -1,1 +1,1 @@
-web: gunicorn nyunite.asgi
+web: daphne nyunite.asgi:application
