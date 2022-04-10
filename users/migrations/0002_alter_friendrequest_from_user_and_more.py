@@ -9,18 +9,26 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='friendrequest',
-            name='from_user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='from_user_friend', to=settings.AUTH_USER_MODEL),
+            model_name="friendrequest",
+            name="from_user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="from_user_friend",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AlterField(
-            model_name='friendrequest',
-            name='to_user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='to_user_friend', to=settings.AUTH_USER_MODEL),
+            model_name="friendrequest",
+            name="to_user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="to_user_friend",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]
