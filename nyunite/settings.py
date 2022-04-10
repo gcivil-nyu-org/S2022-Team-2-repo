@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 
+import dj_database_url
 import django_heroku
 import dotenv
 
@@ -109,18 +110,16 @@ if os.environ.get("TEST_DB", False):
         "NAME": BASE_DIR / "test.sqlite3",
     }
 else:
-    host = os.environ.get("DATABASE_URL", "")
-    name = os.environ.get("DATABASE_NAME", "nyunite")
-    user = os.environ.get("DATABASE_USER", "nyuniteadmin")
-    password = os.environ.get("DATABASE_PASSWORD", "django1234")
+    ssl_require = True
+    if not os.environ.get("DATABASE_URL", False):
+        ssl_require = False
 
-    database = {
-        "ENGINE": "django.db.backends.postgresql",
-        "HOST": host,
-        "NAME": name,
-        "USER": user,
-        "PASSWORD": password,
-    }
+    database = dj_database_url.config(
+        default="postgres://nyuniteadmin:django1234@localhost:5432/nyunite",
+        conn_max_age=600,
+        ssl_require=ssl_require,
+    )
+
 
 DATABASES = {"default": database}
 
