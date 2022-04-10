@@ -1,1 +1,1 @@
-web: gunicorn nyunite.wsgi
+web: gunicorn nyunite.asgi
