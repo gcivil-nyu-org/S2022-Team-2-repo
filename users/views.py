@@ -13,7 +13,6 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 import numpy as np
 import random
 
-
 from users.forms import (
     ProfileUpdateForm,
     UserRegisterForm,
@@ -25,6 +24,7 @@ from users.forms import (
     PreferencesExploreForm,
 )
 from users.models import Preference, Profile, FriendRequest
+from users.preferences import interests_choices
 
 from users.tokens import account_activation_token
 
@@ -321,7 +321,7 @@ def preferences(request):
 # Helper function for searching
 def get_search(request):
     search_query = request.GET.get("navSearch", "").strip()
-
+    print(search_query)
     username_query = Q(username__icontains=search_query)
     fullname_query = Q(full_name__icontains=search_query)
 
@@ -443,11 +443,14 @@ def approve_suggestion(request):
 
 def get_matches(user):
     matches = list(User.objects.exclude(id=user.id) \
-        .exclude(id__in=user.profile.friends.all().values_list('id', flat=True)).exclude(id__in=user.profile.seen_users.all().values_list('id', flat=True)).exclude(is_staff="t"))
+                   .exclude(id__in=user.profile.friends.all().values_list('id', flat=True)).exclude(
+        id__in=user.profile.seen_users.all().values_list('id', flat=True)).exclude(is_staff="t"))
     preference_fields = Preference._meta.get_fields()
 
     similarity = []
     common_interests = []
+    not_interested = ["Movie_NI", "MUSIC_NI", "Cookeat_NI", "Travel_NI", "Art_NI", "Dance_NI", "Sports_NI", "Pet_NI",
+                      "Nyc_NI"]
 
     for match in matches:
         count = 0
@@ -461,8 +464,9 @@ def get_matches(user):
             common_list = common_list.union(common)
             count += len(common)
 
-        if 'NI' in common_list:
-            common_list.remove('NI')
+        for ele in not_interested:
+            if ele in common_list:
+                common_list.remove(ele)
 
         similarity.append(count)
         common_interests.append(list(common_list))
@@ -482,15 +486,26 @@ def get_matches(user):
 def friend_finder(request):
     matches, interests = get_matches(request.user)
     match_list = []
-    print(interests[0])
+    similar_choices = []
+    print(matches)
     for index, match in enumerate(matches):
+        print(type(interests[index]))
+        # print(random.choices(interests[index],k=3))
+        matched_hobbies = interests[index]
+        print(interests[index])
+        print(type(match))
+        print(match)
+        print(matched_hobbies)
+        for i in matched_hobbies:
+            print(interests_choices[i])
+            similar_choices.append(interests_choices[i])
         match_list.append({
             "id": match.id,
             "username": match.username,
             "first_name": match.first_name,
             "last_name": match.last_name,
             "profile": Profile.objects.get(user=match),
-            "common_interests": random.choices(interests[index], k=3),
+            "common_interests": similar_choices,
         })
     return render(request, "users/friends/friend_finder.html", {"matches": match_list})
 
