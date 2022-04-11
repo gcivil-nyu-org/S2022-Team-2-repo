@@ -168,10 +168,10 @@ class LoginForm(forms.Form):
 
 class PreferencesPersonalityForm(forms.ModelForm):
     personality_type = forms.ChoiceField(
-        choices=PERSONALITY_CHOICES, widget=forms.RadioSelect()
+        choices=PERSONALITY_CHOICES, widget=forms.RadioSelect() , required=True
     )
     stay_go_type = forms.ChoiceField(
-        choices=STAY_GO_CHOICES, widget=forms.RadioSelect()
+        choices=STAY_GO_CHOICES, widget=forms.RadioSelect() , required=True
     )
 
     class Meta:
@@ -184,16 +184,16 @@ class PreferencesPersonalityForm(forms.ModelForm):
 
 class PreferencesHobbiesForm(forms.ModelForm):
     movie_choices = forms.MultipleChoiceField(
-        choices=MOVIES_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=MOVIES_CHOICES, widget=forms.CheckboxSelectMultiple() , required=True
     )
     music_choices = forms.MultipleChoiceField(
-        choices=MUSIC_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=MUSIC_CHOICES, widget=forms.CheckboxSelectMultiple() , required=True
     )
     art_choices = forms.MultipleChoiceField(
-        choices=ART_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=ART_CHOICES, widget=forms.CheckboxSelectMultiple() , required=True
     )
     dance_choices = forms.MultipleChoiceField(
-        choices=DANCE_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=DANCE_CHOICES, widget=forms.CheckboxSelectMultiple() , required=True
     )
 
     class Meta:
@@ -208,19 +208,19 @@ class PreferencesHobbiesForm(forms.ModelForm):
 
 class PreferencesExploreForm(forms.ModelForm):
     food_choices = forms.MultipleChoiceField(
-        choices=COOKEAT_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=COOKEAT_CHOICES, widget=forms.CheckboxSelectMultiple() , required=True
     )
     travel_choices = forms.MultipleChoiceField(
-        choices=TRAVEL_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=TRAVEL_CHOICES, widget=forms.CheckboxSelectMultiple() , required=True
     )
     sports_choices = forms.MultipleChoiceField(
-        choices=SPORTS_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=SPORTS_CHOICES, widget=forms.CheckboxSelectMultiple() , required=True
     )
     nyc_choices = forms.MultipleChoiceField(
-        choices=NYC_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=NYC_CHOICES, widget=forms.CheckboxSelectMultiple() , required=True
     )
     pet_choices = forms.MultipleChoiceField(
-        choices=PET_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=PET_CHOICES, widget=forms.CheckboxSelectMultiple() , required=True
     )
 
     class Meta:

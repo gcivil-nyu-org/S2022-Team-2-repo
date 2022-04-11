@@ -89,6 +89,9 @@ urlpatterns = [
         login_required(TemplateView.as_view(template_name="users/chat.html")),
         name="chat",
     ),
+    path("dashboard/friend_finder", user_views.friend_finder, name="friend-finder"),
+    path("suggestion/reject", user_views.reject_suggestion, name="reject-suggestion"),
+    path("suggestion/approve", user_views.approve_suggestion, name="approve-suggestion"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

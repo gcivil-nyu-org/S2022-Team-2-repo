@@ -16,3 +16,4 @@ flake8
 coverage
 coveralls
 channels~=3.0.4
+numpy
