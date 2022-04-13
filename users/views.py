@@ -14,6 +14,8 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
+import numpy as np
+import random
 
 from users.forms import (
     ProfileUpdateForm,
@@ -26,6 +28,8 @@ from users.forms import (
     PreferencesExploreForm,
 )
 from users.models import Preference, Profile, FriendRequest
+from users.preferences import interests_choices
+
 from users.tokens import account_activation_token
 
 User = get_user_model()
@@ -380,15 +384,15 @@ def preferences(request):
 # Helper function for searching
 def get_search(request):
     search_query = request.GET.get("navSearch", "").strip()
-
+    print(search_query)
     username_query = Q(username__icontains=search_query)
     fullname_query = Q(full_name__icontains=search_query)
 
     query_set = (
         User.objects.annotate(full_name=Concat("first_name", V(" "), "last_name"))
-        .filter(username_query | fullname_query)
-        .exclude(id=request.user.id)
-        .exclude(is_staff="t")
+            .filter(username_query | fullname_query)
+            .exclude(id=request.user.id)
+            .exclude(is_staff="t")
     )
     return search_query, query_set
 
@@ -473,6 +477,100 @@ def notifications(request):
     num_notifications = len(FriendRequest.objects.filter(to_user_id=request.user))
     return HttpResponse(str(num_notifications), content_type="text/plain")
 
+
+def reject_suggestion(request):
+    user_id = request.POST.get("friendID")
+    if user_id is not None:
+        # Add them to request.user profile seen user
+        rejector = User.objects.get(id=request.user.id)
+        rejectee = User.objects.get(id=user_id)
+        rejector.profile.seen_users.add(rejectee.profile)
+
+    return HttpResponse()
+
+
+def approve_suggestion(request):
+    user_id = request.POST.get("friendID")
+    if user_id is not None:
+        # Add them to request.user profile seen user
+        accepter = User.objects.get(id=request.user.id)
+        acceptee = User.objects.get(id=user_id)
+        accepter.profile.seen_users.add(acceptee.profile)
+        print(accepter.profile.seen_users)
+
+        # Send a friend request
+        send_friend_request(request.user, user_id)
+
+    return HttpResponse()
+
+
+def get_matches(user):
+    matches = list(User.objects.exclude(id=user.id) \
+                   .exclude(id__in=user.profile.friends.all().values_list('id', flat=True)).exclude(
+        id__in=user.profile.seen_users.all().values_list('id', flat=True)).exclude(is_staff="t"))
+    preference_fields = Preference._meta.get_fields()
+
+    similarity = []
+    common_interests = []
+    not_interested = ["Movie_NI", "MUSIC_NI", "Cookeat_NI", "Travel_NI", "Art_NI", "Dance_NI", "Sports_NI", "Pet_NI",
+                      "Nyc_NI"]
+
+    for match in matches:
+        count = 0
+
+        common_list = set()
+
+        for i in range(4, len(preference_fields)):
+            val1 = preference_fields[i].value_from_object(match.preference)
+            val2 = preference_fields[i].value_from_object(user.preference)
+            common = set(val1).intersection(list(val2))
+            common_list = common_list.union(common)
+            count += len(common)
+
+        for ele in not_interested:
+            if ele in common_list:
+                common_list.remove(ele)
+
+        similarity.append(count)
+        common_interests.append(list(common_list))
+
+    # Reorder the matches by similarity
+    similarity = np.array(similarity)
+    matches = np.array(matches)
+    common_interests = np.array(common_interests)
+    inds = similarity.argsort()[::-1]
+    ordered_matches = matches[inds]
+    ordered_interests = common_interests[inds]
+
+    return ordered_matches, ordered_interests
+
+
+@login_required
+def friend_finder(request):
+    matches, interests = get_matches(request.user)
+    match_list = []
+    similar_choices = []
+    print(matches)
+    for index, match in enumerate(matches):
+        print(type(interests[index]))
+        # print(random.choices(interests[index],k=3))
+        matched_hobbies = interests[index]
+        print(interests[index])
+        print(type(match))
+        print(match)
+        print(matched_hobbies)
+        for i in matched_hobbies:
+            print(interests_choices[i])
+            similar_choices.append(interests_choices[i])
+        match_list.append({
+            "id": match.id,
+            "username": match.username,
+            "first_name": match.first_name,
+            "last_name": match.last_name,
+            "profile": Profile.objects.get(user=match),
+            "common_interests": similar_choices,
+        })
+    return render(request, "users/friends/friend_finder.html", {"matches": match_list})
 
 # @login_required
 # def users_list(request):

@@ -1,0 +1,69 @@
+{% extends 'users/dashboard_base.html' %}
+{% load static %}
+
+{% block body %}
+
+<div class="container">
+			<div class="card-stack">
+				<ul class="card-list">
+				    {% if matches %}
+				    {% for match in matches %}
+					<li class="card" id="suggestion{{match.id}}">
+						<h3 class="purple-text"> {{match.first_name}} {{match.last_name}} </h3>
+						<p class="purple-text"> {{match.username}} </p>
+						<p class="purple-text"> {{match.profile.bio}} </p>
+						<p class="purple-text"> {{match.common_interests}} </p>
+                        <img src="{{ match.profile.image.url }}" style="height:100px; width:100px; object-fit:cover; border-radius:50%"> </img>
+
+						<button class="standard_button" onclick="reject_suggestion({{match.id}})"> Reject </button>
+						<button class="standard_button" onclick="approve_suggestion({{match.id}})"> Approve </button>
+					</li>
+					{% endfor %}
+					{% endif %}
+                    <li>
+					    <p class="white-text"> You don't have any matches!</p>
+					</li>
+                    
+                </ul>
+		</div>
+	</div>
+
+
+
+<script type="text/javascript">
+    var token = '{{csrf_token}}';
+
+    // API should add this user to the 'rejected users' in the current user's profile
+    function reject_suggestion(id) {
+            let data = {};
+            data["friendID"] = id;
+            let url = "{% url 'reject-suggestion' %}";
+            $.ajax({
+                headers: { "X-CSRFToken": token },
+                method: "POST",
+                url: url,
+                data: data
+            }).done(function (msg) {
+                document.getElementById("suggestion" + String(id)).outerHTML = "";
+        });
+    }
+
+// API should add this user to the 'rejected users' in the current user's profile
+// send a friend request from current user to this user
+function approve_suggestion(id) {
+        let data = {};
+            data["friendID"] = id;
+            let url = "{% url 'approve-suggestion' %}";
+            $.ajax({
+                headers: { "X-CSRFToken": token },
+                method: "POST",
+                url: url,
+                data: data
+            }).done(function (msg) {
+                document.getElementById("suggestion" + String(id)).outerHTML = "";
+        });
+    }
+
+</script>
+
+{% endblock %}
