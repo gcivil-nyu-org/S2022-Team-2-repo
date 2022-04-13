@@ -136,6 +136,7 @@
     </div>
 
     <script>
+        // crashes with navDash window.onload -- need bug fix
         window.onload = function replacePrefId() {
             let dict = {
                 "Introverted/Extroverted:": "IE",
@@ -158,6 +159,42 @@
                     = document.getElementById("prefList").innerHTML
                         .replace(key, dict[key]);
             }
+
+            // from navDash notification
+            let data = {};
+            data["user"] = "{{user}}";
+
+            let url = "{% url 'notification_count' %}";
+            $.ajax({
+                method: "GET",
+                url: url,
+                data: data, 
+            }).done(function(msg) {
+                var count = parseInt(msg);
+                if (count===0){
+                    document.getElementById('bell').style.display='none';
+                }
+                else{
+                    $('#bell').text(count);
+                }
+            });
+
+            // from navDash pathname
+            let currPath = window.location.pathname;
+            console.log(currPath);
+            if (currPath == '/dashboard/' || currPath == '/login/') {
+                currPath = "Dashboard";
+            }else if(currPath == '/dashboard/my_friends'){
+                currPath = "My Friends";
+            }else if(currPath == '/dashboard/preferences/'){
+                currPath = "Preference";
+            }else {
+                currPath = " ";
+                const searchBoxSize = document.getElementById("navSearch");
+                searchBoxSize.style.width = "500px"; //extent the bar a bit
+            }
+            document.getElementById("currPageName").innerText = currPath;
+
         }
     </script>
 </body>
