@@ -1,15 +1,19 @@
+from typing import List
+
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.db.models import Q, Value as V
 from django.db.models.functions import Concat
 from django.forms import model_to_dict
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.views.generic import ListView, DetailView
 
 from users.forms import (
     ProfileUpdateForm,
@@ -22,7 +26,6 @@ from users.forms import (
     PreferencesExploreForm,
 )
 from users.models import Preference, Profile, FriendRequest
-
 from users.tokens import account_activation_token
 
 User = get_user_model()
@@ -293,6 +296,65 @@ def preferences_explore(request):
     else:
         form = PreferencesExploreForm(instance=prefs)
     return render(request, "users/preferences/preferences3.html", {"form": form})
+
+
+class FriendsListView(LoginRequiredMixin, ListView):
+    http_method_names = [
+        "get",
+    ]
+
+    def get_queryset(self):
+        profile = Profile.objects.get(user=self.request.user)
+        return profile.friends.all()
+
+    def render_to_response(self, context, **response_kwargs):
+        profiles: List[User] = context["object_list"]
+
+        data = [
+            {
+                "username": profile.user.get_username(),
+                "pk": str(profile.user.pk),
+                "first_name": str(profile.user.first_name),
+                "last_name": str(profile.user.last_name),
+                "image": profile.image.url,
+            }
+            for profile in profiles
+        ]
+        return JsonResponse(data, safe=False, **response_kwargs)
+
+
+class SelfView(LoginRequiredMixin, DetailView):
+    http_method_names = [
+        "get",
+    ]
+
+    model = Profile
+
+    def render_to_response(self, context, **response_kwargs):
+        profile: Profile = context["object"]
+
+        data = {
+            "username": profile.user.get_username(),
+            "pk": str(profile.user.pk),
+            "first_name": str(profile.user.first_name),
+            "last_name": str(profile.user.last_name),
+            "image": profile.image.url,
+        }
+        return JsonResponse(data, safe=False, **response_kwargs)
+
+
+@login_required
+def self_info(request):
+    profile = Profile.objects.get(user=request.user)
+
+    data = {
+        "username": profile.user.get_username(),
+        "pk": str(profile.user.pk),
+        "first_name": str(profile.user.first_name),
+        "last_name": str(profile.user.last_name),
+        "image": profile.image.url,
+    }
+    return JsonResponse(data, safe=False)
 
 
 @login_required
