@@ -390,9 +390,9 @@ def get_search(request):
 
     query_set = (
         User.objects.annotate(full_name=Concat("first_name", V(" "), "last_name"))
-            .filter(username_query | fullname_query)
-            .exclude(id=request.user.id)
-            .exclude(is_staff="t")
+        .filter(username_query | fullname_query)
+        .exclude(id=request.user.id)
+        .exclude(is_staff="t")
     )
     return search_query, query_set
 
@@ -505,15 +505,27 @@ def approve_suggestion(request):
 
 
 def get_matches(user):
-    matches = list(User.objects.exclude(id=user.id) \
-                   .exclude(id__in=user.profile.friends.all().values_list('id', flat=True)).exclude(
-        id__in=user.profile.seen_users.all().values_list('id', flat=True)).exclude(is_staff="t"))
+    matches = list(
+        User.objects.exclude(id=user.id)
+        .exclude(id__in=user.profile.friends.all().values_list("id", flat=True))
+        .exclude(id__in=user.profile.seen_users.all().values_list("id", flat=True))
+        .exclude(is_staff="t")
+    )
     preference_fields = Preference._meta.get_fields()
 
     similarity = []
     common_interests = []
-    not_interested = ["Movie_NI", "MUSIC_NI", "Cookeat_NI", "Travel_NI", "Art_NI", "Dance_NI", "Sports_NI", "Pet_NI",
-                      "Nyc_NI"]
+    not_interested = [
+        "Movie_NI",
+        "MUSIC_NI",
+        "Cookeat_NI",
+        "Travel_NI",
+        "Art_NI",
+        "Dance_NI",
+        "Sports_NI",
+        "Pet_NI",
+        "Nyc_NI",
+    ]
 
     for match in matches:
         count = 0
@@ -562,15 +574,18 @@ def friend_finder(request):
         for i in matched_hobbies:
             print(interests_choices[i])
             similar_choices.append(interests_choices[i])
-        match_list.append({
-            "id": match.id,
-            "username": match.username,
-            "first_name": match.first_name,
-            "last_name": match.last_name,
-            "profile": Profile.objects.get(user=match),
-            "common_interests": similar_choices,
-        })
+        match_list.append(
+            {
+                "id": match.id,
+                "username": match.username,
+                "first_name": match.first_name,
+                "last_name": match.last_name,
+                "profile": Profile.objects.get(user=match),
+                "common_interests": similar_choices,
+            }
+        )
     return render(request, "users/friends/friend_finder.html", {"matches": match_list})
+
 
 # @login_required
 # def users_list(request):
