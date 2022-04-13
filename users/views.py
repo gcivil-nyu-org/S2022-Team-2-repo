@@ -15,7 +15,6 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
 import numpy as np
-import random
 
 from users.forms import (
     ProfileUpdateForm,
