@@ -12,7 +12,7 @@
 		margin: 0 auto;
 		border-radius: 50%;
 		margin-top: 20px;
-		margin-left: 300px;
+		margin-left: 321px;
 	}
 </style>
 
@@ -37,6 +37,9 @@
 
 				<div class="account-settings">
 					<div class="user-profile">
+					<div class="col-md-3" style="align-items: center;">
+							<img class="profile-pic" src="{{request.user.profile.image.url}}">
+						</div>
 						<p class="purple-text"> {{user.first_name}} {{user.last_name}}</p>
 						<p class="purple-text"> {{user.username}}@nyu.edu </p>
 					</div>
