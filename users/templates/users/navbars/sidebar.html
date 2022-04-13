@@ -9,27 +9,27 @@
 
 <div class="sidebar" style="z-index:5">
     <img src="{% static 'images/logo_white.png' %}" height="60" alt="logo pic" id="sidebarlogo">
-    <a href="/dashboard" class="active">
+    <a href="/dashboard" id="sideBarDash" >
         <i class="fa-solid fa-chalkboard-user"></i>
         <span>Dashboard</span>
     </a>
-    <a href="/dashboard/my_friends">
+    <a href="/dashboard/my_friends" id="sideBarFriends">
         <i class="fas fa-user-friends"></i>
         <span>My Friends</span>
     </a>
-    <a href="#">
+    <a href="#" id="sideBarFinder">
         <i class="fas fa-user-plus"></i>
         <span>Friend Finder</span>
     </a>
-    <a href="{% url 'chat' %}">
+    <a href="{% url 'chat' %}" id="sideBarChat">
         <i class="fas fa-comment"></i>
         <span>Chat</span>
     </a>
-    <a href="#">
+    <a href="#" id="sideBarActivity">
         <i class="fas fa-star-half-stroke"></i>
         <span>Activities</span>
     </a>
-    <a href="/dashboard/preferences">
+    <a href="/dashboard/preferences" id="sideBarPref">
         <i class="fas fa-gear"></i>
         <span>Preferences</span>
     </a>
