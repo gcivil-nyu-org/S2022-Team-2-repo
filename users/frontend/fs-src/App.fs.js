@@ -295,7 +295,6 @@ export function fetchUsersList(existing) {
                 let decoder;
                 const text = _arg2;
                 const decoded = fromString(uncurry(2, (decoder = UserInfoResponse_get_Decoder(), (path) => ((value) => array_3(uncurry(2, decoder), path, value)))), text);
-                console.log(some("DECODED " + text));
                 return Promise.resolve(decoded);
             }));
         }

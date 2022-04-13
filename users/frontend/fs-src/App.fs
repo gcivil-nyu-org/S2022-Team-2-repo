@@ -229,7 +229,7 @@ let backendUrl = Browser.Dom.window.location.host
 let messagesEndpoint = sprintf "/messages/"
 let dialogsEndpoint = sprintf "/dialogs/"
 let selfEndpoint = sprintf "/user/self"
-let usersEndpoint = sprintf "/users/friends"
+let usersEndpoint = sprintf "/user/friends"
 
 let uploadEndpoint = sprintf "/upload/"
 let imageEndPoint = sprintf "%s/user/image" backendUrl

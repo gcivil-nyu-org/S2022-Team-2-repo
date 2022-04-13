@@ -61,7 +61,7 @@ urlpatterns = [
     re_path(
         r"", include("django_private_chat2.urls", namespace="django_private_chat2")
     ),
-    path("users/friends", user_views.FriendsListView.as_view(), name="friends_list"),
+    path("user/friends", user_views.FriendsListView.as_view(), name="friends_list"),
     path("users/<slug>/", user_views.SelfView.as_view(), name="user_info"),
     path("user/self", user_views.self_info, name="self_info"),
     path(
