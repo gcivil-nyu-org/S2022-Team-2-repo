@@ -16,11 +16,20 @@
   .col-md-2-5 {
     width: 20%;
   }
+
+  div #linebreak {
+      /*hr tag*/
+      height: 3px;
+      width: 100%;
+      border-width: 0;
+      color: #8548ad;
+      background-color: #8548ad;
+  }
 </style>
 
 <section>
   <div class="container-md mt-3">
-    <h1 class="fw-bold"> My Friends </h1>
+    <!-- <h1 class="fw-bold"> My Friends </h1> -->
     <h3>Invitations</h3>
     <div class="d-flex align-items-start flex-column">
       {% if invitations.count == 0 %}
@@ -73,6 +82,8 @@
 
 <section>
   <div class="container-md mt-3">
+    <hr id="linebreak">
+
     <h3> My Friends </h3>
     {% if friends.count == 0 %}
     <h5 style="color:#ab82c5;"> You haven't added any friends yet! </h5>
