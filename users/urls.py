@@ -1,6 +1,8 @@
-from django.urls import path
-from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth.decorators import login_required
+from django.urls import path, re_path, include
+from django.views.generic import TemplateView
 
 from users import views as user_views
 
@@ -55,6 +57,17 @@ urlpatterns = [
     path("user/friends/accept", user_views.accept_request_query, name="accept_request"),
     path(
         "user/friends/decline", user_views.decline_request_query, name="decline_request"
+    ),
+    re_path(
+        r"", include("django_private_chat2.urls", namespace="django_private_chat2")
+    ),
+    path("user/friends", user_views.FriendsListView.as_view(), name="friends_list"),
+    path("users/<slug>/", user_views.SelfView.as_view(), name="user_info"),
+    path("user/self", user_views.self_info, name="self_info"),
+    path(
+        "dashboard/chat",
+        login_required(TemplateView.as_view(template_name="users/chat.html")),
+        name="chat",
     ),
 ]
 if settings.DEBUG:
