@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
+from django.urls import reverse
 from multiselectfield import MultiSelectField
 
 from .preferences import *
@@ -33,7 +34,7 @@ class Profile(models.Model):
             img.save(self.image.path)  # Save it again and override the larger image
 
     def get_absolute_url(self):
-        return "/users/{}".format(self.slug)
+        return reverse("user_info", kwargs={"slug": self.slug})
 
 
 def post_save_user_model_receiver(sender, instance, created, *args, **kwargs):

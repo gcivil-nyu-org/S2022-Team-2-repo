@@ -9,6 +9,7 @@ open Fetch
 open Thoth.Json
 open App.AppTypes
 open App.Utils
+open FSharp.Data
 
 let defaultDataStatus = {click=true;loading=0.;download=false}
 let createOnDownload (uri:string) (filename:string)(e: obj) =
@@ -224,13 +225,14 @@ let sendMessageReadMessage (sock: WebSocket) (user_pk: string) (message_id: int6
     ]
     sock.send (msgTypeEncoder MessageTypes.MessageRead data)
 
-let backendUrl = "http://127.0.0.1:8000"
-let messagesEndpoint = sprintf "%s/messages/" backendUrl
-let dialogsEndpoint = sprintf "%s/dialogs/" backendUrl
-let selfEndpoint = sprintf "%s/self/" backendUrl
-let usersEndpoint = sprintf "%s/users/" backendUrl
+let backendUrl = Browser.Dom.window.location.host
+let messagesEndpoint = sprintf "/messages/"
+let dialogsEndpoint = sprintf "/dialogs/"
+let selfEndpoint = sprintf "/user/self"
+let usersEndpoint = sprintf "/user/friends"
 
-let uploadEndpoint = sprintf "%s/upload/" backendUrl
+let uploadEndpoint = sprintf "/upload/"
+let imageEndPoint = sprintf "%s/user/image" backendUrl
 
 
 let uploadFile (f: FileList) (csrfToken: string) =
@@ -272,7 +274,6 @@ let fetchUsersList(existing: ChatItem array) =
         | Result.Ok r ->
             let! text = r.text()
             let decoded = Decode.fromString (Decode.array UserInfoResponse.Decoder) text
-
             return decoded
         | Result.Error e -> return Result.Error e.Message
     }
@@ -282,12 +283,12 @@ let fetchUsersList(existing: ChatItem array) =
     |> Array.map (fun dialog ->
         {
             id = dialog.pk
-            avatar = getPhotoString dialog.pk None
+            avatar = dialog.image
             avatarFlexible = true
             statusColor = ""
             statusColorType = None
-            alt = dialog.username
-            title = dialog.username
+            alt = dialog.first_name
+            title = dialog.first_name
             date = DateTimeOffset.Now
             subtitle = ""
             unread = 0

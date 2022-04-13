@@ -14,5 +14,6 @@
     <PackageReference Include="Fable.Browser.Dom" Version="2.2.0" />
     <PackageReference Include="Fable.Fetch" Version="2.2.0" />
     <PackageReference Include="Thoth.Json" Version="5.1.0" />
+    <PackageReference Include="FSharp.Data" Version="4.2.8" />
   </ItemGroup>
 </Project>

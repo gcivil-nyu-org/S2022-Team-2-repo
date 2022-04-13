@@ -220,17 +220,19 @@ export function sendMessageReadMessage(sock, user_pk, message_id) {
     sock.send(msgTypeEncoder(6, data));
 }
 
-export const backendUrl = "http://127.0.0.1:8000";
+export const backendUrl = window.location.host;
 
-export const messagesEndpoint = toText(printf("%s/messages/"))(backendUrl);
+export const messagesEndpoint = toText(printf("/messages/"));
 
-export const dialogsEndpoint = toText(printf("%s/dialogs/"))(backendUrl);
+export const dialogsEndpoint = toText(printf("/dialogs/"));
 
-export const selfEndpoint = toText(printf("%s/self/"))(backendUrl);
+export const selfEndpoint = toText(printf("/user/self"));
 
-export const usersEndpoint = toText(printf("%s/users/"))(backendUrl);
+export const usersEndpoint = toText(printf("/users/friends"));
 
-export const uploadEndpoint = toText(printf("%s/upload/"))(backendUrl);
+export const uploadEndpoint = toText(printf("/upload/"));
+
+export const imageEndPoint = toText(printf("%s/user/image"))(backendUrl);
 
 export function uploadFile(f, csrfToken) {
     return PromiseBuilder__Run_212F1D4B(promise, PromiseBuilder__Delay_62FBFDE1(promise, () => {
@@ -278,7 +280,7 @@ export function fetchSelfInfo() {
 
 export function fetchUsersList(existing) {
     const existingPks = map_1((x) => x.id, existing);
-    return mapResult((x_1) => map_1((dialog_1) => (new ChatItem(dialog_1.pk, getPhotoString(dialog_1.pk, void 0), true, "", void 0, dialog_1.username, dialog_1.username, now(), "", 0)), x_1.filter((dialog) => (!contains(dialog.pk, existingPks, {
+    return mapResult((x_1) => map_1((dialog_1) => (new ChatItem(dialog_1.pk, dialog_1.image, true, "", void 0, dialog_1.first_name, dialog_1.first_name, now(), "", 0)), x_1.filter((dialog) => (!contains(dialog.pk, existingPks, {
         Equals: (x_2, y) => (x_2 === y),
         GetHashCode: (x_2) => stringHash(x_2),
     })))), PromiseBuilder__Run_212F1D4B(promise, PromiseBuilder__Delay_62FBFDE1(promise, () => (tryFetch(usersEndpoint, empty()).then(((_arg1) => {

@@ -39,6 +39,11 @@
               "version": "[6.0.2, )",
               "generatePathProperty": true
             },
+            "FSharp.Data": {
+              "target": "Package",
+              "version": "[4.2.8, )",
+              "generatePathProperty": true
+            },
             "Fable.Browser.Dom": {
               "target": "Package",
               "version": "[2.2.0, )",

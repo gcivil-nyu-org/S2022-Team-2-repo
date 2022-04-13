@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 from pathlib import Path
+
+import dj_database_url
 import django_heroku
 import dotenv
 
@@ -35,7 +37,12 @@ SECRET_KEY = str(
 DEBUG = bool(os.environ.get("DEBUG_MODE", True))
 
 # Host settings
-ALLOWED_HOSTS = ["nyunite.herokuapp.com", "nyunite-prod.herokuapp.com", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "nyunite.herokuapp.com",
+    "nyunite-prod.herokuapp.com",
+    "127.0.0.1",
+    "*.herokuapp.com",
+]
 
 # Configure email host server
 EMAIL_USE_TLS = True
@@ -103,18 +110,16 @@ if os.environ.get("TEST_DB", False):
         "NAME": BASE_DIR / "test.sqlite3",
     }
 else:
-    host = os.environ.get("DATABASE_URL", "")
-    name = os.environ.get("DATABASE_NAME", "nyunite")
-    user = os.environ.get("DATABASE_USER", "nyuniteadmin")
-    password = os.environ.get("DATABASE_PASSWORD", "django1234")
+    ssl_require = False
+    if os.environ.get("DATABASE_URL"):
+        ssl_require = True
 
-    database = {
-        "ENGINE": "django.db.backends.postgresql",
-        "HOST": host,
-        "NAME": name,
-        "USER": user,
-        "PASSWORD": password,
-    }
+    database = dj_database_url.config(
+        default="postgres://nyuniteadmin:django1234@localhost:5432/nyunite",
+        conn_max_age=60,
+        ssl_require=ssl_require,
+    )
+
 
 DATABASES = {"default": database}
 
@@ -162,10 +167,9 @@ MEDIA_URL = "/images/"  # Public URL at the browser
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-#
-# CORS_ORIGIN_WHITELIST = [
-#     "http://localhost:3000",
-# ]
+
+# CSRF
+CSRF_TRUSTED_ORIGINS = ["https://*.herokuapp.com", "https://*127.0.0.1*"]
 
 # Default redirect urls
 LOGIN_URL = "login"

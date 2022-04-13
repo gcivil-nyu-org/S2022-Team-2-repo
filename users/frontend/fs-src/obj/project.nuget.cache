@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "aLHSw/7OdxTG7Atnd8z3Su3lablNlSKe/xq7zQivnMP7ODdzjLIdRleoduBTTQjyDW9nYUue7Z9G1uAeO5K7wA==",
+  "dgSpecHash": "sY29jS2NJwiIDyw5nHB+t4AweXwTNSciEFxovwjBFCfn674K+sEeTMxxK1jjdpcePutJDqDbB7OXBL8I/kuqkQ==",
   "success": true,
   "projectFilePath": "D:\\NYUnite\\nyunite\\users\\frontend\\fs-src\\App.fsproj",
   "expectedPackageFiles": [
@@ -14,6 +14,7 @@
     "C:\\Users\\tejas\\.nuget\\packages\\fable.fetch\\2.2.0\\fable.fetch.2.2.0.nupkg.sha512",
     "C:\\Users\\tejas\\.nuget\\packages\\fable.promise\\2.0.0\\fable.promise.2.0.0.nupkg.sha512",
     "C:\\Users\\tejas\\.nuget\\packages\\fsharp.core\\6.0.2\\fsharp.core.6.0.2.nupkg.sha512",
+    "C:\\Users\\tejas\\.nuget\\packages\\fsharp.data\\4.2.8\\fsharp.data.4.2.8.nupkg.sha512",
     "C:\\Users\\tejas\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\tejas\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
     "C:\\Users\\tejas\\.nuget\\packages\\thoth.json\\5.1.0\\thoth.json.5.1.0.nupkg.sha512"

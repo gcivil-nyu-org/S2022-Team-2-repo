@@ -21,7 +21,6 @@ __pycache__
 
 # Random Files
 staticfiles/
-media/media
 
 # dependencies
 **/node_modules

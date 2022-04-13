@@ -70,19 +70,22 @@ export function MessagesResponse_get_Decoder() {
 }
 
 export class UserInfoResponse extends Record {
-    constructor(pk, username) {
+    constructor(pk, username, image, first_name, last_name) {
         super();
         this.pk = pk;
         this.username = username;
+        this.image = image;
+        this.first_name = first_name;
+        this.last_name = last_name;
     }
 }
 
 export function UserInfoResponse$reflection() {
-    return record_type("App.AppTypes.UserInfoResponse", [], UserInfoResponse, () => [["pk", string_type], ["username", string_type]]);
+    return record_type("App.AppTypes.UserInfoResponse", [], UserInfoResponse, () => [["pk", string_type], ["username", string_type], ["image", string_type], ["first_name", string_type], ["last_name", string_type]]);
 }
 
 export function UserInfoResponse_get_Decoder() {
-    return (path_2) => ((v) => object((get$) => (new UserInfoResponse(get$.Required.Field("pk", (path, value) => string(path, value)), get$.Required.Field("username", (path_1, value_1) => string(path_1, value_1)))), path_2, v));
+    return (path_5) => ((v) => object((get$) => (new UserInfoResponse(get$.Required.Field("pk", (path, value) => string(path, value)), get$.Required.Field("username", (path_1, value_1) => string(path_1, value_1)), get$.Required.Field("image", (path_2, value_2) => string(path_2, value_2)), get$.Required.Field("first_name", (path_3, value_3) => string(path_3, value_3)), get$.Required.Field("last_name", (path_4, value_4) => string(path_4, value_4)))), path_5, v));
 }
 
 export class DialogModel extends Record {
