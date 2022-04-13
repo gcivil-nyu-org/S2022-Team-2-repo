@@ -228,7 +228,7 @@ export const dialogsEndpoint = toText(printf("/dialogs/"));
 
 export const selfEndpoint = toText(printf("/user/self"));
 
-export const usersEndpoint = toText(printf("/users/friends"));
+export const usersEndpoint = toText(printf("/user/friends"));
 
 export const uploadEndpoint = toText(printf("/upload/"));
 
