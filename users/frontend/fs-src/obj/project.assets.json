@@ -570,11 +570,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\NYUnite\\nyunite\\frontend\\fs-src\\App.fsproj",
+      "projectUniqueName": "D:\\NYUnite\\nyunite\\users\\frontend\\fs-src\\App.fsproj",
       "projectName": "App",
-      "projectPath": "D:\\NYUnite\\nyunite\\frontend\\fs-src\\App.fsproj",
+      "projectPath": "D:\\NYUnite\\nyunite\\users\\frontend\\fs-src\\App.fsproj",
       "packagesPath": "C:\\Users\\tejas\\.nuget\\packages\\",
-      "outputPath": "D:\\NYUnite\\nyunite\\frontend\\fs-src\\obj\\",
+      "outputPath": "D:\\NYUnite\\nyunite\\users\\frontend\\fs-src\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tejas\\AppData\\Roaming\\NuGet\\NuGet.Config"
