@@ -80,8 +80,8 @@ class PreferencesPersonalityFormTest(TestCase):
     def test_pass(self):
         form = PreferencesPersonalityForm(
             data={
-                "personality_type": "VeryIN",
-                "stay_go_type": "PI",
+                "personality_type": "Personality_VeryIN",
+                "stay_go_type": "Staygo_PI",
             }
         )
         self.assertFalse(form.errors)
@@ -91,10 +91,10 @@ class PreferencesHobbiesFormTest(TestCase):
     def test_pass(self):
         form = PreferencesHobbiesForm(
             data={
-                "movie_choices": ["NI"],
-                "music_choices": ["NI"],
-                "art_choices": ["NI"],
-                "dance_choices": ["NI"],
+                "movie_choices": ["Movie_NI"],
+                "music_choices": ["MUSIC_NI"],
+                "art_choices": ["Art_NI"],
+                "dance_choices": ["Dance_NI"],
             }
         )
         self.assertFalse(form.errors)
@@ -104,11 +104,11 @@ class PreferencesExploreFormTest(TestCase):
     def test_pass(self):
         form = PreferencesExploreForm(
             data={
-                "food_choices": ["NI"],
-                "travel_choices": ["NI"],
-                "sports_choices": ["NI"],
-                "nyc_choices": ["NI"],
-                "pet_choices": ["NI"],
+                "food_choices": ["Cookeat_NI"],
+                "travel_choices": ["Travel_NI"],
+                "sports_choices": ["Sports_NI"],
+                "nyc_choices": ["Nyc_NI"],
+                "pet_choices": ["Pet_NI"],
             }
         )
         self.assertFalse(form.errors)
