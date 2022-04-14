@@ -1,5 +1,7 @@
 from typing import List
 
+from collections import defaultdict
+
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -560,11 +562,10 @@ def get_matches(user):
 def friend_finder(request):
     matches, interests = get_matches(request.user)
     match_list = []
-    similar_choices = []
+    similar_choices = defaultdict(list)
     print(matches)
     for index, match in enumerate(matches):
         print(type(interests[index]))
-        # print(random.choices(interests[index],k=3))
         matched_hobbies = interests[index]
         print(interests[index])
         print(type(match))
@@ -572,7 +573,27 @@ def friend_finder(request):
         print(matched_hobbies)
         for i in matched_hobbies:
             print(interests_choices[i])
-            similar_choices.append(interests_choices[i])
+            if i.startswith("Movie"):
+                similar_choices["Movie Choices"].append(interests_choices[i])
+            elif i.startswith("MUSIC"):
+                similar_choices["Music Choices"].append(interests_choices[i])
+            elif i.startswith("Cookeat"):
+                similar_choices["Food Choices"].append(interests_choices[i])
+            elif i.startswith("Travel"):
+                similar_choices["Travel Choices"].append(interests_choices[i])
+            elif i.startswith("Art"):
+                similar_choices["Art Choices"].append(interests_choices[i])
+            elif i.startswith("Dance"):
+                similar_choices["Dance Choices"].append(interests_choices[i])
+            elif i.startswith("Sports"):
+                similar_choices["Sports Choices"].append(interests_choices[i])
+            elif i.startswith("Pet"):
+                similar_choices["Pets Choices"].append(interests_choices[i])
+            elif i.startswith("Nyc"):
+                similar_choices["NYC Choices"].append(interests_choices[i])
+            elif i.startswith("Staygo") or i.startswith("Personality"):
+                similar_choices["Personality Type"].append(interests_choices[i])
+        print(similar_choices)
         match_list.append(
             {
                 "id": match.id,
