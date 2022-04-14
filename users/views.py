@@ -601,7 +601,7 @@ def friend_finder(request):
                 "first_name": match.first_name,
                 "last_name": match.last_name,
                 "profile": Profile.objects.get(user=match),
-                "common_interests": similar_choices,
+                "common_interests": dict(similar_choices),
             }
         )
     return render(request, "users/friends/friend_finder.html", {"matches": match_list})

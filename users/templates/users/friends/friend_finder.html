@@ -3,66 +3,192 @@
 
 {% block body %}
 
-<div class="container">
-			<div class="card-stack">
-				<ul class="card-list">
-				    {% if matches %}
-				    {% for match in matches %}
-					<li class="card" id="suggestion{{match.id}}">
-						<h3 class="purple-text"> {{match.first_name}} {{match.last_name}} </h3>
-						<p class="purple-text"> {{match.username}} </p>
-						<p class="purple-text"> {{match.profile.bio}} </p>
-						<p class="purple-text"> {{match.common_interests}} </p>
-                        <img src="{{ match.profile.image.url }}" style="height:100px; width:100px; object-fit:cover; border-radius:50%"> </img>
+<!-- <div class="container">
+    <div class="card-stack">
+        <ul class="card-list">
+            {% if matches %}
+            {% for match in matches %}
+            <li class="card" id="suggestion{{match.id}}">
+                <h3 class="purple-text"> {{match.first_name}} {{match.last_name}} </h3>
+                <p class="purple-text"> {{match.username}} </p>
+                <p class="purple-text"> {{match.profile.bio}} </p>
+                <p class="purple-text"> {{match.common_interests}} </p>
+                <img src="{{ match.profile.image.url }}" style="height:100px; width:100px; object-fit:cover; border-radius:50%"> </img>
 
-						<button class="standard_button" onclick="reject_suggestion({{match.id}})"> Reject </button>
-						<button class="standard_button" onclick="approve_suggestion({{match.id}})"> Approve </button>
-					</li>
-					{% endfor %}
-					{% endif %}
-                    <li>
-					    <p class="white-text"> You don't have any matches!</p>
-					</li>
-                    
-                </ul>
-		</div>
-	</div>
+                <button class="standard_button" onclick="reject_suggestion({{match.id}})"> Reject </button>
+                <button class="standard_button" onclick="approve_suggestion({{match.id}})"> Approve </button>
+            </li>
+            {% endfor %}
+            {% endif %}
+            <li>
+                <p class="white-text"> You don't have any matches!</p>
+            </li>
+            
+        </ul>
+    </div>
+</div> -->
+<!-- ------- -->
+<style>
+    .matchCard{
+        background-color: #57068c;
+    }
+    .cardButton{
+        background-color: #330662;
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+    }
+    .cardButton:hover {
+        background-color: #ab82c5;
+    }
+    h5{
+        font-size: medium;
+        font-weight: bold;
+        margin-bottom: 2px;
+        margin-top: 7px;
+    }
+</style>
 
+<div style="margin-top: 50px;"></div> 
+<!-- for spacing-->
 
+{% if matches %}
+{% for match in matches %}
+<!-- for js use -->
+<div hidden id="matchesLen">{{ matches|length }}</div> 
+<!-- for js use -->
+
+<div class="container-sm d-flex justify-content-center">   
+    <div hidden class="card w-75 h-75 matchCard" id="matchFriend{{ forloop.counter }}">
+        <div class="row g-0">
+
+            <!-- left image -->
+            <div class="col-sm-5 d-flex">
+                    <img src="{{ match.profile.image.url }}" class="img-fluid rounded-start " alt="match image">
+                    <div class="card-img-overlay col-sm-5 d-flex align-items-end d-flex justify-content-between">
+                        <!-- Reject -->
+                        <button class="cardButton rounded-circle" onclick="reject_suggestion({{match.id}})"> <i class="fa-solid fa-xmark"></i> </button>
+                        <!-- Send request -->
+                        <button class="cardButton rounded-circle"  onclick="approve_suggestion({{match.id}})"> <i class="fa-solid fa-check"></i> </button>
+                    </div>
+            </div>
+
+            <!-- right details -->
+            <div class="col-sm-7">
+                <div class="card-body">
+                    <h2 class="card-title fw-bold">{{match.first_name}} {{match.last_name}}</h2>
+                    <p class="card-text fs-5  " style="color: #ab82c5;">{{match.profile.bio}}</p>
+                    <h4>Common Interests</h4>
+                    {% for k, v in match.items %}
+                        {% if k == "common_interests" %}           
+                            {% for key,value in v.items %}
+                                <!-- the XXX Choices -->
+                                <h5> {{ key }} </h5>
+                                {% for val in value %}
+                                    <!-- iter. items from the value/list -->
+                                    {% if forloop.last %}
+                                        <span> {{ val }} </span>
+                                    {% else %}
+                                        <span> {{ val }}, </span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif%}
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="container-sm d-flex justify-content-center">
+       <h4>You don't have any matches. Expanding your prefernces and try again!</h4>
+</div>
+{% endif %}
+
+<!-- when all matches are done -->
+<div class="container-sm d-flex justify-content-center">
+    <h4 hidden id="allMatchesDone">That's all the matches for now, please check back later!</h4>
+</div>
+<!-- --- -->
 
 <script type="text/javascript">
     var token = '{{csrf_token}}';
 
+    //handling display and hidden
+    let matchesLength = document.getElementById('matchesLen').innerText;
+    console.log("# of matches:" + matchesLength);
+    //initialize first match
+    let currDisplayUser = 1;
+    let firstMatchUser = document.querySelector('#matchFriend1');
+    firstMatchUser.hidden = false;
+    //----------------------------
+
     // API should add this user to the 'rejected users' in the current user's profile
     function reject_suggestion(id) {
-            let data = {};
-            data["friendID"] = id;
-            let url = "{% url 'reject-suggestion' %}";
-            $.ajax({
-                headers: { "X-CSRFToken": token },
-                method: "POST",
-                url: url,
-                data: data
-            }).done(function (msg) {
-                document.getElementById("suggestion" + String(id)).outerHTML = "";
+        let data = {};
+        data["friendID"] = id;
+        let url = "{% url 'reject-suggestion' %}";
+        $.ajax({
+            headers: { "X-CSRFToken": token },
+            method: "POST",
+            url: url,
+            data: data
+        }).done(function (msg) {
+            // document.getElementById("suggestion" + String(id)).outerHTML = "";
+            //toggling display user
+            if (currDisplayUser <= matchesLength){
+                let toHidden = document.querySelector('#matchFriend'+currDisplayUser);
+                toHidden.hidden = true;
+                currDisplayUser++;
+                console.log("rejected, incre to #:" + currDisplayUser);
+                if (currDisplayUser <= matchesLength){
+                    let toDisplay = document.querySelector('#matchFriend'+currDisplayUser);
+                    toDisplay.hidden = false;
+                }else{
+                    let matchesDone = document.getElementById('allMatchesDone');
+                    matchesDone.hidden = false;
+                }
+            }
+
         });
     }
 
-// API should add this user to the 'rejected users' in the current user's profile
-// send a friend request from current user to this user
-function approve_suggestion(id) {
+    // API should add this user to the 'rejected users' in the current user's profile
+        // send a friend request from current user to this user
+    function approve_suggestion(id) {
         let data = {};
-            data["friendID"] = id;
-            let url = "{% url 'approve-suggestion' %}";
-            $.ajax({
-                headers: { "X-CSRFToken": token },
-                method: "POST",
-                url: url,
-                data: data
-            }).done(function (msg) {
-                document.getElementById("suggestion" + String(id)).outerHTML = "";
+        data["friendID"] = id;
+        let url = "{% url 'approve-suggestion' %}";
+        $.ajax({
+            headers: { "X-CSRFToken": token },
+            method: "POST",
+            url: url,
+            data: data
+        }).done(function (msg) {
+            // document.getElementById("suggestion" + String(id)).outerHTML = "";
+            //toggling display user
+            if (currDisplayUser <= matchesLength){
+                let toHidden = document.querySelector('#matchFriend'+currDisplayUser);
+                toHidden.hidden = true;
+                currDisplayUser++;
+                console.log("sent req, incre to #:" + currDisplayUser);
+                if (currDisplayUser <= matchesLength){
+                    let toDisplay = document.querySelector('#matchFriend'+currDisplayUser);
+                    toDisplay.hidden = false;
+                }else{
+                    let matchesDone = document.getElementById('allMatchesDone');
+                    matchesDone.hidden = false;
+                }
+            }
+            
         });
     }
+
+
 
 </script>
 
