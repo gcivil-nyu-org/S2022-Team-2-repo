@@ -126,12 +126,20 @@
         console.log(currPath);
         if (currPath == '/dashboard/' || currPath == '/login/') {
             currPath = "Dashboard";
+            let tab = document.getElementById('sideBarDash');
+            tab.classList.add("active");
         }else if(currPath == '/dashboard/my_friends'){
             currPath = "My Friends";
+            let tab = document.getElementById('sideBarFriends');
+            tab.classList.add("active");
         }else if(currPath == '/dashboard/preferences/'){
             currPath = "Preference";
+            let tab = document.getElementById('sideBarPref');
+            tab.classList.add("active");
         }else if(currPath == '/dashboard/chat'){
             currPath = "Chat";
+            let tab = document.getElementById('sideBarChat');
+            tab.classList.add("active");
         }else {
             currPath = " ";
             const searchBoxSize = document.getElementById("navSearch");
