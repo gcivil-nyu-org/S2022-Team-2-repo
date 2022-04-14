@@ -25,17 +25,18 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         super(Profile, self).save(*args, **kwargs)
 
+        img = None
         try:
-            img = Image.open(self.image)  # Open image
+            img = Image.open(self.image.name)
         except Exception as e:
             print(e)
             img = Image.open("media/default.png")
 
-            # resize image
-        if img.height > 300 or img.width > 300:
+        if img.width > 300 or img.height > 300:
             output_size = (300, 300)
-            img = img.resize(output_size)  # Resize image
-            img.save(self.image)  # Save it again and override the larger image
+            img.thumbnail(output_size)
+            img.save(self.image.name)
+            self.image = img
 
     def get_absolute_url(self):
         return reverse("user_info", kwargs={"slug": self.slug})
