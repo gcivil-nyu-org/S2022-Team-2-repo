@@ -13,7 +13,7 @@ from .preferences import *
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(
-        default="default.png", upload_to="media", null=True, blank=True
+        default="media/default.png", upload_to="media", null=True, blank=True
     )
     slug = AutoSlugField(populate_from="user")
     bio = models.CharField(max_length=255, blank=True)
