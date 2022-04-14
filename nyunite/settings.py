@@ -50,6 +50,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = str(os.environ.get("SMTP_EMAIL"))
 EMAIL_HOST_PASSWORD = str(os.environ.get("SMTP_PASSWORD"))
 EMAIL_PORT = 587
+API_KEY = "uGT31l0Ss-oDhiZJb_LmMJrGDR78o_lP5x4akavy8fQh04flyY-etl30pscoUJUaEqapAtNX8ipBIpBJ5J7xDST1ZoRJ3qJlUxZLtF2joOBkHuMgXmGfyrduynFYYnYx"
 
 # Application definition
 INSTALLED_APPS = [

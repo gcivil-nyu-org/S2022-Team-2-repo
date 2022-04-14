@@ -10,6 +10,7 @@ from django.http import JsonResponse
 from django.urls import path, re_path, include
 from django.views.generic import ListView, TemplateView
 
+import users.views
 from users import views as user_views
 
 
@@ -93,6 +94,11 @@ urlpatterns = [
         name="chat",
     ),
     path("dashboard/friend_finder", user_views.friend_finder, name="friend-finder"),
+    path(
+        "dashboard/activity_recommend",
+        users.views.activity_recommend,
+        name="activity-recommend",
+    ),
     path("suggestion/reject", user_views.reject_suggestion, name="reject-suggestion"),
     path(
         "suggestion/approve", user_views.approve_suggestion, name="approve-suggestion"

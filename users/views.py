@@ -1,6 +1,8 @@
+import os
 from typing import List
 
 from collections import defaultdict
+import pandas as pd
 
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -17,6 +19,8 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
 import numpy as np
+import requests
+from yelp.client import Client
 
 from users.forms import (
     ProfileUpdateForm,
@@ -509,7 +513,9 @@ def get_null_preferences():
     personality_query = Q(personality_type__exact="")
     movie_query = Q(movie_choices__exact="")
     food_query = Q(food_choices__exact="")
-    null_objects = Preference.objects.filter(personality_query | movie_query | food_query)
+    null_objects = Preference.objects.filter(
+        personality_query | movie_query | food_query
+    )
     return null_objects
 
 
@@ -626,6 +632,41 @@ def friend_finder(request):
             }
         )
     return render(request, "users/friends/friend_finder.html", {"matches": match_list})
+
+
+def activity_recommend(request):
+    MY_API_KEY = os.environ.get("YELP_API_KEY")
+    headers = {"Authorization": "Bearer {}".format(MY_API_KEY)}
+    search_api_url = "https://api.yelp.com/v3/events"
+    params = {"category": "music", "location": "NY", "limit": 3}
+    response = requests.get(search_api_url, headers=headers, params=params, timeout=5)
+    data = response.json()
+    activity_list = []
+    # df = pd.read_json('data')
+    print(data)
+    # print(data.keys())
+    # print(data['events'][0])
+    for event in data["events"]:
+        date_start = event["time_start"][0:10]
+        date_end = event["time_end"][0:10]
+        start_time = event["time_start"][11:16]
+        end_time = event["time_end"][11:16]
+
+        activity_list.append(
+            {
+                "event_name": event["name"],
+                "event_description": event["description"],
+                "image_url": event["image_url"],
+                "event_url": event["event_site_url"],
+                "date_start": date_start,
+                "date_end": date_end,
+                "start_time": start_time,
+                "end_time": end_time,
+            }
+        )
+    print("activity list")
+    print(activity_list)
+    return render(request, "users/activity.html", {"activity_list": activity_list})
 
 
 # @login_required
