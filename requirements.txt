@@ -9,8 +9,10 @@ django-cors-headers
 django-crispy-forms
 django-autoslug~=1.9.8
 django-multiselectfield
+django-storages
 django_private_chat2
 django_extensions
+boto3
 pillow~=9.1.0
 black
 flake8
