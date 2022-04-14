@@ -505,6 +505,14 @@ def approve_suggestion(request):
     return HttpResponse()
 
 
+def get_null_preferences():
+    personality_query = Q(personality_type__exact="")
+    movie_query = Q(movie_choices__exact="")
+    food_query = Q(food_choices__exact="")
+    null_objects = Preference.objects.filter(personality_query | movie_query | food_query)
+    return null_objects
+
+
 def get_matches(user):
     matches = list(
         User.objects.exclude(id=user.id)
@@ -513,6 +521,7 @@ def get_matches(user):
         .exclude(is_staff="t")
     )
     preference_fields = Preference._meta.get_fields()
+    null_preferences = get_null_preferences()
 
     similarity = []
     common_interests = []
@@ -530,6 +539,15 @@ def get_matches(user):
 
     for match in matches:
         count = 0
+
+        try:
+            prefs = Preference.objects.get(user=match)
+            if prefs in null_preferences:
+                matches.remove(match)
+                continue
+        except Exception:
+            matches.remove(match)
+            continue
 
         common_list = set()
 
@@ -560,19 +578,22 @@ def get_matches(user):
 
 @login_required
 def friend_finder(request):
+    null_objects = get_null_preferences()
+    try:
+        prefs = Preference.objects.get(user=request.user)
+        if prefs in null_objects:
+            return HttpResponseRedirect("/preferences/page1")
+    except Exception:
+        return HttpResponseRedirect("/preferences/page1")
+
     matches, interests = get_matches(request.user)
     match_list = []
     similar_choices = defaultdict(list)
-    print(matches)
+
     for index, match in enumerate(matches):
-        print(type(interests[index]))
         matched_hobbies = interests[index]
-        print(interests[index])
-        print(type(match))
-        print(match)
-        print(matched_hobbies)
+
         for i in matched_hobbies:
-            print(interests_choices[i])
             if i.startswith("Movie"):
                 similar_choices["Movie Choices"].append(interests_choices[i])
             elif i.startswith("MUSIC"):
@@ -593,7 +614,7 @@ def friend_finder(request):
                 similar_choices["NYC Choices"].append(interests_choices[i])
             elif i.startswith("Staygo") or i.startswith("Personality"):
                 similar_choices["Personality Type"].append(interests_choices[i])
-        print(similar_choices)
+
         match_list.append(
             {
                 "id": match.id,
