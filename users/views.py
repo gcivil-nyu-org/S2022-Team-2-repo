@@ -509,7 +509,9 @@ def get_null_preferences():
     personality_query = Q(personality_type__exact="")
     movie_query = Q(movie_choices__exact="")
     food_query = Q(food_choices__exact="")
-    null_objects = Preference.objects.filter(personality_query | movie_query | food_query)
+    null_objects = Preference.objects.filter(
+        personality_query | movie_query | food_query
+    )
     return null_objects
 
 
