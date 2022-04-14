@@ -29,7 +29,7 @@ class Profile(models.Model):
             img = Image.open(self.image)  # Open image
         except Exception as e:
             print(e)
-            img = Image.open("default.png")
+            img = Image.open("media/default.png")
 
             # resize image
         if img.height > 300 or img.width > 300:
