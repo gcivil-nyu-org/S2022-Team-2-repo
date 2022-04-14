@@ -8,8 +8,6 @@ from django_private_chat2 import urls
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nyunite.settings")
 django_asgi_app = get_asgi_application()
 
-from django_private_chat2 import urls
-
 application = ProtocolTypeRouter(
     {
         "http": django_asgi_app,
