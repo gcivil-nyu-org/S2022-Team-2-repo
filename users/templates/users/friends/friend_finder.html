@@ -31,7 +31,8 @@
 <style>
     .matchCard{
         background-color: #57068c;
-         border-radius: 20px;
+        border-radius: 20px;
+        min-height: 267px;
     }
     .cardButton{
         background-color: #330662;
@@ -71,8 +72,9 @@
         <div class="row g-0">
 
             <!-- left image -->
-            <div class="col-sm-5 d-flex" style="border-radius:20px;">
-                     <img src="{{ match.profile.image.url }}" class="img-fluid " alt="match image" style="border-radius:20px 0px 0px 20px;" > 
+            <div class="col-sm-5 d-flex align-items-center" style="border-radius:20px; background-color: #ae97bf;">
+                    <img  src="{{ match.profile.image.url }}" class="img-fluid " alt="match image" id="img{{match.id}}" style="border-radius:20px 20px 20px 20px; min-height: 267px;" > 
+                    
                     <div class="card-img-overlay col-sm-5 d-flex align-items-end d-flex justify-content-between">
                         <!-- Reject -->
                         <button class="cardButton rounded-circle" onclick="reject_suggestion({{match.id}})"> <i class="fa-solid fa-xmark fa-2x"></i> </button>
@@ -109,10 +111,25 @@
         </div>
     </div>
 </div>
+
+<!-- JS testing -- resizing img to naturalHeight -->
+
+<!-- <script>
+    to the img tag -> onload="setMaxH()"
+
+    function setMaxH(){
+       let tarImg = document.querySelector('#img{{match.id}}');
+       let imgH = tarImg.naturalHeight;
+       tarImg.style.maxHeight = imgH+"px";
+       console.log("setMaxH ran");
+   }
+</script> -->
+<!-- --- -->
+
 {% endfor %}
 {% else %}
 <div class="container-sm d-flex justify-content-center">
-       <h4>You don't have any matches. Expand your prefernces and try again!</h4>
+       <h4>You don't have any matches. Expand your preferences and try again!</h4>
 </div>
 {% endif %}
 
@@ -121,6 +138,7 @@
     <h4 hidden id="allMatchesDone">That's all the matches for now, please check back later!</h4>
 </div>
 <!-- --- -->
+
 
 <script type="text/javascript">
     var token = '{{csrf_token}}';
