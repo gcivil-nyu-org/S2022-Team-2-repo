@@ -1,10 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Activity Recoemmendation</title>
-</head>
-<body>
+{% extends 'users/dashboard_base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block body %}
+<section>
+    <div class="container-sm mt-3">
+
+        <div class="row">
+            <h2> Activity Recommendation </h2>
+        </div>
+
+        <div class="d-flex me-4">
+            <!-- Search box -->
+            <input class="form-control me-2 text-white" id="activitySearch"
+                style="background-color:#57068c; width: 300px; border-width: 1px; border-color: white;" type="text"
+                name="navSearch" placeholder="Search" aria-label="Search">
+            <button class="standard_button" type="submit" onclick="search()"> Search </button>
+        </div>
+
+        <div class="row" id="events">
+        </div>
+
+    </div>
+</section>
+
+<script type="text/javascript">
+
+  window.onload = function() {
+    let data = {};
+    let url = "{% url 'activity_search' %}";
+    $.ajax({
+      method: "GET",
+      url: url,
+      data: data,
+    }).done(function (msg) {
+      // When the request is accepted
+      console.log(msg);
+      document.getElementById('events').innerHTML = JSON.stringify(msg);
+//       document.getElementById("acceptRequest" + id).style.display = "none";
+    });
+    }
+
+  function search() {
+    console.log(document.getElementById('activitySearch').value)
+//     document.getElementById('events').createElement()
+
+
+//     console.log(id);
+//     let data = {};
+//     data["declineRequest"] = id;
+//     let url = "{% url 'decline_request' %}";
+
+
+//     $.ajax({
+//       headers: { "X-CSRFToken": token },
+//       method: "POST",
+//       url: url,
+//       data: data,
+//     })
+  }
+</script>
+
+{% endblock %}

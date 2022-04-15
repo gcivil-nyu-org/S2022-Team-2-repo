@@ -12,7 +12,7 @@ MOVIES_CHOICES = [
 MUSIC_CHOICES = [
     ("Music_RO", "Rock"),
     ("MUSIC_PO", "Pop"),
-    ("MUSIC_HIHO", "Hiphop"),
+    ("MUSIC_HIHO", "Hip hop"),
     ("MUSIC_RP", "Rap"),
     ("MUSIC_CL", "Classical"),
     ("MUSIC_IN", "Indian"),
@@ -36,7 +36,7 @@ COOKEAT_CHOICES = [
 TRAVEL_CHOICES = [
     ("Travel_MO", "Mountains"),
     ("Travel_BE", "Beaches"),
-    ("Travel_DE", "Desserts"),
+    ("Travel_DE", "Deserts"),
     ("Travel_IP", "Ice Places"),
     ("Travel_CT", "City"),
     ("Travel_VI", "Village"),
@@ -54,7 +54,7 @@ ART_CHOICES = [
     ("Art_NI", "Not interested in Art"),
 ]
 DANCE_CHOICES = [
-    ("Dance_HH", "HipHop"),
+    ("Dance_HH", "Hip Hop"),
     ("Dance_CP", "Contemporary"),
     ("Dance_JZ", "Jazz"),
     ("Dance_BL", "Ballet"),
@@ -130,7 +130,7 @@ interests_choices = {
     "Movie_NI": "Not interested in Movies",
     "Music_RO": "Rock",
     "MUSIC_PO": "Pop",
-    "MUSIC_HIHO": "Hiphop",
+    "MUSIC_HIHO": "Hip hop",
     "MUSIC_RP": "Rap",
     "MUSIC_CL": "Classical",
     "MUSIC_IN": "Indian",
@@ -150,7 +150,7 @@ interests_choices = {
     "Cookeat_NI": "Not interested in Cooking/Cuisines",
     "Travel_MO": "Mountains",
     "Travel_BE": "Beaches",
-    "Travel_DE": "Desserts",
+    "Travel_DE": "Deserts",
     "Travel_IP": "Ice Places",
     "Travel_CT": "City",
     "Travel_VI": "Village",
@@ -164,7 +164,7 @@ interests_choices = {
     "Art_SL": "Sculpture",
     "Art_CA": "Calligraphy",
     "Art_NI": "Not interested in Art",
-    "Dance_HH": "HipHop",
+    "Dance_HH": "Hip Hop",
     "Dance_CP": "Contemporary",
     "Dance_JZ": "Jazz",
     "Dance_BL": "Ballet",

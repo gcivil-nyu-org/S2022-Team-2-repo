@@ -2,7 +2,6 @@ import os
 from typing import List
 
 from collections import defaultdict
-import pandas as pd
 
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -20,7 +19,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
 import numpy as np
 import requests
-from yelp.client import Client
+import time
 
 from users.forms import (
     ProfileUpdateForm,
@@ -531,6 +530,7 @@ def get_matches(user):
 
     similarity = []
     common_interests = []
+
     not_interested = [
         "Movie_NI",
         "MUSIC_NI",
@@ -585,6 +585,7 @@ def get_matches(user):
 @login_required
 def friend_finder(request):
     null_objects = get_null_preferences()
+
     try:
         prefs = Preference.objects.get(user=request.user)
         if prefs in null_objects:
@@ -594,10 +595,10 @@ def friend_finder(request):
 
     matches, interests = get_matches(request.user)
     match_list = []
-    similar_choices = defaultdict(list)
 
     for index, match in enumerate(matches):
         matched_hobbies = interests[index]
+        similar_choices = defaultdict(list)
 
         for i in matched_hobbies:
             if i.startswith("Movie"):
@@ -634,39 +635,40 @@ def friend_finder(request):
     return render(request, "users/friends/friend_finder.html", {"matches": match_list})
 
 
-def activity_recommend(request):
+def activity_search(request):
     MY_API_KEY = os.environ.get("YELP_API_KEY")
     headers = {"Authorization": "Bearer {}".format(MY_API_KEY)}
     search_api_url = "https://api.yelp.com/v3/events"
-    params = {"category": "music", "location": "NY", "limit": 3}
+    params = {"location": "New York, NY", "start_date": int(time.time()), "limit": 50, 'offset': 50}
     response = requests.get(search_api_url, headers=headers, params=params, timeout=5)
     data = response.json()
-    activity_list = []
-    # df = pd.read_json('data')
     print(data)
-    # print(data.keys())
-    # print(data['events'][0])
-    for event in data["events"]:
-        date_start = event["time_start"][0:10]
-        date_end = event["time_end"][0:10]
-        start_time = event["time_start"][11:16]
-        end_time = event["time_end"][11:16]
 
-        activity_list.append(
-            {
-                "event_name": event["name"],
-                "event_description": event["description"],
-                "image_url": event["image_url"],
-                "event_url": event["event_site_url"],
-                "date_start": date_start,
-                "date_end": date_end,
-                "start_time": start_time,
-                "end_time": end_time,
-            }
-        )
-    print("activity list")
-    print(activity_list)
-    return render(request, "users/activity.html", {"activity_list": activity_list})
+    # activity_list = {}
+
+    # for event in data["events"]:
+    #     date_start = event["time_start"][0:10]
+    #     # date_end = event["time_end"][0:10]
+    #     start_time = event["time_start"][11:16]
+    #     # end_time = event["time_end"][11:16]
+    #     id = event["id"]
+    #
+    #     activity_list[id] = {
+    #             "event_name": event["name"],
+    #             "event_description": event["description"],
+    #             "image_url": event["image_url"],
+    #             "event_url": event["event_site_url"],
+    #             "date_start": date_start,
+    #             # "date_end": date_end,
+    #             "start_time": start_time,
+    #             # "end_time": end_time,
+    #         }
+    return JsonResponse(data['events'], safe=False)
+
+
+def activity(request):
+    event_data = activity_search(request)
+    return render(request, 'users/activity.html')
 
 
 # @login_required
