@@ -10,12 +10,51 @@
         </div>
 
         <div class="d-flex me-4">
+
             <!-- Search box -->
             <input class="form-control me-2 text-white" id="activitySearch"
                 style="background-color:#57068c; width: 300px; border-width: 1px; border-color: white;" type="text"
                 name="navSearch" placeholder="Search" aria-label="Search">
-            <button class="standard_button" type="submit" onclick="search()"> Search </button>
-        </div>
+            <button class="standard_button" type="submit"> Search </button>
+
+        <ul class="navbar-nav ">
+                <!-- dropdown icon menu -->
+                <li class="nav-item dropdown ">
+                    <a class="nav-link dropdown-toggle" style="color:white" href="#" id="navbarDashDropdown"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false"> Category
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDashDropdown">
+
+                        <li onclick="search('music')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-music" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Music </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="search('food-and-drink')">
+                            <a class="dropdown-item">
+                                <i class="fas fa-cutlery" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Food & Drink </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="search('film')">
+                            <a class="dropdown-item">
+                                <i class="fas fa-film" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Film </span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+            </div>
 
         <div class="row" id="events">
         </div>
@@ -24,40 +63,38 @@
 </section>
 
 <script type="text/javascript">
+     var token = '{{csrf_token}}';
 
   window.onload = function() {
     let data = {};
     let url = "{% url 'activity_search' %}";
+
     $.ajax({
       method: "GET",
       url: url,
       data: data,
     }).done(function (msg) {
-      // When the request is accepted
       console.log(msg);
       document.getElementById('events').innerHTML = JSON.stringify(msg);
-//       document.getElementById("acceptRequest" + id).style.display = "none";
     });
     }
 
-  function search() {
-    console.log(document.getElementById('activitySearch').value)
-//     document.getElementById('events').createElement()
+  function search(category) {
+    search_term = document.getElementById('activitySearch').value
+    let data = {};
+    data['category'] = category;
 
+    let url = "{% url 'activity_search' %}";
 
-//     console.log(id);
-//     let data = {};
-//     data["declineRequest"] = id;
-//     let url = "{% url 'decline_request' %}";
-
-
-//     $.ajax({
-//       headers: { "X-CSRFToken": token },
-//       method: "POST",
-//       url: url,
-//       data: data,
-//     })
-  }
+    $.ajax({
+        headers: { "X-CSRFToken": token },
+        method: "GET",
+        url: url,
+        data: data
+    }).done(function (msg) {
+        document.getElementById('events').innerHTML = JSON.stringify(msg)
+    });
+    }
 </script>
 
 {% endblock %}
