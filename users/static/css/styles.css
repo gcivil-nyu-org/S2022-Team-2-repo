@@ -349,3 +349,29 @@ nav div form #navSearch::placeholder{
    right:-9px;
    padding:6px;
 }
+
+/* Friend Finder style */
+.container .card-stack {
+  width: 500px;
+  height: 250px;
+  position: absolute;
+  margin: 20px auto;
+}
+
+.container .card-stack .card-list li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 100ms ease-in-out;
+  border-radius: 10px;
+  position: absolute;
+  list-style: none;
+  height: 300px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding-top: 20px;
+  text-align: center;
+  -webkit-box-shadow: 0 2px 15px 1px rgba(225, 225, 225, 0.5);
+  box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.5);
+}

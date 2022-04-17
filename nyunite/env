@@ -1,0 +1,8 @@
+SECRET_KEY=_hnn(g!r@u(yy_yn0izj0txasg+fa=rgdv&hfy^du&foo!%6g
+
+SMTP_EMAIL=nyuniteapp@gmail.com
+SMTP_PASSWORD=Sprintsters22
+
+AWS_ACCESS_KEY_ID=AKIAYEKUIAFMUCKI4DWZ
+AWS_SECRET_ACCESS_KEY=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
+AWS_STORAGE_BUCKET_NAME=nyuniteapp

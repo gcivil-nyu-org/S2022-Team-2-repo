@@ -133,12 +133,16 @@
             let tab = document.getElementById('sideBarFriends');
             tab.classList.add("active");
         }else if(currPath == '/dashboard/preferences/'){
-            currPath = "Preference";
+            currPath = "Preferences";
             let tab = document.getElementById('sideBarPref');
             tab.classList.add("active");
         }else if(currPath == '/dashboard/chat'){
             currPath = "Chat";
             let tab = document.getElementById('sideBarChat');
+            tab.classList.add("active");
+        }else if(currPath == '/dashboard/friend_finder'){
+            currPath = "Friend Finder";
+            let tab = document.getElementById('sideBarFinder');
             tab.classList.add("active");
         }else {
             currPath = " ";

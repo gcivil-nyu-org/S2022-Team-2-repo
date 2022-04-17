@@ -1,5 +1,7 @@
 from typing import List
 
+from collections import defaultdict
+
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -14,6 +16,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
+import numpy as np
 
 from users.forms import (
     ProfileUpdateForm,
@@ -26,6 +29,8 @@ from users.forms import (
     PreferencesExploreForm,
 )
 from users.models import Preference, Profile, FriendRequest
+from users.preferences import interests_choices
+
 from users.tokens import account_activation_token
 
 User = get_user_model()
@@ -380,7 +385,7 @@ def preferences(request):
 # Helper function for searching
 def get_search(request):
     search_query = request.GET.get("navSearch", "").strip()
-
+    print(search_query)
     username_query = Q(username__icontains=search_query)
     fullname_query = Q(full_name__icontains=search_query)
 
@@ -472,6 +477,157 @@ def my_friends(request):
 def notifications(request):
     num_notifications = len(FriendRequest.objects.filter(to_user_id=request.user))
     return HttpResponse(str(num_notifications), content_type="text/plain")
+
+
+def reject_suggestion(request):
+    user_id = request.POST.get("friendID")
+    if user_id is not None:
+        # Add them to request.user profile seen user
+        rejector = User.objects.get(id=request.user.id)
+        rejectee = User.objects.get(id=user_id)
+        rejector.profile.seen_users.add(rejectee.profile)
+
+    return HttpResponse()
+
+
+def approve_suggestion(request):
+    user_id = request.POST.get("friendID")
+    if user_id is not None:
+        # Add them to request.user profile seen user
+        accepter = User.objects.get(id=request.user.id)
+        acceptee = User.objects.get(id=user_id)
+        accepter.profile.seen_users.add(acceptee.profile)
+        print(accepter.profile.seen_users)
+
+        # Send a friend request
+        send_friend_request(request.user, user_id)
+
+    return HttpResponse()
+
+
+def get_null_preferences():
+    personality_query = Q(personality_type__exact="")
+    movie_query = Q(movie_choices__exact="")
+    food_query = Q(food_choices__exact="")
+    null_objects = Preference.objects.filter(
+        personality_query | movie_query | food_query
+    )
+    return null_objects
+
+
+def get_matches(user):
+    matches = list(
+        User.objects.exclude(id=user.id)
+        .exclude(id__in=user.profile.friends.all().values_list("id", flat=True))
+        .exclude(id__in=user.profile.seen_users.all().values_list("id", flat=True))
+        .exclude(is_staff="t")
+    )
+    preference_fields = Preference._meta.get_fields()
+    null_preferences = get_null_preferences()
+
+    similarity = []
+    common_interests = []
+    not_interested = [
+        "Movie_NI",
+        "MUSIC_NI",
+        "Cookeat_NI",
+        "Travel_NI",
+        "Art_NI",
+        "Dance_NI",
+        "Sports_NI",
+        "Pet_NI",
+        "Nyc_NI",
+    ]
+
+    for match in matches:
+        count = 0
+
+        try:
+            prefs = Preference.objects.get(user=match)
+            if prefs in null_preferences:
+                matches.remove(match)
+                continue
+        except Exception:
+            matches.remove(match)
+            continue
+
+        common_list = set()
+
+        for i in range(4, len(preference_fields)):
+            val1 = preference_fields[i].value_from_object(match.preference)
+            val2 = preference_fields[i].value_from_object(user.preference)
+            common = set(val1).intersection(list(val2))
+            common_list = common_list.union(common)
+            count += len(common)
+
+        for ele in not_interested:
+            if ele in common_list:
+                common_list.remove(ele)
+
+        similarity.append(count)
+        common_interests.append(list(common_list))
+
+    # Reorder the matches by similarity
+    similarity = np.array(similarity)
+    matches = np.array(matches)
+    common_interests = np.array(common_interests)
+    inds = similarity.argsort()[::-1]
+    ordered_matches = matches[inds]
+    ordered_interests = common_interests[inds]
+
+    return ordered_matches, ordered_interests
+
+
+@login_required
+def friend_finder(request):
+    null_objects = get_null_preferences()
+    try:
+        prefs = Preference.objects.get(user=request.user)
+        if prefs in null_objects:
+            return HttpResponseRedirect("/preferences/page1")
+    except Exception:
+        return HttpResponseRedirect("/preferences/page1")
+
+    matches, interests = get_matches(request.user)
+    match_list = []
+    similar_choices = defaultdict(list)
+
+    for index, match in enumerate(matches):
+        matched_hobbies = interests[index]
+
+        for i in matched_hobbies:
+            if i.startswith("Movie"):
+                similar_choices["Movie Choices"].append(interests_choices[i])
+            elif i.startswith("MUSIC"):
+                similar_choices["Music Choices"].append(interests_choices[i])
+            elif i.startswith("Cookeat"):
+                similar_choices["Food Choices"].append(interests_choices[i])
+            elif i.startswith("Travel"):
+                similar_choices["Travel Choices"].append(interests_choices[i])
+            elif i.startswith("Art"):
+                similar_choices["Art Choices"].append(interests_choices[i])
+            elif i.startswith("Dance"):
+                similar_choices["Dance Choices"].append(interests_choices[i])
+            elif i.startswith("Sports"):
+                similar_choices["Sports Choices"].append(interests_choices[i])
+            elif i.startswith("Pet"):
+                similar_choices["Pets Choices"].append(interests_choices[i])
+            elif i.startswith("Nyc"):
+                similar_choices["NYC Choices"].append(interests_choices[i])
+            elif i.startswith("Staygo") or i.startswith("Personality"):
+                similar_choices["Personality Type"].append(interests_choices[i])
+
+        match_list.append(
+            {
+                "id": match.id,
+                "username": match.username,
+                "first_name": match.first_name,
+                "last_name": match.last_name,
+                "profile": Profile.objects.get(user=match),
+                "common_interests": dict(similar_choices),
+            }
+        )
+    return render(request, "users/friends/friend_finder.html", {"matches": match_list})
 
 
 # @login_required

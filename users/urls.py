@@ -1,10 +1,32 @@
+from typing import List
+
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.urls import path, re_path, include
-from django.views.generic import TemplateView
+from django.views.generic import ListView, TemplateView
 
 from users import views as user_views
+
+
+class UsersListView(LoginRequiredMixin, ListView):
+    http_method_names = [
+        "get",
+    ]
+
+    def get_queryset(self):
+        return User.objects.all().exclude(id=self.request.user.id)
+
+    def render_to_response(self, context, **response_kwargs):
+        users: List[AbstractBaseUser] = context["object_list"]
+
+        data = [{"username": user.get_username(), "pk": str(user.pk)} for user in users]
+        return JsonResponse(data, safe=False, **response_kwargs)
+
 
 urlpatterns = [
     path("", user_views.home, name="home"),
@@ -64,10 +86,16 @@ urlpatterns = [
     path("user/friends", user_views.FriendsListView.as_view(), name="friends_list"),
     path("users/<slug>/", user_views.SelfView.as_view(), name="user_info"),
     path("user/self", user_views.self_info, name="self_info"),
+    path("users/", UsersListView.as_view(), name="users_list"),
     path(
         "dashboard/chat",
         login_required(TemplateView.as_view(template_name="users/chat.html")),
         name="chat",
+    ),
+    path("dashboard/friend_finder", user_views.friend_finder, name="friend-finder"),
+    path("suggestion/reject", user_views.reject_suggestion, name="reject-suggestion"),
+    path(
+        "suggestion/approve", user_views.approve_suggestion, name="approve-suggestion"
     ),
 ]
 if settings.DEBUG:
