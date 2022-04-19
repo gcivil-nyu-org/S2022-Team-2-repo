@@ -640,15 +640,14 @@ def activity_search(request):
     headers = {"Authorization": "Bearer {}".format(MY_API_KEY)}
     search_api_url = "https://api.yelp.com/v3/events"
 
-    params = {"location": "New York, NY", "start_date": int(time.time()), 'limit': 10}
+    params = {"location": "New York, NY", "start_date": int(time.time()), 'limit': 12, 'offset': 0}
 
     category = request.GET.get('category', None)
-    if category is not None:
+    if category is not None and category != 'all':
         params['categories'] = category
 
     response = requests.get(search_api_url, headers=headers, params=params, timeout=5)
     data = response.json()
-    # print(data['events'][0]['description'])
 
     # activity_list = {}
 
