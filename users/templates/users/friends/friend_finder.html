@@ -3,31 +3,6 @@
 
 {% block body %}
 
-<!-- <div class="container">
-    <div class="card-stack">
-        <ul class="card-list">
-            {% if matches %}
-            {% for match in matches %}
-            <li class="card" id="suggestion{{match.id}}">
-                <h3 class="purple-text"> {{match.first_name}} {{match.last_name}} </h3>
-                <p class="purple-text"> {{match.username}} </p>
-                <p class="purple-text"> {{match.profile.bio}} </p>
-                <p class="purple-text"> {{match.common_interests}} </p>
-                <img src="{{ match.profile.image.url }}" style="height:100px; width:100px; object-fit:cover; border-radius:50%"> </img>
-
-                <button class="standard_button" onclick="reject_suggestion({{match.id}})"> Reject </button>
-                <button class="standard_button" onclick="approve_suggestion({{match.id}})"> Approve </button>
-            </li>
-            {% endfor %}
-            {% endif %}
-            <li>
-                <p class="white-text"> You don't have any matches!</p>
-            </li>
-            
-        </ul>
-    </div>
-</div> -->
-<!-- ------- -->
 <style>
     .matchCard{
         background-color: #57068c;

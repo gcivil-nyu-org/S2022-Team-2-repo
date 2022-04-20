@@ -594,7 +594,7 @@ def friend_finder(request):
             elif i.startswith("Staygo") or i.startswith("Personality"):
                 similar_choices["Personality Type"].append(interests_choices[i])
         print(similar_choices)
-        
+
         match_list.append(
             {
                 "id": match.id,
@@ -605,7 +605,7 @@ def friend_finder(request):
                 "common_interests": dict(similar_choices),
             }
         )
-        
+
     return render(request, "users/friends/friend_finder.html", {"matches": match_list})
 
 
