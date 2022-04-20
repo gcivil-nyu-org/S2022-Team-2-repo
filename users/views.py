@@ -528,9 +528,6 @@ def get_matches(user):
     preference_fields = Preference._meta.get_fields()
     null_preferences = get_null_preferences()
 
-    similarity = []
-    common_interests = []
-
     not_interested = [
         "Movie_NI",
         "MUSIC_NI",
@@ -542,6 +539,10 @@ def get_matches(user):
         "Pet_NI",
         "Nyc_NI",
     ]
+
+    similarity = []
+    common_interests = []
+    good_matches = []
 
     for match in matches:
         count = 0
@@ -568,15 +569,18 @@ def get_matches(user):
             if ele in common_list:
                 common_list.remove(ele)
 
-        similarity.append(count)
-        common_interests.append(list(common_list))
+        # Whatever threshold we decide
+        if count >= 3:
+            similarity.append(count)
+            common_interests.append(list(common_list))
+            good_matches.append(match)
 
     # Reorder the matches by similarity
     similarity = np.array(similarity)
-    matches = np.array(matches)
+    good_matches = np.array(good_matches)
     common_interests = np.array(common_interests)
     inds = similarity.argsort()[::-1]
-    ordered_matches = matches[inds]
+    ordered_matches = good_matches[inds]
     ordered_interests = common_interests[inds]
 
     return ordered_matches, ordered_interests
@@ -649,25 +653,6 @@ def activity_search(request):
     response = requests.get(search_api_url, headers=headers, params=params, timeout=5)
     data = response.json()
 
-    # activity_list = {}
-
-    # for event in data["events"]:
-    #     date_start = event["time_start"][0:10]
-    #     # date_end = event["time_end"][0:10]
-    #     start_time = event["time_start"][11:16]
-    #     # end_time = event["time_end"][11:16]
-    #     id = event["id"]
-    #
-    #     activity_list[id] = {
-    #             "event_name": event["name"],
-    #             "event_description": event["description"],
-    #             "image_url": event["image_url"],
-    #             "event_url": event["event_site_url"],
-    #             "date_start": date_start,
-    #             # "date_end": date_end,
-    #             "start_time": start_time,
-    #             # "end_time": end_time,
-    #         }
     return JsonResponse(data['events'], safe=False)
 
 
