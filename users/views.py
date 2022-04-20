@@ -482,6 +482,7 @@ def notifications(request):
     return HttpResponse(str(num_notifications), content_type="text/plain")
 
 
+@login_required()
 def reject_suggestion(request):
     user_id = request.POST.get("friendID")
     if user_id is not None:
@@ -493,6 +494,7 @@ def reject_suggestion(request):
     return HttpResponse()
 
 
+@login_required()
 def approve_suggestion(request):
     user_id = request.POST.get("friendID")
     if user_id is not None:
@@ -639,6 +641,7 @@ def friend_finder(request):
     return render(request, "users/friends/friend_finder.html", {"matches": match_list})
 
 
+@login_required()
 def activity_search(request):
     MY_API_KEY = os.environ.get("YELP_API_KEY")
     headers = {"Authorization": "Bearer {}".format(MY_API_KEY)}
@@ -661,6 +664,7 @@ def activity_search(request):
     return JsonResponse(data["events"], safe=False)
 
 
+@login_required()
 def activity(request):
     # event_data = activity_search(request)
     return render(request, "users/activity.html")
