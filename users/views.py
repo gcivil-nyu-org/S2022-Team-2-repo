@@ -662,7 +662,7 @@ def activity_search(request):
 
 
 def activity(request):
-    event_data = activity_search(request)
+    # event_data = activity_search(request)
     return render(request, "users/activity.html")
 
 
