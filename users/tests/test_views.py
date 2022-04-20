@@ -132,7 +132,10 @@ class PersonalityPreferenceTest(TestCase):
         self.client.force_login(self.user)
         response = self.client.post(
             reverse("preferences_personality"),
-            data={"personality_type": "VeryIN", "stay_go_type": "PI"},
+            data={
+                "personality_type": "Personality_VeryIN",
+                "stay_go_type": "Staygo_PI",
+            },
             follow=True,
         )
         self.assertRedirects(response, reverse("preferences_hobbies"))
@@ -162,10 +165,10 @@ class HobbiesPreferenceTest(TestCase):
         response = self.client.post(
             reverse("preferences_hobbies"),
             data={
-                "movie_choices": ["NI"],
-                "music_choices": ["NI"],
-                "art_choices": ["NI"],
-                "dance_choices": ["NI"],
+                "movie_choices": ["Movie_NI"],
+                "music_choices": ["MUSIC_NI"],
+                "art_choices": ["Art_NI"],
+                "dance_choices": ["Dance_NI"],
             },
             follow=True,
         )
@@ -196,11 +199,11 @@ class ExplorePreferenceTest(TestCase):
         response = self.client.post(
             reverse("profile"),
             data={
-                "food_choices": ["NI"],
-                "travel_choices": ["NI"],
-                "sports_choices": ["NI"],
-                "nyc_choices": ["NI"],
-                "pet_choices": ["NI"],
+                "food_choices": ["Cookeat_NI"],
+                "travel_choices": ["Travel_NI"],
+                "sports_choices": ["Sports_NI"],
+                "nyc_choices": ["Nyc_NI"],
+                "pet_choices": ["Pet_NI"],
             },
             follow=True,
         )

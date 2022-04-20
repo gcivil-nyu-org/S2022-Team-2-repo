@@ -13,7 +13,7 @@ from .preferences import *
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(
-        default="default.jpg", upload_to="media", null=True, blank=True
+        default="media/default.png", upload_to="media", null=True, blank=True
     )
     slug = AutoSlugField(populate_from="user")
     bio = models.CharField(max_length=255, blank=True)
@@ -26,13 +26,18 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         super(Profile, self).save(*args, **kwargs)
 
-        img = Image.open(self.image.path)  # Open image
+        img = None
+        try:
+            img = Image.open(self.image.name)
+        except Exception as e:
+            print(e)
+            img = Image.open("media/default.png")
 
-        # resize image
-        if img.height > 300 or img.width > 300:
+        if img.width > 300 or img.height > 300:
             output_size = (300, 300)
-            img = img.resize(output_size)  # Resize image
-            img.save(self.image.path)  # Save it again and override the larger image
+            img.thumbnail(output_size)
+            img.save(self.image.name)
+            self.image = img
 
     def get_absolute_url(self):
         return reverse("user_info", kwargs={"slug": self.slug})
@@ -67,67 +72,56 @@ class Preference(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
 
     personality_type = MultiSelectField(
-        max_length=50,
         choices=PERSONALITY_CHOICES,
         blank=True,
         null=True,
     )
     stay_go_type = MultiSelectField(
-        max_length=50,
         choices=STAY_GO_CHOICES,
         blank=True,
         null=True,
     )
     movie_choices = MultiSelectField(
-        max_length=50,
         choices=MOVIES_CHOICES,
         blank=True,
         null=True,
     )
     music_choices = MultiSelectField(
-        max_length=50,
         choices=MUSIC_CHOICES,
         blank=True,
         null=True,
     )
     food_choices = MultiSelectField(
-        max_length=50,
         choices=COOKEAT_CHOICES,
         blank=True,
         null=True,
     )
     travel_choices = MultiSelectField(
-        max_length=50,
         choices=TRAVEL_CHOICES,
         blank=True,
         null=True,
     )
     art_choices = MultiSelectField(
-        max_length=50,
         choices=ART_CHOICES,
         blank=True,
         null=True,
     )
     dance_choices = MultiSelectField(
-        max_length=50,
         choices=DANCE_CHOICES,
         blank=True,
         null=True,
     )
     sports_choices = MultiSelectField(
-        max_length=50,
         choices=SPORTS_CHOICES,
         blank=True,
         null=True,
     )
     pet_choices = MultiSelectField(
-        max_length=50,
         choices=PET_CHOICES,
         blank=True,
         null=True,
     )
     nyc_choices = MultiSelectField(
-        max_length=50,
         choices=NYC_CHOICES,
         blank=True,
         null=True,

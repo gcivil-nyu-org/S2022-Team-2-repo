@@ -21,6 +21,8 @@ __pycache__
 
 # Random Files
 staticfiles/
+**/.env
+**/*env
 
 # dependencies
 **/node_modules

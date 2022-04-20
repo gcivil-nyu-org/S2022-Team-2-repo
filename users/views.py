@@ -1,3 +1,4 @@
+import os
 from typing import List
 
 from collections import defaultdict
@@ -17,6 +18,8 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
 import numpy as np
+import requests
+import time
 
 from users.forms import (
     ProfileUpdateForm,
@@ -505,6 +508,16 @@ def approve_suggestion(request):
     return HttpResponse()
 
 
+def get_null_preferences():
+    personality_query = Q(personality_type__exact="")
+    movie_query = Q(movie_choices__exact="")
+    food_query = Q(food_choices__exact="")
+    null_objects = Preference.objects.filter(
+        personality_query | movie_query | food_query
+    )
+    return null_objects
+
+
 def get_matches(user):
     matches = list(
         User.objects.exclude(id=user.id)
@@ -513,9 +526,8 @@ def get_matches(user):
         .exclude(is_staff="t")
     )
     preference_fields = Preference._meta.get_fields()
+    null_preferences = get_null_preferences()
 
-    similarity = []
-    common_interests = []
     not_interested = [
         "Movie_NI",
         "MUSIC_NI",
@@ -528,8 +540,21 @@ def get_matches(user):
         "Nyc_NI",
     ]
 
+    similarity = []
+    common_interests = []
+    good_matches = []
+
     for match in matches:
         count = 0
+
+        try:
+            prefs = Preference.objects.get(user=match)
+            if prefs in null_preferences:
+                matches.remove(match)
+                continue
+        except Exception:
+            matches.remove(match)
+            continue
 
         common_list = set()
 
@@ -544,15 +569,18 @@ def get_matches(user):
             if ele in common_list:
                 common_list.remove(ele)
 
-        similarity.append(count)
-        common_interests.append(list(common_list))
+        # Whatever threshold we decide
+        if count >= 3:
+            similarity.append(count)
+            common_interests.append(list(common_list))
+            good_matches.append(match)
 
     # Reorder the matches by similarity
     similarity = np.array(similarity)
-    matches = np.array(matches)
+    good_matches = np.array(good_matches)
     common_interests = np.array(common_interests)
     inds = similarity.argsort()[::-1]
-    ordered_matches = matches[inds]
+    ordered_matches = good_matches[inds]
     ordered_interests = common_interests[inds]
 
     return ordered_matches, ordered_interests
@@ -560,19 +588,23 @@ def get_matches(user):
 
 @login_required
 def friend_finder(request):
+    null_objects = get_null_preferences()
+
+    try:
+        prefs = Preference.objects.get(user=request.user)
+        if prefs in null_objects:
+            return HttpResponseRedirect("/preferences/page1")
+    except Exception:
+        return HttpResponseRedirect("/preferences/page1")
+
     matches, interests = get_matches(request.user)
     match_list = []
-    similar_choices = defaultdict(list)
-    print(matches)
+
     for index, match in enumerate(matches):
-        print(type(interests[index]))
         matched_hobbies = interests[index]
-        print(interests[index])
-        print(type(match))
-        print(match)
-        print(matched_hobbies)
+        similar_choices = defaultdict(list)
+
         for i in matched_hobbies:
-            print(interests_choices[i])
             if i.startswith("Movie"):
                 similar_choices["Movie Choices"].append(interests_choices[i])
             elif i.startswith("MUSIC"):
@@ -593,7 +625,6 @@ def friend_finder(request):
                 similar_choices["NYC Choices"].append(interests_choices[i])
             elif i.startswith("Staygo") or i.startswith("Personality"):
                 similar_choices["Personality Type"].append(interests_choices[i])
-        print(similar_choices)
 
         match_list.append(
             {
@@ -605,8 +636,34 @@ def friend_finder(request):
                 "common_interests": dict(similar_choices),
             }
         )
-
     return render(request, "users/friends/friend_finder.html", {"matches": match_list})
+
+
+def activity_search(request):
+    MY_API_KEY = os.environ.get("YELP_API_KEY")
+    headers = {"Authorization": "Bearer {}".format(MY_API_KEY)}
+    search_api_url = "https://api.yelp.com/v3/events"
+
+    params = {
+        "location": "New York, NY",
+        "start_date": int(time.time()),
+        "limit": 12,
+        "offset": 0,
+    }
+
+    category = request.GET.get("category", None)
+    if category is not None and category != "all":
+        params["categories"] = category
+
+    response = requests.get(search_api_url, headers=headers, params=params, timeout=5)
+    data = response.json()
+
+    return JsonResponse(data["events"], safe=False)
+
+
+def activity(request):
+    # event_data = activity_search(request)
+    return render(request, "users/activity.html")
 
 
 # @login_required
