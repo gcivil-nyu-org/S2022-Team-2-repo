@@ -132,7 +132,10 @@ class PersonalityPreferenceTest(TestCase):
         self.client.force_login(self.user)
         response = self.client.post(
             reverse("preferences_personality"),
-            data={"personality_type": "VeryIN", "stay_go_type": "PI"},
+            data={
+                "personality_type": "Personality_VeryIN",
+                "stay_go_type": "Staygo_PI",
+            },
             follow=True,
         )
         self.assertRedirects(response, reverse("preferences_hobbies"))
@@ -162,10 +165,10 @@ class HobbiesPreferenceTest(TestCase):
         response = self.client.post(
             reverse("preferences_hobbies"),
             data={
-                "movie_choices": ["NI"],
-                "music_choices": ["NI"],
-                "art_choices": ["NI"],
-                "dance_choices": ["NI"],
+                "movie_choices": ["Movie_NI"],
+                "music_choices": ["MUSIC_NI"],
+                "art_choices": ["Art_NI"],
+                "dance_choices": ["Dance_NI"],
             },
             follow=True,
         )
@@ -196,11 +199,11 @@ class ExplorePreferenceTest(TestCase):
         response = self.client.post(
             reverse("profile"),
             data={
-                "food_choices": ["NI"],
-                "travel_choices": ["NI"],
-                "sports_choices": ["NI"],
-                "nyc_choices": ["NI"],
-                "pet_choices": ["NI"],
+                "food_choices": ["Cookeat_NI"],
+                "travel_choices": ["Travel_NI"],
+                "sports_choices": ["Sports_NI"],
+                "nyc_choices": ["Nyc_NI"],
+                "pet_choices": ["Pet_NI"],
             },
             follow=True,
         )
@@ -342,4 +345,77 @@ class NotificationsTest(TestCase):
     def test_call_get_page(self):
         self.client.force_login(self.user1)
         response = self.client.get(reverse("notification_count"))
+        self.assertTrue(response.status_code, 200)
+
+
+class DeclineSuggestionTest(TestCase):
+    @classmethod
+    def setUp(cls):
+        cls.client = Client()
+        cls.user1 = User.objects.create_user(
+            username=dummy_user_right["username"], password=dummy_user_right["username"]
+        )
+
+    def test_call_view_deny_anonymous(self):
+        response = self.client.get(reverse("reject-suggestion"), follow=True)
+        self.assertRedirects(response, "/login/?next=" + reverse("reject-suggestion"))
+
+    def test_call_get_page(self):
+        self.client.force_login(self.user1)
+        response = self.client.get(reverse("reject-suggestion"))
+        self.assertTrue(response.status_code, 200)
+
+
+class AcceptSuggestionTest(TestCase):
+    @classmethod
+    def setUp(cls):
+        cls.client = Client()
+        cls.user1 = User.objects.create_user(
+            username=dummy_user_right["username"], password=dummy_user_right["username"]
+        )
+
+    def test_call_view_deny_anonymous(self):
+        response = self.client.get(reverse("approve-suggestion"), follow=True)
+        self.assertRedirects(response, "/login/?next=" + reverse("approve-suggestion"))
+
+    def test_call_get_page(self):
+        self.client.force_login(self.user1)
+        response = self.client.get(reverse("approve-suggestion"))
+        self.assertTrue(response.status_code, 200)
+
+
+class FriendMatcherTest(TestCase):
+    @classmethod
+    def setUp(cls):
+        cls.client = Client()
+        cls.user1 = user = User.objects.create_user(
+            username=dummy_user_right["username"], password=dummy_user_right["username"]
+        )
+        cls.preferences = Preference(user=user)
+
+    def test_call_view_deny_anonymous(self):
+        response = self.client.get(reverse("friend-finder"), follow=True)
+        self.assertRedirects(response, "/login/?next=" + reverse("friend-finder"))
+
+    def test_call_get_page(self):
+        self.client.force_login(self.user1)
+        response = self.client.get(reverse("friend-finder"))
+        self.assertTrue(response.status_code, 200)
+
+
+class ActivitySearchTest(TestCase):
+    @classmethod
+    def setUp(cls):
+        cls.client = Client()
+        cls.user1 = User.objects.create_user(
+            username=dummy_user_right["username"], password=dummy_user_right["username"]
+        )
+
+    def test_call_view_deny_anonymous(self):
+        response = self.client.get(reverse("activity_search"), follow=True)
+        self.assertRedirects(response, "/login/?next=" + reverse("activity_search"))
+
+    def test_call_get_page(self):
+        self.client.force_login(self.user1)
+        response = self.client.get(reverse("activity_search"))
         self.assertTrue(response.status_code, 200)

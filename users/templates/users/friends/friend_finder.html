@@ -30,7 +30,6 @@
          font-size: large;
             color: #9a85a8;
     }
-    
 </style>
 
 <div style="margin-top: 50px;"></div> 
@@ -48,8 +47,8 @@
 
             <!-- left image -->
             <div class="col-sm-5 d-flex align-items-center" style="border-radius:20px; background-color: #ae97bf;">
-                    <img  src="{{ match.profile.image.url }}" class="img-fluid " alt="match image" id="img{{match.id}}" style="border-radius:20px 20px 20px 20px; min-height: 267px;" > 
-                    
+                    <img  src="{{ match.profile.image.url }}" class="img-fluid " alt="match image" id="img{{match.id}}" style="border-radius:20px 20px 20px 20px; min-height: 267px;" >
+
                     <div class="card-img-overlay col-sm-5 d-flex align-items-end d-flex justify-content-between">
                         <!-- Reject -->
                         <button class="cardButton rounded-circle" onclick="reject_suggestion({{match.id}})"> <i class="fa-solid fa-xmark fa-2x"></i> </button>

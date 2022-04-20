@@ -23,6 +23,11 @@ from users.views import (
     FriendsListView,
     SelfView,
     self_info,
+    friend_finder,
+    activity_search,
+    reject_suggestion,
+    approve_suggestion,
+    activity,
 )
 
 
@@ -110,3 +115,23 @@ class TestUrls(SimpleTestCase):
     def test_self_info_url_resolves(self):
         url = reverse("self_info")
         self.assertEquals(resolve(url).func, self_info)
+
+    def test_friend_finder_url_resolves(self):
+        url = reverse("friend-finder")
+        self.assertEquals(resolve(url).func, friend_finder)
+
+    def test_activity_search_url_resolves(self):
+        url = reverse("activity_search")
+        self.assertEquals(resolve(url).func, activity_search)
+
+    def test_reject_suggestion_url_resolves(self):
+        url = reverse("reject-suggestion")
+        self.assertEquals(resolve(url).func, reject_suggestion)
+
+    def test_approve_suggestion_url_resolves(self):
+        url = reverse("approve-suggestion")
+        self.assertEquals(resolve(url).func, approve_suggestion)
+
+    def test_activity_url_resolves(self):
+        url = reverse("activity")
+        self.assertEquals(resolve(url).func, activity)

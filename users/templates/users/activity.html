@@ -1,0 +1,157 @@
+{% extends 'users/dashboard_base.html' %}
+{% load static %}
+
+{% block body %}
+<section>
+    <div class="container-sm mt-3">
+
+        <div class="row">
+            <h2> Activity Recommendation </h2>
+        </div>
+
+        <div class="d-flex me-4">
+
+        <ul class="navbar-nav ">
+                <!-- dropdown icon menu -->
+                <li class="nav-item dropdown ">
+                    <a class="nav-link dropdown-toggle" style="color:white" href="#" id="activity-dropdown" value="all"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false"> All Categories
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDashDropdown">
+
+                        <li onclick="changeCategory('all')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-circle-check" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> All Categories </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeCategory('festivals-fairs')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-tent" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Festivals </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeCategory('film')">
+                            <a class="dropdown-item">
+                                <i class="fas fa-film" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Film </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeCategory('food-and-drink')">
+                            <a class="dropdown-item">
+                                <i class="fas fa-cutlery" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Food & Drink </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeCategory('nightlife')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-martini-glass" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Nightlife </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeCategory('music')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-music" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Music </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeCategory('sports-active-life')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-futbol" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Sports </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeCategory('visual-arts')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-paintbrush" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Visual Arts </span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+            </div>
+
+        <div class="row" id="events">
+        </div>
+
+    </div>
+</section>
+
+<script type="text/javascript">
+     var token = '{{csrf_token}}';
+     var categories = {
+        'all': 'All Categories ',
+        'music': 'Music ',
+        'food-and-drink': 'Food and Drink ',
+        'film': 'Film ',
+        'festivals-fairs': 'Festivals ',
+        'sports-active-life': 'Sports ',
+        'nightlife': 'Nightlife ',
+        'visual-arts': 'Visual Arts '
+     };
+
+     window.onload = function() {
+        let data = {};
+        let url = "{% url 'activity_search' %}";
+
+        $.ajax({
+            method: "GET",
+            url: url,
+            data: data,
+        }).done(function (msg) {
+          console.log(msg);
+          document.getElementById('events').innerHTML = JSON.stringify(msg);
+        });
+     }
+
+    function changeCategory(category) {
+        document.getElementById('activity-dropdown').innerHTML = categories[category];
+        document.getElementById('activity-dropdown').value = category;
+        search();
+    }
+
+    function search() {
+        selected_category = document.getElementById('activity-dropdown').value
+        console.log(selected_category)
+
+        let data = {};
+        data['category'] = selected_category;
+
+        let url = "{% url 'activity_search' %}";
+
+        $.ajax({
+            headers: { "X-CSRFToken": token },
+            method: "GET",
+            url: url,
+            data: data
+        }).done(function (msg) {
+            document.getElementById('events').innerHTML = JSON.stringify(msg)
+        });
+    }
+</script>
+
+{% endblock %}
