@@ -644,21 +644,26 @@ def activity_search(request):
     headers = {"Authorization": "Bearer {}".format(MY_API_KEY)}
     search_api_url = "https://api.yelp.com/v3/events"
 
-    params = {"location": "New York, NY", "start_date": int(time.time()), 'limit': 12, 'offset': 0}
+    params = {
+        "location": "New York, NY",
+        "start_date": int(time.time()),
+        "limit": 12,
+        "offset": 0,
+    }
 
-    category = request.GET.get('category', None)
-    if category is not None and category != 'all':
-        params['categories'] = category
+    category = request.GET.get("category", None)
+    if category is not None and category != "all":
+        params["categories"] = category
 
     response = requests.get(search_api_url, headers=headers, params=params, timeout=5)
     data = response.json()
 
-    return JsonResponse(data['events'], safe=False)
+    return JsonResponse(data["events"], safe=False)
 
 
 def activity(request):
     event_data = activity_search(request)
-    return render(request, 'users/activity.html')
+    return render(request, "users/activity.html")
 
 
 # @login_required
