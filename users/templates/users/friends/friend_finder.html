@@ -3,41 +3,18 @@
 
 {% block body %}
 
-<!-- <div class="container">
-    <div class="card-stack">
-        <ul class="card-list">
-            {% if matches %}
-            {% for match in matches %}
-            <li class="card" id="suggestion{{match.id}}">
-                <h3 class="purple-text"> {{match.first_name}} {{match.last_name}} </h3>
-                <p class="purple-text"> {{match.username}} </p>
-                <p class="purple-text"> {{match.profile.bio}} </p>
-                <p class="purple-text"> {{match.common_interests}} </p>
-                <img src="{{ match.profile.image.url }}" style="height:100px; width:100px; object-fit:cover; border-radius:50%"> </img>
-
-                <button class="standard_button" onclick="reject_suggestion({{match.id}})"> Reject </button>
-                <button class="standard_button" onclick="approve_suggestion({{match.id}})"> Approve </button>
-            </li>
-            {% endfor %}
-            {% endif %}
-            <li>
-                <p class="white-text"> You don't have any matches!</p>
-            </li>
-            
-        </ul>
-    </div>
-</div> -->
-<!-- ------- -->
 <style>
     .matchCard{
         background-color: #57068c;
+        border-radius: 20px;
+        min-height: 267px;
     }
     .cardButton{
         background-color: #330662;
         color: white;
         border: none;
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
     }
     .cardButton:hover {
         background-color: #ab82c5;
@@ -48,6 +25,12 @@
         margin-bottom: 2px;
         margin-top: 7px;
     }
+
+    #interest{
+         font-size: large;
+            color: #9a85a8;
+    }
+
 </style>
 
 <div style="margin-top: 50px;"></div> 
@@ -60,17 +43,18 @@
 <!-- for js use -->
 
 <div class="container-sm d-flex justify-content-center">   
-    <div hidden class="card w-75 h-75 matchCard" id="matchFriend{{ forloop.counter }}">
+    <div hidden class="card w-75 h-75 matchCard" id="matchFriend{{ forloop.counter }}" style="border-radius:20px;">
         <div class="row g-0">
 
             <!-- left image -->
-            <div class="col-sm-5 d-flex">
-                    <img src="{{ match.profile.image.url }}" class="img-fluid rounded-start " alt="match image">
+            <div class="col-sm-5 d-flex align-items-center" style="border-radius:20px; background-color: #ae97bf;">
+                    <img  src="{{ match.profile.image.url }}" class="img-fluid " alt="match image" id="img{{match.id}}" style="border-radius:20px 20px 20px 20px; min-height: 267px;" >
+
                     <div class="card-img-overlay col-sm-5 d-flex align-items-end d-flex justify-content-between">
                         <!-- Reject -->
-                        <button class="cardButton rounded-circle" onclick="reject_suggestion({{match.id}})"> <i class="fa-solid fa-xmark"></i> </button>
+                        <button class="cardButton rounded-circle" onclick="reject_suggestion({{match.id}})"> <i class="fa-solid fa-xmark fa-2x"></i> </button>
                         <!-- Send request -->
-                        <button class="cardButton rounded-circle"  onclick="approve_suggestion({{match.id}})"> <i class="fa-solid fa-check"></i> </button>
+                        <button class="cardButton rounded-circle"  onclick="approve_suggestion({{match.id}})"> <i class="fa-solid fa-check fa-2x"></i> </button>
                     </div>
             </div>
 
@@ -78,19 +62,19 @@
             <div class="col-sm-7">
                 <div class="card-body">
                     <h2 class="card-title fw-bold">{{match.first_name}} {{match.last_name}}</h2>
-                    <p class="card-text fs-5  " style="color: #ab82c5;">{{match.profile.bio}}</p>
+                    <p class="card-text fs-5  " style="color: #ae97bf;">{{match.profile.bio}}</p>
                     <h4>Common Interests</h4>
                     {% for k, v in match.items %}
-                        {% if k == "common_interests" %}           
+                        {% if k == "common_interests" %}
                             {% for key,value in v.items %}
                                 <!-- the XXX Choices -->
                                 <h5> {{ key }} </h5>
                                 {% for val in value %}
                                     <!-- iter. items from the value/list -->
                                     {% if forloop.last %}
-                                        <span> {{ val }} </span>
+                                        <span id="interest"> {{ val }}  </span>
                                     {% else %}
-                                        <span> {{ val }}, </span>
+                                        <span id="interest"> {{ val }},   </span>
                                     {% endif %}
                                 {% endfor %}
                             {% endfor %}
@@ -102,10 +86,25 @@
         </div>
     </div>
 </div>
+
+<!-- JS testing -- resizing img to naturalHeight -->
+
+<!-- <script>
+    to the img tag -> onload="setMaxH()"
+
+    function setMaxH(){
+       let tarImg = document.querySelector('#img{{match.id}}');
+       let imgH = tarImg.naturalHeight;
+       tarImg.style.maxHeight = imgH+"px";
+       console.log("setMaxH ran");
+   }
+</script> -->
+<!-- --- -->
+
 {% endfor %}
 {% else %}
 <div class="container-sm d-flex justify-content-center">
-       <h4>You don't have any matches. Expanding your prefernces and try again!</h4>
+       <h4>You don't have any matches. Expand your preferences and try again!</h4>
 </div>
 {% endif %}
 
@@ -114,6 +113,7 @@
     <h4 hidden id="allMatchesDone">That's all the matches for now, please check back later!</h4>
 </div>
 <!-- --- -->
+
 
 <script type="text/javascript">
     var token = '{{csrf_token}}';

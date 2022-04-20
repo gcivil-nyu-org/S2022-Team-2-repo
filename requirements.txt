@@ -20,6 +20,5 @@ coverage
 coveralls
 channels~=3.0.4
 numpy~=1.22.3
-
 requests~=2.27.1
 yelp~=1.0.2
