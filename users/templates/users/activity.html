@@ -95,10 +95,23 @@
             </ul>
             </div>
 
-        <div class="row" id="events">
+        
+        <section>
+  <div class="container-md mt-3">
+    <div class="row " id="events">
+      <div class="col-md-2 col-md-2-5">
+        <div class="card  justify-content-center text-center" 
+          style=" height: 17rem; width:15rem; background-color: #57068c;  border-radius:10px; padding:6px;">
+          <img height="130" class="card-img-top  rounded-circle p-2"
+            alt="user pic" style="margin-left:40px; width:65%" id="event_pic">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
         </div>
 
-    </div>
 </section>
 
 <script type="text/javascript">
@@ -115,16 +128,32 @@
     };
 
     window.onload = function() {
+         
         let data = {};
         let url = "{% url 'activity_search' %}";
-
         $.ajax({
             method: "GET",
             url: url,
             data: data,
-        }).done(function (msg) {
-            console.log(msg);
-            document.getElementById('events').innerHTML = JSON.stringify(msg);
+        }).then(function(response){
+            for(let object of response ){
+            let event_image= `<img src="${object.image_url}" height="180" class="card-img-top"
+            alt="event_pic" style="width:25%"</img>`
+            let description= `<p>Description: ${object.description}</p>`
+            let location = `<p>Location: ${object.location.display_address}</p>`
+            let start_time = `<p>Start Details: ${object.time_start}</p>`
+            let end_time = `<p>End Details: ${object.time_end}</p>`
+            let name = `<h3><a href="${object.event_site_url}">${object.name}</a></h3>`
+            console.log(object.image_url)
+            $("#events").append(event_image)
+            $("#events").append(name)
+            $("#events").append(description)
+            $("#events").append(location)
+            $("#events").append(start_time)
+            $("#events").append(end_time)
+
+            }
+
         });
 
         // from navDash notification
@@ -170,6 +199,26 @@
         }).done(function (msg) {
             console.log(msg);
             document.getElementById('events').innerHTML = JSON.stringify(msg)
+        }).then(function(response){
+            for(let object of response ){
+            let event_image= `<img src="${object.image_url}" height="180" class="card-img-top"
+            alt="event_pic" style="width:25%"</img>`
+            let description= `<p>Description: ${object.description}</p>`
+            let location = `<p>Location: ${object.location.display_address}</p>`
+            let start_time = `<p>Start Details: ${object.time_start}</p>`
+            let end_time = `<p>End Details: ${object.time_end}</p>`
+            let name = `<h3><a href="${object.event_site_url}">${object.name}</a></h3>`
+            console.log(object.image_url)
+            $("#events").append(event_image)
+            $("#events").append(name)
+            $("#events").append(description)
+            $("#events").append(location)
+            $("#events").append(start_time)
+            $("#events").append(end_time)
+
+            
+            }
+
         });
     }
 </script>
