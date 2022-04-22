@@ -95,8 +95,10 @@
             </ul>
             </div>
 
+        <div class="row " id="events">
+        </div>
         
-        <section>
+        {% comment %} <section>
   <div class="container-md mt-3">
     <div class="row " id="events">
       <div class="col-md-2 col-md-2-5">
@@ -109,11 +111,11 @@
     </div>
 
   </div>
-</section>
+</section> {% endcomment %}
         </div>
 
 </section>
-
+<script type = "text/JavaScript" src ="https://MomentJS.com/downloads/moment-with-locales.js"></script>
 <script type="text/javascript">
     var token = '{{csrf_token}}';
     var categories = {
@@ -141,16 +143,25 @@
             alt="event_pic" style="width:25%"</img>`
             let description= `<p>Description: ${object.description}</p>`
             let location = `<p>Location: ${object.location.display_address}</p>`
-            let start_time = `<p>Start Details: ${object.time_start}</p>`
-            let end_time = `<p>End Details: ${object.time_end}</p>`
-            let name = `<h3><a href="${object.event_site_url}">${object.name}</a></h3>`
-            console.log(object.image_url)
-            $("#events").append(event_image)
-            $("#events").append(name)
-            $("#events").append(description)
-            $("#events").append(location)
-            $("#events").append(start_time)
-            $("#events").append(end_time)
+
+            let start = `${object.time_start}`
+            let start_sub = start.substring(0,19) + ".000Z";
+            let start_time = `<p> ${moment.utc(start_sub).format('MMMM Do YYYY, h:mm:ss a')}</p>`;
+
+            let name = `<h4><a href="${object.event_site_url}">${object.name}</a></h4>`
+            $("#events").append(event_image, name, description, location, start_time)
+            let end = `${object.time_end}`
+            if (end !== 'null'){
+                let end = `${object.time_end}`
+                let end_sub = end.substring(0,19) + ".000Z";
+                let end_time = `<p> ${moment.utc(end_sub).format('MMMM Do YYYY, h:mm:ss a')}</p>`;
+                $("#events").append(end_time)
+            } 
+           // $("#events").append(name)
+            //$("#events").append(description)
+            //$("#events").append(location)
+            //$("#events").append(start_time)
+            //$("#events").append(end_time)
 
             }
 
@@ -205,17 +216,25 @@
             alt="event_pic" style="width:25%"</img>`
             let description= `<p>Description: ${object.description}</p>`
             let location = `<p>Location: ${object.location.display_address}</p>`
-            let start_time = `<p>Start Details: ${object.time_start}</p>`
-            let end_time = `<p>End Details: ${object.time_end}</p>`
-            let name = `<h3><a href="${object.event_site_url}">${object.name}</a></h3>`
-            console.log(object.image_url)
-            $("#events").append(event_image)
-            $("#events").append(name)
-            $("#events").append(description)
-            $("#events").append(location)
-            $("#events").append(start_time)
-            $("#events").append(end_time)
 
+            let start = `${object.time_start}`
+            let start_sub = start.substring(0,19) + ".000Z";
+            let start_time = `<p> ${moment.utc(start_sub).format('MMMM Do YYYY, h:mm:ss a')}</p>`;
+
+            let name = `<h4><a href="${object.event_site_url}">${object.name}</a></h4>`
+            $("#events").append(event_image, name, description, location, start_time)
+            let end = `${object.time_end}`
+            if (end !== 'null'){
+                let end = `${object.time_end}`
+                let end_sub = end.substring(0,19) + ".000Z";
+                let end_time = `<p> ${moment.utc(end_sub).format('MMMM Do YYYY, h:mm:ss a')}</p>`;
+                $("#events").append(end_time)
+            } 
+           // $("#events").append(name)
+            //$("#events").append(description)
+            //$("#events").append(location)
+            //$("#events").append(start_time)
+            //$("#events").append(end_time)
             
             }
 
