@@ -102,19 +102,19 @@
 </section>
 
 <script type="text/javascript">
-     var token = '{{csrf_token}}';
-     var categories = {
-        'all': 'All Categories ',
-        'music': 'Music ',
-        'food-and-drink': 'Food and Drink ',
-        'film': 'Film ',
-        'festivals-fairs': 'Festivals ',
-        'sports-active-life': 'Sports ',
-        'nightlife': 'Nightlife ',
-        'visual-arts': 'Visual Arts '
-     };
+    var token = '{{csrf_token}}';
+    var categories = {
+    'all': 'All Categories ',
+    'music': 'Music ',
+    'food-and-drink': 'Food and Drink ',
+    'film': 'Film ',
+    'festivals-fairs': 'Festivals ',
+    'sports-active-life': 'Sports ',
+    'nightlife': 'Nightlife ',
+    'visual-arts': 'Visual Arts '
+    };
 
-     window.onload = function() {
+    window.onload = function() {
         let data = {};
         let url = "{% url 'activity_search' %}";
 
@@ -123,10 +123,29 @@
             url: url,
             data: data,
         }).done(function (msg) {
-          console.log(msg);
-          document.getElementById('events').innerHTML = JSON.stringify(msg);
+            console.log(msg);
+            document.getElementById('events').innerHTML = JSON.stringify(msg);
         });
-     }
+
+        // from navDash notification
+        let dataBell = {};
+        dataBell["user"] = "{{user}}";
+
+        let urlBell = "{% url 'notification_count' %}";
+        $.ajax({
+            method: "GET",
+            url: urlBell,
+            data: dataBell, 
+        }).done(function(msg) {
+            var count = parseInt(msg);
+            if (count===0){
+                document.getElementById('bell').style.display='none';
+            }
+            else{
+                $('#bell').text(count);
+            }
+        });
+    }
 
     function changeCategory(category) {
         document.getElementById('activity-dropdown').innerHTML = categories[category];
@@ -149,6 +168,7 @@
             url: url,
             data: data
         }).done(function (msg) {
+            console.log(msg);
             document.getElementById('events').innerHTML = JSON.stringify(msg)
         });
     }
