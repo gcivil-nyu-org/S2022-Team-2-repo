@@ -143,16 +143,17 @@ h4{
     var token = '{{csrf_token}}';
     // dict for labels
     var categories = {
-    'all': '<i class="fa-solid fa-circle-check me-1" style="color:white"></i> All Categories ',
-    'music': '<i class="fa-solid fa-music me-1" style="color:white"></i> Music ',
-    'food-and-drink': '<i class="fas fa-cutlery me-1" style="color:white"></i> Food and Drink ',
-    'film': '<i class="fas fa-film me-1" style="color:white"></i> Film ',
-    'festivals-fairs': '<i class="fa-solid fa-tent me-1" style="color:white"></i> Festivals ',
-    'sports-active-life': '<i class="fa-solid fa-futbol me-1" style="color:white"></i> Sports ',
-    'nightlife': '<i class="fa-solid fa-martini-glass me-1" style="color:white"></i> Nightlife ',
-    'visual-arts': '<i class="fa-solid fa-paintbrush me-1" style="color:white"></i> Visual Arts '
+        'all': '<i class="fa-solid fa-circle-check me-1" style="color:white"></i> All Categories ',
+        'music': '<i class="fa-solid fa-music me-1" style="color:white"></i> Music ',
+        'food-and-drink': '<i class="fas fa-cutlery me-1" style="color:white"></i> Food and Drink ',
+        'film': '<i class="fas fa-film me-1" style="color:white"></i> Film ',
+        'festivals-fairs': '<i class="fa-solid fa-tent me-1" style="color:white"></i> Festivals ',
+        'sports-active-life': '<i class="fa-solid fa-futbol me-1" style="color:white"></i> Sports ',
+        'nightlife': '<i class="fa-solid fa-martini-glass me-1" style="color:white"></i> Nightlife ',
+        'visual-arts': '<i class="fa-solid fa-paintbrush me-1" style="color:white"></i> Visual Arts ',
     };
 
+    //initi
     window.onload = function() {         
         let data = {};
         let url = "{% url 'activity_search' %}";
@@ -162,48 +163,7 @@ h4{
             data: data,
         }).then(function(response){
             //initialize event list:
-            for(let object of response){
-                let event_image= `<img src="${object.image_url}" height="180" class="card-img-top"
-                alt="event_pic" style="width:25%">`
-                let description= `${object.description}`
-                let location = `Location: ${object.location.display_address}`
-
-                let start = `${object.time_start}`
-                let start_sub = start.substring(0,19) + ".000Z";
-                let start_time = `${moment.utc(start_sub).format('MMMM Do YYYY, h:mm a')}`;
-
-                let name = `<a class="evtName" href="${object.event_site_url}" target="_blank">${object.name}</a>`
-               // $("#events").append(event_image, name, description, location, start_time)
-                let end = `${object.time_end}`
-                if (end !== 'null'){
-                    let end = `${object.time_end}`
-                    let end_sub = end.substring(0,19) + ".000Z";
-                    let end_time = `<p> ${moment.utc(end_sub).format('MMMM Do YYYY, h:mm a')}</p>`;
-                  //  $("#events").append(end_time)
-                } 
-
-                //Card template:
-                let cardTemplate = 
-                `
-                <div class="card cardEvent" >
-                <div class="container" id="image">
-                    <a href="${object.event_site_url}" target="_blank"><img class="card-img-top" src="${object.image_url}" alt="Card image cap"></a> </div>
-                    <div class="card-body">
-                        <h4 class="card-title mb-3">${name}</h4>
-                        <div class="row">                            
-                            <p><i class="fa fa-calendar me-1" aria-hidden="true" style='font-size:23px;'></i> ${start_time}</p>
-                        </div>
-                        <div class="row">                            
-                            <p> <i class="fas fa-map-marker-alt me-1" aria-hidden="true" style='font-size:23px'></i> ${location} </p>
-                            <p class="card-text">${description}</p>
-                        </div>
-                    </div>
-                </div>
-
-                `
-                // Concat the card here:
-                document.getElementById('events').innerHTML += cardTemplate;
-            }
+            eventCardCreation(response);
         });
 
         // from navDash notification
@@ -255,49 +215,54 @@ h4{
             document.getElementById('events').innerHTML = "";
 
             //card & event creation
-            for(let object of response ){
-                let event_image= `<img src="${object.image_url}" height="180" class="card-img-top"
-                alt="event_pic" style="width:25%"</img>`
-                let description= `${object.description}`
-                let location = `Location: ${object.location.display_address}`
+            eventCardCreation(response);
+        });
+    }
 
-                let start = `${object.time_start}`
-                let start_sub = start.substring(0,19) + ".000Z";
-                let start_time = `${moment.utc(start_sub).format('MMMM Do YYYY, h:mm a')}`;
+    function eventCardCreation(response) {
+        //card & event creation
+        for(let object of response ){
+            let event_image= `<img src="${object.image_url}" height="180" class="card-img-top"
+            alt="event_pic" style="width:25%"</img>`
+            let description= `${object.description}`
+            let location = `Location: ${object.location.display_address}`
 
-                let name = `<a class="evtName" href="${object.event_site_url}" target="_blank">${object.name}</a>`
-               // $("#events").append(event_image, name, description, location, start_time)
+            let start = `${object.time_start}`
+            let start_sub = start.substring(0,19) + ".000Z";
+            let start_time = `${moment.utc(start_sub).format('MMMM Do YYYY, h:mm a')}`;
+
+            let name = `<a class="evtName" href="${object.event_site_url}" target="_blank">${object.name}</a>`
+            // $("#events").append(event_image, name, description, location, start_time)
+            let end = `${object.time_end}`
+            if (end !== 'null'){
                 let end = `${object.time_end}`
-                if (end !== 'null'){
-                    let end = `${object.time_end}`
-                    let end_sub = end.substring(0,19) + ".000Z";
-                    let end_time = `<p> ${moment.utc(end_sub).format('MMMM Do YYYY, h:mm a')}</p>`;
-                //    $("#events").append(end_time)
-                } 
+                let end_sub = end.substring(0,19) + ".000Z";
+                let end_time = `<p> ${moment.utc(end_sub).format('MMMM Do YYYY, h:mm a')}</p>`;
+            //    $("#events").append(end_time)
+            } 
 
-                //Card template:
-                let cardTemplate = 
-                `
-                <div class="card cardEvent" >
-                <div class="container" id="image">
-                    <a href="${object.event_site_url}" target="_blank"><img class="card-img-top" src="${object.image_url}" alt="Card image cap"></a> </div>
-                    <div class="card-body">
-                        <h4 class="card-title mb-3">${name}</h4>
-                        <div class="row">                            
-                            <p><i class="fa fa-calendar me-1" aria-hidden="true" style='font-size:23px;'></i> ${start_time}</p>
-                        </div>
-                        <div class="row">                            
-                            <p> <i class="fas fa-map-marker-alt me-1" aria-hidden="true" style='font-size:23px'></i> ${location} </p>
-                            <p class="card-text">${description}</p>
-                        </div>
+            //Card template:
+            let cardTemplate = 
+            `
+            <div class="card cardEvent" >
+            <div class="container" id="image">
+                <a href="${object.event_site_url}" target="_blank"><img class="card-img-top" src="${object.image_url}" alt="Card image cap"></a> </div>
+                <div class="card-body">
+                    <h4 class="card-title mb-3">${name}</h4>
+                    <div class="row">                            
+                        <p><i class="fa fa-calendar me-1" aria-hidden="true" style='font-size:23px;'></i> ${start_time}</p>
+                    </div>
+                    <div class="row">                            
+                        <p> <i class="fas fa-map-marker-alt me-1" aria-hidden="true" style='font-size:23px'></i> ${location} </p>
+                        <p class="card-text">${description}</p>
                     </div>
                 </div>
+            </div>
 
-                `
-                // Concat the card here:
-                document.getElementById('events').innerHTML += cardTemplate;
-            }
-        });
+            `
+            // Concat the card here:
+            document.getElementById('events').innerHTML += cardTemplate;
+        }
     }
 </script>
 
