@@ -3,17 +3,29 @@
 
 {% block body %}
 <style>
-.col-md-4-5 {
-    width: 20%;
-  }
 
-.card{
+.standard_button{
+    font-size: medium;
+    padding: 0;
+}
+.cardEvent{
+    max-width: 31%;
+    max-height: 30%;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
     background-color: #5e18a8;
 }
-a:link, a:visited, a:hover, a:focus, a:active{
+.evtName{
+    color:#e3c6f5;
+    text-decoration: none;
+}
+.evtName:hover{
+    color:#230542;
+}
+/* a:link, a:visited, a:hover, a:focus, a:active{
   color:#e3c6f5;
    text-decoration: none;
-}
+} */
 
 
 </style>
@@ -23,12 +35,13 @@ a:link, a:visited, a:hover, a:focus, a:active{
             <ul class="navbar-nav standard_button">
                 <!-- dropdown icon menu -->
                 <li class="nav-item dropdown ">
-                    <a class="nav-link dropdown-toggle" style="color:white" href="#" id="activity-dropdown" value="all"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false"> All Categories
+                    <a class="nav-link dropdown-toggle" style="color:white" id="activity-dropdown" value="all"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-circle-check me-1" style="color:white"></i>
+                        All Categories
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDashDropdown">
-
                         <li onclick="changeCategory('all')">
                             <a class="dropdown-item">
                                 <i class="fa-solid fa-circle-check" style="color:#230542"></i>
@@ -104,7 +117,8 @@ a:link, a:visited, a:hover, a:focus, a:active{
             </ul>
         </div>
 
-        <div class="row " id="events">
+        <!-- event card injection -->
+        <div class="container-md d-flex flex-wrap mt-3 " id="events">
         </div>
         
     </div>
@@ -113,19 +127,19 @@ a:link, a:visited, a:hover, a:focus, a:active{
 <script type = "text/JavaScript" src ="https://MomentJS.com/downloads/moment-with-locales.js"></script>
 <script type="text/javascript">
     var token = '{{csrf_token}}';
+    // dict for labels
     var categories = {
-    'all': 'All Categories ',
-    'music': 'Music ',
-    'food-and-drink': 'Food and Drink ',
-    'film': 'Film ',
-    'festivals-fairs': 'Festivals ',
-    'sports-active-life': 'Sports ',
-    'nightlife': 'Nightlife ',
-    'visual-arts': 'Visual Arts '
+    'all': '<i class="fa-solid fa-circle-check me-1" style="color:white"></i> All Categories ',
+    'music': '<i class="fa-solid fa-music me-1" style="color:white"></i> Music ',
+    'food-and-drink': '<i class="fas fa-cutlery me-1" style="color:white"></i> Food and Drink ',
+    'film': '<i class="fas fa-film me-1" style="color:white"></i> Film ',
+    'festivals-fairs': '<i class="fa-solid fa-tent me-1" style="color:white"></i> Festivals ',
+    'sports-active-life': '<i class="fa-solid fa-futbol me-1" style="color:white"></i> Sports ',
+    'nightlife': '<i class="fa-solid fa-martini-glass me-1" style="color:white"></i> Nightlife ',
+    'visual-arts': '<i class="fa-solid fa-paintbrush me-1" style="color:white"></i> Visual Arts '
     };
 
-    window.onload = function() {
-         
+    window.onload = function() {         
         let data = {};
         let url = "{% url 'activity_search' %}";
         $.ajax({
@@ -133,55 +147,48 @@ a:link, a:visited, a:hover, a:focus, a:active{
             url: url,
             data: data,
         }).then(function(response){
-            for(let object of response ){
+            //initialize event list:
+            for(let object of response){
                 let event_image= `<img src="${object.image_url}" height="180" class="card-img-top"
                 alt="event_pic" style="width:25%"</img>`
-                let description= `<p>${object.description}</p>`
-                let location = `<p>Location: ${object.location.display_address}</p>`
+                let description= `${object.description}`
+                let location = `Location: ${object.location.display_address}`
 
                 let start = `${object.time_start}`
                 let start_sub = start.substring(0,19) + ".000Z";
-                let start_time = `<p> ${moment.utc(start_sub).format('MMMM Do YYYY, h:mm:ss a')}</p>`;
+                let start_time = `${moment.utc(start_sub).format('MMMM Do YYYY, h:mm a')}`;
 
-                let name = `<h4><a href="${object.event_site_url}" target="_blank">${object.name}</a></h4>`
+                let name = `<a class="evtName" href="${object.event_site_url}" target="_blank">${object.name}</a>`
                // $("#events").append(event_image, name, description, location, start_time)
                 let end = `${object.time_end}`
                 if (end !== 'null'){
                     let end = `${object.time_end}`
                     let end_sub = end.substring(0,19) + ".000Z";
-                    let end_time = `<p> ${moment.utc(end_sub).format('MMMM Do YYYY, h:mm:ss a')}</p>`;
+                    let end_time = `<p> ${moment.utc(end_sub).format('MMMM Do YYYY, h:mm a')}</p>`;
                   //  $("#events").append(end_time)
                 } 
 
                 //Card template:
                 let cardTemplate = 
                 `
-                <div class="container-md mt-3">
-                    <div class="row " id="events">
-                        <div class="col-md-4 col-md-4-5">
-                            <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="${object.image_url}" alt="Card image cap">
-                                <div class="card-body">
-                                <h4 class="card-title">${name}</h4>
-                                <div class="row">
-                                 <i class="fa fa-calendar" aria-hidden="true" style='font-size:23px'></i>
-                                 <p> ${start_time}</p>
-                                 </div>
-                                 <div class="row">
-                                 <i class="fas fa-map-marker-alt" aria-hidden="true" style='font-size:23px'></i>
-                                <p> ${location} </p>
-                                <p class="card-text">${description}</p>
-
-                            </div>
+                <div class="card cardEvent" >
+                    <img class="card-img-top" src="${object.image_url}" alt="Card image cap">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">${name}</h4>
+                        <div class="row">                            
+                            <p><i class="fa fa-calendar me-1" aria-hidden="true" style='font-size:23px;'></i> ${start_time}</p>
+                        </div>
+                        <div class="row">                            
+                            <p> <i class="fas fa-map-marker-alt me-1" aria-hidden="true" style='font-size:23px'></i> ${location} </p>
+                            <p class="card-text">${description}</p>
                         </div>
                     </div>
                 </div>
+
                 `
                 // Concat the card here:
                 document.getElementById('events').innerHTML += cardTemplate;
-
             }
-
         });
 
         // from navDash notification
@@ -206,8 +213,8 @@ a:link, a:visited, a:hover, a:focus, a:active{
 
     // button label swapping
     function changeCategory(category) {
-        document.getElementById('activity-dropdown').innerHTML = categories[category];
         document.getElementById('activity-dropdown').value = category;
+        document.getElementById('activity-dropdown').innerHTML = categories[category];
         search();
     }
 
@@ -236,20 +243,20 @@ a:link, a:visited, a:hover, a:focus, a:active{
             for(let object of response){
                 let event_image= `<img src="${object.image_url}" height="180" class="card-img-top"
                 alt="event_pic" style="width:25%"</img>`
-                let description= `<p>Description: ${object.description}</p>`
-                let location = `<p>Location: ${object.location.display_address}</p>`
+                let description= `${object.description}`
+                let location = `Location: ${object.location.display_address}`
 
                 let start = `${object.time_start}`
                 let start_sub = start.substring(0,19) + ".000Z";
-                let start_time = `<p> ${moment.utc(start_sub).format('MMMM Do YYYY, h:mm:ss a')}</p>`;
+                let start_time = `${moment.utc(start_sub).format('MMMM Do YYYY, h:mm a')}`;
 
-                let name = `<h4><a href="${object.event_site_url}" target="_blank">${object.name}</a></h4>`
+                let name = `<a class="evtName" href="${object.event_site_url}" target="_blank">${object.name}</a>`
                // $("#events").append(event_image, name, description, location, start_time)
                 let end = `${object.time_end}`
                 if (end !== 'null'){
                     let end = `${object.time_end}`
                     let end_sub = end.substring(0,19) + ".000Z";
-                    let end_time = `<p> ${moment.utc(end_sub).format('MMMM Do YYYY, h:mm:ss a')}</p>`;
+                    let end_time = `<p> ${moment.utc(end_sub).format('MMMM Do YYYY, h:mm a')}</p>`;
                 //    $("#events").append(end_time)
                 } 
 
@@ -262,26 +269,20 @@ a:link, a:visited, a:hover, a:focus, a:active{
                 //Card template:
                 let cardTemplate = 
                 `
-                <div class="container-md mt-3">
-                    <div class="row " id="events">
-                        <div class="col-md-4 col-md-4-5">
-                            <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="${object.image_url}" alt="Card image cap">
-                                <div class="card-body">
-                                <h4 class="card-title">${name}</h4>
-                                <div class="row">
-                                 <i class="fa fa-calendar" aria-hidden="true" style='font-size:23px'></i>
-                                 <p> ${start_time}</p>
-                                 </div>
-                                 <div class="row">
-                                 <i class="fas fa-map-marker-alt" aria-hidden="true" style='font-size:23px'></i>
-                                <p> ${location} </p>
-                                <p class="card-text">${description}</p>
-
-                            </div>
+                <div class="card cardEvent" >
+                    <img class="card-img-top" src="${object.image_url}" alt="Card image cap">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">${name}</h4>
+                        <div class="row">                            
+                            <p><i class="fa fa-calendar me-1" aria-hidden="true" style='font-size:23px;'></i> ${start_time}</p>
+                        </div>
+                        <div class="row">                            
+                            <p> <i class="fas fa-map-marker-alt me-1" aria-hidden="true" style='font-size:23px'></i> ${location} </p>
+                            <p class="card-text">${description}</p>
                         </div>
                     </div>
                 </div>
+
                 `
                 // Concat the card here:
                 document.getElementById('events').innerHTML += cardTemplate;

@@ -34,7 +34,7 @@
     <!-- -->
 
     <!-- style customization -->
-    <script>
+    <script>        
         //Chat id box navbar
         const chatNavBar = document.querySelector('#root > div > div.right-panel > div.rce-navbar.light');
         chatNavBar.style.backgroundColor = '#230542';
@@ -90,11 +90,10 @@
             icon.style.padding= "0px";
         })
 
-        // // typing container <<< see above 'chat list search box' padding Akshat
-        // const container = document.querySelectorAll('.rce-container-input');
-        // container.forEach(cont =>{
-        //     cont.style.height = "52px";
-        // })
+        //add text to new chat icon
+        let newChatIcon = document.querySelector("#root > div > div.right-panel > div.rce-navbar.light > div.rce-navbar-item.rce-navbar-item__right > button").innerHTML;
+        document.querySelector("#root > div > div.right-panel > div.rce-navbar.light > div.rce-navbar-item.rce-navbar-item__right > button").innerHTML = "Add New Chat"  + newChatIcon;
+
         //text box
         const textBox = document.querySelector('#root > div > div.right-panel > div.rce-container-input');
         textBox.style.borderRadius = '0px 0px 5px 0px';

@@ -200,7 +200,7 @@ body {
 /* sidebar button */
 label #btn,
 label #cancel {
-  position: absolute;
+  position: fixed;
   cursor: pointer;
   color: white;
   border-radius: 5px;
