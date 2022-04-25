@@ -23,8 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# Loading .env file
-# TODO: Remove .env from repo and reset secret key
+# Loading ..env file
+# TODO: Remove ..env from repo and reset secret key
 dotenv.read_dotenv()
 
 SECRET_KEY = str(

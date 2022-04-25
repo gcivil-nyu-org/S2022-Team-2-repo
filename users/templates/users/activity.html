@@ -93,6 +93,74 @@
                     </ul>
                 </li>
             </ul>
+
+            <ul class="navbar-nav ">
+                <!-- dropdown icon menu -->
+                <li class="nav-item dropdown ">
+                    <a class="nav-link dropdown-toggle" style="color:white" href="#" id="time-dropdown" value="anytime"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false"> Anytime
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDashDropdown">
+
+                        <li onclick="changeTime('anytime')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-clock" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Anytime </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeTime('today')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-clock" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Today </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeTime('tomorrow')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-clock" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Tomorrow </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeTime('weekend')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-clock style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> This Weekend </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeTime('this-week')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-clock style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> This Week </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeTime('next-week')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-clock" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Next Week </span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+
+            <input type="checkbox" id="free-checkbox" name="free-checkbox" onclick="search()"> Show Free Events Only
+
             </div>
 
         <div class="row" id="events">
@@ -112,6 +180,14 @@
         'sports-active-life': 'Sports ',
         'nightlife': 'Nightlife ',
         'visual-arts': 'Visual Arts '
+     };
+     var times = {
+        'anytime': 'Anytime ',
+        'today': 'Today ',
+        'tomorrow': 'Tomorrow ',
+        "this-week": "This Week ",
+        "next-week": "Next Week ",
+        "weekend": "This Weekend"
      };
 
      window.onload = function() {
@@ -134,12 +210,22 @@
         search();
     }
 
+    function changeTime(time) {
+        document.getElementById('time-dropdown').innerHTML = times[time];
+        document.getElementById('time-dropdown').value = time;
+        search();
+    }
+
     function search() {
-        selected_category = document.getElementById('activity-dropdown').value
-        console.log(selected_category)
+        selected_category = document.getElementById('activity-dropdown').value;
+        selected_time = document.getElementById('time-dropdown').value;
+        free = document.getElementById('free-checkbox').checked;
+        console.log(selected_category, selected_time, free)
 
         let data = {};
         data['category'] = selected_category;
+        data['time'] = selected_time;
+        data['free'] = free;
 
         let url = "{% url 'activity_search' %}";
 
