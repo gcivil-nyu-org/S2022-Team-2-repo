@@ -684,7 +684,7 @@ def activity_search(request):
         params["end_date"] = int(datetime.combine(date.today() + timedelta(14-idx), time.min).timestamp())
 
     selected_free = request.GET.get("free", None)
-    if selected_free == 'true':
+    if selected_free == 'free':
         params["is_free"] = True
 
     response = requests.get(search_api_url, headers=headers, params=params, timeout=5)
