@@ -30,7 +30,7 @@
 .card-img-top{
     
     max-width: 100%;
-    max-height: 200px;
+    max-height: 230px;
     object-fit: cover;
 }
 
@@ -164,7 +164,7 @@ h4{
             //initialize event list:
             for(let object of response){
                 let event_image= `<img src="${object.image_url}" height="180" class="card-img-top"
-                alt="event_pic" style="width:25%"</img>`
+                alt="event_pic" style="width:25%">`
                 let description= `${object.description}`
                 let location = `Location: ${object.location.display_address}`
 
@@ -187,7 +187,7 @@ h4{
                 `
                 <div class="card cardEvent" >
                 <div class="container" id="image">
-                    <img class="card-img-top" src="${object.image_url}" alt="Card image cap"> </div>
+                    <a href="${object.event_site_url}" target="_blank"><img class="card-img-top" src="${object.image_url}" alt="Card image cap"></a> </div>
                     <div class="card-body">
                         <h4 class="card-title mb-3">${name}</h4>
                         <div class="row">                            
