@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, time, date, timedelta
 from typing import List
 
@@ -19,7 +20,6 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
 import numpy as np
 import requests
-import environ
 
 from users.forms import (
     ProfileUpdateForm,
@@ -643,10 +643,7 @@ def friend_finder(request):
 
 @login_required()
 def activity_search(request):
-    env = environ.Env()
-    environ.Env.read_env()
-
-    MY_API_KEY = env("YELP_API_KEY")
+    MY_API_KEY = os.environ.get("YELP_API_KEY")
     headers = {"Authorization": "Bearer {}".format(MY_API_KEY)}
     search_api_url = "https://api.yelp.com/v3/events"
 
