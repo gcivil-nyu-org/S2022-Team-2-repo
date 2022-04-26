@@ -1,4 +1,4 @@
-import os
+from datetime import datetime, time, date, timedelta
 from typing import List
 
 from collections import defaultdict
@@ -19,7 +19,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
 import numpy as np
 import requests
-import time
+import environ
 
 from users.forms import (
     ProfileUpdateForm,
@@ -643,13 +643,16 @@ def friend_finder(request):
 
 @login_required()
 def activity_search(request):
-    MY_API_KEY = os.environ.get("YELP_API_KEY")
+    env = environ.Env()
+    environ.Env.read_env()
+
+    MY_API_KEY = env("YELP_API_KEY")
     headers = {"Authorization": "Bearer {}".format(MY_API_KEY)}
     search_api_url = "https://api.yelp.com/v3/events"
 
     params = {
         "location": "New York, NY",
-        "start_date": int(time.time()),
+        "start_date": int(datetime.now().timestamp()),
         "limit": 12,
         "offset": 0,
     }
@@ -657,6 +660,32 @@ def activity_search(request):
     category = request.GET.get("category", None)
     if category is not None and category != "all":
         params["categories"] = category
+
+    selected_time = request.GET.get("time", None)
+    idx = date.today().weekday() + 2
+
+    if selected_time == "today":
+        params["end_date"] = int(datetime.combine(datetime.now(), time.max).timestamp())
+
+    elif selected_time == "tomorrow":
+        params["start_date"] = int(datetime.combine(date.today() + timedelta(days=1), time.min).timestamp())
+        params["end_date"] = int(datetime.combine(date.today() + timedelta(days=1), time.max).timestamp())
+
+    elif selected_time == "weekend":
+        params["end_date"] = int(datetime.combine(date.today() + timedelta(7-idx), time.min).timestamp())
+        params["end_date"] = int(datetime.combine(date.today() + timedelta(7-idx+1), time.max).timestamp())
+
+    # Assuming week ends on Saturday night
+    elif selected_time == "this-week":
+        params["end_date"] = int(datetime.combine(date.today() + timedelta(7-idx), time.max).timestamp())
+
+    elif selected_time == "next-week":
+        params["start_date"] = int(datetime.combine(date.today() + timedelta(7-idx+1), time.min).timestamp())
+        params["end_date"] = int(datetime.combine(date.today() + timedelta(14-idx), time.min).timestamp())
+
+    selected_free = request.GET.get("free", None)
+    if selected_free == 'free':
+        params["is_free"] = True
 
     response = requests.get(search_api_url, headers=headers, params=params, timeout=5)
     data = response.json()
