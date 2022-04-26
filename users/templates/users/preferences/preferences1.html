@@ -35,8 +35,8 @@
                   <label class="form-control1">
                   {% csrf_token %}
                   {% for field in form %}
-                  {{ field.label }}
-                  <ul style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
+                  <p class="purple-text"> {{ field.label }} </p>
+                  <ul class="purple-text" style="font-size:18px; columns: 2; -webkit-columns: 2; -moz-columns: 2;">
                      {{ field }}
                   </ul>
                   <hr id="linebreak">

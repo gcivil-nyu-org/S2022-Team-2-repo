@@ -2,24 +2,74 @@
 {% load static %}
 
 {% block body %}
+<style>
+
+.stdbtn2{
+    font-size: medium;
+    padding: 0;
+}
+
+.stdbtn3{
+    font-size: medium;
+    padding: 0;
+    margin-left: 1rem;
+}
+
+.cardEvent{
+    max-width: 31%;
+    max-height: 30%;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    background-color: #5e18a8;
+}
+.evtName{
+    color:#e3c6f5;
+    text-decoration: none;
+}
+.evtName:hover{
+    color:#230542;
+}
+/* a:link, a:visited, a:hover, a:focus, a:active{
+  color:#e3c6f5;
+   text-decoration: none;
+} */
+
+.card-img-top{
+    
+    max-width: 100%;
+    max-height: 230px;
+    min-height: 230px;
+    object-fit: cover;
+}
+
+h4{
+    padding-bottom: 10px;
+}
+
+.container{
+  padding: 0%;
+}
+
+</style>
 <section>
     <div class="container-sm mt-3">
 
         <div class="row">
-            <h2> Activity Recommendation </h2>
+            <h2> Activity Finder </h2>
         </div>
 
         <div class="d-flex me-4">
-
-        <ul class="navbar-nav ">
+            <!-- Category dropdown -->
+            <ul class="navbar-nav standard_button stdbtn2">
                 <!-- dropdown icon menu -->
                 <li class="nav-item dropdown ">
-                    <a class="nav-link dropdown-toggle" style="color:white" href="#" id="activity-dropdown" value="all"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false"> All Categories
+                    <a class="nav-link dropdown-toggle" style="color:white" id="activity-dropdown" value="all"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-circle-check me-1" style="color:white"></i>
+                        All Categories
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDashDropdown">
-
                         <li onclick="changeCategory('all')">
                             <a class="dropdown-item">
                                 <i class="fa-solid fa-circle-check" style="color:#230542"></i>
@@ -93,53 +143,207 @@
                     </ul>
                 </li>
             </ul>
-            </div>
 
-        <div class="row" id="events">
+            <!-- Time dropdown -->
+            <ul class="navbar-nav standard_button stdbtn3">
+                <!-- dropdown icon menu -->
+                <li class="nav-item dropdown ">
+                    <a class="nav-link dropdown-toggle" style="color:white" href="#" id="time-dropdown" value="anytime"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+                        <i class="fa-solid fa-clock me-1" style="color:white"></i>
+                        Anytime
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDashDropdown">
+
+                        <li onclick="changeTime('anytime')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-clock" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Anytime </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeTime('today')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-clock" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Today </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeTime('tomorrow')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-clock" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Tomorrow </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeTime('weekend')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-clock style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> This Weekend </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeTime('this-week')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-clock style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> This Week </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeTime('next-week')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-clock" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Next Week </span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </li>
+
+            </ul>
+
+            <!-- cost dropdown -->
+            <ul class="navbar-nav standard_button stdbtn3">
+                <!-- dropdown icon menu -->
+                <li class="nav-item dropdown ">
+                    <a class="nav-link dropdown-toggle" style="color:white" href="#" id="free-dropdown" value="all"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-dollar-sign me-1" style="color:white"></i> 
+                        All Costs
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDashDropdown">
+
+                        <li onclick="changeFree('all')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-dollar-sign" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Any Cost </span>
+                            </a>
+                        </li>
+
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <li onclick="changeFree('free')">
+                            <a class="dropdown-item">
+                                <i class="fa-solid fa-dollar-sign" style="color:#230542"></i>
+                                <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> Free Only </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
         </div>
 
+        <!-- event card injection -->
+        <div class="container-md d-flex flex-wrap mt-3 " id="events">
+        </div>
+        
     </div>
 </section>
 
+<script type = "text/JavaScript" src ="https://MomentJS.com/downloads/moment-with-locales.js"></script>
 <script type="text/javascript">
-     var token = '{{csrf_token}}';
-     var categories = {
-        'all': 'All Categories ',
-        'music': 'Music ',
-        'food-and-drink': 'Food and Drink ',
-        'film': 'Film ',
-        'festivals-fairs': 'Festivals ',
-        'sports-active-life': 'Sports ',
-        'nightlife': 'Nightlife ',
-        'visual-arts': 'Visual Arts '
-     };
+    var token = '{{csrf_token}}';
+    // dict for labels
+    var categories = {
+        'all': '<i class="fa-solid fa-circle-check me-1" style="color:white"></i> All Categories ',
+        'music': '<i class="fa-solid fa-music me-1" style="color:white"></i> Music ',
+        'food-and-drink': '<i class="fas fa-cutlery me-1" style="color:white"></i> Food and Drink ',
+        'film': '<i class="fas fa-film me-1" style="color:white"></i> Film ',
+        'festivals-fairs': '<i class="fa-solid fa-tent me-1" style="color:white"></i> Festivals ',
+        'sports-active-life': '<i class="fa-solid fa-futbol me-1" style="color:white"></i> Sports ',
+        'nightlife': '<i class="fa-solid fa-martini-glass me-1" style="color:white"></i> Nightlife ',
+        'visual-arts': '<i class="fa-solid fa-paintbrush me-1" style="color:white"></i> Visual Arts ',
+    };
+     var times = {
+        'anytime': '<i class="fa-solid fa-clock me-1" style="color:white"></i> Anytime ',
+        'today': '<i class="fa-solid fa-clock me-1" style="color:white"></i> Today ',
+        'tomorrow': '<i class="fa-solid fa-clock me-1" style="color:white"></i> Tomorrow ',
+        "this-week": '<i class="fa-solid fa-clock me-1" style="color:white"></i> This Week ',
+        "next-week": '<i class="fa-solid fa-clock me-1" style="color:white"></i> Next Week ',
+        "weekend": '<i class="fa-solid fa-clock me-1" style="color:white"></i> This Weekend ',
+    };
+     var costs = {
+        'all': '<i class="fa-solid fa-dollar-sign me-1" style="color:white"></i> Any Cost ',
+        'free': '<i class="fa-solid fa-dollar-sign me-1" style="color:white"></i> Free Only ',
+    }
 
-     window.onload = function() {
+    //initi
+    window.onload = function() {         
         let data = {};
         let url = "{% url 'activity_search' %}";
-
         $.ajax({
             method: "GET",
             url: url,
             data: data,
-        }).done(function (msg) {
-          console.log(msg);
-          document.getElementById('events').innerHTML = JSON.stringify(msg);
+        }).then(function(response){
+            //initialize event list:
+            eventCardCreation(response);
         });
-     }
 
+        // from navDash notification
+        let dataBell = {};
+        dataBell["user"] = "{{user}}";
+
+        let urlBell = "{% url 'notification_count' %}";
+        $.ajax({
+            method: "GET",
+            url: urlBell,
+            data: dataBell, 
+        }).done(function(msg) {
+            var count = parseInt(msg);
+            if (count===0){
+                document.getElementById('bell').style.display='none';
+            }
+            else{
+                $('#bell').text(count);
+            }
+        });
+    }
+
+    // button label swapping
+            //Category label
     function changeCategory(category) {
-        document.getElementById('activity-dropdown').innerHTML = categories[category];
         document.getElementById('activity-dropdown').value = category;
+        document.getElementById('activity-dropdown').innerHTML = categories[category];
+        search();
+    }
+        //Time label
+    function changeTime(time) {
+        document.getElementById('time-dropdown').innerHTML = times[time];
+        document.getElementById('time-dropdown').value = time;
+        search();
+    }
+        //Fee label
+    function changeFree(cost) {
+        document.getElementById('free-dropdown').innerHTML = costs[cost];
+        document.getElementById('free-dropdown').value = cost;
         search();
     }
 
     function search() {
-        selected_category = document.getElementById('activity-dropdown').value
-        console.log(selected_category)
+        selected_category = document.getElementById('activity-dropdown').value;
+        selected_time = document.getElementById('time-dropdown').value;
+        free = document.getElementById('free-dropdown').value;
+        console.log(selected_category, selected_time, free)
 
         let data = {};
         data['category'] = selected_category;
+        data['time'] = selected_time;
+        data['free'] = free;
 
         let url = "{% url 'activity_search' %}";
 
@@ -149,8 +353,60 @@
             url: url,
             data: data
         }).done(function (msg) {
-            document.getElementById('events').innerHTML = JSON.stringify(msg)
+            console.log(msg);
+        }).then(function(response){
+            //clear initial innerHTML
+            document.getElementById('events').innerHTML = "";
+
+            //card & event creation
+            eventCardCreation(response);
         });
+    }
+
+    function eventCardCreation(response) {
+        //card & event creation
+        for(let object of response ){
+            let event_image= `<img src="${object.image_url}" height="180" class="card-img-top"
+            alt="event_pic" style="width:25%"</img>`
+            let description= `${object.description}`
+            let location = `Location: ${object.location.display_address}`
+
+            let start = `${object.time_start}`
+            let start_sub = start.substring(0,19) + ".000Z";
+            let start_time = `${moment.utc(start_sub).format('MMMM Do YYYY, h:mm a')}`;
+
+            let name = `<a class="evtName" href="${object.event_site_url}" target="_blank">${object.name}</a>`
+            // $("#events").append(event_image, name, description, location, start_time)
+            let end = `${object.time_end}`
+            if (end !== 'null'){
+                let end = `${object.time_end}`
+                let end_sub = end.substring(0,19) + ".000Z";
+                let end_time = `<p> ${moment.utc(end_sub).format('MMMM Do YYYY, h:mm a')}</p>`;
+            //    $("#events").append(end_time)
+            } 
+
+            //Card template:
+            let cardTemplate = 
+            `
+            <div class="card cardEvent" >
+            <div class="container" id="image">
+                <a href="${object.event_site_url}" target="_blank"><img class="card-img-top" src="${object.image_url}" alt="Card image cap"></a> </div>
+                <div class="card-body">
+                    <h4 class="card-title mb-3">${name}</h4>
+                    <div class="row">                            
+                        <p><i class="fa fa-calendar me-1" aria-hidden="true" style='font-size:23px;'></i> ${start_time}</p>
+                    </div>
+                    <div class="row">                            
+                        <p> <i class="fas fa-map-marker-alt me-1" aria-hidden="true" style='font-size:23px'></i> ${location} </p>
+                        <p class="card-text">${description}</p>
+                    </div>
+                </div>
+            </div>
+
+            `
+            // Concat the card here:
+            document.getElementById('events').innerHTML += cardTemplate;
+        }
     }
 </script>
 

@@ -36,7 +36,7 @@
       <h5 style="color:#ab82c5;"> You have no pending requests! </h5>
       {% else %}
       {% for invite in invitations %}
-      <div class="container" style="background-color: #57068c; border-radius: 10px;">
+      <div class="container" style="background-color: #57068c; border-radius: 10px; margin-bottom: 15px;">
         <div class="row">
           <img src="{{ invite.from_user.profile.image.url }}" class="user-pic" height="150" alt="user pic"
             style="height:100px; width:100%; object-fit:cover; border-radius:50%">

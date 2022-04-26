@@ -144,6 +144,10 @@
             currPath = "Friend Finder";
             let tab = document.getElementById('sideBarFinder');
             tab.classList.add("active");
+        }else if(currPath == '/dashboard/activity'){
+            currPath = "Activity Recommendations";
+            let tab = document.getElementById('sideBarActivity');
+            tab.classList.add("active");
         }else {
             currPath = " ";
             const searchBoxSize = document.getElementById("navSearch");
