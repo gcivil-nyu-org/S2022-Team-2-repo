@@ -668,23 +668,41 @@ def activity_search(request):
         params["end_date"] = int(datetime.combine(datetime.now(), time.max).timestamp())
 
     elif selected_time == "tomorrow":
-        params["start_date"] = int(datetime.combine(date.today() + timedelta(days=1), time.min).timestamp())
-        params["end_date"] = int(datetime.combine(date.today() + timedelta(days=1), time.max).timestamp())
+        params["start_date"] = int(
+            datetime.combine(date.today() + timedelta(days=1), time.min).timestamp()
+        )
+        params["end_date"] = int(
+            datetime.combine(date.today() + timedelta(days=1), time.max).timestamp()
+        )
 
     elif selected_time == "weekend":
-        params["end_date"] = int(datetime.combine(date.today() + timedelta(7-idx), time.min).timestamp())
-        params["end_date"] = int(datetime.combine(date.today() + timedelta(7-idx+1), time.max).timestamp())
+        params["end_date"] = int(
+            datetime.combine(date.today() + timedelta(7 - idx), time.min).timestamp()
+        )
+        params["end_date"] = int(
+            datetime.combine(
+                date.today() + timedelta(7 - idx + 1), time.max
+            ).timestamp()
+        )
 
     # Assuming week ends on Saturday night
     elif selected_time == "this-week":
-        params["end_date"] = int(datetime.combine(date.today() + timedelta(7-idx), time.max).timestamp())
+        params["end_date"] = int(
+            datetime.combine(date.today() + timedelta(7 - idx), time.max).timestamp()
+        )
 
     elif selected_time == "next-week":
-        params["start_date"] = int(datetime.combine(date.today() + timedelta(7-idx+1), time.min).timestamp())
-        params["end_date"] = int(datetime.combine(date.today() + timedelta(14-idx), time.min).timestamp())
+        params["start_date"] = int(
+            datetime.combine(
+                date.today() + timedelta(7 - idx + 1), time.min
+            ).timestamp()
+        )
+        params["end_date"] = int(
+            datetime.combine(date.today() + timedelta(14 - idx), time.min).timestamp()
+        )
 
     selected_free = request.GET.get("free", None)
-    if selected_free == 'free':
+    if selected_free == "free":
         params["is_free"] = True
 
     response = requests.get(search_api_url, headers=headers, params=params, timeout=5)
