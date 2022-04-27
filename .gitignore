@@ -23,6 +23,7 @@ __pycache__
 staticfiles/
 **/.env
 nyunite/.env
+**/env
 
 # dependencies
 **/node_modules
@@ -43,4 +44,4 @@ nyunite/.env
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-nyunite/.env
+**/_trial_temp/
