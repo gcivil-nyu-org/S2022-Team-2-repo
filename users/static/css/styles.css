@@ -2,6 +2,18 @@ body {
   background-color: #230542;
 }
 
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: none;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #ab82c5;
+}
+
 
 .purple-text {
   font-family: "Montserrat", sans-serif;
