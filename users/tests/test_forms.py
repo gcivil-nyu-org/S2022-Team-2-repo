@@ -17,7 +17,7 @@ dummy_user_right = {
     "password2": "Crypt1234",
 }
 dummy_user_wrong = {
-    "username": "wrong_username",
+    "username": "wrong123username",
     "first_name": "John",
     "last_name": "Doe",
     "password1": "Crypt1234",
@@ -40,6 +40,8 @@ class SignupFormTest(TestCase):
     def test_fail_username(self):
         form = UserRegisterForm(data=dummy_user_wrong)
         self.assertTrue(form.errors)
+
+    def test_fail_password(self):
         form = UserRegisterForm(data=password_wrong)
         self.assertTrue(form.errors)
 
@@ -62,8 +64,7 @@ class ResetPasswordFormTest(TestCase):
                 "new_password2": self.correct_password,
             }
         )
-        form.clean_password()
-        self.assertFalse(form.p_error)
+        self.assertFalse(form.errors)
 
     def test_fail(self):
         form = ResetPasswordForm(
@@ -72,8 +73,7 @@ class ResetPasswordFormTest(TestCase):
                 "new_password2": self.correct_password,
             }
         )
-        form.clean_password()
-        self.assertTrue(form.p_error)
+        self.assertTrue(form.errors)
 
 
 class PreferencesPersonalityFormTest(TestCase):

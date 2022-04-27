@@ -6,7 +6,6 @@ from django.contrib.auth.forms import (
     UserCreationForm,
 )
 from django.contrib.auth.models import User
-from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.forms import FileInput
 from django.utils.translation import gettext_lazy as _
@@ -49,20 +48,23 @@ class UserRegisterForm(UserCreationForm):
         last_name = cleaned_data.get("last_name")
 
         # NetID validation
-        if not re.match(r"^[a-zA-Z]+[0-9]+", username):
-            self.errors[
-                "username"
-            ] = "Invalid NetID. Net ID should contain only characters followed by numbers."
+        if not re.match(r"^[a-zA-Z]+\d+$", username):
+            self.add_error(
+                "username",
+                "Invalid NetID. Net ID should contain only characters followed by numbers.",
+            )
 
         # Name validation
         if not re.match(r"^[a-zA-Z]+", first_name):
-            self.errors[
-                "first_name"
-            ] = "Invalid First Name. Cannot contain numbers or special characters."
+            self.add_error(
+                "first_name",
+                "Invalid First Name. Cannot contain numbers or special characters.",
+            )
         if not re.match(r"^[a-zA-Z]+", last_name):
-            self.errors[
-                "last_name"
-            ] = "Invalid Last Name. Cannot contain numbers or special characters."
+            self.add_error(
+                "last_name",
+                "Invalid Last Name. Cannot contain numbers or special characters.",
+            )
 
     class Meta:
         model = User
@@ -101,7 +103,9 @@ class ResetPasswordRequestForm(forms.Form):
 
 
 class ResetPasswordForm(forms.Form):
-    p_error = None
+    error_messages = {
+        "password_mismatch": _("The two password fields didn’t match."),
+    }
 
     new_password1 = forms.CharField(
         label=_("Password"),
@@ -125,24 +129,26 @@ class ResetPasswordForm(forms.Form):
         help_text=_("Enter the same password as before, for verification."),
     )
 
-    def clean_password(self):
-        error_bool = False
-        password1 = self.data["new_password1"]
-        try:
-            validate_password(password1)
-        except ValidationError:
-            self.p_error = (
-                "Please choose a stronger password.\n"
-                "Your password should be at least 8 characters... "
+    def clean_new_password2(self):
+        password1 = self.cleaned_data.get("new_password1")
+        password2 = self.cleaned_data.get("new_password2")
+        if password1 and password2 and password1 != password2:
+            raise ValidationError(
+                self.error_messages["password_mismatch"],
+                code="password_mismatch",
             )
-            error_bool = True
-            return error_bool, password1
-        password2 = self.data["new_password2"]
-        if password1 and password2:
-            if password1 != password2:
-                self.p_error = "Passwords do not match! Please try again."
-                error_bool = True
-        return error_bool, password2
+        return password2
+
+    def _post_clean(self):
+        super()._post_clean()
+        # Validate the password after self.instance is updated with form data
+        # by super().
+        password = self.cleaned_data.get("new_password2")
+        if password:
+            try:
+                password_validation.validate_password(password)
+            except ValidationError as error:
+                self.add_error("new_password2", error)
 
 
 class LoginForm(forms.Form):

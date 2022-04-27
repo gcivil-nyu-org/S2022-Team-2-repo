@@ -137,7 +137,17 @@ def password_reset_request(request):  # pragma: no cover
         form = ResetPasswordRequestForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get("username")
-            user = User.objects.get(username=username)
+            try:
+                user = User.objects.get(username=username)
+            except Exception:
+                form = ResetPasswordRequestForm()
+                form.errors["username"] = "User with that NetID does not exist."
+                return render(
+                    request,
+                    "users/passwordreset/password_reset_request_form.html",
+                    {"form": form},
+                )
+
             to_email = username + "@nyu.edu"
             current_site = get_current_site(request)
             mail_subject = "Reset your NYUnite Account Password!"
@@ -175,16 +185,9 @@ def password_reset(request, uidb64, token):  # pragma: no cover
         if request.method == "POST":
             form = ResetPasswordForm(request.POST)
             if form.is_valid():
-                error_bool, password = form.clean_password()
-                if error_bool:
-                    return render(
-                        request,
-                        "users/passwordreset/password_reset_form.html",
-                        {"form": form},
-                    )
-                else:
-                    user.set_password(password)
-                    user.save()
+                password = form.cleaned_data.get("new_password1")
+                user.set_password(password)
+                user.save()
 
                 return render(
                     request, "users/passwordreset/password_reset_successful_signin.html"
