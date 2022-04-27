@@ -89,11 +89,11 @@ class ProfileUpdateForm(forms.ModelForm):  # pragma: no cover
     class Meta:
         model = Profile
         fields = ["bio", "image"]
-        widgets = {'image': FileInput()}
+        widgets = {"image": FileInput()}
 
     def __init__(self, *args, **kwargs):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
-        self.fields['image'].widget.attrs = {'id': 'selectedFile'}
+        self.fields["image"].widget.attrs = {"id": "selectedFile"}
 
 
 class ResetPasswordRequestForm(forms.Form):
