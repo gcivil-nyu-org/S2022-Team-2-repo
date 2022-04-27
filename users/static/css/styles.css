@@ -381,7 +381,7 @@ nav div form #navSearch::placeholder{
 h1 {
   margin-top: 0;
   font-size: 3rem;
-  
+
 }
 h1 div {
   position: relative;
@@ -389,7 +389,7 @@ h1 div {
 }
 
 #about_us{
-  color:white; 
+  color:white;
   font-family: "Montserrat", sans-serif;
 }
 .blog .carousel-indicators .active {
@@ -420,7 +420,7 @@ margin-bottom:10px;
   overflow: hidden;
   position: relative;
   border-bottom: 5px solid #6a3fa2;
-  
+
 }
 
 .our-team:hover {
@@ -525,7 +525,7 @@ margin-bottom:10px;
 }
 .our-team .social li a:hover {
   color: #145889;
- 
+
 }
 @media only screen and (max-width: 990px) {
   .our-team {

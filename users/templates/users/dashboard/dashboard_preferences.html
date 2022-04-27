@@ -40,22 +40,37 @@
             <div class="col-6">
                 <h3 class="fw-bold fs-4"> Profile
                     <a href="updateprofile/">
-                        <i class="fa-solid fa-pen-to-square fw-normal fs-5" style="color: white;"></i>
+                        <i class="fa-solid fa-pen-to-square fw-normal fs-5" style="color: white; transform:translate(10px, 0px)"></i>
                     </a>
                 </h3>
 
                 <!-- inner col and row -->
                 <div class="row row-cols-auto">
-                    <div class="col">
-                        <h4>{{ user.first_name }} </h4>
+                    <div class="col-sm-3">
+                        <h4 style="color:white;"> Full Name: </h4>
                     </div>
-                    <div class="col">
-                        <h4>{{ user.last_name }}</h4>
+                    <div class="col-sm-9">
+                        <h4>{{ user.first_name }} {{ user.last_name }} </h4>
                     </div>
                 </div>
+
                 <!-- 3rd row -->
                 <div class="row">
-                    <h4>NetID: {{user.username}}</h4>
+                    <div class="col-sm-3">
+                        <h4 style="color:white;"> NetID: </h4>
+                    </div>
+                    <div class="col-sm-9">
+                        <h4> {{user.username}}</h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h4 style="color:white;"> Profile Bio: </h4>
+                    </div>
+                    <div class="col-sm-9">
+                        <h4>{{ user.profile.bio }} </h4>
+                    </div>
                 </div>
                 <!-- inner end -->
             </div>
@@ -81,7 +96,7 @@
             <div class="col">
                 <h3 class="fw-bold  fs-4"> Preferences
                     <a href="/preferences/page1">
-                        <i class="fa-solid fa-pen-to-square  fw-normal fs-5" style="color: white;"></i>
+                        <i class="fa-solid fa-pen-to-square  fw-normal fs-5" style="color: white; transform:translate(10px, 0px)"></i>
                     </a>
 
                     <!-- testing on getting data, .items list on the 'columns in the prefs table' -->
@@ -182,13 +197,12 @@
 
             // from navDash pathname
             let currPath = window.location.pathname;
-            console.log(currPath);
             if (currPath == '/dashboard/' || currPath == '/login/') {
                 currPath = "Dashboard";
             }else if(currPath == '/dashboard/my_friends'){
                 currPath = "My Friends";
             }else if(currPath == '/dashboard/preferences/'){
-                currPath = "Preference";
+                currPath = "Preferences";
             }else {
                 currPath = " ";
                 const searchBoxSize = document.getElementById("navSearch");

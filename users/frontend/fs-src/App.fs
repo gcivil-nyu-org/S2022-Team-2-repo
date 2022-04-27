@@ -14,8 +14,7 @@ open FSharp.Data
 let defaultDataStatus = {click=true;loading=0.;download=false}
 let createOnDownload (uri:string) (filename:string)(e: obj) =
     promise {
-        JS.console.log("running onDownload for " + uri)
-        JS.console.log(e)
+
         let! resp = tryFetch uri []
         match resp with
         | Result.Ok r ->
@@ -44,7 +43,7 @@ let getSubtitleTextFromMessageBox(msg: MessageBox option) =
    |> Option.defaultValue ""
 
 let createMessageBoxFromMessageTypeTextMessage (message: MessageTypeTextMessage) =
-    let avatar = getPhotoString message.sender (Some 150)
+    let avatar = message.sender_image
     {
         position=MessageBoxPosition.Left
         ``type``=MessageBoxType.Text
@@ -288,7 +287,7 @@ let fetchUsersList(existing: ChatItem array) =
             statusColor = ""
             statusColorType = None
             alt = dialog.first_name
-            title = dialog.first_name
+            title = sprintf "%s %s" dialog.first_name dialog.last_name
             date = DateTimeOffset.Now
             subtitle = ""
             unread = 0
@@ -314,7 +313,7 @@ let fetchMessages() =
                 | _, true ->  MessageBoxStatus.Read
                 | true, false -> MessageBoxStatus.Sent
                 | false, false -> MessageBoxStatus.Received
-            let avatar = getPhotoString message.sender (Some 150)
+            let avatar = message.sender_image
             let dialog_id = if message.out then message.recipient else message.sender
             let dataStatus = message.file |> Option.map(fun _ -> defaultDataStatus)
             let size = message.file |> Option.map(fun x -> humanFileSize x.size)
@@ -372,7 +371,7 @@ let fetchDialogs() =
 
             {
                 id = dialog.other_user_id
-                avatar = getPhotoString dialog.other_user_id None
+                avatar = dialog.other_user_image
                 avatarFlexible = true
                 statusColor = ""
                 statusColorType = None

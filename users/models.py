@@ -72,56 +72,67 @@ class Preference(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
 
     personality_type = MultiSelectField(
+        max_length=200,
         choices=PERSONALITY_CHOICES,
         blank=True,
         null=True,
     )
     stay_go_type = MultiSelectField(
+        max_length=200,
         choices=STAY_GO_CHOICES,
         blank=True,
         null=True,
     )
     movie_choices = MultiSelectField(
+        max_length=200,
         choices=MOVIES_CHOICES,
         blank=True,
         null=True,
     )
     music_choices = MultiSelectField(
+        max_length=200,
         choices=MUSIC_CHOICES,
         blank=True,
         null=True,
     )
     food_choices = MultiSelectField(
+        max_length=200,
         choices=COOKEAT_CHOICES,
         blank=True,
         null=True,
     )
     travel_choices = MultiSelectField(
+        max_length=200,
         choices=TRAVEL_CHOICES,
         blank=True,
         null=True,
     )
     art_choices = MultiSelectField(
+        max_length=200,
         choices=ART_CHOICES,
         blank=True,
         null=True,
     )
     dance_choices = MultiSelectField(
+        max_length=200,
         choices=DANCE_CHOICES,
         blank=True,
         null=True,
     )
     sports_choices = MultiSelectField(
+        max_length=200,
         choices=SPORTS_CHOICES,
         blank=True,
         null=True,
     )
     pet_choices = MultiSelectField(
+        max_length=200,
         choices=PET_CHOICES,
         blank=True,
         null=True,
     )
     nyc_choices = MultiSelectField(
+        max_length=200,
         choices=NYC_CHOICES,
         blank=True,
         null=True,

@@ -19,10 +19,23 @@
 
             <!-- Search box -->
             <form action="{% url 'search' %}" type='get' class="d-flex me-4">
+<!--                 <div class="input-group col-md-4"> -->
+<!--                     <input class="form-control py-2 border-right-0 border" type="search" value="search" id="example-search-input"> -->
+<!--                     <span class="input-group-append"> -->
+<!--                         <button class="btn btn-outline-secondary border-left-0 border" type="button"> -->
+<!--                         <i class="fa fa-search"></i> -->
+<!--                         </button> -->
+<!--                     </span> -->
+<!--                 </div> -->
                 <input class="form-control me-2 text-white " required id="navSearch"
-                    style="background-color:#57068c; width: 300px; border-width: 1px; border-color: white;" type="text"
+                    style="background-color:#57068c; width: 500px; border-width: 0px; border-radius: 12px;" type="text"
                     name="navSearch" placeholder="Search" aria-label="Search" value="{{query}}">
                 <button class="standard_button" style="background-color:#230542;" type="submit"> Search </button>
+
+
+<!--                  <button type="submit" class="search-button"> -->
+<!--                     <i class="fa fa-search"> </i> -->
+<!--                  </button> -->
             </form>
 
             <!-- Nav items -->
@@ -123,7 +136,6 @@
         }
 
         let currPath = window.location.pathname;
-        console.log(currPath);
         if (currPath == '/dashboard/' || currPath == '/login/') {
             currPath = "Dashboard";
             let tab = document.getElementById('sideBarDash');
