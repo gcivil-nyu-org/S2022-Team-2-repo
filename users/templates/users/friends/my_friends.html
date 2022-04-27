@@ -113,7 +113,6 @@
   var token = "{{csrf_token}}";
 
   function acceptRequest(id) {
-    console.log(id);
     let data = {};
     data["acceptRequest"] = id;
     let url = "{% url 'accept_request' %}";

@@ -10,15 +10,15 @@ django-crispy-forms
 django-autoslug~=1.9.8
 django-multiselectfield
 django-storages
-django_private_chat2
 django_extensions
+django-model-utils >= 4.1.1
+channels>=3.0.3,<4.0
 boto3
 pillow~=9.1.0
 black
 flake8
 coverage
 coveralls
-channels~=3.0.4
 numpy~=1.22.3
 requests~=2.27.1
 yelp~=1.0.2
