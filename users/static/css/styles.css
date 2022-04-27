@@ -378,20 +378,19 @@ nav div form #navSearch::placeholder{
 }
 
 
-* TITRE */
-
 h1 {
   margin-top: 0;
   font-size: 3rem;
-  display: inline-block;
   
 }
 h1 div {
   position: relative;
   float: left;
 }
+
 #about_us{
-  color:white; font-family:Monteserrat
+  color:white; 
+  font-family: "Montserrat", sans-serif;
 }
 .blog .carousel-indicators .active {
 background: #707070;
