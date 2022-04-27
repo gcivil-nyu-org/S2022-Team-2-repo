@@ -8,6 +8,7 @@ from django.contrib.auth.forms import (
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.forms import FileInput
 from django.utils.translation import gettext_lazy as _
 
 from .models import Profile, Preference
@@ -88,6 +89,11 @@ class ProfileUpdateForm(forms.ModelForm):  # pragma: no cover
     class Meta:
         model = Profile
         fields = ["bio", "image"]
+        widgets = {"image": FileInput()}
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
+        self.fields["image"].widget.attrs = {"id": "selectedFile"}
 
 
 class ResetPasswordRequestForm(forms.Form):
