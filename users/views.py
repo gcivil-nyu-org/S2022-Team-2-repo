@@ -20,6 +20,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
 import numpy as np
 import requests
+from django_private_chat2.models import MessageModel, DialogsModel
 
 from users.forms import (
     ProfileUpdateForm,
@@ -368,9 +369,22 @@ def self_info(request):
     return JsonResponse(data, safe=False)
 
 
+def recent_contacts(request):
+    dialogs = DialogsModel.objects.all().filter(Q(user1_id=request.user.id)|Q(user2_id=request.user.id)).order_by('-created').values('user1_id', 'user2_id')[:5]
+    recent = []
+    for dialog in dialogs:
+        if dialog['user1_id'] != request.user.id:
+            recent.append(User.objects.get(pk=dialog['user1_id']))
+        else:
+            recent.append(User.objects.get(pk=dialog['user2_id']))
+    return recent
+
+
 @login_required
 def dashboard(request):
-    return render(request, "users/dashboard/dashboard.html")
+    recent = recent_contacts(request)
+    print(recent)
+    return render(request, "users/dashboard/dashboard.html", {'recent': recent})
 
 
 @login_required
