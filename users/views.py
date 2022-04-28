@@ -370,13 +370,18 @@ def self_info(request):
 
 
 def recent_contacts(request):
-    dialogs = DialogsModel.objects.all().filter(Q(user1_id=request.user.id)|Q(user2_id=request.user.id)).order_by('-created').values('user1_id', 'user2_id')[:5]
+    dialogs = (
+        DialogsModel.objects.all()
+        .filter(Q(user1_id=request.user.id) | Q(user2_id=request.user.id))
+        .order_by("-created")
+        .values("user1_id", "user2_id")[:5]
+    )
     recent = []
     for dialog in dialogs:
-        if dialog['user1_id'] != request.user.id:
-            recent.append(User.objects.get(pk=dialog['user1_id']))
+        if dialog["user1_id"] != request.user.id:
+            recent.append(User.objects.get(pk=dialog["user1_id"]))
         else:
-            recent.append(User.objects.get(pk=dialog['user2_id']))
+            recent.append(User.objects.get(pk=dialog["user2_id"]))
     return recent
 
 
@@ -384,7 +389,7 @@ def recent_contacts(request):
 def dashboard(request):
     recent = recent_contacts(request)
     print(recent)
-    return render(request, "users/dashboard/dashboard.html", {'recent': recent})
+    return render(request, "users/dashboard/dashboard.html", {"recent": recent})
 
 
 @login_required
