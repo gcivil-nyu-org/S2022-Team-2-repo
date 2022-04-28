@@ -385,11 +385,24 @@ def recent_contacts(request):
     return recent
 
 
+def favorite(request):
+    user1 = User.objects.get(pk=request.user.id).profile
+
+    user2_id = request.POST.get("favorite")
+    user2 = User.objects.get(pk=user2_id).profile
+    if user2 in user1.favorites.all():
+        user1.favorites.remove(user2)
+    else:
+        user1.favorites.add(user2)
+    return HttpResponse()
+
+
 @login_required
 def dashboard(request):
     recent = recent_contacts(request)
-    print(recent)
-    return render(request, "users/dashboard/dashboard.html", {"recent": recent})
+    favorites = request.user.profile.favorites.all()
+    context = {"recent": recent, 'favorites': favorites}
+    return render(request, "users/dashboard/dashboard.html", context)
 
 
 @login_required
@@ -495,7 +508,8 @@ def my_friends(request):
     invitations = FriendRequest.objects.filter(to_user_id=request.user)
     p = request.user.profile
     friends = p.friends.all()
-    context = {"friends": friends, "invitations": invitations}
+    favorites = p.favorites.all()
+    context = {"friends": friends, "invitations": invitations, "favorites": favorites}
     return render(request, "users/friends/my_friends.html", context)
 
 
