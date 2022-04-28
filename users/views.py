@@ -373,7 +373,7 @@ def recent_contacts(request):
     dialogs = (
         DialogsModel.objects.all()
         .filter(Q(user1_id=request.user.id) | Q(user2_id=request.user.id))
-        .order_by("-created")
+        .order_by("-modified")
         .values("user1_id", "user2_id")[:5]
     )
     recent = []

@@ -99,10 +99,10 @@
             <h5 class="card-title" style="padding-bottom:10px;">{{frnd.user.first_name}} {{frnd.user.last_name}}</h5>
             {% if frnd in favorites %}
                 <i id="favorite{{frnd.user.id}}" value="{{frnd.user.id}}" name="favorite"
-                onclick="favorite({{frnd.user.id}})" class="fas fa-star fa-xl" style="color:#AB82C5"> </i>
+                onclick="favorite({{frnd.user.id}})" class="fas fa-star fa-xl" style="color:#ffffff"> </i>
             {% else %}
                 <i id="favorite{{frnd.user.id}}" value="{{frnd.user.id}}" name="favorite"
-                onclick="favorite({{frnd.user.id}})" class="fas fa-star fa-xl" style="color:#ffffff"> </i>
+                onclick="favorite({{frnd.user.id}})" class="fas fa-star fa-xl" style="color:#AB82C5"> </i>
             {% endif %}
             <button type="submit" class="standard_button" style="margin-bottom:20px;"> Chat</button>
           </div>
