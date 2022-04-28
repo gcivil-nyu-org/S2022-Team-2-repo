@@ -20,7 +20,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
 import numpy as np
 import requests
-from django_private_chat2.models import DialogsModel
+from django_private_chat2.models import DialogsModel, MessageModel
 
 from users.forms import (
     ProfileUpdateForm,
@@ -370,18 +370,21 @@ def self_info(request):
 
 
 def recent_contacts(request):
-    dialogs = (
-        DialogsModel.objects.all()
-        .filter(Q(user1_id=request.user.id) | Q(user2_id=request.user.id))
-        .order_by("-modified")
-        .values("user1_id", "user2_id")[:5]
-    )
-    recent = []
-    for dialog in dialogs:
-        if dialog["user1_id"] != request.user.id:
-            recent.append(User.objects.get(pk=dialog["user1_id"]))
+    messages = MessageModel.objects.all().filter(Q(sender_id=request.user.id) | Q(recipient_id = request.user.id)).order_by("-modified")
+
+    contacts = []
+    for message in messages:
+        if message.recipient_id != request.user.id:
+            contact = message.recipient_id
         else:
-            recent.append(User.objects.get(pk=dialog["user2_id"]))
+            contact = message.sender_id
+        if contact not in contacts and len(contacts) < 5:
+            contacts.append(contact)
+
+    recent = []
+    for contact in contacts:
+        recent.append(User.objects.get(pk=contact))
+
     return recent
 
 
