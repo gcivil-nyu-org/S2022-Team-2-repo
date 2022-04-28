@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0002_alter_preference_art_choices_and_more'),
+        ("users", "0002_alter_preference_art_choices_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='favorites',
-            field=models.ManyToManyField(blank=True, related_name='favorite_list', to='users.profile'),
+            model_name="profile",
+            name="favorites",
+            field=models.ManyToManyField(
+                blank=True, related_name="favorite_list", to="users.profile"
+            ),
         ),
     ]

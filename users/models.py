@@ -19,7 +19,9 @@ class Profile(models.Model):
     bio = models.CharField(max_length=255, blank=True)
     friends = models.ManyToManyField("Profile", blank=True, related_name="friend_list")
     seen_users = models.ManyToManyField("Profile", blank=True, related_name="seen_list")
-    favorites = models.ManyToManyField("Profile", blank=True, related_name="favorite_list")
+    favorites = models.ManyToManyField(
+        "Profile", blank=True, related_name="favorite_list"
+    )
 
     def __str__(self):
         return str(self.user.username)

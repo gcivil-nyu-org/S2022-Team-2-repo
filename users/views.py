@@ -20,7 +20,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
 import numpy as np
 import requests
-from django_private_chat2.models import MessageModel, DialogsModel
+from django_private_chat2.models import DialogsModel
 
 from users.forms import (
     ProfileUpdateForm,
@@ -401,7 +401,7 @@ def favorite(request):
 def dashboard(request):
     recent = recent_contacts(request)
     favorites = request.user.profile.favorites.all()
-    context = {"recent": recent, 'favorites': favorites}
+    context = {"recent": recent, "favorites": favorites}
     return render(request, "users/dashboard/dashboard.html", context)
 
 
