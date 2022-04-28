@@ -370,7 +370,11 @@ def self_info(request):
 
 
 def recent_contacts(request):
-    messages = MessageModel.objects.all().filter(Q(sender_id=request.user.id) | Q(recipient_id = request.user.id)).order_by("-modified")
+    messages = (
+        MessageModel.objects.all()
+        .filter(Q(sender_id=request.user.id) | Q(recipient_id=request.user.id))
+        .order_by("-modified")
+    )
 
     contacts = []
     for message in messages:
