@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{% static 'css/pref_css.css' %}">
 <div class="container">
    <div class="row gutters">
-      <div class="card h-100" style="transform:translateY(50px)">
+      <div class="card h-100">
          <div class="card-body">
             
             
@@ -17,18 +17,13 @@
             <div class="account-settings ">
                <div class="user-profile">
                   <div style="align-items: center;">
-                     <img style="border-radius: 50%; width: 300px;" src="{{request.user.profile.image.url}}" >
+                     <img style="border-radius: 50%; width: 200px;" src="{{request.user.profile.image.url}}" >
                   </div>
                   <p class="purple-text"> {{user.first_name}} {{user.last_name}}</p>
                   <p class="purple-text"> {{user.username}}@nyu.edu </p>
-                  <!-- <p class="purple-text", style="font-size:20px"> {{ user.email }}</p> -->
                </div>
-               <!-- <div class="about"> -->
-                  <!-- <h4 class="purple-text1"  >About Me</h4> -->
-<!--                   {% csrf_token %} -->
-                   <!-- {{ form.bio }}  -->
             </div>
-               <form class="rounded-5 shadow-5-strong p-5 " method="post">
+               <form class="rounded-5 shadow-5-strong px-5 py-2" method="post">
                   <div>
                   <h4 class="purple-text1"> Personality Questions </h4>
                   </div>

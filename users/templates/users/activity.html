@@ -35,7 +35,6 @@
 } */
 
 .card-img-top{
-
     max-width: 100%;
     max-height: 230px;
     min-height: 230px;
@@ -368,20 +367,20 @@ h4{
             let event_image= `<img src="${object.image_url}" height="180" class="card-img-top"
             alt="event_pic" style="width:25%"</img>`
             let description= `${object.description}`
-            let location = `Location: ${object.location.display_address}`
+            let location = `${object.location.display_address}`
+
+            let name = `<a class="evtName" href="${object.event_site_url}" target="_blank">${object.name}</a>`
 
             let start = `${object.time_start}`
             let start_sub = start.substring(0,19) + ".000Z";
             let start_time = `${moment.utc(start_sub).format('MMMM Do YYYY, h:mm a')}`;
 
-            let name = `<a class="evtName" href="${object.event_site_url}" target="_blank">${object.name}</a>`
-            // $("#events").append(event_image, name, description, location, start_time)
             let end = `${object.time_end}`
+            let end_time = ``
             if (end !== 'null'){
                 let end = `${object.time_end}`
                 let end_sub = end.substring(0,19) + ".000Z";
-                let end_time = `<p> ${moment.utc(end_sub).format('MMMM Do YYYY, h:mm a')}</p>`;
-            //    $("#events").append(end_time)
+                end_time = `to ${moment.utc(end_sub).format('MMMM Do YYYY, h:mm a')}`;
             }
 
             //Card template:
@@ -389,14 +388,18 @@ h4{
             `
             <div class="card cardEvent" >
             <div class="container" id="image">
-                <a href="${object.event_site_url}" target="_blank"><img class="card-img-top" src="${object.image_url}" alt="Card image cap"></a> </div>
+                <a href="${object.event_site_url}" target="_blank"><img class="card-img-top"
+                 src="${object.image_url}" alt="Card image cap"></a> </div>
                 <div class="card-body">
                     <h4 class="card-title mb-3">${name}</h4>
                     <div class="row">
-                        <p><i class="fa fa-calendar me-1" aria-hidden="true" style='font-size:23px;'></i> ${start_time}</p>
+                        <p><i class="fa fa-calendar me-1" aria-hidden="true" style='font-size:15px;'></i>
+                            ${start_time}
+                            ${end_time}
+                        </p>
                     </div>
                     <div class="row">
-                        <p> <i class="fas fa-map-marker-alt me-1" aria-hidden="true" style='font-size:23px'></i> ${location} </p>
+                        <p> <i class="fas fa-map-marker-alt me-1" aria-hidden="true" style='font-size:15px'></i> ${location} </p>
                         <p class="card-text">${description}</p>
                     </div>
                 </div>
