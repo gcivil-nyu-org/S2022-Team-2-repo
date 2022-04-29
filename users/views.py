@@ -1,9 +1,10 @@
 import os
+from collections import defaultdict
 from datetime import datetime, time, date, timedelta
 from typing import List
 
-from collections import defaultdict
-
+import numpy as np
+import requests
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -19,10 +20,8 @@ from django.urls import reverse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
-import numpy as np
-import requests
-from django_private_chat2.models import DialogsModel, MessageModel
 
+from django_private_chat2.models import MessageModel
 from users.forms import (
     ProfileUpdateForm,
     UserRegisterForm,
@@ -35,7 +34,6 @@ from users.forms import (
 )
 from users.models import Preference, Profile, FriendRequest
 from users.preferences import interests_choices
-
 from users.tokens import account_activation_token
 
 User = get_user_model()
