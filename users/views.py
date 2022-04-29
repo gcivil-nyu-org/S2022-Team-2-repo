@@ -397,6 +397,7 @@ def recent_contacts(request):
     return recent
 
 
+@login_required()
 def favorite(request):
     user1 = User.objects.get(pk=request.user.id).profile
 
@@ -446,6 +447,21 @@ def get_search(request):
         .exclude(is_staff="t")
     )
     return search_query, query_set
+
+
+@login_required
+def search(request):
+    search_query, query_set = get_search(request)
+    friend_list = request.user.profile.friends.all()
+    friend_list_ids = []
+    for friend in friend_list:  # pragma: no cover
+        friend_list_ids.append(friend.id)
+
+    return render(
+        request,
+        "users/search/search.html",
+        {"queryset": query_set, "query": search_query, "friend_list": friend_list_ids},
+    )
 
 
 # Helper function
@@ -498,21 +514,6 @@ def decline_request_query(request):
     if user_id is not None:
         decline_request(request.user, user_id)
     return HttpResponse()
-
-
-@login_required
-def search(request):
-    search_query, query_set = get_search(request)
-    friend_list = request.user.profile.friends.all()
-    friend_list_ids = []
-    for friend in friend_list:  # pragma: no cover
-        friend_list_ids.append(friend.id)
-
-    return render(
-        request,
-        "users/search/search.html",
-        {"queryset": query_set, "query": search_query, "friend_list": friend_list_ids},
-    )
 
 
 @login_required
