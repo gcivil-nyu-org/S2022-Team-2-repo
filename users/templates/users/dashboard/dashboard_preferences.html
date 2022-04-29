@@ -194,6 +194,20 @@
                     $('#bell').text(count);
                 }
             });
+            let url2 = "{% url 'chat_unread_count' %}";
+            $.ajax({
+                method: "GET",
+                url: url2,
+                data: data,
+            }).done(function (msg) {
+                var count = parseInt(msg);
+                if (count === 0) {
+                    document.getElementById('chat').style.display = 'none';
+                }
+                else {
+                    $('#chat').text(count);
+                }
+            });
 
             // from navDash pathname
             let currPath = window.location.pathname;

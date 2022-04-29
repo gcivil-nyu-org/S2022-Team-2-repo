@@ -55,6 +55,9 @@ urlpatterns = [
     path(
         "user/notification/count", user_views.notifications, name="notification_count"
     ),
+    path(
+        "user/notification/chat", user_views.chat_notifications, name="chat_unread_count"
+    ),
     path("user/friends/accept", user_views.accept_request_query, name="accept_request"),
     path(
         "user/friends/decline", user_views.decline_request_query, name="decline_request"
