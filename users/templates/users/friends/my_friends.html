@@ -25,7 +25,14 @@
       color: #8548ad;
       background-color: #8548ad;
   }
+  .modal-body span {
+        color: #57068c;
+        font-weight: bold;
+  }
 
+  .modal-body #prefValue {
+      color: #230542;
+  }
 </style>
 
 <section>
@@ -38,9 +45,13 @@
       {% else %}
       {% for invite in invitations %}
       <div class="container" style="background-color: #57068c; border-radius: 10px; margin-bottom: 15px;">
+
         <div class="row">
+          <!-- modal on img -->
           <img src="{{ invite.from_user.profile.image.url }}" class="user-pic" height="150" alt="user pic"
-            style="height:100px; width:100%; object-fit:cover; border-radius:50%">
+            style="height:100px; width:100%; object-fit:cover; border-radius:50%"
+            id="friendviewpref{{user.id}}" value="{{user.id}}" name="friendviewpref{{user.id}}" data-bs-toggle="modal" data-bs-target="#viewSearchPref{{user.id}}"
+            type="button">
           <div class="col d-flex flex-column mt-3 ">
 
             <div class="col fw-bold" style="padding-left:75px;">
@@ -72,6 +83,72 @@
         </div>
       </div>
       <br>
+
+      <!-- Modal -->
+        <div class="modal fade text-black" id="viewSearchPref{{user.id}}" tabindex="-1" role="dialog"
+          aria-labelledby="View-Serach-Profile" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"
+                          style="border-radius: 10px; background-color:#57068c ; opacity: 1;">
+                      </button>
+                  </div>
+
+                  <div class="modal-body">
+                      <div class="container-sm">
+                          <div class="row">
+                              <div class="col d-flex justify-content-center">
+                                  <img src="{{ invite.from_user.profile.image.url }}" alt="user pic upload"
+                                      style="height:100px; width:100px; object-fit:cover; border-radius:50%">
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col d-flex justify-content-center fw-bold fs-3" style="color:#57068c ;">
+                                  <span id="userFirstName">{{invite.from_user.first_name}} </span> &nbsp;
+                                  <span> {{invite.from_user.last_name}}</span>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col d-flex justify-content-center fs-6" style="color:#230542 ;">
+                                  <p>{{invite.from_user.email}}</p>
+                              </div>
+                          </div>
+                      </div>
+
+                      <!-- User pref -->
+                      <span>Introverted/Extroverted:</span> <span
+                          id="prefValue">{{invite.from_user.preference.personality_type}}</span><br>
+                      <span>Rather Stay In or Go Out:</span> <span id="prefValue">{{invite.from_user.preference.stay_go_type}}</span><br>
+                      <span>Favorite Movie Types:</span> <span id="prefValue">{{invite.from_user.preference.movie_choices}}</span><br>
+                      <span>Favorite Music Genres:</span> <span id="prefValue">{{invite.from_user.preference.music_choices}}</span><br>
+                      <span>Favorite Cuisines:</span> <span id="prefValue">{{invite.from_user.preference.food_choices}}</span><br>
+                      <span>Favorite Places to Travel:</span> <span
+                          id="prefValue">{{invite.from_user.preference.travel_choices}}</span><br>
+                      <span>Favorite Artistic Activities:</span> <span
+                          id="prefValue">{{invite.from_user.preference.art_choices}}</span><br>
+                      <span>Favorite Dance Genres:</span> <span id="prefValue">{{invite.from_user.preference.dance_choices}}</span><br>
+                      <span>Favorite Sports:</span> <span id="prefValue">{{invite.from_user.preference.sports_choices}}</span><br>
+                      <span>Favorite Pets:</span> <span id="prefValue">{{invite.from_user.preference.pet_choices}}</span><br>
+                      <span>Favorite Things to Do in NYC:</span> <span
+                          id="prefValue">{{invite.from_user.preference.nyc_choices}}</span><br>
+                  </div>
+
+                  <div class="modal-footer justify-content-center">
+                      <!-- <p hidden id="requestSentModal{{user.id}}" class="standard_button" style="width: 200px; height: 40px;">
+                      </p>
+                        <div>
+                          {% if invite.from_user.id in friend_list %}
+                          {% else %}
+                          <button id="friendRequest{{user.id}}" value="{{user.id}}" onclick="friendRequest({{user.id}})"
+                              name="friendRequest" class="standard_button friend_request{{user.id}}"
+                              style="width: 200px; height: 40px;">Accept Friend Request</button>
+                          {% endif %}
+                        </div> -->
+                  </div>
+              </div>
+          </div>
+        </div>
       {% endfor %}
       {% endif %}
     </div>
