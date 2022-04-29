@@ -59,10 +59,10 @@
                 <!-- passing name 'friendRequest + user_id' -->
                 {% if user.id in friend_list %}
                 <div class="col-sm d-flex justify-content-center align-items-start mt-4 mb-1">
-                    <button id="chat{{user.id}}" value="{{user.id}}" name="chatbutton" class="standard_button"
+                    <a href="{% url 'chat' %}" id="chat{{user.id}}" value="{{user.id}}" name="chatbutton" class="standard_button"
                         style="width: 200px; height: 40px;">
                         Chat with {{ user.first_name }}
-                    </button>
+                    </a>
                 </div>
                 {% else %}
                 <div class="col-sm d-flex justify-content-center align-items-start mt-4 mb-1">

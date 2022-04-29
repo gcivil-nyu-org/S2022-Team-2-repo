@@ -28,10 +28,9 @@
                 <!--                     </span> -->
                 <!--                 </div> -->
                 <input class="form-control me-2 text-white " required id="navSearch"
-                       style="background-color:#57068c; width: 500px; border-width: 0px; border-radius: 12px;"
-                       type="text"
-                       name="navSearch" placeholder="Search" aria-label="Search" value="{{query}}">
-                <button class="standard_button" style="background-color:#230542;" type="submit"> Search</button>
+                    style="background-color:#57068c; width: 400px; border-width: 0px; border-radius: 12px;" type="text"
+                    name="navSearch" placeholder="Search" aria-label="Search" value="{{query}}">
+                <button class="standard_button" style="background-color:#230542;" type="submit"> Search </button>
 
 
                 <!--                  <button type="submit" class="search-button"> -->
@@ -42,6 +41,7 @@
             <!-- Nav items -->
             {% if user.is_authenticated %}
 
+            <!-- friend notification -->
             <a class="position-relative" href="{% url 'my_friends' %}">
                 <i class="fa-solid fa-bell fa-2x px-2" style="color:white"></i>
                 <span id="bell" class="position-absolute top-0 start-90 translate-middle badge rounded-pill "
@@ -105,24 +105,10 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <!-- <script>
-        window.onload = function navDashText() {
-            let currPath = window.location.pathname;
-            console.log(currPath);
-            if (currPath == '/dashboard/' || currPath == '/login/') {
-                currPath = "Dashboard";
-            } else {
-                currPath = " ";
-                const searchBoxSize = document.getElementById("navSearch");
-                searchBoxSize.style.width = "500px"; //extent the bar a bit
-            }
-            document.getElementById("currPageName").innerText = currPath;
-        }
-    </script> -->
-
     <script type="text/javascript">
 
         window.onload = function notification() {
+            // friend notification
             let data = {};
             data["user"] = "{{user}}";
 
