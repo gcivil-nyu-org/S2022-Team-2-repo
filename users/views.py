@@ -15,6 +15,7 @@ from django.forms import model_to_dict
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
@@ -45,6 +46,9 @@ def home(request):
 
 
 def signup(request):  # pragma: no cover
+    if request.user.is_authenticated:
+        return redirect(reverse("dashboard"))
+
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -81,6 +85,9 @@ def signup(request):  # pragma: no cover
 
 
 def login_form(request):
+    if request.user.is_authenticated:
+        return redirect(reverse("dashboard"))
+
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -370,7 +377,11 @@ def self_info(request):
 
 
 def recent_contacts(request):
-    messages = MessageModel.objects.all().filter(Q(sender_id=request.user.id) | Q(recipient_id = request.user.id)).order_by("-modified")
+    messages = (
+        MessageModel.objects.all()
+        .filter(Q(sender_id=request.user.id) | Q(recipient_id=request.user.id))
+        .order_by("-modified")
+    )
 
     contacts = []
     for message in messages:
@@ -519,6 +530,16 @@ def my_friends(request):
 @login_required
 def notifications(request):
     num_notifications = len(FriendRequest.objects.filter(to_user_id=request.user))
+    return HttpResponse(str(num_notifications), content_type="text/plain")
+
+
+@login_required
+def chat_notifications(request):
+    num_notifications = len(
+        MessageModel.objects.all()
+        .filter(recipient_id=request.user.id)
+        .filter(read=False)
+    )
     return HttpResponse(str(num_notifications), content_type="text/plain")
 
 

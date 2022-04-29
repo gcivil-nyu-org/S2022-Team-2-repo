@@ -185,7 +185,7 @@ h4{
 
                         <li onclick="changeTime('weekend')">
                             <a class="dropdown-item">
-                                <i class="fa-solid fa-clock style="color:#230542"></i>
+                                <i class="fa-solid fa-clock" style="color:#230542"></i>
                                 <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> This Weekend </span>
                             </a>
                         </li>
@@ -194,7 +194,7 @@ h4{
 
                         <li onclick="changeTime('this-week')">
                             <a class="dropdown-item">
-                                <i class="fa-solid fa-clock style="color:#230542"></i>
+                                <i class="fa-solid fa-clock" style="color:#230542"></i>
                                 <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)"> This Week </span>
                             </a>
                         </li>
@@ -312,6 +312,20 @@ h4{
                 $('#bell').text(count);
             }
         });
+        let url2 = "{% url 'chat_unread_count' %}";
+            $.ajax({
+                method: "GET",
+                url: url2,
+                data: data,
+            }).done(function (msg) {
+                var count = parseInt(msg);
+                if (count === 0) {
+                    document.getElementById('chat').style.display = 'none';
+                }
+                else {
+                    $('#chat').text(count);
+                }
+            });
     }
 
     // button label swapping

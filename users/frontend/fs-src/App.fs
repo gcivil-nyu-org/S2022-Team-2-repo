@@ -56,6 +56,20 @@ let createMessageBoxFromMessageTypeTextMessage (message: MessageTypeTextMessage)
         onDownload = None
     }
 
+let createMessageBoxFromMessageTypeTextSockMessage (message: MessageTypeTextSockMessage) =
+    let avatar = ""
+    {
+        position=MessageBoxPosition.Left
+        ``type``=MessageBoxType.Text
+        text = message.text
+        avatar=avatar
+        title=message.sender_username
+        status=MessageBoxStatus.Waiting
+        date=(DateTimeOffset(JS.Constructors.Date.Create()))
+        data = {dialog_id=message.sender;message_id=message.random_id;out=false;status=None;size=None;uri=None}
+        onDownload = None
+    }
+
 let createMessageBoxFromMessageTypeFileMessage (message: MessageTypeFileMessage) =
     let avatar = getPhotoString message.sender (Some 150)
     {
@@ -126,9 +140,9 @@ let handleIncomingWebsocketMessage (sock: WebSocket) (message: string) (callback
         |> Result.bind (fun o ->
             match o with
             | MessageTypes.TextMessage ->
-                printfn "Received MessageTypes.TextMessage - %s" message
-                Decode.fromString MessageTypeTextMessage.Decoder message
-                |> Result.map createMessageBoxFromMessageTypeTextMessage
+                printfn "Received MessageTypes.TextSockMessage - %s" message
+                Decode.fromString MessageTypeTextSockMessage.Decoder message
+                |> Result.map createMessageBoxFromMessageTypeTextSockMessage
                 |> Result.map (callbacks.addMessage)
 
             | MessageTypes.FileMessage ->
@@ -229,10 +243,7 @@ let messagesEndpoint = sprintf "/messages/"
 let dialogsEndpoint = sprintf "/dialogs/"
 let selfEndpoint = sprintf "/user/self"
 let usersEndpoint = sprintf "/user/friends"
-
 let uploadEndpoint = sprintf "/upload/"
-let imageEndPoint = sprintf "%s/user/image" backendUrl
-
 
 let uploadFile (f: FileList) (csrfToken: string) =
     promise {

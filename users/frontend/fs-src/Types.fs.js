@@ -187,6 +187,25 @@ export function MessageTypeTextMessage_get_Decoder() {
     return (path_5) => ((v) => object((get$) => (new MessageTypeTextMessage(get$.Required.Field("random_id", uncurry(2, int64)), get$.Required.Field("text", (path, value) => string(path, value)), get$.Required.Field("sender", (path_1, value_1) => string(path_1, value_1)), get$.Required.Field("receiver", (path_2, value_2) => string(path_2, value_2)), get$.Required.Field("sender_username", (path_3, value_3) => string(path_3, value_3)), get$.Required.Field("sender_image", (path_4, value_4) => string(path_4, value_4)))), path_5, v));
 }
 
+export class MessageTypeTextSockMessage extends Record {
+    constructor(random_id, text, sender, receiver, sender_username) {
+        super();
+        this.random_id = random_id;
+        this.text = text;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.sender_username = sender_username;
+    }
+}
+
+export function MessageTypeTextSockMessage$reflection() {
+    return record_type("App.AppTypes.MessageTypeTextSockMessage", [], MessageTypeTextSockMessage, () => [["random_id", class_type("System.Int64")], ["text", string_type], ["sender", string_type], ["receiver", string_type], ["sender_username", string_type]]);
+}
+
+export function MessageTypeTextSockMessage_get_Decoder() {
+    return (path_4) => ((v) => object((get$) => (new MessageTypeTextSockMessage(get$.Required.Field("random_id", uncurry(2, int64)), get$.Required.Field("text", (path, value) => string(path, value)), get$.Required.Field("sender", (path_1, value_1) => string(path_1, value_1)), get$.Required.Field("receiver", (path_2, value_2) => string(path_2, value_2)), get$.Required.Field("sender_username", (path_3, value_3) => string(path_3, value_3)))), path_4, v));
+}
+
 export class MessageTypeFileMessage extends Record {
     constructor(db_id, file, sender, receiver, sender_username) {
         super();
