@@ -161,6 +161,24 @@ module AppTypes =
                   sender_image = get.Required.Field "sender_image" Decode.string
               })
 
+    type MessageTypeTextSockMessage =
+        {
+        random_id: int64
+        text: string
+        sender: string
+        receiver: string
+        sender_username: string
+        }
+        static member Decoder: Decoder<MessageTypeTextSockMessage> =
+          Decode.object (fun get ->
+              {
+                  random_id=get.Required.Field "random_id" Decode.int64
+                  text = get.Required.Field "text" Decode.string
+                  sender = get.Required.Field "sender" Decode.string
+                  receiver = get.Required.Field "receiver" Decode.string
+                  sender_username = get.Required.Field "sender_username" Decode.string
+              })
+
     type MessageTypeFileMessage =
         {
         db_id: int64

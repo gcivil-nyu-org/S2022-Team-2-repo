@@ -97,6 +97,14 @@
             alt="user pic" style="margin-left:40px; width:65%">
           <div class="card-body align-bottom" style="padding: 10px;">
             <h5 class="card-title" style="padding-bottom:10px;">{{frnd.user.first_name}} {{frnd.user.last_name}}</h5>
+            {% if frnd in favorites %}
+                <i id="favorite{{frnd.user.id}}" value="{{frnd.user.id}}" name="favorite"
+                onclick="favorite({{frnd.user.id}})" class="fas fa-star fa-xl" style="color:#ffffff"> </i>
+            {% else %}
+                <i id="favorite{{frnd.user.id}}" value="{{frnd.user.id}}" name="favorite"
+                onclick="favorite({{frnd.user.id}})" class="fas fa-star fa-xl" style="color:#AB82C5"> </i>
+            {% endif %}
+            <i name="report" class="fas fa-flag fa-xl" style="color:#ffffff"> </i>
             <button type="submit" class="standard_button" style="margin-bottom:20px;"> Chat</button>
           </div>
         </div>
@@ -148,6 +156,27 @@
       document.getElementById("requestAccepted" + id).innerHTML =
         "Friend Request Rejected! " +
         `<i class="fa-solid fa-times-circle fa-1x" style="color:white"></i>`;
+    });
+  }
+
+  function favorite(id) {
+    let data = {};
+    data["favorite"] = id;
+    let url = "{% url 'favorite' %}";
+    $.ajax({
+      headers: { "X-CSRFToken": token },
+      method: "POST",
+      url: url,
+      data: data,
+    }).done(function (msg) {
+        my_element = document.getElementById("favorite" + id)
+        let bgColor = my_element.style.color;
+        if (bgColor == "rgb(255, 255, 255)" ){
+            my_element.style.color = "rgb(171, 130, 197)"
+        }
+        else {
+            my_element.style.color = "rgb(255, 255, 255)"
+        }
     });
   }
 </script>

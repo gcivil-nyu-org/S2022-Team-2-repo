@@ -181,6 +181,7 @@ export class App extends Component {
             });
             if (errMsg) {
                 toast.error(errMsg)
+                console.log(errMsg)
             }
         };
         socket.onclose = function (e) {

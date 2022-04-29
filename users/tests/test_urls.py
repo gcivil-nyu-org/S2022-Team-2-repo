@@ -28,6 +28,10 @@ from users.views import (
     reject_suggestion,
     approve_suggestion,
     activity,
+    activate,
+    password_reset,
+    chat_notifications,
+    favorite,
 )
 
 
@@ -48,9 +52,21 @@ class TestUrls(SimpleTestCase):
         url = reverse("logout")
         self.assertEquals(resolve(url).func, logout_request)
 
+    def test_activate_url_resolves(self):
+        url = reverse("activate", args=["te", "st"])
+        self.assertEquals(resolve(url).func, activate)
+
+    def test_activate2_url_resolves(self):
+        url = reverse("activate2")
+        self.assertEquals(resolve(url).func, signup)
+
     def test_password_reset_request_url_resolves(self):
         url = reverse("password_reset_request")
         self.assertEquals(resolve(url).func, password_reset_request)
+
+    def test_reset_password_url_resolves(self):
+        url = reverse("reset_password", args=["te", "st"])
+        self.assertEquals(resolve(url).func, password_reset)
 
     def test_profile_setup_url_resolves(self):
         url = reverse("profile_setup")
@@ -88,13 +104,17 @@ class TestUrls(SimpleTestCase):
         url = reverse("my_friends")
         self.assertEquals(resolve(url).func, my_friends)
 
+    def test_friend_request_url_resolves(self):
+        url = reverse("friend_request")
+        self.assertEquals(resolve(url).func, friend_request_query)
+
     def test_notification_count_url_resolves(self):
         url = reverse("notification_count")
         self.assertEquals(resolve(url).func, notifications)
 
-    def test_friend_request_url_resolves(self):
-        url = reverse("friend_request")
-        self.assertEquals(resolve(url).func, friend_request_query)
+    def test_chat_unread_count_url_resolves(self):
+        url = reverse("chat_unread_count")
+        self.assertEquals(resolve(url).func, chat_notifications)
 
     def test_accept_request_url_resolves(self):
         url = reverse("accept_request")
@@ -135,3 +155,7 @@ class TestUrls(SimpleTestCase):
     def test_activity_url_resolves(self):
         url = reverse("activity")
         self.assertEquals(resolve(url).func, activity)
+
+    def test_favorite_url_resolves(self):
+        url = reverse("favorite")
+        self.assertEquals(resolve(url).func, favorite)

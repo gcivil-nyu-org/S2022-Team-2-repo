@@ -1,9 +1,10 @@
 import os
+from collections import defaultdict
 from datetime import datetime, time, date, timedelta
 from typing import List
 
-from collections import defaultdict
-
+import numpy as np
+import requests
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,12 +16,12 @@ from django.forms import model_to_dict
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import ListView, DetailView
-import numpy as np
-import requests
 
+from django_private_chat2.models import MessageModel
 from users.forms import (
     ProfileUpdateForm,
     UserRegisterForm,
@@ -33,7 +34,6 @@ from users.forms import (
 )
 from users.models import Preference, Profile, FriendRequest
 from users.preferences import interests_choices
-
 from users.tokens import account_activation_token
 
 User = get_user_model()
@@ -44,6 +44,9 @@ def home(request):
 
 
 def signup(request):  # pragma: no cover
+    if request.user.is_authenticated:
+        return redirect(reverse("dashboard"))
+
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -80,6 +83,9 @@ def signup(request):  # pragma: no cover
 
 
 def login_form(request):
+    if request.user.is_authenticated:
+        return redirect(reverse("dashboard"))
+
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -368,9 +374,48 @@ def self_info(request):
     return JsonResponse(data, safe=False)
 
 
+def recent_contacts(request):
+    messages = (
+        MessageModel.objects.all()
+        .filter(Q(sender_id=request.user.id) | Q(recipient_id=request.user.id))
+        .order_by("-modified")
+    )
+
+    contacts = []
+    for message in messages:
+        if message.recipient_id != request.user.id:
+            contact = message.recipient_id
+        else:
+            contact = message.sender_id
+        if contact not in contacts and len(contacts) < 5:
+            contacts.append(contact)
+
+    recent = []
+    for contact in contacts:
+        recent.append(User.objects.get(pk=contact))
+
+    return recent
+
+
+@login_required()
+def favorite(request):
+    user1 = User.objects.get(pk=request.user.id).profile
+
+    user2_id = request.POST.get("favorite")
+    user2 = User.objects.get(pk=user2_id).profile
+    if user2 in user1.favorites.all():
+        user1.favorites.remove(user2)
+    else:
+        user1.favorites.add(user2)
+    return HttpResponse()
+
+
 @login_required
 def dashboard(request):
-    return render(request, "users/dashboard/dashboard.html")
+    recent = recent_contacts(request)
+    favorites = request.user.profile.favorites.all()
+    context = {"recent": recent, "favorites": favorites}
+    return render(request, "users/dashboard/dashboard.html", context)
 
 
 @login_required
@@ -402,6 +447,21 @@ def get_search(request):
         .exclude(is_staff="t")
     )
     return search_query, query_set
+
+
+@login_required
+def search(request):
+    search_query, query_set = get_search(request)
+    friend_list = request.user.profile.friends.all()
+    friend_list_ids = []
+    for friend in friend_list:  # pragma: no cover
+        friend_list_ids.append(friend.id)
+
+    return render(
+        request,
+        "users/search/search.html",
+        {"queryset": query_set, "query": search_query, "friend_list": friend_list_ids},
+    )
 
 
 # Helper function
@@ -457,32 +517,28 @@ def decline_request_query(request):
 
 
 @login_required
-def search(request):
-    search_query, query_set = get_search(request)
-    friend_list = request.user.profile.friends.all()
-    friend_list_ids = []
-    for friend in friend_list:  # pragma: no cover
-        friend_list_ids.append(friend.id)
-
-    return render(
-        request,
-        "users/search/search.html",
-        {"queryset": query_set, "query": search_query, "friend_list": friend_list_ids},
-    )
-
-
-@login_required
 def my_friends(request):
     invitations = FriendRequest.objects.filter(to_user_id=request.user)
     p = request.user.profile
     friends = p.friends.all()
-    context = {"friends": friends, "invitations": invitations}
+    favorites = p.favorites.all()
+    context = {"friends": friends, "invitations": invitations, "favorites": favorites}
     return render(request, "users/friends/my_friends.html", context)
 
 
 @login_required
 def notifications(request):
     num_notifications = len(FriendRequest.objects.filter(to_user_id=request.user))
+    return HttpResponse(str(num_notifications), content_type="text/plain")
+
+
+@login_required
+def chat_notifications(request):
+    num_notifications = len(
+        MessageModel.objects.all()
+        .filter(recipient_id=request.user.id)
+        .filter(read=False)
+    )
     return HttpResponse(str(num_notifications), content_type="text/plain")
 
 

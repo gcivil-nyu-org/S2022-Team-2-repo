@@ -1,4 +1,4 @@
-import { DialogsResponse_get_Decoder, MessageBox__HasDbId, MessagesResponse_get_Decoder, UserInfoResponse_get_Decoder, MessageModelFile_get_Decoder, msgTypeEncoder, MessageTypesDecoder, MessageTypeNewUnreadCount_get_Decoder, MessageTypeMessageIdCreated_get_Decoder, MessageTypeErrorOccurred_get_Decoder, MessageTypeMessageRead_get_Decoder, MessageTypeFileMessage_get_Decoder, MessageTypeTextMessage_get_Decoder, GenericUserPKMessage_get_Decoder, MessageBox$reflection, ChatItem, MessageBox, MessageBoxData, MessageBoxDataStatus } from "./Types.fs.js";
+import { DialogsResponse_get_Decoder, MessageBox__HasDbId, MessagesResponse_get_Decoder, UserInfoResponse_get_Decoder, MessageModelFile_get_Decoder, msgTypeEncoder, MessageTypesDecoder, MessageTypeNewUnreadCount_get_Decoder, MessageTypeMessageIdCreated_get_Decoder, MessageTypeErrorOccurred_get_Decoder, MessageTypeMessageRead_get_Decoder, MessageTypeFileMessage_get_Decoder, MessageTypeTextSockMessage_get_Decoder, GenericUserPKMessage_get_Decoder, MessageBox$reflection, ChatItem, MessageBox, MessageBoxData, MessageBoxDataStatus } from "./Types.fs.js";
 import { PromiseBuilder__Delay_62FBFDE1, PromiseBuilder__Run_212F1D4B, mapResult } from "./.fable/Fable.Promise.2.0.0/Promise.fs.js";
 import { promise } from "./.fable/Fable.Promise.2.0.0/PromiseImpl.fs.js";
 import { Types_RequestProperties, tryFetch } from "./.fable/Fable.Fetch.2.2.0/Fetch.fs.js";
@@ -73,6 +73,11 @@ export function createMessageBoxFromMessageTypeTextMessage(message) {
     return new MessageBox("left", "text", message.text, message.sender_username, "waiting", avatar, fromDate(new Date()), new MessageBoxData(message.sender, message.random_id, false, void 0, void 0, void 0), void 0);
 }
 
+export function createMessageBoxFromMessageTypeTextSockMessage(message) {
+    const avatar = "";
+    return new MessageBox("left", "text", message.text, message.sender_username, "waiting", avatar, fromDate(new Date()), new MessageBoxData(message.sender, message.random_id, false, void 0, void 0, void 0), void 0);
+}
+
 export function createMessageBoxFromMessageTypeFileMessage(message) {
     const avatar = getPhotoString(message.sender, 150);
     return new MessageBox("left", "file", message.file.name, message.sender_username, "waiting", avatar, fromDate(new Date()), new MessageBoxData(message.sender, message.db_id, false, humanFileSize(message.file.size), message.file.url, defaultDataStatus), (e) => {
@@ -127,8 +132,8 @@ export function handleIncomingWebsocketMessage(sock, message, callbacks) {
                 }, fromString(uncurry(2, GenericUserPKMessage_get_Decoder()), message));
             }
             case 3: {
-                toConsole(printf("Received MessageTypes.TextMessage - %s"))(message);
-                return Result_Map(callbacks.addMessage, Result_Map((message_1) => createMessageBoxFromMessageTypeTextMessage(message_1), fromString(uncurry(2, MessageTypeTextMessage_get_Decoder()), message)));
+                toConsole(printf("Received MessageTypes.TextSockMessage - %s"))(message);
+                return Result_Map(callbacks.addMessage, Result_Map((message_1) => createMessageBoxFromMessageTypeTextSockMessage(message_1), fromString(uncurry(2, MessageTypeTextSockMessage_get_Decoder()), message)));
             }
             case 4: {
                 toConsole(printf("Received MessageTypes.FileMessage - %s"))(message);
@@ -227,8 +232,6 @@ export const selfEndpoint = toText(printf("/user/self"));
 export const usersEndpoint = toText(printf("/user/friends"));
 
 export const uploadEndpoint = toText(printf("/upload/"));
-
-export const imageEndPoint = toText(printf("%s/user/image"))(backendUrl);
 
 export function uploadFile(f, csrfToken) {
     return PromiseBuilder__Run_212F1D4B(promise, PromiseBuilder__Delay_62FBFDE1(promise, () => {

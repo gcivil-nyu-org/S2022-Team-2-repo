@@ -55,13 +55,18 @@ urlpatterns = [
     path(
         "user/notification/count", user_views.notifications, name="notification_count"
     ),
+    path(
+        "user/notification/chat",
+        user_views.chat_notifications,
+        name="chat_unread_count",
+    ),
     path("user/friends/accept", user_views.accept_request_query, name="accept_request"),
     path(
         "user/friends/decline", user_views.decline_request_query, name="decline_request"
     ),
     re_path(
         r"", include("django_private_chat2.urls", namespace="django_private_chat2")
-    ),
+    ),  # pragma: no cover
     path("user/friends", user_views.FriendsListView.as_view(), name="friends_list"),
     path("users/<slug>/", user_views.SelfView.as_view(), name="user_info"),
     path("user/self", user_views.self_info, name="self_info"),
@@ -69,7 +74,7 @@ urlpatterns = [
         "dashboard/chat",
         login_required(TemplateView.as_view(template_name="users/chat.html")),
         name="chat",
-    ),
+    ),  # pragma: no cover
     path("dashboard/friend_finder", user_views.friend_finder, name="friend-finder"),
     path(
         "activity_search",
@@ -81,6 +86,7 @@ urlpatterns = [
         "suggestion/approve", user_views.approve_suggestion, name="approve-suggestion"
     ),
     path("dashboard/activity", user_views.activity, name="activity"),
+    path("dashboard/favorite", user_views.favorite, name="favorite"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
