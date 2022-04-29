@@ -343,6 +343,12 @@ label #cancel {
   background-color: #A69DB2;
 }
 
+@media (max-width: 1200px) {
+  .standard_button {
+    width:100px;
+  }
+}
+
 nav div form #navSearch::placeholder{
   color:white;
 }

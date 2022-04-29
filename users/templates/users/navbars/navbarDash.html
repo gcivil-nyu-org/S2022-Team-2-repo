@@ -41,6 +41,7 @@
             <!-- Nav items -->
             {% if user.is_authenticated %}
 
+            <!-- friend notification -->
             <a class="position-relative" href="{% url 'my_friends' %}">
                 <i class="fa-solid fa-bell fa-2x" style="color:white"></i>
                 <span id="bell" class="position-absolute top-0 start-90 translate-middle badge rounded-pill "
@@ -48,7 +49,7 @@
             </a>
 
             <ul class="navbar-nav ">
-                <li class="nav-item me-2 ms-2" id="firstName">
+                <li class="nav-item me-2 ms-2 mt-2" id="firstName">
                     <!-- can redirect to My profile -->
                     <span class="nav-link " style="color:white">Hi, {{ user.first_name }}</span>
                 </li>
@@ -98,24 +99,10 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <!-- <script>
-        window.onload = function navDashText() {
-            let currPath = window.location.pathname;
-            console.log(currPath);
-            if (currPath == '/dashboard/' || currPath == '/login/') {
-                currPath = "Dashboard";
-            } else {
-                currPath = " ";
-                const searchBoxSize = document.getElementById("navSearch");
-                searchBoxSize.style.width = "500px"; //extent the bar a bit
-            }
-            document.getElementById("currPageName").innerText = currPath;
-        }
-    </script> -->
-
     <script type="text/javascript">
 
         window.onload = function notification() {
+            // friend notification
             let data = {};
             data["user"] = "{{user}}";
 
