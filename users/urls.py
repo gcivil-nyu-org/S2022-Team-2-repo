@@ -66,7 +66,7 @@ urlpatterns = [
     ),
     re_path(
         r"", include("django_private_chat2.urls", namespace="django_private_chat2")
-    ),
+    ),  # pragma: no cover
     path("user/friends", user_views.FriendsListView.as_view(), name="friends_list"),
     path("users/<slug>/", user_views.SelfView.as_view(), name="user_info"),
     path("user/self", user_views.self_info, name="self_info"),
@@ -74,7 +74,7 @@ urlpatterns = [
         "dashboard/chat",
         login_required(TemplateView.as_view(template_name="users/chat.html")),
         name="chat",
-    ),
+    ),  # pragma: no cover
     path("dashboard/friend_finder", user_views.friend_finder, name="friend-finder"),
     path(
         "activity_search",
