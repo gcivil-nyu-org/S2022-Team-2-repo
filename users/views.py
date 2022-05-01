@@ -444,6 +444,7 @@ def get_search(request):
         User.objects.annotate(full_name=Concat("first_name", V(" "), "last_name"))
         .filter(username_query | fullname_query)
         .exclude(id=request.user.id)
+        .exclude(id__in=request.user.profile.seen_users.all().values_list("id", flat=True))
         .exclude(is_staff="t")
     )
     return search_query, query_set
@@ -513,6 +514,24 @@ def decline_request_query(request):
     user_id = request.POST.get("declineRequest")
     if user_id is not None:
         decline_request(request.user, user_id)
+    return HttpResponse()
+
+
+def block(request):
+    blocker = User.objects.get(id=request.user.id)
+    blocked = User.objects.get(id=request.POST.get('blocked'))
+
+    if blocked.profile in blocker.profile.friends.all():
+        blocker.profile.friends.remove(blocked.profile)
+        blocked.profile.friends.remove(blocker.profile)
+    if blocked.profile in blocker.profile.favorites.all():
+        blocker.profile.favorites.remove(blocked.profile)
+    if blocker.profile in blocked.profile.favorites.all():
+        blocked.profile.favorites.remove(blocker.profile)
+
+    blocker.profile.blocked.add(blocked.profile)
+    blocked.profile.blocked.add(blocker.profile)
+
     return HttpResponse()
 
 
