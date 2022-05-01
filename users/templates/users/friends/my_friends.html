@@ -8,7 +8,6 @@
     max-height: 90px;
     margin-left: 15px;
     margin-top: 15px;
-    ;
     border-radius: 50%;
     margin-bottom: 15px;
   }
@@ -67,18 +66,26 @@
           </div>
           <div class="col-4 d-flex flex-column ">
             <div class="row align-top">
-              <div class="col-sm d-flex justify-content-end pt-3 mt-4 mb-3 ">
+              <div class="col-sm d-flex justify-content-end mt-3 mb-2">
                 <button id="declineRequest{{invite.from_user.id}}" value="{{invite.from_user.id}}" name="declineRequest"
-                  onclick="declineRequest({{invite.from_user.id}})" class="standard_button fw-bold">Decline</button>
+                  onclick="declineRequest({{invite.from_user.id}})" class="standard_button fw-bold" style="height:40px;">Decline</button>
               </div>
-              <div class="col-sm d-flex justify-content-start align-items-start pt-3 mt-4 mb-3">
+              <div class="col-sm d-flex justify-content-start align-items-start mt-3 mb-2">
                 <p id="requestAccepted{{invite.from_user.id}}"></p>
                 <div>
                   <button id="acceptRequest{{invite.from_user.id}}" value="{{invite.from_user.id}}" name="acceptRequest"
-                    onclick="acceptRequest({{invite.from_user.id}})" class="standard_button fw-bold">Accept</button>
+                    onclick="acceptRequest({{invite.from_user.id}})" class="standard_button fw-bold" style="height:40px;">Accept</button>
                 </div>
               </div>
             </div>
+
+            <div class="row align-top">
+              <div class="col-sm d-flex justify-content-center">
+                    <button id="friendviewpref{{user.id}}" value="{{user.id}}" name="friendviewpref{{user.id}}" data-bs-toggle="modal" 
+                    data-bs-target="#viewSearchPref{{user.id}}" class="standard_button fw-bold" style="width:180px; height: 40px;">View Preferences</button>
+              </div>
+            </div>
+            
           </div>
         </div>
       </div>
@@ -91,7 +98,7 @@
               <div class="modal-content">
                   <div class="modal-header" style="background-color:#a69db2;">
                       <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"
-                          style="border-radius: 10px; background-color:#57068c ; opacity: 1;">
+                          style="border-radius: 10px; opacity: 1;">
                       </button>
                   </div>
 
