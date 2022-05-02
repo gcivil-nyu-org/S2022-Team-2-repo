@@ -455,6 +455,7 @@ def get_search(request):
         User.objects.annotate(full_name=Concat("first_name", V(" "), "last_name"))
         .filter(username_query | fullname_query)
         .exclude(id=request.user.id)
+        .exclude(id__in=request.user.profile.blocked.all().values_list("id", flat=True))
         .exclude(is_staff="t")
     )
     return search_query, query_set
@@ -527,6 +528,24 @@ def decline_request_query(request):
     return HttpResponse()
 
 
+def block(request):
+    blocker = User.objects.get(id=request.user.id)
+    blocked = User.objects.get(id=request.POST.get("blocked"))
+
+    if blocked.profile in blocker.profile.friends.all():
+        blocker.profile.friends.remove(blocked.profile)
+        blocked.profile.friends.remove(blocker.profile)
+    if blocked.profile in blocker.profile.favorites.all():
+        blocker.profile.favorites.remove(blocked.profile)
+    if blocker.profile in blocked.profile.favorites.all():
+        blocked.profile.favorites.remove(blocker.profile)
+
+    blocker.profile.blocked.add(blocked.profile)
+    blocked.profile.blocked.add(blocker.profile)
+
+    return HttpResponse()
+
+
 @login_required
 def my_friends(request):
     invitations = FriendRequest.objects.filter(to_user_id=request.user)
@@ -595,6 +614,7 @@ def get_matches(user):
         User.objects.exclude(id=user.id)
         .exclude(id__in=user.profile.friends.all().values_list("id", flat=True))
         .exclude(id__in=user.profile.seen_users.all().values_list("id", flat=True))
+        .exclude(id__in=user.profile.blocked().values_list("id", flat=True))
         .exclude(is_staff="t")
     )
     preference_fields = Preference._meta.get_fields()

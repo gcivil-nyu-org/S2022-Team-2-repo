@@ -172,15 +172,45 @@
       <div class="col-md-2-5 d-flex flex-wrap">
         <div class="card  justify-content-center text-center"
           style=" height: 17rem; width:15rem; background-color: #57068c;  border-radius:10px; padding:6px;">
-          
+
           <!-- icons -->
           <div class="col-sm d-flex align-items-start justify-content-between mt-4 p-1">
-            <!-- report icon toggle button -->
-              <!-- need to fill in the report stuff  -->
-              <i type="button" id="report{{frnd.user.id}}" value="{{frnd.user.id}}" name="report" 
-                onclick="report({{frnd.user.id}})" class="fas fa-flag fa-xl" style="color:#AB82C5"> </i>
-          
-            <!-- fav icon toggle button-->
+
+                <ul class="navbar-nav ">
+                <!-- dropdown icon menu -->
+                <li class="nav-item dropdown">
+                    <a style="color:white" id="navbarDashDropdown"
+                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i type="button" value="{{frnd.user.id}}" name="report"
+                        class="fas fa-ellipsis-vertical fa-xl" style="color:#AB82C5"> </i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDashDropdown">
+
+                        <li><a class="dropdown-item">
+                            <i class="fa-solid fa-user-minus" style="color:#230542"></i>
+                            <span class="purple-text"
+                                  style="font-size:12pt; position:absolute; transform:translate(15px)"> Remove
+                                </span>
+                        </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li> <a class="dropdown-item" type=button onclick="block({{frnd.user.id}})">
+                            <i class="fa-solid fa-ban" style="color:#230542"></i>
+                            <span class="purple-text"
+                                  style="font-size:12pt; position:absolute; transform:translate(15px)"> Block
+                                </span>
+                        </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+
             {% if frnd in favorites %}
               <i type="button" id="favorite{{frnd.user.id}}" value="{{frnd.user.id}}" name="favorite"
                 onclick="favorite({{frnd.user.id}})" class="fas fa-star fa-xl" style="color:#ffffff"> </i>
@@ -302,6 +332,19 @@
 
 
   // function for report here:
+  function block(id) {
+    let data = {};
+    data["blocked"] = id;
+    let url = "{% url 'block' %}";
+    $.ajax({
+      headers: { "X-CSRFToken": token },
+      method: "POST",
+      url: url,
+      data: data,
+    }).done(function (msg) {
+        console.log('done');
+    });
+  }
 
 </script>
 
