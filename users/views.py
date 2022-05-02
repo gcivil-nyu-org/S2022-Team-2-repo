@@ -410,17 +410,6 @@ def favorite(request):
     return HttpResponse()
 
 
-@login_required()
-def block(request):
-    user1 = User.objects.get(pk=request.user.id).profile
-    user2_id = request.POST.get("block")
-    print(user2_id)
-    user2 = User.objects.get(pk=user2_id).profile
-    user1.friends.remove(user2)
-    user2.friends.remove(user1)
-    return HttpResponse()
-
-
 @login_required
 def dashboard(request):
     recent = recent_contacts(request)
@@ -528,6 +517,18 @@ def decline_request_query(request):
     return HttpResponse()
 
 
+@login_required()
+def remove_friend(request):
+    user1 = User.objects.get(pk=request.user.id).profile
+    user2_id = request.POST.get("remove")
+    print(user2_id)
+    user2 = User.objects.get(pk=user2_id).profile
+    user1.friends.remove(user2)
+    user2.friends.remove(user1)
+    return HttpResponse()
+
+
+@login_required
 def block(request):
     blocker = User.objects.get(id=request.user.id)
     blocked = User.objects.get(id=request.POST.get("blocked"))
