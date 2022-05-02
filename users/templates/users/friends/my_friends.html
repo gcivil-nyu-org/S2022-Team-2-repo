@@ -176,41 +176,7 @@
           <!-- icons -->
           <div class="col-sm d-flex align-items-start justify-content-between mt-4 p-1">
 
-                <ul class="navbar-nav ">
-                <!-- dropdown icon menu -->
-                <li class="nav-item dropdown">
-                    <a style="color:white" id="navbarDashDropdown"
-                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i type="button" value="{{frnd.user.id}}" name="report"
-                        class="fas fa-ellipsis-vertical fa-xl" style="color:#AB82C5"> </i>
-                    </a>
-
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDashDropdown">
-
-                        <li><a class="dropdown-item">
-                            <i class="fa-solid fa-user-minus" style="color:#230542"></i>
-                            <span class="purple-text"
-                                  style="font-size:12pt; position:absolute; transform:translate(15px)"> Remove
-                                </span>
-                        </a>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li> <a class="dropdown-item" type=button onclick="block({{frnd.user.id}})">
-                            <i class="fa-solid fa-ban" style="color:#230542"></i>
-                            <span class="purple-text"
-                                  style="font-size:12pt; position:absolute; transform:translate(15px)"> Block
-                                </span>
-                        </a>
-                        </li>
-                    </ul>
-                </li>
-
-            </ul>
-
+            <!-- fav star -->
             {% if frnd in favorites %}
               <i type="button" id="favorite{{frnd.user.id}}" value="{{frnd.user.id}}" name="favorite"
                 onclick="favorite({{frnd.user.id}})" class="fas fa-star fa-xl" style="color:#ffffff"> </i>
@@ -218,9 +184,51 @@
               <i type="button" id="favorite{{frnd.user.id}}" value="{{frnd.user.id}}" name="favorite"
                 onclick="favorite({{frnd.user.id}})" class="fas fa-star fa-xl" style="color:#AB82C5"> </i>
             {% endif %}
+            <!--  -->
 
+            <!-- more option list -->
+              <!-- dropdown icon menu -->
+              <i id="friendOptionDropdown"
+                role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                value="{{frnd.user.id}}" name="report"
+                class="fas fa-ellipsis-vertical fa-xl" style="color:#AB82C5"> 
+              </i>
 
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="friendOptionDropdown">
+                
+                <li>
+                  <a class="dropdown-item" 
+                    id="removeFriend{{frnd.user.id}}" value="{{frnd.user.id}}" name="removeFriend{{frnd.user.id}}" 
+                    data-bs-toggle="modal" data-bs-target="#friendRemovalModal{{frnd.user.id}}"
+                    type="button"        
+                  >
+                    <i class="fa-solid fa-user-minus" style="color:#230542"></i>
+                    <span class="purple-text" style="font-size:12pt; position:absolute; transform:translate(15px)">
+                      Remove
+                    </span>
+                  </a>
+                </li>
+                
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
 
+                <li> 
+                  <a class="dropdown-item"
+                    id="blockFriend{{frnd.user.id}}" value="{{frnd.user.id}}" name="blockFriend{{frnd.user.id}}" 
+                    data-bs-toggle="modal" data-bs-target="#friendBlockModal{{frnd.user.id}}"
+                    type="button"        
+                  >
+                    <i class="fa-solid fa-ban" style="color:#230542"></i>
+                    <span class="purple-text"style="font-size:12pt; position:absolute; transform:translate(15px)">
+                      Block
+                    </span>
+                  </a>
+                </li>
+
+              </ul>
+            <!--  -->
+            
           </div>
 
           <img src="{{ frnd.user.profile.image.url }}" height="130" class="card-img-top rounded-circle p-1"
@@ -230,15 +238,120 @@
             <h5 class="card-title" style="padding-bottom:10px;">{{frnd.user.first_name}} {{frnd.user.last_name}}</h5>
 
               <a type="button" href="{% url 'chat' %}" class="standard_button" style="margin-bottom:20px;"> Chat</a>
-              <button id="block{{frnd.user.id}}" value="{{frnd.user.id}}" name="block"
-                  onclick="block({{frnd.user.id}})" class="standard_button fw-bold">Block</button>
-              <p id="blockedUser{{frnd.user.id}}"></p>
           </div>
 
         </div>
         <hr id="linebreak" style="width:15rem;">
       </div>
-      {% endfor %}
+
+      <!-- modals -->
+      <!-- Remove Modal -->
+      <div class="modal fade text-black" id="friendRemovalModal{{frnd.user.id}}" tabindex="-1" role="dialog"
+        aria-labelledby="Friend-Removal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="Friend-Remove">Remove {{frnd.user.first_name}} {{frnd.user.last_name}}</h5>
+                  <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"
+                    style="border-radius: 10px; background-color:#57068c ; opacity: 1;">
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container-sm">
+                        <div class="row">
+                            <div class="col d-flex justify-content-center">
+                              <img src="{{ frnd.user.profile.image.url }}" alt="user pic upload"
+                                  style="height:100px; width:100px; object-fit:cover; border-radius:50%">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-center fw-bold fs-3" style="color:#57068c ;">
+                              <span id="userFirstName">{{frnd.user.first_name}} </span> &nbsp;
+                              <span> {{frnd.user.last_name}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-center fs-6" style="color:#230542 ;">
+                              <p>{{frnd.user.email}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h5>Are you sure to remove {{frnd.user.first_name}} {{frnd.user.last_name}} as your friend?</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                  <p hidden id="friendRemovedConfirm{{frnd.user.id}}" class="standard_button" style="width: 140px; height: 40px;">
+                  </p>
+
+                  <div id="friendRemoveButtons{{frnd.user.id}}">
+                    <button class="standard_button" data-bs-dismiss="modal" style="width: 140px; height: 40px; background-color: gray;">Cancel</button>
+                    
+                    <button id="friendRemoval{{frnd.user.id}}" value="{{frnd.user.id}}" onclick="remove({{frnd.user.id}})"
+                        name="friendRemoval" class="standard_button friend_remove{{user.id}}"
+                        style="width: 140px; height: 40px;">Yes, Remove</button>
+                  </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <!-- Block Modal -->
+      <div class="modal fade text-black" id="friendBlockModal{{frnd.user.id}}" tabindex="-1" role="dialog"
+        aria-labelledby="Friend-Block" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="Friend-Block">Block {{frnd.user.first_name}} {{frnd.user.last_name}}</h5>
+                  <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"
+                    style="border-radius: 10px; background-color:#57068c ; opacity: 1;">
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container-sm">
+                        <div class="row">
+                            <div class="col d-flex justify-content-center">
+                              <img src="{{ frnd.user.profile.image.url }}" alt="user pic upload"
+                                  style="height:100px; width:100px; object-fit:cover; border-radius:50%">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-center fw-bold fs-3" style="color:#57068c ;">
+                              <span id="userFirstName">{{frnd.user.first_name}} </span> &nbsp;
+                              <span> {{frnd.user.last_name}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-center fs-6" style="color:#230542 ;">
+                              <p>{{frnd.user.email}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h5>Are you sure to block {{frnd.user.first_name}} {{frnd.user.last_name}}?</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                    <p hidden id="friendBlockedConfirm{{frnd.user.id}}" class="standard_button" style="width: 140px; height: 40px;">
+                    </p>
+
+                    <div id="friendBlockingButtons{{frnd.user.id}}">
+                      <button class="standard_button" data-bs-dismiss="modal" style="width: 140px; height: 40px; background-color: gray;">Cancel</button>
+                      
+                      <button id="friendBlock{{frnd.user.id}}" value="{{frnd.user.id}}" onclick="block({{frnd.user.id}})"
+                          name="friendBlock" class="standard_button friend_block{{user.id}}"
+                          style="width: 140px; height: 40px;">Block</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      
+    {% endfor %}
 
     </div>
     {% endif %}
@@ -284,7 +397,7 @@
       document.getElementById("declineRequest" + id).style.display = "none";
       document.getElementById("requestAccepted" + id).innerHTML =
         "Friend Request Rejected! " +
-        `<i class="fa-solid fa-times-circle fa-1x" style="color:white"></i>`;
+        `<i class="fa-solid fa-ban fa-1x" style="color:white"></i>`;
     });
   }
 
@@ -309,29 +422,6 @@
     });
   }
 
-   function block(id) {
-    console.log(id);
-    let data = {};
-    data["block"] = id;
-    let url = "{% url 'block' %}";
-    $.ajax({
-      headers: { "X-CSRFToken": token },
-      method: "POST",
-      url: url,
-      data: data,
-    }).done(function (msg) {
-      // When the request is accepted
-      document.getElementById("block" + id).style.display = "none";
-      document.getElementById("blockedUser" + id).innerHTML =
-        "Blocked Successfully! " +
-        `<i class="fa-solid fa-times-circle fa-1x" style="color:white"></i>`;
-    });
-  }
-
-
-
-
-  // function for report here:
   function block(id) {
     let data = {};
     data["blocked"] = id;
@@ -342,7 +432,32 @@
       url: url,
       data: data,
     }).done(function (msg) {
-        console.log('done');
+      // When the request is accepted
+      document.getElementById("friendBlockingButtons" + id).style.display = "none";
+
+      document.getElementById("friendBlockedConfirm" + id).innerHTML =
+        "Blocked " + `<i class="fa-solid fa-ban fa-1x" style="color:white"></i>`;
+      document.getElementById("friendBlockedConfirm" + id).hidden = false;
+    });
+  }
+
+  function remove(id) {
+    let data = {};
+    data["remove"] = id;
+    let url = "{% url 'remove' %}";
+    $.ajax({
+      headers: { "X-CSRFToken": token },
+      method: "POST",
+      url: url,
+      data: data,
+    }).done(function (msg) {
+        console.log('removed');
+        // When the request is accepted
+        document.getElementById("friendRemoveButtons" + id).style.display = "none";
+
+        document.getElementById("friendRemovedConfirm" + id).innerHTML =
+          "Removed " + `<i class="fa-solid fa-times-circle fa-1x" style="color:white"></i>`;
+        document.getElementById("friendRemovedConfirm" + id).hidden = false;
     });
   }
 
