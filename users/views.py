@@ -444,7 +444,7 @@ def get_search(request):
         User.objects.annotate(full_name=Concat("first_name", V(" "), "last_name"))
         .filter(username_query | fullname_query)
         .exclude(id=request.user.id)
-        .exclude(id__in=request.user.profile.seen_users.all().values_list("id", flat=True))
+        .exclude(id__in=request.user.profile.blocked.all().values_list("id", flat=True))
         .exclude(is_staff="t")
     )
     return search_query, query_set
@@ -603,6 +603,7 @@ def get_matches(user):
         User.objects.exclude(id=user.id)
         .exclude(id__in=user.profile.friends.all().values_list("id", flat=True))
         .exclude(id__in=user.profile.seen_users.all().values_list("id", flat=True))
+        .exclude(id__in=user.profile.blocked().values_list("id", flat=True))
         .exclude(is_staff="t")
     )
     preference_fields = Preference._meta.get_fields()
