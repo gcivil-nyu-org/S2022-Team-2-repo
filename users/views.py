@@ -396,7 +396,7 @@ def recent_contacts(request):
 
     return recent
 
-    
+
 @login_required()
 def favorite(request):
     user1 = User.objects.get(pk=request.user.id).profile
