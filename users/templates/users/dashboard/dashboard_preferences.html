@@ -113,9 +113,14 @@
         </div>
 
         <!-- 4th row -->
-        <div class="row">
+        <div class="row mt-3">
             <!-- placeholder to align right -->
-            <div class="col-10"></div>
+            <div class="col-2" id="viewBlocked">
+                <a type="button" href="#" class="btn standard_button">
+                    Blocked Users
+                </a>
+            </div>
+            <div class="col-8"></div>
             <div class="col-2" id="deleteProfile">
                 <button class="btn standard_button" data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
                     Delete Profile
@@ -133,12 +138,12 @@
                             </div>
 
                             <div class="modal-body">
-                                <p>Are you sure to delete your profile?</p>
+                                <h5>Are you sure to delete your profile?</h5>
                             </div>
 
                             <div class="modal-footer">
-                                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button class="btn btn-primary" type="submit">Confirm</button>
+                                <button class="standard_button" style="width: 100px; background-color: grey;" data-bs-dismiss="modal">Close</button>
+                                <button class="standard_button" style="width: 100px;" >Confirm</button>
                             </div>
                         </div>
                     </div>

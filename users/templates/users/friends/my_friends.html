@@ -48,9 +48,7 @@
         <div class="row">
           <!-- modal on img -->
           <img src="{{ invite.from_user.profile.image.url }}" class="user-pic" height="150" alt="user pic"
-            style="height:100px; width:100%; object-fit:cover; border-radius:50%"
-            id="friendviewpref{{user.id}}" value="{{user.id}}" name="friendviewpref{{user.id}}" data-bs-toggle="modal" data-bs-target="#viewSearchPref{{user.id}}"
-            type="button">
+            style="height:100px; width:100%; object-fit:cover; border-radius:50%">
           <div class="col d-flex flex-column mt-3 ">
 
             <div class="col fw-bold" style="padding-left:75px;">
@@ -142,16 +140,6 @@
                   </div>
 
                   <div class="modal-footer justify-content-center">
-                      <!-- <p hidden id="requestSentModal{{user.id}}" class="standard_button" style="width: 200px; height: 40px;">
-                      </p>
-                        <div>
-                          {% if invite.from_user.id in friend_list %}
-                          {% else %}
-                          <button id="friendRequest{{user.id}}" value="{{user.id}}" onclick="friendRequest({{user.id}})"
-                              name="friendRequest" class="standard_button friend_request{{user.id}}"
-                              style="width: 200px; height: 40px;">Accept Friend Request</button>
-                          {% endif %}
-                        </div> -->
                   </div>
               </div>
           </div>
@@ -248,7 +236,7 @@
           </div>
 
         </div>
-        <hr id="linebreak" style="width:14rem;">
+        <hr id="linebreak" style="width:15rem;">
       </div>
 
       <!-- modals -->
