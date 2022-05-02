@@ -87,6 +87,7 @@ urlpatterns = [
     ),
     path("dashboard/activity", user_views.activity, name="activity"),
     path("dashboard/favorite", user_views.favorite, name="favorite"),
+    path("user/friends/block", user_views.block, name="block"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

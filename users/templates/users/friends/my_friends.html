@@ -188,6 +188,9 @@
               <i type="button" id="favorite{{frnd.user.id}}" value="{{frnd.user.id}}" name="favorite"
                 onclick="favorite({{frnd.user.id}})" class="fas fa-star fa-xl" style="color:#AB82C5"> </i>
             {% endif %}
+
+
+
           </div>
 
           <img src="{{ frnd.user.profile.image.url }}" height="130" class="card-img-top rounded-circle p-1"
@@ -197,6 +200,9 @@
             <h5 class="card-title" style="padding-bottom:10px;">{{frnd.user.first_name}} {{frnd.user.last_name}}</h5>
 
               <a type="button" href="{% url 'chat' %}" class="standard_button" style="margin-bottom:20px;"> Chat</a>
+              <button id="block{{frnd.user.id}}" value="{{frnd.user.id}}" name="block"
+                  onclick="block({{frnd.user.id}})" class="standard_button fw-bold">Block</button>
+              <p id="blockedUser{{frnd.user.id}}"></p>
           </div>
 
         </div>
@@ -272,6 +278,28 @@
         }
     });
   }
+
+   function block(id) {
+    console.log(id);
+    let data = {};
+    data["block"] = id;
+    let url = "{% url 'block' %}";
+    $.ajax({
+      headers: { "X-CSRFToken": token },
+      method: "POST",
+      url: url,
+      data: data,
+    }).done(function (msg) {
+      // When the request is accepted
+      document.getElementById("block" + id).style.display = "none";
+      document.getElementById("blockedUser" + id).innerHTML =
+        "Blocked Successfully! " +
+        `<i class="fa-solid fa-times-circle fa-1x" style="color:white"></i>`;
+    });
+  }
+
+
+
 
   // function for report here:
 
