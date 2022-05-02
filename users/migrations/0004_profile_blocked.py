@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0003_profile_favorites'),
+        ("users", "0003_profile_favorites"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='blocked',
-            field=models.ManyToManyField(blank=True, related_name='blocked_list', to='users.profile'),
+            model_name="profile",
+            name="blocked",
+            field=models.ManyToManyField(
+                blank=True, related_name="blocked_list", to="users.profile"
+            ),
         ),
     ]

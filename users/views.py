@@ -519,7 +519,7 @@ def decline_request_query(request):
 
 def block(request):
     blocker = User.objects.get(id=request.user.id)
-    blocked = User.objects.get(id=request.POST.get('blocked'))
+    blocked = User.objects.get(id=request.POST.get("blocked"))
 
     if blocked.profile in blocker.profile.friends.all():
         blocker.profile.friends.remove(blocked.profile)
