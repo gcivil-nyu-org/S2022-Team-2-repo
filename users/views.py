@@ -409,6 +409,7 @@ def favorite(request):
         user1.favorites.add(user2)
     return HttpResponse()
 
+
 @login_required()
 def block(request):
     user1 = User.objects.get(pk=request.user.id).profile
@@ -418,9 +419,6 @@ def block(request):
     user1.friends.remove(user2)
     user2.friends.remove(user1)
     return HttpResponse()
-
-
-
 
 
 @login_required
@@ -784,5 +782,3 @@ def activity_search(request):
 def activity(request):
     # event_data = activity_search(request)
     return render(request, "users/activity.html")
-
-
