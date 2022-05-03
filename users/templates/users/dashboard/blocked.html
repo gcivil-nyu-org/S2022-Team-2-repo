@@ -1,0 +1,43 @@
+{% extends 'users/dashboard_base.html' %}
+{% load static %}
+
+{% block body %}
+
+<body>
+
+<div class="container-md">
+    <!-- 1st row -->
+    <div class="row">
+        <div class="col mt-3">
+            <!-- <h2 class="fw-bold"> Preferences </h2> -->
+        </div>
+    </div>
+
+    {% for user in blocked %}
+        {{ user }}
+        <button id="unblock{{user.id}}" onclick="unblock({{user.id}})" class="standard_button fw-bold">Unblock</button>
+    {% endfor %}
+
+</div>
+
+<script>
+var token = "{{csrf_token}}";
+
+function unblock(id) {
+    let data = {};
+    data["unblock"] = id;
+    let url = "{% url 'unblock' %}";
+    $.ajax({
+      headers: { "X-CSRFToken": token },
+      method: "POST",
+      url: url,
+      data: data,
+    }).done(function (msg) {
+        document.getElementById("unblock" + id).style.display = "none";
+    });
+}
+</script>
+
+</body>
+
+{% endblock %}

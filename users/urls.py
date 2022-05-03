@@ -29,6 +29,7 @@ urlpatterns = [
         name="reset_password",
     ),
     path("profile/setup", user_views.profile_setup, name="profile_setup"),
+    path("profile/delete", user_views.delete_profile, name="delete_profile"),
     path(
         "preferences/page1",
         user_views.preferences_personality,
@@ -68,7 +69,7 @@ urlpatterns = [
         r"", include("django_private_chat2.urls", namespace="django_private_chat2")
     ),  # pragma: no cover
     path("user/friends", user_views.FriendsListView.as_view(), name="friends_list"),
-    path("users/<slug>/", user_views.SelfView.as_view(), name="user_info"),
+    path("user/<slug>/", user_views.SelfView.as_view(), name="user_info"),
     path("user/self", user_views.self_info, name="self_info"),
     path(
         "dashboard/chat",
@@ -88,6 +89,8 @@ urlpatterns = [
     path("dashboard/activity", user_views.activity, name="activity"),
     path("dashboard/favorite", user_views.favorite, name="favorite"),
     path("user/friend/block", user_views.block, name="block"),
+    path("user/unblock", user_views.unblock, name="unblock"),
+    path("user/blocked", user_views.blocked_list, name="blocked_list"),
     path("user/friend/remove", user_views.remove_friend, name="remove"),
 ]
 if settings.DEBUG:

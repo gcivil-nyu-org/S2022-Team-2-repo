@@ -82,6 +82,36 @@ def signup(request):  # pragma: no cover
     return render(request, "users/authenticate/signup.html", {"form": form})
 
 
+def reactivate(request):
+    if request.user.is_authenticated:
+        return redirect(reverse("dashboard"))
+
+    if request.method == "POST":
+        try:
+            username = request.POST.get("username")
+            user = User.objects.get(username=username)
+            if not user.is_active:
+                to_email = username + "@nyu.edu"
+                current_site = get_current_site(request)
+                mail_subject = "Activate your NYUnite Account!"
+                message = render_to_string(
+                    "users/activation/activation_link_email.html",
+                    {
+                        "user": user,
+                        "domain": current_site.domain,
+                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        "token": account_activation_token.make_token(user),
+                    },
+                )
+
+                email = EmailMessage(mail_subject, message, to=[to_email])
+                email.send()
+
+                return render(request, "users/activation/activation_link_sent.html")
+        except Exception as e:
+            return render(request, "reactivate.html", {"err": e})
+
+
 def login_form(request):
     if request.user.is_authenticated:
         return redirect(reverse("dashboard"))
@@ -257,6 +287,17 @@ def update_profile(request):
     else:
         form = ProfileUpdateForm(instance=prof)
     return render(request, "users/edit_profile.html", {"form": form})
+
+
+@login_required()
+def delete_profile(request):
+    try:
+        u = User.objects.get(username=request.user.username)
+        u.delete()
+        logout(request)
+        return HttpResponseRedirect(reverse("home"))
+    except Exception as e:
+        return render(request, "dashboard_preferences.html", {"err": e})
 
 
 @login_required()
@@ -445,6 +486,9 @@ def get_search(request):
         .filter(username_query | fullname_query)
         .exclude(id=request.user.id)
         .exclude(id__in=request.user.profile.blocked.all().values_list("id", flat=True))
+        .exclude(
+            id__in=request.user.profile.blockers.all().values_list("id", flat=True)
+        )
         .exclude(is_staff="t")
     )
     return search_query, query_set
@@ -506,10 +550,16 @@ def decline_request_query(request):
 def remove_friend(request):
     user1 = User.objects.get(pk=request.user.id).profile
     user2_id = request.POST.get("remove")
-    print(user2_id)
     user2 = User.objects.get(pk=user2_id).profile
+
+    if user1.profile in user2.profile.favorites.all():
+        user2.profile.favorites.remove(user1.profile)
+    if user2.profile in user1.profile.favorites.all():
+        user1.profile.favorites.remove(user2.profile)
+
     user1.friends.remove(user2)
     user2.friends.remove(user1)
+
     return HttpResponse()
 
 
@@ -527,7 +577,27 @@ def block(request):
         blocked.profile.favorites.remove(blocker.profile)
 
     blocker.profile.blocked.add(blocked.profile)
-    blocked.profile.blocked.add(blocker.profile)
+    blocked.profile.blockers.add(blocker.profile)
+
+    return HttpResponse()
+
+
+@login_required()
+def blocked_list(request):
+    user = User.objects.get(id=request.user.id)
+    blocked = user.profile.blocked.all()
+    return render(request, "users/dashboard/blocked.html", {"blocked": blocked})
+
+
+@login_required()
+def unblock(request):
+    blocker = User.objects.get(id=request.user.id)
+    blocked = User.objects.get(id=request.POST.get("unblock"))
+
+    if blocked.profile in blocker.profile.blocked.all():
+        blocker.profile.blocked.remove(blocked.profile)
+    if blocker.profile in blocked.profile.blockers.all():
+        blocked.profile.blockers.remove(blocker.profile)
 
     return HttpResponse()
 
@@ -616,6 +686,7 @@ def get_matches(user):
         .exclude(id__in=user.profile.friends.all().values_list("id", flat=True))
         .exclude(id__in=user.profile.seen_users.all().values_list("id", flat=True))
         .exclude(id__in=user.profile.blocked.all().values_list("id", flat=True))
+        .exclude(id__in=user.profile.blockers.all().values_list("id", flat=True))
         .exclude(is_staff="t")
     )
     preference_fields = Preference._meta.get_fields()
