@@ -230,8 +230,6 @@
             <h5 class="card-title" style="padding-bottom:10px;">{{frnd.user.first_name}} {{frnd.user.last_name}}</h5>
 
               <a type="button" href="{% url 'chat' %}" class="standard_button" style="margin-bottom:20px;"> Chat</a>
-              <button id="block{{frnd.user.id}}" value="{{frnd.user.id}}" name="block"
-                  onclick="block({{frnd.user.id}})" class="standard_button fw-bold">Block</button>
               <p id="blockedUser{{frnd.user.id}}"></p>
           </div>
 

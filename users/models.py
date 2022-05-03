@@ -23,6 +23,9 @@ class Profile(models.Model):
         "Profile", blank=True, related_name="favorite_list"
     )
     blocked = models.ManyToManyField("Profile", blank=True, related_name="blocked_list")
+    blockers = models.ManyToManyField(
+        "Profile", blank=True, related_name="blockers_list"
+    )
 
     def __str__(self):
         return str(self.user.username)
