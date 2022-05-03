@@ -79,8 +79,8 @@
 
             <div class="row align-top">
               <div class="col-sm d-flex justify-content-center mt-2">
-                    <button id="friendviewpref" value="{{user.id}}" name="friendviewpref" data-bs-toggle="modal" 
-                    data-bs-target="#viewSearchPref{{user.id}}" class="standard_button fw-bold" style="width:180px; height: 40px;">View Preferences</button>
+                    <button id="friendviewpref{{invite.from_user.id}}" value="{{invite.from_user.id}}" name="friendviewpref{{invite.from_user.id}}" data-bs-toggle="modal" 
+                    data-bs-target="#viewSearchPref{{invite.from_user.id}}" class="standard_button fw-bold" style="width:180px; height: 40px;">View Preferences</button>
               </div>
             </div>
             
@@ -90,7 +90,7 @@
       <br>
 
       <!-- Modal -->
-        <div class="modal fade text-black" id="viewSearchPref{{user.id}}" tabindex="-1" role="dialog"
+        <div class="modal fade text-black" id="viewSearchPref{{invite.from_user.id}}" tabindex="-1" role="dialog"
           aria-labelledby="View-Serach-Profile" aria-hidden="true">
           <div class="modal-dialog modal-lg">
               <div class="modal-content">
@@ -373,7 +373,7 @@
         "Friend Request Accepted! " +
         `<i class="fa-solid fa-circle-check fa-1x" style="color:white"></i>`;
       document.getElementById("declineRequest" + id).style.display = "none";
-       document.getElementById("friendviewpref").style.display = "none";
+       document.getElementById("friendviewpref" + id).style.display = "none";
     });
   }
 
@@ -391,7 +391,7 @@
       // When the request is accepted
       document.getElementById("acceptRequest" + id).style.display = "none";
       document.getElementById("declineRequest" + id).style.display = "none";
-      document.getElementById("friendviewpref").style.display = "none";
+      document.getElementById("friendviewpref" + id).style.display = "none";
       document.getElementById("requestAccepted" + id).innerHTML =
         "Friend Request Rejected! " +
         `<i class="fa-solid fa-ban fa-1x" style="color:white"></i>`; 
