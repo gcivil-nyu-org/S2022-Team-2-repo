@@ -64,11 +64,11 @@
           </div>
           <div class="col-4 d-flex flex-column ">
             <div class="row align-top">
-              <div class="col-sm d-flex justify-content-end mt-3 mb-2">
+              <div class="col-sm d-flex justify-content-end mt-3">
                 <button id="declineRequest{{invite.from_user.id}}" value="{{invite.from_user.id}}" name="declineRequest"
                   onclick="declineRequest({{invite.from_user.id}})" class="standard_button fw-bold" style="height:40px;">Decline</button>
               </div>
-              <div class="col-sm d-flex justify-content-start align-items-start mt-3 mb-2">
+              <div class="col-sm d-flex justify-content-start align-items-start mt-3">
                 <p id="requestAccepted{{invite.from_user.id}}"></p>
                 <div>
                   <button id="acceptRequest{{invite.from_user.id}}" value="{{invite.from_user.id}}" name="acceptRequest"
@@ -78,8 +78,8 @@
             </div>
 
             <div class="row align-top">
-              <div class="col-sm d-flex justify-content-center">
-                    <button id="friendviewpref{{user.id}}" value="{{user.id}}" name="friendviewpref{{user.id}}" data-bs-toggle="modal" 
+              <div class="col-sm d-flex justify-content-center mt-2">
+                    <button id="friendviewpref" value="{{user.id}}" name="friendviewpref" data-bs-toggle="modal" 
                     data-bs-target="#viewSearchPref{{user.id}}" class="standard_button fw-bold" style="width:180px; height: 40px;">View Preferences</button>
               </div>
             </div>
@@ -245,10 +245,10 @@
         aria-labelledby="Friend-Removal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header"  style="background-color:#a69db2;">
                   <h5 class="modal-title" id="Friend-Remove">Remove {{frnd.user.first_name}} {{frnd.user.last_name}}</h5>
                   <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"
-                    style="border-radius: 10px; background-color:#57068c ; opacity: 1;">
+                    style="border-radius: 10px; opacity: 1;">
                   </button>
                 </div>
 
@@ -272,7 +272,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <h5>Are you sure to remove {{frnd.user.first_name}} {{frnd.user.last_name}} as your friend?</h5>
+                            <h5 style="padding-left:0px;">Are you sure you want to remove {{frnd.user.first_name}} {{frnd.user.last_name}} as your friend?</h5>
                         </div>
                     </div>
                 </div>
@@ -286,7 +286,7 @@
                     
                     <button id="friendRemoval{{frnd.user.id}}" value="{{frnd.user.id}}" onclick="remove({{frnd.user.id}})"
                         name="friendRemoval" class="standard_button friend_remove{{user.id}}"
-                        style="width: 140px; height: 40px;">Yes, Remove</button>
+                        style="width: 140px; height: 40px;" >Yes, Remove</button>
                   </div>
                 </div>
             </div>
@@ -298,10 +298,10 @@
         aria-labelledby="Friend-Block" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="Friend-Block">Block {{frnd.user.first_name}} {{frnd.user.last_name}}</h5>
+                <div class="modal-header" style="background-color:#a69db2;">
+                  <h5 class="modal-title" id="Friend-Block" >Block {{frnd.user.first_name}} {{frnd.user.last_name}}</h5>
                   <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"
-                    style="border-radius: 10px; background-color:#57068c ; opacity: 1;">
+                    style="border-radius: 10px; opacity: 1;">
                   </button>
                 </div>
 
@@ -325,7 +325,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <h5>Are you sure to block {{frnd.user.first_name}} {{frnd.user.last_name}}?</h5>
+                            <h5 style="padding-left:0px;">Are you sure you want to block {{frnd.user.first_name}} {{frnd.user.last_name}}?</h5>
                         </div>
                     </div>
                 </div>
@@ -373,6 +373,7 @@
         "Friend Request Accepted! " +
         `<i class="fa-solid fa-circle-check fa-1x" style="color:white"></i>`;
       document.getElementById("declineRequest" + id).style.display = "none";
+       document.getElementById("friendviewpref").style.display = "none";
     });
   }
 
@@ -390,9 +391,10 @@
       // When the request is accepted
       document.getElementById("acceptRequest" + id).style.display = "none";
       document.getElementById("declineRequest" + id).style.display = "none";
+      document.getElementById("friendviewpref").style.display = "none";
       document.getElementById("requestAccepted" + id).innerHTML =
         "Friend Request Rejected! " +
-        `<i class="fa-solid fa-ban fa-1x" style="color:white"></i>`;
+        `<i class="fa-solid fa-ban fa-1x" style="color:white"></i>`; 
     });
   }
 
