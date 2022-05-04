@@ -12,11 +12,35 @@
             <!-- <h2 class="fw-bold"> Preferences </h2> -->
         </div>
     </div>
-
-    {% for user in blocked %}
+<section>
+        <div class="row ">
+            <h4>Blocked contacts</h4> 
+            {% if blocked.count == 0 %}
+            <h5 style="color:#ab82c5;"> You have not blocked any contacts! </h5>
+            {% else %}
+                {% for user in blocked %}
+                    <div class="col-sm-2 mt-2 mb-2">
+                        <!-- card component -->
+                        <div class="card  justify-content-center text-center"
+                            style=" height: 18rem; background-color: #57068c; border-radius: 10px;" >
+                            <img src="{{image}}" height="180" class="card-img-top rounded-circle p-2" alt="user_pic">
+                            <div class="card-body">
+                                <h5 class="card-title"> {{user}} </h5>
+                                 <p hidden id="friendUnblockedConfirm{{user.id}}" class="standard_button fw-bold" style="margin-bottom:20px;">
+                                </p>
+                                <a type="button"  id="friendUnblock{{user.id}}" onclick="unblock({{user.id}})" class="standard_button fw-bold" style="margin-bottom:20px;"> Unblock</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+    <!-- {% for user in blocked %}
         {{ user }}
         <button id="unblock{{user.id}}" onclick="unblock({{user.id}})" class="standard_button fw-bold">Unblock</button>
-    {% endfor %}
+    {% endfor %} -->
 
 </div>
 
@@ -33,7 +57,10 @@ function unblock(id) {
       url: url,
       data: data,
     }).done(function (msg) {
-        document.getElementById("unblock" + id).style.display = "none";
+        document.getElementById("friendUnblock" + id).style.display = "none";
+        document.getElementById("friendUnblockedConfirm" + id).innerHTML =
+        "Unblocked " + `<i class="fa-solid fa-circle-check fa-1x" style="color:white"></i>`;
+        document.getElementById("friendUnblockedConfirm" + id).hidden = false;
     });
 }
 </script>
