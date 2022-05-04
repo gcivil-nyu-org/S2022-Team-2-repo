@@ -69,7 +69,7 @@
                   onclick="declineRequest({{invite.from_user.id}})" class="standard_button fw-bold" style="height:40px;">Decline</button>
               </div>
               <div class="col-sm d-flex justify-content-start align-items-start mt-3">
-                <p id="requestAccepted{{invite.from_user.id}}"></p>
+                <p hidden id="requestAccepted{{invite.from_user.id}}" style="width:300px; padding-top:30px;"></p>
                 <div>
                   <button id="acceptRequest{{invite.from_user.id}}" value="{{invite.from_user.id}}" name="acceptRequest"
                     onclick="acceptRequest({{invite.from_user.id}})" class="standard_button fw-bold" style="height:40px;">Accept</button>
@@ -372,6 +372,7 @@
       document.getElementById("requestAccepted" + id).innerHTML =
         "Friend Request Accepted! " +
         `<i class="fa-solid fa-circle-check fa-1x" style="color:white"></i>`;
+        document.getElementById("requestAccepted" + id).hidden = false;
       document.getElementById("declineRequest" + id).style.display = "none";
        document.getElementById("friendviewpref" + id).style.display = "none";
     });
@@ -395,6 +396,7 @@
       document.getElementById("requestAccepted" + id).innerHTML =
         "Friend Request Rejected! " +
         `<i class="fa-solid fa-ban fa-1x" style="color:white"></i>`; 
+         document.getElementById("requestAccepted" + id).hidden = false;
     });
   }
 
