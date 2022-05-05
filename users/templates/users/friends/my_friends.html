@@ -221,6 +221,23 @@
                   </a>
                 </li>
 
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+
+                <li>
+                  <a class="dropdown-item"
+                    id="reportFriend{{frnd.user.id}}" value="{{frnd.user.id}}" name="reportFriend{{frnd.user.id}}"
+                    data-bs-toggle="modal" data-bs-target="#friendReportModal{{frnd.user.id}}"
+                    type="button"
+                  >
+                    <i class="fa-solid fa-flag" style="color:#230542"></i>
+                    <span class="purple-text"style="font-size:12pt; position:absolute; transform:translate(15px)">
+                      Report
+                    </span>
+                  </a>
+                </li>
+
               </ul>
             <!--  -->
             
@@ -345,6 +362,64 @@
             </div>
         </div>
       </div>
+
+      <!-- Report Modal -->
+      <div class="modal fade text-black" id="friendReportModal{{frnd.user.id}}" tabindex="-1" role="dialog"
+        aria-labelledby="Friend-Report" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header"  style="background-color:#a69db2;">
+                  <h5 class="modal-title" id="Friend-Report">Report {{frnd.user.first_name}} {{frnd.user.last_name}}</h5>
+                  <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"
+                    style="border-radius: 10px; opacity: 1;">
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container-sm">
+                        <div class="row">
+                            <div class="col d-flex justify-content-center">
+                              <img src="{{ frnd.user.profile.image.url }}" alt="user pic upload"
+                                  style="height:100px; width:100px; object-fit:cover; border-radius:50%">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-center fw-bold fs-3" style="color:#57068c ;">
+                              <span id="userFirstName">{{frnd.user.first_name}} </span> &nbsp;
+                              <span> {{frnd.user.last_name}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-center fs-6" style="color:#230542 ;">
+                              <p>{{frnd.user.email}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h5 style="padding-left:0px;"> Why are you reporting {{frnd.user.first_name}} {{frnd.user.last_name}}?</h5>
+                        </div>
+                        <div class="row">
+                            <form id="reportForm">
+                                <textarea id="reportDetails" name="reportDetails" placeholder="Enter the text..." rows="5", cols="60"></textarea>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                  <p hidden id="friendReportConfirm{{frnd.user.id}}" class="standard_button" style="width: 140px; height: 40px;">
+                  </p>
+
+                  <div id="friendReportButtons{{frnd.user.id}}">
+                    <button class="standard_button" data-bs-dismiss="modal" style="width: 140px; height: 40px; background-color: gray;">Cancel</button>
+
+                    <button id="friendReport{{frnd.user.id}}" value="{{frnd.user.id}}" onclick="report({{frnd.user.id}})"
+                        name="friendReport" class="standard_button friend_report{{user.id}}"
+                        style="width: 140px; height: 40px;" >Submit Report</button>
+                  </div>
+                </div>
+            </div>
+        </div>
+      </div>
       
     {% endfor %}
 
@@ -356,6 +431,12 @@
 
 <script type="text/javascript">
   var token = "{{csrf_token}}";
+
+  function delay_refresh(time) {
+     setTimeout(function(){
+        window.location.reload(true);
+        }, time);
+  }
 
   function acceptRequest(id) {
     let data = {};
@@ -373,7 +454,8 @@
         "Friend Request Accepted! " +
         `<i class="fa-solid fa-circle-check fa-1x" style="color:white"></i>`;
       document.getElementById("declineRequest" + id).style.display = "none";
-       document.getElementById("friendviewpref" + id).style.display = "none";
+      document.getElementById("friendviewpref" + id).style.display = "none";
+      delay_refresh(500);
     });
   }
 
@@ -394,7 +476,8 @@
       document.getElementById("friendviewpref" + id).style.display = "none";
       document.getElementById("requestAccepted" + id).innerHTML =
         "Friend Request Rejected! " +
-        `<i class="fa-solid fa-ban fa-1x" style="color:white"></i>`; 
+        `<i class="fa-solid fa-ban fa-1x" style="color:white"></i>`;
+      delay_refresh(500);
     });
   }
 
@@ -435,6 +518,7 @@
       document.getElementById("friendBlockedConfirm" + id).innerHTML =
         "Blocked " + `<i class="fa-solid fa-ban fa-1x" style="color:white"></i>`;
       document.getElementById("friendBlockedConfirm" + id).hidden = false;
+      delay_refresh(1500);
     });
   }
 
@@ -455,8 +539,34 @@
         document.getElementById("friendRemovedConfirm" + id).innerHTML =
           "Removed " + `<i class="fa-solid fa-times-circle fa-1x" style="color:white"></i>`;
         document.getElementById("friendRemovedConfirm" + id).hidden = false;
+        delay_refresh(1500);
     });
   }
+
+  function report(id) {
+    let data = {};
+    var formText = $("#reportDetails").val()
+    data["report"] = id;
+    data["text"] = formText
+    let url = "{% url 'report' %}";
+    $.ajax({
+      headers: { "X-CSRFToken": token },
+      method: "POST",
+      url: url,
+      data: data,
+    }).done(function (msg) {
+        console.log('reported');
+        // When the request is accepted
+        document.getElementById("friendReportButtons" + id).style.display = "none";
+
+        document.getElementById("friendReportConfirm" + id).innerHTML =
+          "Reported " + `<i class="fa-solid fa-circle-check fa-1x" style="color:white"></i>`;
+        document.getElementById("friendReportConfirm" + id).hidden = false;
+        delay_refresh(1500);
+    });
+  }
+
+
 
 </script>
 

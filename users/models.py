@@ -58,6 +58,19 @@ def post_save_user_model_receiver(sender, instance, created, *args, **kwargs):
 post_save.connect(post_save_user_model_receiver, sender=settings.AUTH_USER_MODEL)
 
 
+class Report(models.Model):
+    reporter = models.OneToOneField(User, on_delete=models.CASCADE, related_name="reporter_user", default=None)
+    reported = models.OneToOneField(User, on_delete=models.CASCADE, related_name="reported_user", default=None)
+    reason = models.CharField(max_length=1000, blank=True)
+    status = models.CharField(max_length=10,
+                              choices=(("received", "received"),
+                                       ("ignored", "ignored"),
+                                       ("approved", "approved")),
+                              default="received")
+
+    def __str__(self):
+        return f"Report of {self.reported} by {self.reporter}"
+
 class FriendRequest(models.Model):
     to_user = models.ForeignKey(
         settings.AUTH_USER_MODEL,

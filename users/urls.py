@@ -92,6 +92,7 @@ urlpatterns = [
     path("user/unblock", user_views.unblock, name="unblock"),
     path("user/blocked", user_views.blocked_list, name="blocked_list"),
     path("user/friend/remove", user_views.remove_friend, name="remove"),
+    path("dashboard/user/report", user_views.report, name="report"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

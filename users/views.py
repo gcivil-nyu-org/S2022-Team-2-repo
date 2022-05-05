@@ -32,7 +32,7 @@ from users.forms import (
     PreferencesHobbiesForm,
     PreferencesExploreForm,
 )
-from users.models import Preference, Profile, FriendRequest
+from users.models import Preference, Profile, FriendRequest, Report
 from users.preferences import interests_choices
 from users.tokens import account_activation_token
 
@@ -548,26 +548,22 @@ def decline_request_query(request):
 
 @login_required()
 def remove_friend(request):
-    user1 = User.objects.get(pk=request.user.id).profile
+    user1 = User.objects.get(pk=request.user.id)
     user2_id = request.POST.get("remove")
-    user2 = User.objects.get(pk=user2_id).profile
+    user2 = User.objects.get(pk=user2_id)
 
     if user1.profile in user2.profile.favorites.all():
         user2.profile.favorites.remove(user1.profile)
     if user2.profile in user1.profile.favorites.all():
         user1.profile.favorites.remove(user2.profile)
 
-    user1.friends.remove(user2)
-    user2.friends.remove(user1)
+    user1.profile.friends.remove(user2.profile)
+    user2.profile.friends.remove(user1.profile)
 
     return HttpResponse()
 
 
-@login_required
-def block(request):
-    blocker = User.objects.get(id=request.user.id)
-    blocked = User.objects.get(id=request.POST.get("blocked"))
-
+def block_user(blocker, blocked):
     if blocked.profile in blocker.profile.friends.all():
         blocker.profile.friends.remove(blocked.profile)
         blocked.profile.friends.remove(blocker.profile)
@@ -579,6 +575,23 @@ def block(request):
     blocker.profile.blocked.add(blocked.profile)
     blocked.profile.blockers.add(blocker.profile)
 
+
+@login_required
+def block(request):
+    blocker = User.objects.get(id=request.user.id)
+    blocked = User.objects.get(id=request.POST.get("blocked"))
+    block_user(blocker, blocked)
+    return HttpResponse()
+
+
+@login_required
+def report(request):
+    reporter = User.objects.get(pk=request.user.id)
+    reported = User.objects.get(id=request.POST.get("report"))
+    reason = request.POST.get("text")
+    report_record = Report(reporter=reporter, reported=reported, reason=reason)
+    report_record.save()
+    block_user(reporter, reported)
     return HttpResponse()
 
 
