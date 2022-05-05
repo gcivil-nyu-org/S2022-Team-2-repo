@@ -586,7 +586,10 @@ def block(request):
 def blocked_list(request):
     user = User.objects.get(id=request.user.id)
     blocked = user.profile.blocked.all()
-    return render(request, "users/dashboard/blocked.html", {"blocked": blocked})
+    blocked_users = []
+    for username in blocked:
+        blocked_users.append(User.objects.get(username=username))
+    return render(request, "users/dashboard/blocked.html", {"blocked": blocked_users})
 
 
 @login_required()

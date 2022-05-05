@@ -15,7 +15,8 @@
 <section>
         <div class="row ">
             <h4>Blocked contacts</h4> 
-            {% if blocked.count == 0 %}
+            {% if blocked.length == 0 %}
+            console.log(blocked.count)
             <h5 style="color:#ab82c5;"> You have not blocked any contacts! </h5>
             {% else %}
                 {% for user in blocked %}
@@ -23,12 +24,13 @@
                         <!-- card component -->
                         <div class="card  justify-content-center text-center"
                             style=" height: 18rem; background-color: #57068c; border-radius: 10px;" >
-                            <img src="{{image}}" height="180" class="card-img-top rounded-circle p-2" alt="user_pic">
+                            <img src="{{user.profile.image.url}}" height="200s" class="card-img-top rounded-circle p-3" alt="user_pic">
                             <div class="card-body">
-                                <h5 class="card-title"> {{user}} </h5>
-                                 <p hidden id="friendUnblockedConfirm{{user.id}}" class="standard_button fw-bold" style="margin-bottom:20px;">
+                                <h5 class="card-title"> {{user.first_name}} {{user.last_name}} </h5>
+                                <!-- <p> {{user}}</p> -->
+                                 <p hidden id="friendUnblockedConfirm{{user.id}}" class="standard_button fw-bold" style="margin-bottom:10px;">
                                 </p>
-                                <a type="button"  id="friendUnblock{{user.id}}" onclick="unblock({{user.id}})" class="standard_button fw-bold" style="margin-bottom:20px;"> Unblock</a>
+                                <a type="button"  id="friendUnblock{{user.id}}" onclick="unblock({{user.id}})" class="standard_button fw-bold" style="margin-bottom:10px;"> Unblock</a>
                             </div>
                         </div>
                     </div>
