@@ -180,10 +180,16 @@ class LoginForm(forms.Form):
 
 class PreferencesPersonalityForm(forms.ModelForm):
     personality_type = forms.ChoiceField(
-        choices=PERSONALITY_CHOICES, widget=forms.RadioSelect(), required=True
+        choices=PERSONALITY_CHOICES,
+        widget=forms.RadioSelect(),
+        required=True,
+        label="Are you more introverted or extroverted?",
     )
     stay_go_type = forms.ChoiceField(
-        choices=STAY_GO_CHOICES, widget=forms.RadioSelect(), required=True
+        choices=STAY_GO_CHOICES,
+        widget=forms.RadioSelect(),
+        required=True,
+        label="On a weekend night, do you prefer to stay in or go out?",
     )
 
     class Meta:
@@ -196,16 +202,28 @@ class PreferencesPersonalityForm(forms.ModelForm):
 
 class PreferencesHobbiesForm(forms.ModelForm):
     movie_choices = forms.MultipleChoiceField(
-        choices=MOVIES_CHOICES, widget=forms.CheckboxSelectMultiple(), required=True
+        choices=MOVIES_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What are your favorite movie genres?",
     )
     music_choices = forms.MultipleChoiceField(
-        choices=MUSIC_CHOICES, widget=forms.CheckboxSelectMultiple(), required=True
+        choices=MUSIC_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What styles of music do you listen to?",
     )
     art_choices = forms.MultipleChoiceField(
-        choices=ART_CHOICES, widget=forms.CheckboxSelectMultiple(), required=True
+        choices=ART_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What art forms are you interested in?",
     )
     dance_choices = forms.MultipleChoiceField(
-        choices=DANCE_CHOICES, widget=forms.CheckboxSelectMultiple(), required=True
+        choices=DANCE_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What dance styles do you like?",
     )
 
     class Meta:
@@ -220,19 +238,34 @@ class PreferencesHobbiesForm(forms.ModelForm):
 
 class PreferencesExploreForm(forms.ModelForm):
     food_choices = forms.MultipleChoiceField(
-        choices=COOKEAT_CHOICES, widget=forms.CheckboxSelectMultiple(), required=True
+        choices=COOKEAT_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What are your favorite cuisines?",
     )
     travel_choices = forms.MultipleChoiceField(
-        choices=TRAVEL_CHOICES, widget=forms.CheckboxSelectMultiple(), required=True
+        choices=TRAVEL_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What's your ideal vacation spot?",
     )
     sports_choices = forms.MultipleChoiceField(
-        choices=SPORTS_CHOICES, widget=forms.CheckboxSelectMultiple(), required=True
-    )
-    nyc_choices = forms.MultipleChoiceField(
-        choices=NYC_CHOICES, widget=forms.CheckboxSelectMultiple(), required=True
+        choices=SPORTS_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What sports do you like to play or watch?",
     )
     pet_choices = forms.MultipleChoiceField(
-        choices=PET_CHOICES, widget=forms.CheckboxSelectMultiple(), required=True
+        choices=PET_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What kind of pets do you have?",
+    )
+    nyc_choices = forms.MultipleChoiceField(
+        choices=NYC_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What do you like to do around NYC?",
     )
 
     class Meta:
