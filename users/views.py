@@ -32,7 +32,7 @@ from users.forms import (
     PreferencesHobbiesForm,
     PreferencesExploreForm,
 )
-from users.models import Preference, Profile, FriendRequest, Report
+from users.models import Preference, Profile, FriendRequest, Report, Blacklist
 from users.preferences import interests_choices
 from users.tokens import account_activation_token
 
@@ -50,6 +50,7 @@ def signup(request):  # pragma: no cover
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
         if form.is_valid():
+
             to_email = form.cleaned_data.get("username") + "@nyu.edu"
 
             user = form.save(commit=False)
