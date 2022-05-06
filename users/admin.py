@@ -37,11 +37,15 @@ def report_wrapper(user):
 class ReportAdmin(admin.ModelAdmin):
     list_display = ("reported", "reporter", "reason", "status")
     list_filter = ("status",)
-    actions = ['make_received', 'make_ignored', 'make_approved']
+    actions = ["make_received", "make_ignored", "make_approved"]
 
     def get_queryset(self, request):
-        qs = super(ReportAdmin, self).get_queryset(request).annotate(count=Count('reported'))
-        return qs.order_by('count').order_by("-status")
+        qs = (
+            super(ReportAdmin, self)
+            .get_queryset(request)
+            .annotate(count=Count("reported"))
+        )
+        return qs.order_by("count").order_by("-status")
 
     @admin.action(description="Mark selected reports as received")
     def make_received(self, request, queryset):

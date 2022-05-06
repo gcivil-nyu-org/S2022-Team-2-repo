@@ -6,15 +6,34 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0005_profile_blockers'),
+        ("users", "0005_profile_blockers"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Report',
+            name="Report",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('status', models.CharField(choices=[('received', 'received'), ('ignored', 'ignored'), ('approved', 'approved')], default='received', max_length=10)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("received", "received"),
+                            ("ignored", "ignored"),
+                            ("approved", "approved"),
+                        ],
+                        default="received",
+                        max_length=10,
+                    ),
+                ),
             ],
         ),
     ]

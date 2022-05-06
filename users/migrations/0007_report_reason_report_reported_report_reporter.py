@@ -9,23 +9,33 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('users', '0006_report'),
+        ("users", "0006_report"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='report',
-            name='reason',
+            model_name="report",
+            name="reason",
             field=models.CharField(blank=True, max_length=1000),
         ),
         migrations.AddField(
-            model_name='report',
-            name='reported',
-            field=models.OneToOneField(default=None, on_delete=django.db.models.deletion.CASCADE, related_name='reported_user', to=settings.AUTH_USER_MODEL),
+            model_name="report",
+            name="reported",
+            field=models.OneToOneField(
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="reported_user",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='report',
-            name='reporter',
-            field=models.OneToOneField(default=None, on_delete=django.db.models.deletion.CASCADE, related_name='reporter_user', to=settings.AUTH_USER_MODEL),
+            model_name="report",
+            name="reporter",
+            field=models.OneToOneField(
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="reporter_user",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

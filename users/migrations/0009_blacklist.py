@@ -9,15 +9,30 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('users', '0008_alter_report_reported_alter_report_reporter'),
+        ("users", "0008_alter_report_reported_alter_report_reporter"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Blacklist',
+            name="Blacklist",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('blacklisted', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='blacklisted_user', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "blacklisted",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="blacklisted_user",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

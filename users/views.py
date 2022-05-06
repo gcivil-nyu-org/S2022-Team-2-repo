@@ -32,7 +32,7 @@ from users.forms import (
     PreferencesHobbiesForm,
     PreferencesExploreForm,
 )
-from users.models import Preference, Profile, FriendRequest, Report, Blacklist
+from users.models import Preference, Profile, FriendRequest, Report
 from users.preferences import interests_choices
 from users.tokens import account_activation_token
 

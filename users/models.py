@@ -72,21 +72,31 @@ post_save.connect(post_save_user_model_receiver, sender=settings.AUTH_USER_MODEL
 
 
 class Blacklist(models.Model):
-    blacklisted = models.OneToOneField(User, on_delete=models.CASCADE, related_name="blacklisted_user")
+    blacklisted = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="blacklisted_user"
+    )
 
     def __str__(self):
         return f"{self.blacklisted}"
 
 
 class Report(models.Model):
-    reporter = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reporter_user", default=None)
-    reported = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reported_user", default=None)
+    reporter = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="reporter_user", default=None
+    )
+    reported = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="reported_user", default=None
+    )
     reason = models.CharField(max_length=1000, blank=True)
-    status = models.CharField(max_length=10,
-                              choices=(("received", "received"),
-                                       ("ignored", "ignored"),
-                                       ("approved", "approved")),
-                              default="received")
+    status = models.CharField(
+        max_length=10,
+        choices=(
+            ("received", "received"),
+            ("ignored", "ignored"),
+            ("approved", "approved"),
+        ),
+        default="received",
+    )
 
     def __str__(self):
         return f"Report of {self.reported} by {self.reporter}"
@@ -94,7 +104,7 @@ class Report(models.Model):
     def save(self, *args, **kwargs):
         super(Report, self).save(*args, **kwargs)
 
-        if self.status == 'approved':
+        if self.status == "approved":
             blacklist_record = Blacklist(blacklisted=self.reported)
             blacklist_record.save()
             user = User.objects.get(pk=self.reported.id)

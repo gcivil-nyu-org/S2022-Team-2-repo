@@ -9,18 +9,28 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('users', '0007_report_reason_report_reported_report_reporter'),
+        ("users", "0007_report_reason_report_reported_report_reporter"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='report',
-            name='reported',
-            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, related_name='reported_user', to=settings.AUTH_USER_MODEL),
+            model_name="report",
+            name="reported",
+            field=models.ForeignKey(
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="reported_user",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AlterField(
-            model_name='report',
-            name='reporter',
-            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, related_name='reporter_user', to=settings.AUTH_USER_MODEL),
+            model_name="report",
+            name="reporter",
+            field=models.ForeignKey(
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="reporter_user",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]
