@@ -753,6 +753,6 @@ class RemoveFriendTest(TestCase):
             reverse("remove"),
             {
                 "remove": self.user.id,
-            }
+            },
         )
         self.assertTrue(response.status_code, 200)
