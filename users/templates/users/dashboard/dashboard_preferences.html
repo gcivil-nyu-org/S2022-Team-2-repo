@@ -77,6 +77,33 @@
                     <h4>{{ user.profile.bio }} </h4>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <h4 style="color:white;"> Pronouns: </h4>
+                </div>
+                <div class="col-sm-9">
+                    <h4>{{ user.profile.pronouns }} </h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <h4 style="color:white;"> School: </h4>
+                </div>
+                <div class="col-sm-9">
+                    <h4>{{ user.profile.school }} </h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <h4 style="color:white;"> Year: </h4>
+                </div>
+                <div class="col-sm-9">
+                    <h4>{{ user.profile.year }} </h4>
+                </div>
+            </div>
             <!-- inner end -->
         </div>
 
@@ -120,10 +147,8 @@
 
     <hr id="linebreak">
 
-
     <!-- 4th row -->
-    <div class="row py-2">
-        
+    <div class="row py-2">        
         <div class="col-2" id="viewBlocked">
             <a class="btn standard_button" type="button" href="{% url 'blocked_list' %}">
                 Blocked Users

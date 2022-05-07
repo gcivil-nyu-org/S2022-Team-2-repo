@@ -26,7 +26,7 @@ SCHOOL_CHOICES = [
     ("Meyers College of Nursing", "Meyers College of Nursing"),
     ("School of Law", "School of Law"),
     ("School of Global Public Health", "School of Global Public Health"),
-    ("NYU AbU Dhabi", "NYU AbU Dhabi"),
+    ("NYU Abu Dhabi", "NYU Abu Dhabi"),
     ("NYU Shanghai", "NYU Shanghai"),
     ("School of Professional Studies", "School of Professional Studies"),
     ("Silver School of Social Work", "Silver School of Social Work"),
