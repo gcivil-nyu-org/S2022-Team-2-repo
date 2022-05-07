@@ -1,5 +1,11 @@
 {% load static %}
 
+<style>
+#navSearch{
+    width: 400px;
+}
+
+</style>
 <nav class="navbar fixed-top navbar-expand-md navbar-dark p-2 " style="background-color: #330662; z-index:1">
 
     <div class="container-md ">
@@ -28,7 +34,7 @@
                 <!--                     </span> -->
                 <!--                 </div> -->
                 <input class="form-control me-2 text-white " required id="navSearch"
-                    style="background-color:#57068c; width: 400px; border-width: 0px; border-radius: 12px;" type="text"
+                    style="background-color:#57068c; border-width: 0px; border-radius: 12px;" type="text"
                     name="navSearch" placeholder="Search" aria-label="Search" value="{{query}}">
                 <button class="standard_button" style="background-color:#230542;" type="submit"> Search </button>
 
