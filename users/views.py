@@ -31,6 +31,7 @@ from users.forms import (
     LoginForm,
     PreferencesHobbiesForm,
     PreferencesExploreForm,
+    UserUpdateForm,
 )
 from users.models import Preference, Profile, FriendRequest, Report
 from users.preferences import interests_choices
@@ -243,51 +244,58 @@ def password_reset(request, uidb64, token):  # pragma: no cover
 @login_required()
 def profile_setup(request):
     prof = None
-
+    user = User.objects.get(pk=request.user.id)
     try:
         prof = Profile.objects.get(user=request.user)
-    except Exception:  # pragma: no cover
+    except Exception:
         prof = Profile(user=request.user)
         prof.save()
 
     if request.method == "POST":
-        form = ProfileUpdateForm(request.POST, instance=prof)
-        if form.is_valid():
-            ans = form.save()
+        form1 = UserUpdateForm(request.POST, instance=user)
+        form2 = ProfileUpdateForm(request.POST, instance=prof)
+        if form1.is_valid() and form2.is_valid():
+            form1.save()
+            ans = form2.save()
 
-            if "image" in request.FILES:  # pragma: no cover
+            if "image" in request.FILES:
                 ans.image = request.FILES["image"]
 
             ans.save()
             return HttpResponseRedirect("/preferences/page1")
     else:
-        form = ProfileUpdateForm(instance=prof)
-    return render(request, "users/preferences/profile_setup.html", {"form": form})
+        form1 = UserUpdateForm()
+        form2 = ProfileUpdateForm()
+    return render(request, "users/preferences/profile_setup.html", {"form1": form1, "form2": form2})
 
 
 @login_required()
 def update_profile(request):
     prof = None
-
+    user = User.objects.get(pk=request.user.id)
     try:
         prof = Profile.objects.get(user=request.user)
-    except Exception:  # pragma: no cover
+    except Exception:
         prof = Profile(user=request.user)
         prof.save()
 
     if request.method == "POST":
-        form = ProfileUpdateForm(request.POST, instance=prof)
-        if form.is_valid():
-            ans = form.save()
+        form1 = UserUpdateForm(request.POST, instance=user)
+        form2 = ProfileUpdateForm(request.POST, instance=prof)
+        if form1.is_valid() and form2.is_valid():
+            form1.save()
+            ans = form2.save()
 
-            if "image" in request.FILES:  # pragma: no cover
+            if "image" in request.FILES:
                 ans.image = request.FILES["image"]
 
             ans.save()
-            return HttpResponseRedirect("/dashboard")
+            return redirect("/dashboard/preferences")
+
     else:
-        form = ProfileUpdateForm(instance=prof)
-    return render(request, "users/edit_profile.html", {"form": form})
+        form1 = UserUpdateForm()
+        form2 = ProfileUpdateForm()
+    return render(request, "users/edit_profile.html", {"form1": form1, "form2": form2})
 
 
 @login_required()

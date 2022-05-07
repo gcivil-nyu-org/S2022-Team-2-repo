@@ -10,6 +10,7 @@ from django.urls import reverse
 from multiselectfield import MultiSelectField
 
 from .preferences import *
+from .profile import PRONOUN_CHOICES, SCHOOL_CHOICES, CLASS_YEAR_CHOICES
 
 
 def report_email(user):
@@ -25,6 +26,24 @@ def report_email(user):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    pronouns = models.CharField(
+        max_length=50,
+        choices=PRONOUN_CHOICES,
+        blank=True,
+        null=True,
+    )
+    school = models.CharField(
+        max_length=100,
+        choices=SCHOOL_CHOICES,
+        blank=True,
+        null=True,
+    )
+    year = models.CharField(
+        max_length=100,
+        choices=CLASS_YEAR_CHOICES,
+        blank=True,
+        null=True,
+    )
     image = models.ImageField(
         default="media/default.png", upload_to="media", null=True, blank=True
     )
