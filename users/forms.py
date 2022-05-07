@@ -90,12 +90,18 @@ class UserRegisterForm(UserCreationForm):
 class ProfileUpdateForm(forms.ModelForm):  # pragma: no cover
     class Meta:
         model = Profile
-        fields = ["bio", "image"]
+        fields = ["pronouns", "school", "year", "bio", "image"]
         widgets = {"image": FileInput()}
 
     def __init__(self, *args, **kwargs):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
         self.fields["image"].widget.attrs = {"id": "selectedFile"}
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name"]
 
 
 class ResetPasswordRequestForm(forms.Form):

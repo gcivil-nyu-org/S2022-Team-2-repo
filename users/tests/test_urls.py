@@ -32,6 +32,7 @@ from users.views import (
     password_reset,
     chat_notifications,
     favorite,
+    report,
 )
 
 
@@ -159,3 +160,7 @@ class TestUrls(SimpleTestCase):
     def test_favorite_url_resolves(self):
         url = reverse("favorite")
         self.assertEquals(resolve(url).func, favorite)
+
+    def test_report_url_resolves(self):
+        url = reverse("report")
+        self.assertEquals(resolve(url).func, report)
