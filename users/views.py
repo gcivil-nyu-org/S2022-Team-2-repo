@@ -562,6 +562,9 @@ def decline_request_query(request):
 @login_required()
 def remove_friend(request):
     user1 = User.objects.get(pk=request.user.id)
+    if not request.POST.get("remove"):
+        return HttpResponse(500)
+
     user2_id = request.POST.get("remove")
     user2 = User.objects.get(pk=user2_id)
 
@@ -591,6 +594,8 @@ def block_user(blocker, blocked):
 
 @login_required
 def block(request):
+    if not request.POST.get("blocked"):
+        return HttpResponse(500)
     blocker = User.objects.get(id=request.user.id)
     blocked = User.objects.get(id=request.POST.get("blocked"))
     block_user(blocker, blocked)
@@ -600,7 +605,7 @@ def block(request):
 @login_required
 def report(request):
     if not request.user.id:
-        return HttpResponse(500)
+        return HttpResponse(500)  # pragma: no cover
     if not request.POST.get("report"):
         return HttpResponse(500)
     reporter = User.objects.get(pk=request.user.id)
