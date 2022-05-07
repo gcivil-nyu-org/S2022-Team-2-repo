@@ -7,12 +7,11 @@ from django.contrib.auth.forms import (
 )
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.forms import FileInput, RadioSelect, Select
+from django.forms import FileInput
 from django.utils.translation import gettext_lazy as _
 
 from .models import Profile, Preference
 from .preferences import *
-from .profile import PRONOUN_CHOICES
 
 
 class UserRegisterForm(UserCreationForm):
@@ -91,7 +90,7 @@ class UserRegisterForm(UserCreationForm):
 class ProfileUpdateForm(forms.ModelForm):  # pragma: no cover
     class Meta:
         model = Profile
-        fields = ["pronouns", 'school', "year", "bio", "image"]
+        fields = ["pronouns", "school", "year", "bio", "image"]
         widgets = {"image": FileInput()}
 
     def __init__(self, *args, **kwargs):

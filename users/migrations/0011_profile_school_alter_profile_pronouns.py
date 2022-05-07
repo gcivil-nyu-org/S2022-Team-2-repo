@@ -6,18 +6,57 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0010_profile_pronouns_alter_preference_travel_choices'),
+        ("users", "0010_profile_pronouns_alter_preference_travel_choices"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='school',
-            field=models.CharField(blank=True, choices=[('Arts', 'Arts and Science'), ('Dentistry', 'College of Dentistry'), ('Courant', 'Courant Institute of Mathematical Sciences'), ('Gallatin', 'Gallatin School of Individualized Study'), ('Grossman', 'Grossman School of Medicine'), ('Long Island', 'Long Island School of Medicine'), ('Fine Arts', 'Institute of Fine Arts'), ('Ancient', 'Institute for the Study of Ancient World'), ('Meyers', 'Meyers College of Nursing'), ('Law', 'School of Law'), ('Health', 'School of Global Public Health'), ('Abu Dhabi', 'NYU AbU Dhabi'), ('Shanghai', 'NYU Shanghai'), ('Professional', 'School of Professional Studies'), ('Silver', 'Silver School of Social Work'), ('Steinhardt', 'Steinhardt School of Culture, Education, and Human Development'), ('Stern', 'Stern School of Business'), ('Tandon', 'Tandon School of Engineering'), ('Tisch', 'Tisch School of the Arts'), ('Wagner', 'Wagner Graduate School of Public Service')], max_length=100, null=True),
+            model_name="profile",
+            name="school",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("Arts", "Arts and Science"),
+                    ("Dentistry", "College of Dentistry"),
+                    ("Courant", "Courant Institute of Mathematical Sciences"),
+                    ("Gallatin", "Gallatin School of Individualized Study"),
+                    ("Grossman", "Grossman School of Medicine"),
+                    ("Long Island", "Long Island School of Medicine"),
+                    ("Fine Arts", "Institute of Fine Arts"),
+                    ("Ancient", "Institute for the Study of Ancient World"),
+                    ("Meyers", "Meyers College of Nursing"),
+                    ("Law", "School of Law"),
+                    ("Health", "School of Global Public Health"),
+                    ("Abu Dhabi", "NYU AbU Dhabi"),
+                    ("Shanghai", "NYU Shanghai"),
+                    ("Professional", "School of Professional Studies"),
+                    ("Silver", "Silver School of Social Work"),
+                    (
+                        "Steinhardt",
+                        "Steinhardt School of Culture, Education, and Human Development",
+                    ),
+                    ("Stern", "Stern School of Business"),
+                    ("Tandon", "Tandon School of Engineering"),
+                    ("Tisch", "Tisch School of the Arts"),
+                    ("Wagner", "Wagner Graduate School of Public Service"),
+                ],
+                max_length=100,
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='pronouns',
-            field=models.CharField(blank=True, choices=[('She', 'She/her/hers'), ('He', 'He/him/his'), ('They', 'They/them/theirs'), ('Prefer', 'Prefer not to specify')], max_length=50, null=True),
+            model_name="profile",
+            name="pronouns",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("She", "She/her/hers"),
+                    ("He", "He/him/his"),
+                    ("They", "They/them/theirs"),
+                    ("Prefer", "Prefer not to specify"),
+                ],
+                max_length=50,
+                null=True,
+            ),
         ),
     ]

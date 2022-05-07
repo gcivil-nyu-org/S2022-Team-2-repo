@@ -266,7 +266,11 @@ def profile_setup(request):
     else:
         form1 = UserUpdateForm()
         form2 = ProfileUpdateForm()
-    return render(request, "users/preferences/profile_setup.html", {"form1": form1, "form2": form2})
+    return render(
+        request,
+        "users/preferences/profile_setup.html",
+        {"form1": form1, "form2": form2},
+    )
 
 
 @login_required()

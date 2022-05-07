@@ -7,18 +7,40 @@ import multiselectfield.db.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0009_blacklist'),
+        ("users", "0009_blacklist"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='pronouns',
-            field=multiselectfield.db.fields.MultiSelectField(blank=True, choices=[('She', 'She/her/hers'), ('He', 'He/him/his'), ('They', 'They/them/theirs'), ('Prefer', 'Prefer not to specify')], max_length=50, null=True),
+            model_name="profile",
+            name="pronouns",
+            field=multiselectfield.db.fields.MultiSelectField(
+                blank=True,
+                choices=[
+                    ("She", "She/her/hers"),
+                    ("He", "He/him/his"),
+                    ("They", "They/them/theirs"),
+                    ("Prefer", "Prefer not to specify"),
+                ],
+                max_length=50,
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='preference',
-            name='travel_choices',
-            field=multiselectfield.db.fields.MultiSelectField(blank=True, choices=[('Travel_NP', 'National Park'), ('Travel_BE', 'Beach'), ('Travel_DE', 'Desert'), ('Travel_CT', 'City'), ('Travel_IS', 'Island'), ('Travel_NI', 'Not interested in Traveling')], max_length=200, null=True),
+            model_name="preference",
+            name="travel_choices",
+            field=multiselectfield.db.fields.MultiSelectField(
+                blank=True,
+                choices=[
+                    ("Travel_NP", "National Park"),
+                    ("Travel_BE", "Beach"),
+                    ("Travel_DE", "Desert"),
+                    ("Travel_CT", "City"),
+                    ("Travel_IS", "Island"),
+                    ("Travel_NI", "Not interested in Traveling"),
+                ],
+                max_length=200,
+                null=True,
+            ),
         ),
     ]

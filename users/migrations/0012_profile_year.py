@@ -6,13 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0011_profile_school_alter_profile_pronouns'),
+        ("users", "0011_profile_school_alter_profile_pronouns"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='year',
-            field=models.CharField(blank=True, choices=[('Freshman', 'Freshman'), ('Sophomore', 'Sophomore'), ('Junior', 'Junior'), ('Senior', 'Senior'), ('Grad', 'Graduate Student'), ('PhD', 'PhD Student')], max_length=100, null=True),
+            model_name="profile",
+            name="year",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("Freshman", "Freshman"),
+                    ("Sophomore", "Sophomore"),
+                    ("Junior", "Junior"),
+                    ("Senior", "Senior"),
+                    ("Grad", "Graduate Student"),
+                    ("PhD", "PhD Student"),
+                ],
+                max_length=100,
+                null=True,
+            ),
         ),
     ]
