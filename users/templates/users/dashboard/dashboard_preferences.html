@@ -50,22 +50,35 @@
             </h3>
 
             <!-- inner col and row -->
-            <div class="row row-cols-auto">
+            <div class="row row-cols-auto flex-nowrap">
                 <div class="col-sm-3">
                     <h4 style="color:white;"> Full Name: </h4>
                 </div>
-                <div class="col-sm-9">
-                    <h4>{{ user.first_name }} {{ user.last_name }} </h4>
+                <div class="col-sm-6">
+                    <h4>{{ user.first_name }} {{ user.last_name }} <em style="font-size:16px;">({{user.profile.pronouns}})</em></h4>
                 </div>
-            </div>
-
-            <!-- 3rd row -->
-            <div class="row">
                 <div class="col-sm-3">
                     <h4 style="color:white;"> NetID: </h4>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                     <h4> {{user.username}}</h4>
+                </div>
+
+            </div>
+
+            <!-- 3rd row -->
+            <div class="row flex-nowrap">
+                <div class="col-sm-3">
+                    <h4 style="color:white;"> School: </h4>
+                </div>
+                <div class="col-sm-6">
+                    <h4> {{user.profile.school}}</h4>
+                </div>
+                <div class="col-sm-3">
+                    <h4 style="color:white;"> Current Year: </h4>
+                </div>
+                <div class="col-sm-6">
+                    <h4> {{user.profile.year}}</h4>
                 </div>
             </div>
 
@@ -78,32 +91,8 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-sm-3">
-                    <h4 style="color:white;"> Pronouns: </h4>
-                </div>
-                <div class="col-sm-9">
-                    <h4>{{ user.profile.pronouns }} </h4>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-sm-3">
-                    <h4 style="color:white;"> School: </h4>
-                </div>
-                <div class="col-sm-9">
-                    <h4>{{ user.profile.school }} </h4>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-sm-3">
-                    <h4 style="color:white;"> Year: </h4>
-                </div>
-                <div class="col-sm-9">
-                    <h4>{{ user.profile.year }} </h4>
-                </div>
-            </div>
             <!-- inner end -->
         </div>
 
@@ -116,7 +105,7 @@
             <a style="color:white" href="updateprofile/" id="id_profilepic" role="button">
                 <!-- Currently using our logo as placeholder -->
                 <img src="{{ user.profile.image.url }}" alt="user pic upload"
-                     style="height:100px; width:100px; object-fit:cover; border-radius:50%">
+                     style="height:140px; width:140px; object-fit:cover; border-radius:50%">
             </a>
         </div>
     </div>
@@ -283,7 +272,7 @@ window.onload = function replacePrefId() {
     }else if(currPath == '/dashboard/my_friends'){
         currPath = "My Friends";
     }else if(currPath == '/dashboard/preferences/'){
-        currPath = "Preferences";
+        currPath = "My Profile";
     }else {
         currPath = " ";
         const searchBoxSize = document.getElementById("navSearch");

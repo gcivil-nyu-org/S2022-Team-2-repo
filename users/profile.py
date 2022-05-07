@@ -48,6 +48,6 @@ CLASS_YEAR_CHOICES = [
     ("Sophomore", "Sophomore"),
     ("Junior", "Junior"),
     ("Senior", "Senior"),
-    ("Grad Student", "Graduate Student"),
+    ("Graduate Student", "Graduate Student"),
     ("PhD Student", "PhD Student"),
 ]

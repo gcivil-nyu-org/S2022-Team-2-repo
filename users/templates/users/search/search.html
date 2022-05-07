@@ -104,15 +104,25 @@
                                 style="height:100px; width:100px; object-fit:cover; border-radius:50%">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="height:40px;">
                         <div class="col d-flex justify-content-center fw-bold fs-3" style="color:#57068c ;">
                             <span id="userFirstName">{{user.first_name}} </span> &nbsp;
                             <span> {{user.last_name}}</span>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="height:25px;">
                         <div class="col d-flex justify-content-center fs-6" style="color:#230542 ;">
-                            <p>{{user.email}}</p>
+                            <p>({{user.profile.pronouns}})</p>
+                        </div>
+                    </div>
+                    <div class="row" style="height:25px;">
+                        <div class="col d-flex justify-content-center fs-6" style="color:#230542 ;">
+                            <p>{{user.profile.school}}</p>
+                        </div>
+                    </div>
+                    <div class="row" style="height:25px;">
+                        <div class="col d-flex justify-content-center fs-6" style="color:#230542 ;">
+                            <p>{{user.profile.year}}</p>
                         </div>
                     </div>
                 </div>
