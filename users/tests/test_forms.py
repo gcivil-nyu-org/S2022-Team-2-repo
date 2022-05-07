@@ -7,6 +7,8 @@ from users.forms import (
     ResetPasswordForm,
     PreferencesPersonalityForm,
     PreferencesHobbiesForm,
+    ProfileUpdateForm,
+    UserUpdateForm,
 )
 
 dummy_user_right = {
@@ -109,6 +111,30 @@ class PreferencesExploreFormTest(TestCase):
                 "sports_choices": ["Sports_NI"],
                 "nyc_choices": ["Nyc_NI"],
                 "pet_choices": ["Pet_NI"],
+            }
+        )
+        self.assertFalse(form.errors)
+
+
+class ProfileUpdateFormTest(TestCase):
+    def test_pass(self):
+        form = ProfileUpdateForm(
+            data={
+                "pronouns": "She/her/hers",
+                "school": "Tandon School of Engineering",
+                "year": "Sophomore",
+                "bio": "I like cooking",
+            }
+        )
+        self.assertFalse(form.errors)
+
+
+class UserUpdateFormTest(TestCase):
+    def test_pass(self):
+        form = UserUpdateForm(
+            data={
+                "first_name": "John",
+                "last_name": "Doe",
             }
         )
         self.assertFalse(form.errors)

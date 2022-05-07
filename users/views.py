@@ -264,8 +264,8 @@ def profile_setup(request):
             ans.save()
             return HttpResponseRedirect("/preferences/page1")
     else:
-        form1 = UserUpdateForm()
-        form2 = ProfileUpdateForm()
+        form1 = UserUpdateForm(instance=user)
+        form2 = ProfileUpdateForm(instance=prof)
     return render(
         request,
         "users/preferences/profile_setup.html",
@@ -297,8 +297,8 @@ def update_profile(request):
             return redirect("/dashboard/preferences")
 
     else:
-        form1 = UserUpdateForm()
-        form2 = ProfileUpdateForm()
+        form1 = UserUpdateForm(instance=user)
+        form2 = ProfileUpdateForm(instance=prof)
     return render(request, "users/edit_profile.html", {"form1": form1, "form2": form2})
 
 
@@ -599,6 +599,10 @@ def block(request):
 
 @login_required
 def report(request):
+    if not request.user.id:
+        return HttpResponse(500)
+    if not request.POST.get("report"):
+        return HttpResponse(500)
     reporter = User.objects.get(pk=request.user.id)
     reported = User.objects.get(id=request.POST.get("report"))
     reason = request.POST.get("text")
