@@ -61,9 +61,9 @@
             <div class="col-sm-7">
                 <div class="card-body">
                     <h2 class="card-title fw-bold">{{match.first_name}} {{match.last_name}} <em style="font-size:20px;">({{match.profile.pronouns}})</em></h2>
-                    <p class="card-text fs-5  " style="color: #ae97bf; padding:0px; margin-bottom:0px;">{{match.profile.bio}}</p>
-                    <h5  style=" font-size:15px; font-weight:600;">School: {{match.profile.school}}</h5>
-                    <h5  style=" font-size:15px; margin-bottom:20px;  font-weight:600;">Year of study: {{match.profile.year}}</h5>
+                    <h5 style=" font-size:15px; font-weight:600;">School: {{match.profile.school}}</h5>
+                    <h5 style=" font-size:15px; font-weight:600;">Year of Study: {{match.profile.year}}</h5>
+                    <p class="card-text fs-5 mt-2 mb-2" style="color: #ae97bf;">{{match.profile.bio}}</p>
                     <h4>Common Interests</h4>
                     {% for k, v in match.items %}
                         {% if k == "common_interests" %}
