@@ -1,6 +1,6 @@
 [run]
 source = .
-omit = ./venv/*,*routing.py,*manage.py,*__init__.py,*migrations*,*asgi*,*wsgi*,*settings.py,django_private_chat2/*
+omit = ./venv/*,*routing.py,*manage.py,*__init__.py,*migrations*,*asgi*,*wsgi*,*settings.py,django_private_chat2/*,*models.py,*admin.py
 
 [report]
-omit = ./venv/*,*routing.py,*manage.py,*__init__.py,*migrations*,*asgi*,*wsgi*,*settings.py,django_private_chat2/*
+omit = ./venv/*,*routing.py,*manage.py,*__init__.py,*migrations*,*asgi*,*wsgi*,*settings.py,django_private_chat2/*,*models.py,*admin.py

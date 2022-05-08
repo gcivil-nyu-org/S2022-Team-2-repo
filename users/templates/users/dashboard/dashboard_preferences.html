@@ -5,7 +5,7 @@
 
 <body>
 
-    <style>
+<style>
         h4 {
             font-size: large;
             color: #ab82c5;
@@ -20,212 +20,269 @@
             background-color: #8548ad"
 
         }
-    </style>
-    <!-- --- -->
 
-    <div class="container-md">
-        <!-- 1st row -->
-        <div class="row">
-            <div class="col mt-3">
-                <!-- <h2 class="fw-bold"> Preferences </h2> -->
-            </div>
+
+
+
+</style>
+<!-- --- -->
+
+<div class="container-md">
+    <!-- 1st row -->
+    <div class="row">
+        <div class="col mt-3">
+            <!-- <h2 class="fw-bold"> Preferences </h2> -->
         </div>
+    </div>
 
-        <!-- <hr id="linebreak"> -->
-        
-        {% if user.is_authenticated %}
+    <!-- <hr id="linebreak"> -->
 
-        <!-- 2nd row -->
-        <div class="row">
-            <div class="col-6">
-                <h3 class="fw-bold fs-4"> Profile
-                    <a href="updateprofile/">
-                        <i class="fa-solid fa-pen-to-square fw-normal fs-5" style="color: white; transform:translate(10px, 0px)"></i>
-                    </a>
-                </h3>
+    {% if user.is_authenticated %}
 
-                <!-- inner col and row -->
-                <div class="row row-cols-auto">
-                    <div class="col-sm-3">
-                        <h4 style="color:white;"> Full Name: </h4>
-                    </div>
-                    <div class="col-sm-9">
-                        <h4>{{ user.first_name }} {{ user.last_name }} </h4>
-                    </div>
-                </div>
-
-                <!-- 3rd row -->
-                <div class="row">
-                    <div class="col-sm-3">
-                        <h4 style="color:white;"> NetID: </h4>
-                    </div>
-                    <div class="col-sm-9">
-                        <h4> {{user.username}}</h4>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-3">
-                        <h4 style="color:white;"> Profile Bio: </h4>
-                    </div>
-                    <div class="col-sm-9">
-                        <h4>{{ user.profile.bio }} </h4>
-                    </div>
-                </div>
-                <!-- inner end -->
-            </div>
-
-            <div class="col-4">
-                <!-- placeholder for now -->
-                <h4></h4>
-            </div>
-
-            <div class="col">
-                <a style="color:white" href="updateprofile/" id="id_profilepic" role="button">
-                    <!-- Currently using our logo as placeholder -->
-                    <img src="{{ user.profile.image.url }}" alt="user pic upload"
-                        style="height:100px; width:100px; object-fit:cover; border-radius:50%">
+    <!-- 2nd row -->
+    <div class="row">
+        <div class="col-6">
+            <h3 class="fw-bold fs-4"> Profile
+                <a href="updateprofile/">
+                    <i class="fa-solid fa-pen-to-square fw-normal fs-5"
+                       style="color: white; transform:translate(10px, 0px)"></i>
                 </a>
+            </h3>
+
+            <!-- inner col and row -->
+            <div class="row row-cols-auto flex-nowrap">
+                <div class="col-sm-3">
+                    <h4 style="color:white;"> Full Name: </h4>
+                </div>
+                <div class="col-sm-6">
+                    <h4>{{ user.first_name }} {{ user.last_name }} <em style="font-size:16px;">({{user.profile.pronouns}})</em></h4>
+                </div>
+                <div class="col-sm-3">
+                    <h4 style="color:white;"> NetID: </h4>
+                </div>
+                <div class="col-sm-6">
+                    <h4> {{user.username}}</h4>
+                </div>
+
             </div>
+
+            <!-- 3rd row -->
+            <div class="row flex-nowrap">
+                <div class="col-sm-3">
+                    <h4 style="color:white;"> School: </h4>
+                </div>
+                <div class="col-sm-6">
+                    <h4> {{user.profile.school}}</h4>
+                </div>
+                <div class="col-sm-3">
+                    <h4 style="color:white;"> Current Year: </h4>
+                </div>
+                <div class="col-sm-6">
+                    <h4> {{user.profile.year}}</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <h4 style="color:white;"> Profile Bio: </h4>
+                </div>
+                <div class="col-sm-9">
+                    <h4>{{ user.profile.bio }} </h4>
+                </div>
+            </div>
+
+
+
+            <!-- inner end -->
         </div>
 
-        <hr id="linebreak">
-
-        <!-- 3rd row -->
-        <div class="row">
-            <div class="col">
-                <h3 class="fw-bold  fs-4"> Preferences
-                    <a href="/preferences/page1">
-                        <i class="fa-solid fa-pen-to-square  fw-normal fs-5" style="color: white; transform:translate(10px, 0px)"></i>
-                    </a>
-
-                    <!-- testing on getting data, .items list on the 'columns in the prefs table' -->
-                    <div id="prefList" class="mt-2">
-                        {% for key,value in prefs.items %}
-                        {% if key != "id" and key != "user" %}
-                        <h5 id="prefKey">{{ key }}</h5>
-                        <h4> {{ value }}</h4>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </h3>
-            </div>
+        <div class="col-4">
+            <!-- placeholder for now -->
+            <h4></h4>
         </div>
 
-        <!-- 4th row -->
-        <div class="row">
-            <!-- placeholder to align right -->
-            <div class="col-10"></div>
-            <div class="col-2" id="deleteProfile">
-                <button class="btn standard_button" data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
-                    Delete Profile
-                </button>
+        <div class="col">
+            <a style="color:white" href="updateprofile/" id="id_profilepic" role="button">
+                <!-- Currently using our logo as placeholder -->
+                <img src="{{ user.profile.image.url }}" alt="user pic upload"
+                     style="height:140px; width:140px; object-fit:cover; border-radius:50%">
+            </a>
+        </div>
+    </div>
 
-                <!-- Modal -->
-                <div class="modal fade text-black" id="deleteProfileModal" tabindex="-1" role="dialog"
-                    aria-labelledby="Delete-Profile" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="Delete-Profile">Delete Profile</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                </button>
-                            </div>
+    <hr id="linebreak">
 
-                            <div class="modal-body">
-                                <p>Are you sure to delete your profile?</p>
-                            </div>
+    <!-- 3rd row -->
+    <div class="row">
+        <div class="col">
+            <h3 class="fw-bold  fs-4"> Preferences
+                <a href="/preferences/page1">
+                    <i class="fa-solid fa-pen-to-square  fw-normal fs-5"
+                       style="color: white; transform:translate(10px, 0px)"></i>
+                </a>
 
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button class="btn btn-primary" type="submit">Confirm</button>
-                            </div>
+                <!-- testing on getting data, .items list on the 'columns in the prefs table' -->
+                <div id="prefList" class="mt-2">
+                    {% for key,value in prefs.items %}
+                    {% if key != "id" and key != "user" %}
+                    <h5 id="prefKey">{{ key }}</h5>
+                    <h4> {{ value }}</h4>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </h3>
+        </div>
+    </div>
+
+    <hr id="linebreak">
+
+    <!-- 4th row -->
+    <div class="row py-2">        
+        <div class="col-2" id="viewBlocked">
+            <a class="btn standard_button" type="button" href="{% url 'blocked_list' %}">
+                Blocked Users
+            </a>            
+        </div>
+
+        <!-- placeholder to align right -->
+        <div class="col-8"></div>
+
+        <div class="col-2" id="deleteProfile">
+            <button class="btn standard_button" data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
+                Delete Profile
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade text-black" id="deleteProfileModal" tabindex="-1" role="dialog"
+                 aria-labelledby="Delete-Profile" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="Delete-Profile">Delete Profile</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <p>Are you sure to delete your profile?</p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <a href="{% url 'delete_profile' %}">
+                                <button  type="submit" class="standard_button" style="width: 100px;">Confirm</button>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <!-- Modal ends -->
-
             </div>
-        </div>
+            <!-- Modal ends -->
 
-        {% endif %}
+            {% if err %}
+            <div class="modal fade text-black" tabindex="-1" role="dialog"
+                 aria-labelledby="Delete-Profile-Failed" aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="Delete-Profile-Failed">Deleting Profile Failed</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <p>{{ err }}</p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
     </div>
 
-    <script>
-        // crashes with navDash window.onload -- need bug fix
-        window.onload = function replacePrefId() {
-            let dict = {
-                "Introverted/Extroverted:": "IE",
-                "Rather Stay In or Go Out": "in or out",
-                "personality_type": "Introverted/Extroverted:",
-                "stay_go_type": "Rather Stay In or Go Out:",
-                "movie_choices": "Favorite Movie Types:",
-                "music_choices": "Favorite Music Genres:",
-                "food_choices": "Favorite Cuisines:",
-                "travel_choices": "Favorite Places to Travel:",
-                "art_choices": "Favorite Artistic Activities:",
-                "dance_choices": "Favorite Dance Genres:",
-                "sports_choices": "Favorite Sports:",
-                "pet_choices": "Favorite Pets:",
-                "nyc_choices": "Favorite Things to Do in NYC:",
+    {% endif %}
+</div>
 
-            };
-            for (const key of Object.keys(dict)) {
-                document.getElementById("prefList").innerHTML
-                    = document.getElementById("prefList").innerHTML
-                        .replace(key, dict[key]);
-            }
+<script>
+// crashes with navDash window.onload -- need bug fix
+window.onload = function replacePrefId() {
+    let dict = {
+        "Introverted/Extroverted:": "IE",
+        "Rather Stay In or Go Out": "in or out",
+        "personality_type": "Introverted/Extroverted:",
+        "stay_go_type": "Rather Stay In or Go Out:",
+        "movie_choices": "Favorite Movie Types:",
+        "music_choices": "Favorite Music Genres:",
+        "food_choices": "Favorite Cuisines:",
+        "travel_choices": "Favorite Places to Travel:",
+        "art_choices": "Favorite Artistic Activities:",
+        "dance_choices": "Favorite Dance Genres:",
+        "sports_choices": "Favorite Sports:",
+        "pet_choices": "Favorite Pets:",
+        "nyc_choices": "Favorite Things to Do in NYC:",
 
-            // from navDash notification
-            let data = {};
-            data["user"] = "{{user}}";
+    };
+    for (const key of Object.keys(dict)) {
+        document.getElementById("prefList").innerHTML
+            = document.getElementById("prefList").innerHTML
+                .replace(key, dict[key]);
+    }
 
-            let url = "{% url 'notification_count' %}";
-            $.ajax({
-                method: "GET",
-                url: url,
-                data: data, 
-            }).done(function(msg) {
-                var count = parseInt(msg);
-                if (count===0){
-                    document.getElementById('bell').style.display='none';
-                }
-                else{
-                    $('#bell').text(count);
-                }
-            });
-            let url2 = "{% url 'chat_unread_count' %}";
-            $.ajax({
-                method: "GET",
-                url: url2,
-                data: data,
-            }).done(function (msg) {
-                var count = parseInt(msg);
-                if (count === 0) {
-                    document.getElementById('chat').style.display = 'none';
-                }
-                else {
-                    $('#chat').text(count);
-                }
-            });
+    // from navDash notification
+    let data = {};
+    data["user"] = "{{user}}";
 
-            // from navDash pathname
-            let currPath = window.location.pathname;
-            if (currPath == '/dashboard/' || currPath == '/login/') {
-                currPath = "Dashboard";
-            }else if(currPath == '/dashboard/my_friends'){
-                currPath = "My Friends";
-            }else if(currPath == '/dashboard/preferences/'){
-                currPath = "Preferences";
-            }else {
-                currPath = " ";
-                const searchBoxSize = document.getElementById("navSearch");
-                searchBoxSize.style.width = "500px"; //extent the bar a bit
-            }
-            document.getElementById("currPageName").innerText = currPath;
-
+    let url = "{% url 'notification_count' %}";
+    $.ajax({
+        method: "GET",
+        url: url,
+        data: data,
+    }).done(function(msg) {
+        var count = parseInt(msg);
+        if (count===0){
+            document.getElementById('bell').style.display='none';
         }
-    </script>
+        else{
+            $('#bell').text(count);
+        }
+    });
+    let url2 = "{% url 'chat_unread_count' %}";
+    $.ajax({
+        method: "GET",
+        url: url2,
+        data: data,
+    }).done(function (msg) {
+        var count = parseInt(msg);
+        if (count === 0) {
+            document.getElementById('chat').style.display = 'none';
+        }
+        else {
+            $('#chat').text(count);
+        }
+    });
+
+    // from navDash pathname
+    let currPath = window.location.pathname;
+    if (currPath == '/dashboard/' || currPath == '/login/') {
+        currPath = "Dashboard";
+    }else if(currPath == '/dashboard/my_friends'){
+        currPath = "My Friends";
+    }else if(currPath == '/dashboard/preferences/'){
+        currPath = "My Profile";
+    }else {
+        currPath = " ";
+        const searchBoxSize = document.getElementById("navSearch");
+        searchBoxSize.style.width = "500px"; //extent the bar a bit
+    }
+    document.getElementById("currPageName").innerText = currPath;
+
+}
+
+</script>
 </body>
 
 {% endblock %}

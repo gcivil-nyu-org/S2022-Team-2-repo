@@ -34,12 +34,11 @@ COOKEAT_CHOICES = [
     ("Cookeat_NI", "Not interested in Cooking/Cuisines"),
 ]
 TRAVEL_CHOICES = [
-    ("Travel_MO", "Mountains"),
-    ("Travel_BE", "Beaches"),
-    ("Travel_DE", "Deserts"),
-    ("Travel_IP", "Ice Places"),
+    ("Travel_NP", "National Park"),
+    ("Travel_BE", "Beach"),
+    ("Travel_DE", "Desert"),
     ("Travel_CT", "City"),
-    ("Travel_VI", "Village"),
+    ("Travel_IS", "Island"),
     ("Travel_NI", "Not interested in Traveling"),
 ]
 ART_CHOICES = [
@@ -148,12 +147,11 @@ interests_choices = {
     "Cookeat_LB": "Lebanese",
     "Cookeat_AM": "American",
     "Cookeat_NI": "Not interested in Cooking/Cuisines",
-    "Travel_MO": "Mountains",
-    "Travel_BE": "Beaches",
-    "Travel_DE": "Deserts",
-    "Travel_IP": "Ice Places",
+    "Travel_NP": "National Park",
+    "Travel_BE": "Beach",
+    "Travel_DE": "Desert",
     "Travel_CT": "City",
-    "Travel_VI": "Village",
+    "Travel_IS": "Island",
     "Travel_NI": "Not interested in Traveling",
     "Art_DR": "Drawing",
     "Art_SK": "Sketching",

@@ -1,11 +1,17 @@
 {% load static %}
 
+<style>
+#navSearch{
+    width: 400px;
+}
+
+</style>
 <nav class="navbar fixed-top navbar-expand-md navbar-dark p-2 " style="background-color: #330662; z-index:1">
 
     <div class="container-md ">
 
         <!-- Current page Name -->
-        <a class="navbar-brand ms-5">
+        <a class="navbar-brand ">
             <span class="fw-bold fs-3 " id="currPageName"></span>
         </a>
 
@@ -28,7 +34,7 @@
                 <!--                     </span> -->
                 <!--                 </div> -->
                 <input class="form-control me-2 text-white " required id="navSearch"
-                    style="background-color:#57068c; width: 400px; border-width: 0px; border-radius: 12px;" type="text"
+                    style="background-color:#57068c; border-width: 0px; border-radius: 12px;" type="text"
                     name="navSearch" placeholder="Search" aria-label="Search" value="{{query}}">
                 <button class="standard_button" style="background-color:#230542;" type="submit"> Search </button>
 
@@ -81,7 +87,7 @@
                         <li><a class="dropdown-item" href="{% url 'preferences' %}">
                             <i class="fas fa-gear" style="color:#230542"></i>
                             <span class="purple-text"
-                                  style="font-size:12pt; position:absolute; transform:translate(15px)"> Preferences
+                                  style="font-size:12pt; position:absolute; transform:translate(15px)"> My Profile
                                 </span>
                         </a>
                         </li>
@@ -152,7 +158,7 @@
             let tab = document.getElementById('sideBarFriends');
             tab.classList.add("active");
         }else if(currPath == '/dashboard/preferences/'){
-            currPath = "Preferences";
+            currPath = "My Profile";
             let tab = document.getElementById('sideBarPref');
             tab.classList.add("active");
         }else if(currPath == '/dashboard/chat'){
@@ -164,7 +170,7 @@
             let tab = document.getElementById('sideBarFinder');
             tab.classList.add("active");
         }else if(currPath == '/dashboard/activity'){
-            currPath = "Activity Recommendations";
+            currPath = "Activities";
             let tab = document.getElementById('sideBarActivity');
             tab.classList.add("active");
         }else {

@@ -2,16 +2,48 @@ from PIL import Image
 from autoslug import AutoSlugField
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.mail import EmailMessage
 from django.db import models
 from django.db.models.signals import post_save
+from django.template.loader import render_to_string
 from django.urls import reverse
 from multiselectfield import MultiSelectField
 
 from .preferences import *
+from .profile import PRONOUN_CHOICES, SCHOOL_CHOICES, CLASS_YEAR_CHOICES
+
+
+def report_email(user):
+    to_email = user.username + "@nyu.edu"
+    mail_subject = "From NYUnite Admin Team: Your account has been removed"
+    message = render_to_string(
+        "users/report_email.html",
+        {"user": user},
+    )
+    email = EmailMessage(mail_subject, message, to=[to_email])
+    email.send()
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    pronouns = models.CharField(
+        max_length=50,
+        choices=PRONOUN_CHOICES,
+        blank=True,
+        null=True,
+    )
+    school = models.CharField(
+        max_length=100,
+        choices=SCHOOL_CHOICES,
+        blank=True,
+        null=True,
+    )
+    year = models.CharField(
+        max_length=100,
+        choices=CLASS_YEAR_CHOICES,
+        blank=True,
+        null=True,
+    )
     image = models.ImageField(
         default="media/default.png", upload_to="media", null=True, blank=True
     )
@@ -21,6 +53,10 @@ class Profile(models.Model):
     seen_users = models.ManyToManyField("Profile", blank=True, related_name="seen_list")
     favorites = models.ManyToManyField(
         "Profile", blank=True, related_name="favorite_list"
+    )
+    blocked = models.ManyToManyField("Profile", blank=True, related_name="blocked_list")
+    blockers = models.ManyToManyField(
+        "Profile", blank=True, related_name="blockers_list"
     )
 
     def __str__(self):
@@ -52,6 +88,50 @@ def post_save_user_model_receiver(sender, instance, created, *args, **kwargs):
 
 
 post_save.connect(post_save_user_model_receiver, sender=settings.AUTH_USER_MODEL)
+
+
+class Blacklist(models.Model):
+    blacklisted = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="blacklisted_user"
+    )
+
+    def __str__(self):
+        return f"{self.blacklisted}"
+
+
+class Report(models.Model):
+    reporter = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="reporter_user", default=None
+    )
+    reported = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="reported_user", default=None
+    )
+    reason = models.CharField(max_length=1000, blank=True)
+    status = models.CharField(
+        max_length=10,
+        choices=(
+            ("received", "received"),
+            ("ignored", "ignored"),
+            ("approved", "approved"),
+        ),
+        default="received",
+    )
+
+    def __str__(self):
+        return f"Report of {self.reported} by {self.reporter}"
+
+    def save(self, *args, **kwargs):
+        super(Report, self).save(*args, **kwargs)
+
+        if self.status == "approved":
+            blacklist_record = Blacklist(blacklisted=self.reported)
+            blacklist_record.save()
+            user = User.objects.get(pk=self.reported.id)
+            user.is_active = False
+            user.save()
+            reports = Report.objects.all().filter(reported=user)
+            reports.update(status="approved")
+            report_email(user)
 
 
 class FriendRequest(models.Model):
