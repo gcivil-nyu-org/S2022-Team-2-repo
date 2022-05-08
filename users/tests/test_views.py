@@ -31,6 +31,11 @@ class LoginViewTest(TestCase):
         response = self.client.get(reverse("login"))
         self.assertTrue(response.status_code, 200)
 
+    def test_call_auto_redirect(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("login"), follow=True)
+        self.assertTrue(response.status_code, 200)
+
     def test_call_view_pass(self):
         response = self.client.post(
             reverse("login"),
@@ -707,7 +712,18 @@ class BlockTest(TestCase):
 
     def test_call_success(self):
         self.client.force_login(self.user)
-        data = {"user": self.user, "blocked": self.user2.id}
+        self.client.post(
+            reverse("friend_request"),
+            {
+                "friendRequest": self.user2.id,
+            },
+        )
+        self.client.post(reverse("favorite"), data={"favorite": str(self.user2.pk)})
+        self.client.logout()
+        self.client.force_login(self.user2)
+        self.client.post(reverse("accept_request"), {"acceptRequest": self.user.id})
+        self.client.post(reverse("favorite"), data={"favorite": str(self.user.pk)})
+        data = {"user": self.user2, "blocked": self.user.id}
         response = self.client.post(
             reverse("block"),
             data,
@@ -744,15 +760,112 @@ class RemoveFriendTest(TestCase):
                 "friendRequest": self.user2.id,
             },
         )
+        self.client.post(reverse("favorite"), data={"favorite": str(self.user2.pk)})
         self.client.logout()
         self.client.force_login(self.user2)
+        self.client.post(reverse("accept_request"), {"acceptRequest": self.user.id})
+        self.client.post(reverse("favorite"), data={"favorite": str(self.user.pk)})
         response = self.client.post(
-            reverse("accept_request"), {"acceptRequest": self.user.id}
-        )
-        self.client.post(
             reverse("remove"),
             {
                 "remove": self.user.id,
             },
         )
+        self.assertTrue(response.status_code, 200)
+
+
+class ReactivateTest(TestCase):
+    def test_call_get_page(self):
+        response = self.client.get(
+            reverse("reactivate"), {"username": dummy_user["username"]}
+        )
+        self.assertTrue(response.status_code, 200)
+
+    def test_call_no_username(self):
+        response = self.client.get(reverse("reactivate"))
+        self.assertTrue(response.status_code, 200)
+
+
+class DeleteProfileTest(TestCase):
+    @classmethod
+    def setUp(cls):
+        cls.client = Client()
+        cls.user = User.objects.create_user(
+            username=dummy_user["username"], password=dummy_user["password"]
+        )
+
+    def test_call_view_deny_anonymous(self):
+        response = self.client.get(reverse("delete_profile"), follow=True)
+        self.assertRedirects(response, "/login/?next=" + reverse("delete_profile"))
+
+    def test_call_get_page(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("delete_profile"))
+        self.assertTrue(response.status_code, 200)
+
+
+class BlockedListTest(TestCase):
+    @classmethod
+    def setUp(cls):
+        cls.client = Client()
+        cls.user = User.objects.create_user(
+            username=dummy_user["username"], password=dummy_user["password"]
+        )
+        cls.user2 = User.objects.create_user(
+            username=dummy_user["username"] + "1",
+            password=dummy_user["password"],
+        )
+
+    def test_call_view_deny_anonymous(self):
+        response = self.client.get(reverse("blocked_list"), follow=True)
+        self.assertRedirects(response, "/login/?next=" + reverse("blocked_list"))
+
+    def test_call_get_page(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("blocked_list"))
+        self.assertTrue(response.status_code, 200)
+
+    def test_call_success(self):
+        self.client.force_login(self.user)
+        data = {"user": self.user, "blocked": self.user2.id}
+        self.client.post(
+            reverse("block"),
+            data,
+        )
+        response = self.client.get(reverse("blocked_list"))
+        self.assertTrue(response.status_code, 200)
+
+
+class UnblockTest(TestCase):
+    @classmethod
+    def setUp(cls):
+        cls.client = Client()
+        cls.user = User.objects.create_user(
+            username=dummy_user["username"], password=dummy_user["password"]
+        )
+        cls.user2 = User.objects.create_user(
+            username=dummy_user["username"] + "1",
+            password=dummy_user["password"],
+        )
+
+    def test_call_view_deny_anonymous(self):
+        response = self.client.get(reverse("unblock"), follow=True)
+        self.assertRedirects(response, "/login/?next=" + reverse("unblock"))
+
+    def test_call_get_page(self):
+        self.client.force_login(self.user)
+        response = self.client.post(
+            reverse("unblock"), {"user": self.user, "unblock": self.user2.id}
+        )
+        self.assertTrue(response.status_code, 200)
+
+    def test_call_success(self):
+        self.client.force_login(self.user)
+        data = {"user": self.user, "blocked": self.user2.id}
+        self.client.post(
+            reverse("block"),
+            data,
+        )
+        data = {"user": self.user, "unblock": self.user2.id}
+        response = self.client.post(reverse("unblock"), data)
         self.assertTrue(response.status_code, 200)

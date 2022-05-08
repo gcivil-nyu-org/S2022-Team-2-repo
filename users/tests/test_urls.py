@@ -33,6 +33,10 @@ from users.views import (
     chat_notifications,
     favorite,
     report,
+    reactivate,
+    delete_profile,
+    blocked_list,
+    unblock,
 )
 
 
@@ -164,3 +168,19 @@ class TestUrls(SimpleTestCase):
     def test_report_url_resolves(self):
         url = reverse("report")
         self.assertEquals(resolve(url).func, report)
+
+    def test_reactivate_url_resolves(self):
+        url = reverse("reactivate")
+        self.assertEquals(resolve(url).func, reactivate)
+
+    def test_delete_profile_url_resolves(self):
+        url = reverse("delete_profile")
+        self.assertEquals(resolve(url).func, delete_profile)
+
+    def test_blocked_list_url_resolves(self):
+        url = reverse("blocked_list")
+        self.assertEquals(resolve(url).func, blocked_list)
+
+    def test_unblock_url_resolves(self):
+        url = reverse("unblock")
+        self.assertEquals(resolve(url).func, unblock)

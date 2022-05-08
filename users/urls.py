@@ -30,6 +30,7 @@ urlpatterns = [
     ),
     path("profile/setup", user_views.profile_setup, name="profile_setup"),
     path("profile/delete", user_views.delete_profile, name="delete_profile"),
+    path("user/reactivate", user_views.reactivate, name="reactivate"),
     path(
         "preferences/page1",
         user_views.preferences_personality,

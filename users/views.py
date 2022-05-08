@@ -33,7 +33,7 @@ from users.forms import (
     PreferencesExploreForm,
     UserUpdateForm,
 )
-from users.models import Preference, Profile, FriendRequest, Report
+from users.models import Preference, Profile, FriendRequest, Report, Blacklist
 from users.preferences import interests_choices
 from users.tokens import account_activation_token
 
@@ -51,7 +51,6 @@ def signup(request):  # pragma: no cover
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-
             to_email = form.cleaned_data.get("username") + "@nyu.edu"
 
             user = form.save(commit=False)
@@ -88,30 +87,53 @@ def reactivate(request):
     if request.user.is_authenticated:
         return redirect(reverse("dashboard"))
 
-    if request.method == "POST":
+    if request.method == "POST":  # pragma: no cover
         try:
             username = request.POST.get("username")
-            user = User.objects.get(username=username)
-            if not user.is_active:
-                to_email = username + "@nyu.edu"
-                current_site = get_current_site(request)
-                mail_subject = "Activate your NYUnite Account!"
-                message = render_to_string(
-                    "users/activation/activation_link_email.html",
-                    {
-                        "user": user,
-                        "domain": current_site.domain,
-                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                        "token": account_activation_token.make_token(user),
-                    },
+
+            if not username or len(username) == 0:
+                return render(
+                    request,
+                    "users/activation/reactivate.html",
+                    {"error": "NetID cannot be empty."},
                 )
 
-                email = EmailMessage(mail_subject, message, to=[to_email])
-                email.send()
+            user = User.objects.get(username=username)
 
-                return render(request, "users/activation/activation_link_sent.html")
+            try:
+                blacklisted = Blacklist.objects.get(blacklisted=user)
+                print("BlackListed" + blacklisted.__str__())
+            except Blacklist.DoesNotExist:
+                if not user.is_active:
+                    to_email = username + "@nyu.edu"
+                    current_site = get_current_site(request)
+                    mail_subject = "Activate your NYUnite Account!"
+
+                    message = render_to_string(
+                        "users/activation/activation_link_email.html",
+                        {
+                            "user": user,
+                            "domain": current_site.domain,
+                            "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                            "token": account_activation_token.make_token(user),
+                        },
+                    )
+
+                    email = EmailMessage(mail_subject, message, to=[to_email])
+                    email.send()
+
+                    return render(request, "users/activation/activation_link_sent.html")
+            return render(
+                request,
+                "users/activation/reactivate.html",
+                {
+                    "error": "User is banned due to excessive reports. "
+                    "Contact admin@nyu.edu to revoke the ban."
+                },
+            )
         except Exception as e:
-            return render(request, "reactivate.html", {"err": e})
+            return render(request, "users/activation/reactivate.html", {"error": e})
+    return render(request, "users/activation/reactivate.html")
 
 
 def login_form(request):
@@ -247,7 +269,7 @@ def profile_setup(request):
     user = User.objects.get(pk=request.user.id)
     try:
         prof = Profile.objects.get(user=request.user)
-    except Exception:
+    except Exception:  # pragma: no cover
         prof = Profile(user=request.user)
         prof.save()
 
@@ -279,7 +301,7 @@ def update_profile(request):
     user = User.objects.get(pk=request.user.id)
     try:
         prof = Profile.objects.get(user=request.user)
-    except Exception:
+    except Exception:  # pragma: no cover
         prof = Profile(user=request.user)
         prof.save()
 

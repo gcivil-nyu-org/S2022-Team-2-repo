@@ -1,0 +1,51 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+
+{% load static %}
+{% include 'users/navbars/navbar.html' %}
+
+<body>
+<div class="container">
+    <div class="row gutters justify-content-center">
+        <div class="card h-100" style="transform:translateY(50px); width: 50%;">
+            <div class="card-body p-5" align="center">
+                <div>
+                    <h5 class="purple-text"> Enter your NetID </h5>
+                </div>
+
+                <div class="bg-white rounded-5 shadow-5-strong p-5">
+                    <div class="purple-text mb-4">
+                        <input type="text" id="netid"
+                               style="border-width: 2px; border-radius: 12px; text-align:center;">
+                    </div>
+                    <button id="send" class="standard_button" style="width:200px" onclick="sendrequest()">Reactivate
+                    </button>
+                </div>
+                <p class="purple-text">
+                    {{ error }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+        var token = "{{csrf_token}}";
+
+        function sendrequest() {
+        url = "{% url 'reactivate' %}";
+        $.ajax({
+              headers: { "X-CSRFToken": token },
+              method: "POST",
+              url: url,
+              data: { username: document.getElementById("netid").value},
+            }).done(function (msg) {
+              $("body").html(msg);
+            });
+        }
+
+
+</script>
+</body>
+
+{% endblock %}
