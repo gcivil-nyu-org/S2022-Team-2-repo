@@ -1,0 +1,196 @@
+{% extends 'users/dashboard_base.html' %}
+{% load static %}
+
+{% block body %}
+
+<style>
+    .matchCard{
+        background-color: #57068c;
+        border-radius: 20px;
+        min-height: 267px;
+    }
+    .cardButton{
+        background-color: #330662;
+        color: white;
+        border: none;
+        width: 50px;
+        height: 50px;
+    }
+    .cardButton:hover {
+        background-color: #ab82c5;
+    }
+    h5{
+        font-size: medium;
+        font-weight: bold;
+        margin-bottom: 2px;
+        margin-top: 7px;
+    }
+
+    #interest{
+         font-size: large;
+            color: #9a85a8;
+    }
+</style>
+
+<div style="margin-top: 50px;"></div> 
+<!-- for spacing-->
+
+{% if matches %}
+{% for match in matches %}
+<!-- for js use -->
+<div hidden id="matchesLen">{{ matches|length }}</div> 
+<!-- for js use -->
+
+<div class="container-sm d-flex justify-content-center">   
+    <div hidden class="card w-75 h-75 matchCard" id="matchFriend{{ forloop.counter }}" style="border-radius:20px;">
+        <div class="row g-0">
+
+            <!-- left image -->
+            <div class="col-sm-5 d-flex align-items-center" style="border-radius:20px; background-color: #ae97bf;">
+                    <img  src="{{ match.profile.image.url }}" class="img-fluid " alt="match image" id="img{{match.id}}" style="border-radius:20px 20px 20px 20px; min-height: 267px;" >
+
+                    <div class="card-img-overlay col-sm-5 d-flex align-items-end d-flex justify-content-between">
+                        <!-- Reject -->
+                        <button class="cardButton rounded-circle" onclick="reject_suggestion({{match.id}})"> <i class="fa-solid fa-xmark fa-2x"></i> </button>
+                        <!-- Send request -->
+                        <button class="cardButton rounded-circle"  onclick="approve_suggestion({{match.id}})"> <i class="fa-solid fa-check fa-2x"></i> </button>
+                    </div>
+            </div>
+
+            <!-- right details -->
+            <div class="col-sm-7">
+                <div class="card-body">
+                    <h2 class="card-title fw-bold">{{match.first_name}} {{match.last_name}} <em style="font-size:20px;">({{match.profile.pronouns}})</em></h2>
+                    <h5 style=" font-size:15px; font-weight:600;">School: {{match.profile.school}}</h5>
+                    <h5 style=" font-size:15px; font-weight:600;">Year of Study: {{match.profile.year}}</h5>
+                    <p class="card-text fs-5 mt-2 mb-2" style="color: #ae97bf;">{{match.profile.bio}}</p>
+                    <h4>Common Interests</h4>
+                    {% for k, v in match.items %}
+                        {% if k == "common_interests" %}
+                            {% for key,value in v.items %}
+                                <!-- the XXX Choices -->
+                                <h5> {{ key }} </h5>
+                                {% for val in value %}
+                                    <!-- iter. items from the value/list -->
+                                    {% if forloop.last %}
+                                        <span id="interest"> {{ val }}  </span>
+                                    {% else %}
+                                        <span id="interest"> {{ val }},   </span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif%}
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- JS testing -- resizing img to naturalHeight -->
+
+<!-- <script>
+    to the img tag -> onload="setMaxH()"
+
+    function setMaxH(){
+       let tarImg = document.querySelector('#img{{match.id}}');
+       let imgH = tarImg.naturalHeight;
+       tarImg.style.maxHeight = imgH+"px";
+       console.log("setMaxH ran");
+   }
+</script> -->
+<!-- --- -->
+
+{% endfor %}
+{% else %}
+<div class="container-sm d-flex justify-content-center">
+       <h4>You don't have any matches. Expand your preferences and try again!</h4>
+</div>
+{% endif %}
+
+<!-- when all matches are done -->
+<div class="container-sm d-flex justify-content-center">
+    <h4 hidden id="allMatchesDone">That's all the matches for now, please check back later!</h4>
+</div>
+<!-- --- -->
+
+
+<script type="text/javascript">
+    var token = '{{csrf_token}}';
+
+    //handling display and hidden
+    let matchesLength = document.getElementById('matchesLen').innerText;
+    console.log("# of matches:" + matchesLength);
+    //initialize first match
+    let currDisplayUser = 1;
+    let firstMatchUser = document.querySelector('#matchFriend1');
+    firstMatchUser.hidden = false;
+    //----------------------------
+
+    // API should add this user to the 'rejected users' in the current user's profile
+    function reject_suggestion(id) {
+        let data = {};
+        data["friendID"] = id;
+        let url = "{% url 'reject-suggestion' %}";
+        $.ajax({
+            headers: { "X-CSRFToken": token },
+            method: "POST",
+            url: url,
+            data: data
+        }).done(function (msg) {
+            // document.getElementById("suggestion" + String(id)).outerHTML = "";
+            //toggling display user
+            if (currDisplayUser <= matchesLength){
+                let toHidden = document.querySelector('#matchFriend'+currDisplayUser);
+                toHidden.hidden = true;
+                currDisplayUser++;
+                console.log("rejected, incre to #:" + currDisplayUser);
+                if (currDisplayUser <= matchesLength){
+                    let toDisplay = document.querySelector('#matchFriend'+currDisplayUser);
+                    toDisplay.hidden = false;
+                }else{
+                    let matchesDone = document.getElementById('allMatchesDone');
+                    matchesDone.hidden = false;
+                }
+            }
+
+        });
+    }
+
+    // API should add this user to the 'rejected users' in the current user's profile
+        // send a friend request from current user to this user
+    function approve_suggestion(id) {
+        let data = {};
+        data["friendID"] = id;
+        let url = "{% url 'approve-suggestion' %}";
+        $.ajax({
+            headers: { "X-CSRFToken": token },
+            method: "POST",
+            url: url,
+            data: data
+        }).done(function (msg) {
+            // document.getElementById("suggestion" + String(id)).outerHTML = "";
+            //toggling display user
+            if (currDisplayUser <= matchesLength){
+                let toHidden = document.querySelector('#matchFriend'+currDisplayUser);
+                toHidden.hidden = true;
+                currDisplayUser++;
+                console.log("sent req, incre to #:" + currDisplayUser);
+                if (currDisplayUser <= matchesLength){
+                    let toDisplay = document.querySelector('#matchFriend'+currDisplayUser);
+                    toDisplay.hidden = false;
+                }else{
+                    let matchesDone = document.getElementById('allMatchesDone');
+                    matchesDone.hidden = false;
+                }
+            }
+            
+        });
+    }
+
+
+
+</script>
+
+{% endblock %}

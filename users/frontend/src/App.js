@@ -64,7 +64,6 @@ function getCookie() {
 }
 
 export class App extends Component {
-
     constructor(props) {
         super(props);
         // Refs
@@ -75,21 +74,17 @@ export class App extends Component {
         this.clearTextInput = () => {
             if (this.textInput) this.textInput.clear();
         };
-
         this.searchInput = null;
         this.setSearchInputRef = element => {
             this.searchInput = element;
         };
-
         this.fileInput = null;
         this.setFileInputRef = element => {
             this.fileInput = element;
         };
-
         this.clearSearchInput = () => {
             if (this.searchInput) this.searchInput.clear();
         };
-
         var ws_type = window.location.protocol === 'https:' ? 'wss' : 'ws';
         this.state = {
             socketConnectionState: 0,
@@ -116,15 +111,11 @@ export class App extends Component {
         this.newUnreadCount = this.newUnreadCount.bind(this);
         this.triggerFileRefClick = this.triggerFileRefClick.bind(this);
         this.handleFileInputChange = this.handleFileInputChange.bind(this);
-
-
         this.isTyping = throttle(() => {
             sendIsTypingMessage(this.state.socket)
         }, TYPING_TIMEOUT)
-
         this.localSearch = throttle(() => {
             let val = this.searchInput.input.value;
-            console.log("localSearch with '" + val + "'")
             if (!val || 0 === val.length) {
                 this.setState(prevState => ({filteredDialogList: prevState.dialogList}));
             } else {
@@ -140,33 +131,24 @@ export class App extends Component {
     componentDidMount() {
         fetchMessages().then((r) => {
             if (r.tag === 0) {
-                console.log("Fetched messages:")
-                console.log(r.fields[0])
                 this.setState({messageList: r.fields[0]})
             } else {
-                console.log("Messages error:")
                 toast.error(r.fields[0])
             }
         })
 
         fetchDialogs().then((r) => {
             if (r.tag === 0) {
-                console.log("Fetched dialogs:")
-                console.log(r.fields[0])
                 this.setState({dialogList: r.fields[0], filteredDialogList: r.fields[0]})
                 this.selectDialog(r.fields[0][0])
             } else {
-                console.log("Dialogs error:")
                 toast.error(r.fields[0])
             }
         })
         fetchSelfInfo().then((r) => {
             if (r.tag === 0) {
-                console.log("Fetched selfInfo:")
-                console.log(r.fields[0])
                 this.setState({selfInfo: r.fields[0]})
             } else {
-                console.log("SelfInfo error:")
                 toast.error(r.fields[0])
             }
         })
@@ -199,17 +181,16 @@ export class App extends Component {
             });
             if (errMsg) {
                 toast.error(errMsg)
+                console.log(errMsg)
             }
         };
         socket.onclose = function (e) {
             toast.info("Disconnected...", toastOptions)
             that.setState({socketConnectionState: socket.readyState});
-            console.log("websocket closed")
         }
     }
 
     selectDialog(item) {
-        console.log("Selecting dialog " + item.id)
         this.setState({selectedDialog: item})
         this.setState(prevState => ({
             dialogList: prevState.dialogList.map(el => (el.id === item.id ?
@@ -232,14 +213,12 @@ export class App extends Component {
     }
 
     addPKToTyping(pk) {
-        console.log("Adding " + pk + " to typing pk-s")
         let l = this.state.typingPKs;
         l.push(pk);
         this.setState({typingPKs: l})
         const that = this;
         setTimeout(() => {
             // We can't use 'l' here because it might have been changed in the meantime
-            console.log("Will remove " + pk + " from typing pk-s")
             let ll = that.state.typingPKs;
             const index = ll.indexOf(pk);
             if (index > -1) {
@@ -250,7 +229,6 @@ export class App extends Component {
     }
 
     changePKOnlineStatus(pk, onoff) {
-        console.log("Setting " + pk + " to " + onoff ? "online" : "offline" + " status")
         let onlines = this.state.onlinePKs;
         if (onoff) {
             onlines.push(pk)
@@ -278,15 +256,12 @@ export class App extends Component {
     }
 
     addMessage(msg) {
-        console.log("Calling addMessage for ")
-
         if (!msg.data.out && msg.data.message_id > 0 && this.state.selectedDialog && this.state.selectedDialog.id === msg.data.dialog_id) {
             sendMessageReadMessage(this.state.socket, msg.data.dialog_id, msg.data.message_id)
             msg.status = 'read'
         }
         let list = this.state.messageList;
         list.push(msg);
-        console.log(msg);
         this.setState({
             messageList: list,
         });
@@ -307,7 +282,7 @@ export class App extends Component {
             this.setState(prevState => ({
                 dialogList: prevState.dialogList.map(function (el) {
                     if (el.id === msg.data.dialog_id) {
-                        console.log("Setting dialog " + msg.data.dialog_id + " last message");
+                        ;
                         return {...el, subtitle: getSubtitleTextFromMessageBox(msg)};
                     } else {
                         return el;
@@ -315,12 +290,10 @@ export class App extends Component {
                 })
             }));
         }
-
         this.setState(prevState => ({filteredDialogList: prevState.dialogList}));
     }
 
     replaceMessageId(old_id, new_id) {
-        console.log("Replacing random id  " + old_id + " with db_id " + new_id)
         this.setState(prevState => ({
             messageList: prevState.messageList.map(function (el) {
                 if (el.data.message_id.Equals(old_id)) {
@@ -348,11 +321,9 @@ export class App extends Component {
     }
 
     newUnreadCount(dialog_id, count) {
-        console.log("Got new unread count " + count + " for dialog " + dialog_id)
         this.setState(prevState => ({
             dialogList: prevState.dialogList.map(function (el) {
                 if (el.id === dialog_id) {
-                    console.log("Setting new unread count " + count + " for dialog " + dialog_id)
                     return {...el, unread: count};
                 } else {
                     return el;
@@ -366,11 +337,9 @@ export class App extends Component {
             } : prevState.selectedDialog
         }));
         this.setState(prevState => ({filteredDialogList: prevState.dialogList}));
-
     }
 
     setMessageIdAsRead(msg_id) {
-        console.log("Setting msg_id " + msg_id + " as read")
         this.setState(prevState => ({
             messageList: prevState.messageList.map(function (el) {
                 if (el.data.message_id.Equals(msg_id)) {
@@ -385,40 +354,33 @@ export class App extends Component {
     performSendingMessage() {
         if (this.state.selectedDialog) {
             let text = this.textInput.input.value;
-            let user_pk = this.state.selectedDialog.id;
-            this.clearTextInput();
-            let msgBox = sendOutgoingTextMessage(this.state.socket, text, user_pk, this.state.selfInfo);
-            console.log("sendOutgoingTextMessage result:")
-            console.log(msgBox)
-            if (msgBox) {
-                this.addMessage(msgBox);
+            if (text.length != 0) {
+                let user_pk = this.state.selectedDialog.id;
+                this.clearTextInput();
+                let msgBox = sendOutgoingTextMessage(this.state.socket, text, user_pk, this.state.selfInfo);
+                if (msgBox) {
+                    this.addMessage(msgBox);
+                }
             }
         }
     }
 
     handleFileInputChange(e) {
-        console.log("Upload starting...");
-        console.log(e.target.files);
-
+        ;
         //TODO: set 'file uploading' state to true, show some indication of file upload in progress
         uploadFile(e.target.files, getCookie()).then((r) => {
             if (r.tag === 0) {
-                console.log("Uploaded file :")
-                console.log(r.fields[0])
                 let user_pk = this.state.selectedDialog.id;
                 let uploadResp = r.fields[0];
                 let msgBox = sendOutgoingFileMessage(this.state.socket, user_pk, uploadResp, this.state.selfInfo);
-                console.log("sendOutgoingFileMessage result:");
-                console.log(msgBox);
+                ;
                 if (msgBox) {
                     this.addMessage(msgBox);
                 }
             } else {
-                console.log("File upload error")
                 toast.error(r.fields[0])
             }
         })
-
     }
 
     triggerFileRefClick() {
@@ -443,7 +405,6 @@ export class App extends Component {
                                         }
                                         if (e.charCode === 13) {
                                             this.localSearch();
-                                            console.log("search invoke with" + this.searchInput.input.value)
                                             e.preventDefault();
                                             return false;
                                         }
@@ -455,7 +416,6 @@ export class App extends Component {
                                                 color='black'
                                                 onClick={() => {
                                                     this.localSearch();
-                                                    console.log("search invoke with" + this.searchInput.input.value);
                                                 }}
                                                 icon={{
                                                     component: <FaSearch/>,
@@ -472,11 +432,9 @@ export class App extends Component {
                                         </div>
                                     }
                                 />
-
                                 <ChatList onClick={(item, i, e) => this.selectDialog(item)}
                                           dataSource={this.state.filteredDialogList.slice().sort(chatItemSortingFunction)}/>
                             </span>
-
                         }
                         bottom={
                             <Button type='transparent' color='black' disabled={true}
@@ -513,7 +471,6 @@ export class App extends Component {
                                         this.selectDialog(item);
                                     }} dataSource={this.state.availableUsers}/>
                                 }
-
                             }
                         }}
                         // footerButtons={[{
@@ -522,7 +479,6 @@ export class App extends Component {
                         //     text: "Hello!",
                         //     disabled: this.state.newChatChosen !== null
                         // }]}
-
                     />
                     <Navbar left={
                         <ChatItem  {...this.state.selectedDialog} date={null} unread={0}
@@ -542,11 +498,8 @@ export class App extends Component {
                                 fetchUsersList(this.state.dialogList).then((r) => {
                                     this.setState({usersDataLoading: false})
                                     if (r.tag === 0) {
-                                        console.log("Fetched users:")
-                                        console.log(r.fields[0])
                                         this.setState({availableUsers: r.fields[0]})
                                     } else {
-                                        console.log("Users error:")
                                         toast.error(r.fields[0])
                                     }
                                 })
@@ -557,18 +510,14 @@ export class App extends Component {
                                 size: 24
                             }}/>
                     }/>
-
-
                     <MessageList
                         className='message-list'
                         lockable={true}
                         onDownload={(x,i,e) => {
-                            console.log("onDownload from messageList")
                             x.onDownload();
                         }}
                         downButtonBadge={this.state.selectedDialog && this.state.selectedDialog.unread > 0 ? this.state.selectedDialog.unread : ''}
                         dataSource={filterMessagesForDialog(this.state.selectedDialog, this.state.messageList)}/>
-
                     <input id='selectFile' hidden type="file" onChange={this.handleFileInputChange}
                            ref={this.setFileInputRef}/>
                     <Input
@@ -579,8 +528,6 @@ export class App extends Component {
                         // buttonsFloat='left'
                         onKeyPress={(e) => {
                             if (e.charCode !== 13) {
-                                console.log('key pressed');
-
                                 this.isTyping();
                             }
                             if (e.shiftKey && e.charCode === 13) {
@@ -588,9 +535,8 @@ export class App extends Component {
                             }
                             if (e.charCode === 13) {
                                 if (this.state.socket.readyState === 1) {
-                                    this.performSendingMessage()
                                     e.preventDefault();
-
+                                    this.performSendingMessage()
                                 }
                                 return false;
                             }
@@ -617,5 +563,4 @@ export class App extends Component {
         );
     }
 }
-
 export default App;

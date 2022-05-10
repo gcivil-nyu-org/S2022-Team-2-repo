@@ -23,8 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# Loading .env file
-# TODO: Remove .env from repo and reset secret key
+# Loading ...env file
+# TODO: Remove ...env from repo and reset secret key
 dotenv.read_dotenv()
 
 SECRET_KEY = str(
@@ -163,6 +163,9 @@ TIME_ZONE = "America/New_York"
 USE_I18N = True
 
 USE_TZ = True
+
+SESSION_COOKIE_AGE = 14400
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/

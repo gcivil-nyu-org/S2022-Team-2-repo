@@ -26,7 +26,7 @@ export function MessageModelFile_get_Decoder() {
 }
 
 export class MessageModel extends Record {
-    constructor(id, text, sent, edited, read, file, sender, recipient, sender_username, out) {
+    constructor(id, text, sent, edited, read, file, sender, recipient, sender_username, sender_image, out) {
         super();
         this.id = (id | 0);
         this.text = text;
@@ -37,16 +37,17 @@ export class MessageModel extends Record {
         this.sender = sender;
         this.recipient = recipient;
         this.sender_username = sender_username;
+        this.sender_image = sender_image;
         this.out = out;
     }
 }
 
 export function MessageModel$reflection() {
-    return record_type("App.AppTypes.MessageModel", [], MessageModel, () => [["id", int32_type], ["text", string_type], ["sent", class_type("System.DateTimeOffset")], ["edited", class_type("System.DateTimeOffset")], ["read", bool_type], ["file", option_type(MessageModelFile$reflection())], ["sender", string_type], ["recipient", string_type], ["sender_username", string_type], ["out", bool_type]]);
+    return record_type("App.AppTypes.MessageModel", [], MessageModel, () => [["id", int32_type], ["text", string_type], ["sent", class_type("System.DateTimeOffset")], ["edited", class_type("System.DateTimeOffset")], ["read", bool_type], ["file", option_type(MessageModelFile$reflection())], ["sender", string_type], ["recipient", string_type], ["sender_username", string_type], ["sender_image", string_type], ["out", bool_type]]);
 }
 
 export function MessageModel_get_Decoder() {
-    return (path_6) => ((v) => object((get$) => (new MessageModel(get$.Required.Field("id", uncurry(2, int)), get$.Required.Field("text", (path, value) => string(path, value)), DateOffset(toNumber(get$.Required.Field("sent", uncurry(2, int64))) * 1000, 0), DateOffset(toNumber(get$.Required.Field("edited", uncurry(2, int64))) * 1000, 0), get$.Required.Field("read", (path_1, value_1) => bool(path_1, value_1)), get$.Optional.Field("file", uncurry(2, MessageModelFile_get_Decoder())), get$.Required.Field("sender", (path_2, value_2) => string(path_2, value_2)), get$.Required.Field("recipient", (path_3, value_3) => string(path_3, value_3)), get$.Required.Field("sender_username", (path_4, value_4) => string(path_4, value_4)), get$.Required.Field("out", (path_5, value_5) => bool(path_5, value_5)))), path_6, v));
+    return (path_7) => ((v) => object((get$) => (new MessageModel(get$.Required.Field("id", uncurry(2, int)), get$.Required.Field("text", (path, value) => string(path, value)), DateOffset(toNumber(get$.Required.Field("sent", uncurry(2, int64))) * 1000, 0), DateOffset(toNumber(get$.Required.Field("edited", uncurry(2, int64))) * 1000, 0), get$.Required.Field("read", (path_1, value_1) => bool(path_1, value_1)), get$.Optional.Field("file", uncurry(2, MessageModelFile_get_Decoder())), get$.Required.Field("sender", (path_2, value_2) => string(path_2, value_2)), get$.Required.Field("recipient", (path_3, value_3) => string(path_3, value_3)), get$.Required.Field("sender_username", (path_4, value_4) => string(path_4, value_4)), get$.Required.Field("sender_image", (path_5, value_5) => string(path_5, value_5)), get$.Required.Field("out", (path_6, value_6) => bool(path_6, value_6)))), path_7, v));
 }
 
 export class MessagesResponse extends Record {
@@ -89,7 +90,7 @@ export function UserInfoResponse_get_Decoder() {
 }
 
 export class DialogModel extends Record {
-    constructor(id, created, modified, other_user_id, unread_count, username, last_message) {
+    constructor(id, created, modified, other_user_id, unread_count, username, last_message, other_user_image) {
         super();
         this.id = (id | 0);
         this.created = created;
@@ -98,18 +99,19 @@ export class DialogModel extends Record {
         this.unread_count = (unread_count | 0);
         this.username = username;
         this.last_message = last_message;
+        this.other_user_image = other_user_image;
     }
 }
 
 export function DialogModel$reflection() {
-    return record_type("App.AppTypes.DialogModel", [], DialogModel, () => [["id", int32_type], ["created", class_type("System.DateTimeOffset")], ["modified", class_type("System.DateTimeOffset")], ["other_user_id", string_type], ["unread_count", int32_type], ["username", string_type], ["last_message", option_type(MessageModel$reflection())]]);
+    return record_type("App.AppTypes.DialogModel", [], DialogModel, () => [["id", int32_type], ["created", class_type("System.DateTimeOffset")], ["modified", class_type("System.DateTimeOffset")], ["other_user_id", string_type], ["unread_count", int32_type], ["username", string_type], ["last_message", option_type(MessageModel$reflection())], ["other_user_image", string_type]]);
 }
 
 export function DialogModel_get_Decoder() {
-    return (path_3) => ((v) => object((get$) => {
+    return (path_4) => ((v) => object((get$) => {
         let decoder;
-        return new DialogModel(get$.Required.Field("id", uncurry(2, int)), DateOffset(toNumber(get$.Required.Field("created", uncurry(2, int64))) * 1000, 0), DateOffset(toNumber(get$.Required.Field("modified", uncurry(2, int64))) * 1000, 0), get$.Required.Field("other_user_id", (path, value) => string(path, value)), get$.Required.Field("unread_count", uncurry(2, int)), get$.Required.Field("username", (path_1, value_1) => string(path_1, value_1)), get$.Required.Field("last_message", uncurry(2, (decoder = MessageModel_get_Decoder(), (path_2) => ((value_2) => option(uncurry(2, decoder), path_2, value_2))))));
-    }, path_3, v));
+        return new DialogModel(get$.Required.Field("id", uncurry(2, int)), DateOffset(toNumber(get$.Required.Field("created", uncurry(2, int64))) * 1000, 0), DateOffset(toNumber(get$.Required.Field("modified", uncurry(2, int64))) * 1000, 0), get$.Required.Field("other_user_id", (path, value) => string(path, value)), get$.Required.Field("unread_count", uncurry(2, int)), get$.Required.Field("username", (path_1, value_1) => string(path_1, value_1)), get$.Required.Field("last_message", uncurry(2, (decoder = MessageModel_get_Decoder(), (path_2) => ((value_2) => option(uncurry(2, decoder), path_2, value_2))))), get$.Required.Field("other_user_image", (path_3, value_3) => string(path_3, value_3)));
+    }, path_4, v));
 }
 
 export class DialogsResponse extends Record {
@@ -166,6 +168,26 @@ export function MessageTypeMessageRead_get_Decoder() {
 }
 
 export class MessageTypeTextMessage extends Record {
+    constructor(random_id, text, sender, receiver, sender_username, sender_image) {
+        super();
+        this.random_id = random_id;
+        this.text = text;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.sender_username = sender_username;
+        this.sender_image = sender_image;
+    }
+}
+
+export function MessageTypeTextMessage$reflection() {
+    return record_type("App.AppTypes.MessageTypeTextMessage", [], MessageTypeTextMessage, () => [["random_id", class_type("System.Int64")], ["text", string_type], ["sender", string_type], ["receiver", string_type], ["sender_username", string_type], ["sender_image", string_type]]);
+}
+
+export function MessageTypeTextMessage_get_Decoder() {
+    return (path_5) => ((v) => object((get$) => (new MessageTypeTextMessage(get$.Required.Field("random_id", uncurry(2, int64)), get$.Required.Field("text", (path, value) => string(path, value)), get$.Required.Field("sender", (path_1, value_1) => string(path_1, value_1)), get$.Required.Field("receiver", (path_2, value_2) => string(path_2, value_2)), get$.Required.Field("sender_username", (path_3, value_3) => string(path_3, value_3)), get$.Required.Field("sender_image", (path_4, value_4) => string(path_4, value_4)))), path_5, v));
+}
+
+export class MessageTypeTextSockMessage extends Record {
     constructor(random_id, text, sender, receiver, sender_username) {
         super();
         this.random_id = random_id;
@@ -176,12 +198,12 @@ export class MessageTypeTextMessage extends Record {
     }
 }
 
-export function MessageTypeTextMessage$reflection() {
-    return record_type("App.AppTypes.MessageTypeTextMessage", [], MessageTypeTextMessage, () => [["random_id", class_type("System.Int64")], ["text", string_type], ["sender", string_type], ["receiver", string_type], ["sender_username", string_type]]);
+export function MessageTypeTextSockMessage$reflection() {
+    return record_type("App.AppTypes.MessageTypeTextSockMessage", [], MessageTypeTextSockMessage, () => [["random_id", class_type("System.Int64")], ["text", string_type], ["sender", string_type], ["receiver", string_type], ["sender_username", string_type]]);
 }
 
-export function MessageTypeTextMessage_get_Decoder() {
-    return (path_4) => ((v) => object((get$) => (new MessageTypeTextMessage(get$.Required.Field("random_id", uncurry(2, int64)), get$.Required.Field("text", (path, value) => string(path, value)), get$.Required.Field("sender", (path_1, value_1) => string(path_1, value_1)), get$.Required.Field("receiver", (path_2, value_2) => string(path_2, value_2)), get$.Required.Field("sender_username", (path_3, value_3) => string(path_3, value_3)))), path_4, v));
+export function MessageTypeTextSockMessage_get_Decoder() {
+    return (path_4) => ((v) => object((get$) => (new MessageTypeTextSockMessage(get$.Required.Field("random_id", uncurry(2, int64)), get$.Required.Field("text", (path, value) => string(path, value)), get$.Required.Field("sender", (path_1, value_1) => string(path_1, value_1)), get$.Required.Field("receiver", (path_2, value_2) => string(path_2, value_2)), get$.Required.Field("sender_username", (path_3, value_3) => string(path_3, value_3)))), path_4, v));
 }
 
 export class MessageTypeFileMessage extends Record {

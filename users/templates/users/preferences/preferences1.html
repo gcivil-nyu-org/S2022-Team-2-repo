@@ -1,60 +1,58 @@
 {% extends 'users/dashboard_base.html' %}
 {% load static %}
 
-  
 
 {% block body %}
 
 <link rel="stylesheet" href="{% static 'css/pref_css.css' %}">
 <div class="container">
-   <div class="row gutters">
-      <div class="card h-100" style="transform:translateY(50px)">
-         <div class="card-body">
-            
-            
-            <div class="title"> <h2 >Add Preferences</h2> </div>
+    <div class="row gutters">
+        <div class="card h-100" style="transform:translateY(50px)">
+            <div class="card-body">
 
-            <div class="account-settings ">
-               <div class="user-profile">
-                  <div style="align-items: center;">
-                     <img style="border-radius: 50%; width: 300px;" src="{{request.user.profile.image.url}}" >
-                  </div>
-                  <p class="purple-text"> {{user.first_name}} {{user.last_name}}</p>
-                  <p class="purple-text"> {{user.username}}@nyu.edu </p>
-                  <!-- <p class="purple-text", style="font-size:20px"> {{ user.email }}</p> -->
-               </div>
-               <!-- <div class="about"> -->
-                  <!-- <h4 class="purple-text1"  >About Me</h4> -->
-<!--                   {% csrf_token %} -->
-                   <!-- {{ form.bio }}  -->
+
+                <div class="title"><h2>Add Preferences</h2></div>
+
+                <div class="account-settings ">
+                    <div class="user-profile">
+                        <div style="align-items: center;">
+                            <img style="border-radius: 50%; width: 300px;" src="{{request.user.profile.image.url}}">
+                        </div>
+                        <p class="purple-text"> {{user.first_name}} {{user.last_name}}</p>
+                        <p class="purple-text"> {{user.username}}@nyu.edu </p>
+                        <!-- <p class="purple-text", style="font-size:20px"> {{ user.email }}</p> -->
+                    </div>
+                    <!-- <div class="about"> -->
+                    <!-- <h4 class="purple-text1"  >About Me</h4> -->
+                    <!--                   {% csrf_token %} -->
+                    <!-- {{ form.bio }}  -->
+                </div>
+                <form class="rounded-5 shadow-5-strong p-5 " method="post">
+                    <div>
+                        <h4 class="purple-text1"> Personality Questions </h4>
+                    </div>
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <label class="form-control1 purple-text" style="font-family: 'Montserrat', sans-serif;">
+                        {{ field.label }}
+                    </label>
+                    <ul class="purple-text" style="font-size:18px; columns: 2; -webkit-columns: 2; -moz-columns: 2;">
+                        {{ field }}
+                    </ul>
+                    <hr id="linebreak">
+                    {% endfor %}
+                    {{ form.errors }}
+                    <div class="form-row">
+                        <div class="col-lg-20">
+                            <a type="button" href="{% url 'profile_setup' %}" class="standard_button2"> Previous
+                                Page </a>
+                            <button type="submit" style="margin-left:430px;" class="standard_button"> Next Page</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-               <form class="rounded-5 shadow-5-strong p-5 " method="post">
-                  <div>
-                  <h4 class="purple-text1"> Personality Questions </h4>
-                  </div>
-                  <label class="form-control1">
-                  {% csrf_token %}
-                  {% for field in form %}
-                  {{ field.label }}
-                  <ul style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
-                     {{ field }}
-                  </ul>
-                  <hr id="linebreak">
-                  {% endfor %}
-                  {{ form.errors }}
-                  </label>
-                  <div class="form-row">
-                     <div class="col-lg-20">
-                        <a type="button" href= "{% url 'profile_setup' %}" class="standard_button2"> Previous Page </a>
-<!--                         <a type="button" class="standard_button2" href="/preferences/page1">Previous Page</a> -->
-                        <!-- <button type="submit" class="standard_button">Previous Page</button> -->
-                        <button type="submit" style="margin-left:430px;" class="standard_button"> Next Page</button>
-                     </div>
-                  </div>
-               </form>
-            </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
+</div>
 </div>
 {% endblock %}

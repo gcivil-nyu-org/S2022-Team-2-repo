@@ -2,132 +2,63 @@
 {% load static %}
 
 {% block body %}
+
 <section>
     <div class="container-sm mt-3">
         <div class="row">
-            <h2> Welcome, {{user.first_name}} !</h2>
+            <h2 style="font-weight:bold;"> Welcome, {{user.first_name}}!</h2>
         </div>
+        
         <div class="row ">
             <h4>Recent contacts</h4>
+            {% if recent.count == 0 %}
+            <h5 style="color:#ab82c5;"> You do not have any recent contacts! </h5>
+            {% else %}
+                {% for user in recent %}
+                    <div class="col-sm-2 mt-2 mb-2">
+                        <!-- card component here -->
+                        <div class="card  justify-content-center text-center"
+                            style=" height: 19rem; background-color: #57068c; border-radius: 10px;">
+                            <img src="{{ user.profile.image.url }}" height="180" class="card-img-top rounded-circle p-2"
+                                alt="user pic">
+                            <div class="card-body">
+                                <h5 class="card-title"> {{user.first_name}} {{user.last_name}} </h5>
+                                <a type="button" href="{% url 'chat' %}" class="standard_button" style="margin-bottom:20px;"> Chat</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container-md mt-3">
+        <h4>Favorite contacts</h4>
 
-            <div class="col-sm-2">
-                <!-- card component here -->
-                <div class="card  justify-content-center text-center"
-                    style=" height: 15rem; background-color: #57068c;">
-                    <img src="{% static 'images/seal_white.png' %}" height="180" class="card-img-top rounded-circle p-2"
-                        alt="user pic">
-                    <div class="card-body">
-                        <h5 class="card-title">User 1</h5>
+        <div class="row overflow-auto" style="height: 20rem;">
+             {% if favorites.count == 0 %}
+            <h5 style="color:#ab82c5;"> You haven't added any favorite contacts! Please go to My Friends and add your favorite contacts. </h5>
+            {% else %}
+            {% for favorite in favorites %}
+                <div class="col-sm-2 mt-2 mb-2">
+                    <!-- card component here -->
+                    <div class="card justify-content-center text-center"
+                        style=" height: 19rem; background-color: #57068c; border-radius: 10px;">
+                        <img src="{{ favorite.image.url }}" height="180" class="card-img-top rounded-circle p-2"
+                            alt="{{favorite.user.first_name}}_pic">
+                        <div class="card-body">
+                            <h5 class="card-title"> {{favorite.user.first_name}} </h5>
+                             <a type="button" href="{% url 'chat' %}" class="standard_button"> Chat</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-sm-2">
-                <div class="card  justify-content-center text-center"
-                    style=" height: 15rem; background-color: #57068c;">
-                    <i class="fa-solid fa-user fa-10x  rounded-circle p-2"></i>
-                    <div class="card-body">
-                        <h5 class="card-title">User 2</h5>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-sm-2">
-                <div class="card  justify-content-center text-center"
-                    style=" height: 15rem; background-color: #57068c;">
-                    <img src="{% static 'images/torch.jpg' %}" height="180" class="card-img-top  rounded-circle p-2"
-                        alt="user pic">
-                    <div class="card-body">
-                        <h5 class="card-title">User 3</h5>
-                    </div>
-                </div>
-            </div>
-
-            <!-- <div class="col">
-                <div class="card  justify-content-center text-center"
-                    style=" height: 15rem; background-color: #57068c;">
-                    <img src="{% static 'images/logo_white.png' %}" height="180" class="card-img-top rounded-circle"
-                        alt="user pic">
-                    <div class="card-body">
-                        <h5 class="card-title">User 4</h5>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- <div class="col">
-                <div class="card  justify-content-center text-center"
-                    style=" height: 15rem; background-color: #57068c;">
-                    <img src="{% static 'images/logo_black.png' %}" height="180"
-                        class="card-img-top  rounded-circle p-2" alt="user pic">
-                    <div class="card-body">
-                        <h5 class="card-title">User 5</h5>
-                    </div>
-                </div>
-            </div> -->
-
+            {% endfor %}
+            {% endif %}
         </div>
     </div>
 </section>
 
-<section>
-    <div class="container-md mt-3">
-        <div class="row ">
-            <h4>Favorite contacts</h4>
-            <div class="col-sm-2">
-                <!-- card component here -->
-                <div class="card  justify-content-center text-center"
-                    style=" height: 15rem; background-color: #57068c;">
-                    <img src="{% static 'images/seal_white.png' %}" height="180" class="card-img-top rounded-circle p-2"
-                        alt="user pic">
-                    <div class="card-body">
-                        <h5 class="card-title">User 1</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="card  justify-content-center text-center"
-                    style=" height: 15rem; background-color: #57068c;">
-                    <i class="fa-solid fa-user fa-10x  rounded-circle p-2"></i>
-                    <div class="card-body">
-                        <h5 class="card-title">User 2</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="card  justify-content-center text-center"
-                    style=" height: 15rem; background-color: #57068c;">
-                    <img src="{% static 'images/torch.jpg' %}" height="180" class="card-img-top  rounded-circle p-2"
-                        alt="user pic">
-                    <div class="card-body">
-                        <h5 class="card-title">User 3</h5>
-                    </div>
-                </div>
-            </div>
-            <!-- <div class="col-sm-2">
-                <div class="card  justify-content-center text-center"
-                    style=" height: 15rem; background-color: #57068c;">
-                    <img src="{% static 'images/logo_white.png' %}" height="180" class="card-img-top rounded-circle"
-                        alt="user pic">
-                    <div class="card-body">
-                        <h5 class="card-title">User 4</h5>
-                    </div>
-                </div>
-            </div> -->
-            <!-- <div class="col-sm-2">
-                <div class="card  justify-content-center text-center"
-                    style=" height: 15rem; background-color: #57068c;">
-                    <img src="{% static 'images/logo_black.png' %}" height="180"
-                        class="card-img-top  rounded-circle p-2" alt="user pic">
-                    <div class="card-body">
-                        <h5 class="card-title">User 5</h5>
-                    </div>
-                </div>
-            </div> -->
-
-        </div>
-
-</section>
 
 
 {% endblock %}

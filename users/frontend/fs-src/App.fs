@@ -14,8 +14,7 @@ open FSharp.Data
 let defaultDataStatus = {click=true;loading=0.;download=false}
 let createOnDownload (uri:string) (filename:string)(e: obj) =
     promise {
-        JS.console.log("running onDownload for " + uri)
-        JS.console.log(e)
+
         let! resp = tryFetch uri []
         match resp with
         | Result.Ok r ->
@@ -44,7 +43,7 @@ let getSubtitleTextFromMessageBox(msg: MessageBox option) =
    |> Option.defaultValue ""
 
 let createMessageBoxFromMessageTypeTextMessage (message: MessageTypeTextMessage) =
-    let avatar = getPhotoString message.sender (Some 150)
+    let avatar = message.sender_image
     {
         position=MessageBoxPosition.Left
         ``type``=MessageBoxType.Text
@@ -52,6 +51,20 @@ let createMessageBoxFromMessageTypeTextMessage (message: MessageTypeTextMessage)
         title=message.sender_username
         status=MessageBoxStatus.Waiting
         avatar=avatar
+        date=(DateTimeOffset(JS.Constructors.Date.Create()))
+        data = {dialog_id=message.sender;message_id=message.random_id;out=false;status=None;size=None;uri=None}
+        onDownload = None
+    }
+
+let createMessageBoxFromMessageTypeTextSockMessage (message: MessageTypeTextSockMessage) =
+    let avatar = ""
+    {
+        position=MessageBoxPosition.Left
+        ``type``=MessageBoxType.Text
+        text = message.text
+        avatar=avatar
+        title=message.sender_username
+        status=MessageBoxStatus.Waiting
         date=(DateTimeOffset(JS.Constructors.Date.Create()))
         data = {dialog_id=message.sender;message_id=message.random_id;out=false;status=None;size=None;uri=None}
         onDownload = None
@@ -127,9 +140,9 @@ let handleIncomingWebsocketMessage (sock: WebSocket) (message: string) (callback
         |> Result.bind (fun o ->
             match o with
             | MessageTypes.TextMessage ->
-                printfn "Received MessageTypes.TextMessage - %s" message
-                Decode.fromString MessageTypeTextMessage.Decoder message
-                |> Result.map createMessageBoxFromMessageTypeTextMessage
+                printfn "Received MessageTypes.TextSockMessage - %s" message
+                Decode.fromString MessageTypeTextSockMessage.Decoder message
+                |> Result.map createMessageBoxFromMessageTypeTextSockMessage
                 |> Result.map (callbacks.addMessage)
 
             | MessageTypes.FileMessage ->
@@ -230,10 +243,7 @@ let messagesEndpoint = sprintf "/messages/"
 let dialogsEndpoint = sprintf "/dialogs/"
 let selfEndpoint = sprintf "/user/self"
 let usersEndpoint = sprintf "/user/friends"
-
 let uploadEndpoint = sprintf "/upload/"
-let imageEndPoint = sprintf "%s/user/image" backendUrl
-
 
 let uploadFile (f: FileList) (csrfToken: string) =
     promise {
@@ -288,7 +298,7 @@ let fetchUsersList(existing: ChatItem array) =
             statusColor = ""
             statusColorType = None
             alt = dialog.first_name
-            title = dialog.first_name
+            title = sprintf "%s %s" dialog.first_name dialog.last_name
             date = DateTimeOffset.Now
             subtitle = ""
             unread = 0
@@ -314,7 +324,7 @@ let fetchMessages() =
                 | _, true ->  MessageBoxStatus.Read
                 | true, false -> MessageBoxStatus.Sent
                 | false, false -> MessageBoxStatus.Received
-            let avatar = getPhotoString message.sender (Some 150)
+            let avatar = message.sender_image
             let dialog_id = if message.out then message.recipient else message.sender
             let dataStatus = message.file |> Option.map(fun _ -> defaultDataStatus)
             let size = message.file |> Option.map(fun x -> humanFileSize x.size)
@@ -372,7 +382,7 @@ let fetchDialogs() =
 
             {
                 id = dialog.other_user_id
-                avatar = getPhotoString dialog.other_user_id None
+                avatar = dialog.other_user_image
                 avatarFlexible = true
                 statusColor = ""
                 statusColorType = None

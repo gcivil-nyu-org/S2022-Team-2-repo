@@ -23,6 +23,20 @@ from users.views import (
     FriendsListView,
     SelfView,
     self_info,
+    friend_finder,
+    activity_search,
+    reject_suggestion,
+    approve_suggestion,
+    activity,
+    activate,
+    password_reset,
+    chat_notifications,
+    favorite,
+    report,
+    reactivate,
+    delete_profile,
+    blocked_list,
+    unblock,
 )
 
 
@@ -43,9 +57,21 @@ class TestUrls(SimpleTestCase):
         url = reverse("logout")
         self.assertEquals(resolve(url).func, logout_request)
 
+    def test_activate_url_resolves(self):
+        url = reverse("activate", args=["te", "st"])
+        self.assertEquals(resolve(url).func, activate)
+
+    def test_activate2_url_resolves(self):
+        url = reverse("activate2")
+        self.assertEquals(resolve(url).func, signup)
+
     def test_password_reset_request_url_resolves(self):
         url = reverse("password_reset_request")
         self.assertEquals(resolve(url).func, password_reset_request)
+
+    def test_reset_password_url_resolves(self):
+        url = reverse("reset_password", args=["te", "st"])
+        self.assertEquals(resolve(url).func, password_reset)
 
     def test_profile_setup_url_resolves(self):
         url = reverse("profile_setup")
@@ -83,13 +109,17 @@ class TestUrls(SimpleTestCase):
         url = reverse("my_friends")
         self.assertEquals(resolve(url).func, my_friends)
 
+    def test_friend_request_url_resolves(self):
+        url = reverse("friend_request")
+        self.assertEquals(resolve(url).func, friend_request_query)
+
     def test_notification_count_url_resolves(self):
         url = reverse("notification_count")
         self.assertEquals(resolve(url).func, notifications)
 
-    def test_friend_request_url_resolves(self):
-        url = reverse("friend_request")
-        self.assertEquals(resolve(url).func, friend_request_query)
+    def test_chat_unread_count_url_resolves(self):
+        url = reverse("chat_unread_count")
+        self.assertEquals(resolve(url).func, chat_notifications)
 
     def test_accept_request_url_resolves(self):
         url = reverse("accept_request")
@@ -110,3 +140,47 @@ class TestUrls(SimpleTestCase):
     def test_self_info_url_resolves(self):
         url = reverse("self_info")
         self.assertEquals(resolve(url).func, self_info)
+
+    def test_friend_finder_url_resolves(self):
+        url = reverse("friend-finder")
+        self.assertEquals(resolve(url).func, friend_finder)
+
+    def test_activity_search_url_resolves(self):
+        url = reverse("activity_search")
+        self.assertEquals(resolve(url).func, activity_search)
+
+    def test_reject_suggestion_url_resolves(self):
+        url = reverse("reject-suggestion")
+        self.assertEquals(resolve(url).func, reject_suggestion)
+
+    def test_approve_suggestion_url_resolves(self):
+        url = reverse("approve-suggestion")
+        self.assertEquals(resolve(url).func, approve_suggestion)
+
+    def test_activity_url_resolves(self):
+        url = reverse("activity")
+        self.assertEquals(resolve(url).func, activity)
+
+    def test_favorite_url_resolves(self):
+        url = reverse("favorite")
+        self.assertEquals(resolve(url).func, favorite)
+
+    def test_report_url_resolves(self):
+        url = reverse("report")
+        self.assertEquals(resolve(url).func, report)
+
+    def test_reactivate_url_resolves(self):
+        url = reverse("reactivate")
+        self.assertEquals(resolve(url).func, reactivate)
+
+    def test_delete_profile_url_resolves(self):
+        url = reverse("delete_profile")
+        self.assertEquals(resolve(url).func, delete_profile)
+
+    def test_blocked_list_url_resolves(self):
+        url = reverse("blocked_list")
+        self.assertEquals(resolve(url).func, blocked_list)
+
+    def test_unblock_url_resolves(self):
+        url = reverse("unblock")
+        self.assertEquals(resolve(url).func, unblock)

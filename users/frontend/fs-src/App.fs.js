@@ -1,12 +1,12 @@
-import { DialogsResponse_get_Decoder, MessageBox__HasDbId, MessagesResponse_get_Decoder, UserInfoResponse_get_Decoder, MessageModelFile_get_Decoder, msgTypeEncoder, MessageTypesDecoder, MessageTypeNewUnreadCount_get_Decoder, MessageTypeMessageIdCreated_get_Decoder, MessageTypeErrorOccurred_get_Decoder, MessageTypeMessageRead_get_Decoder, MessageTypeFileMessage_get_Decoder, MessageTypeTextMessage_get_Decoder, GenericUserPKMessage_get_Decoder, MessageBox$reflection, ChatItem, MessageBox, MessageBoxData, MessageBoxDataStatus } from "./Types.fs.js";
+import { DialogsResponse_get_Decoder, MessageBox__HasDbId, MessagesResponse_get_Decoder, UserInfoResponse_get_Decoder, MessageModelFile_get_Decoder, msgTypeEncoder, MessageTypesDecoder, MessageTypeNewUnreadCount_get_Decoder, MessageTypeMessageIdCreated_get_Decoder, MessageTypeErrorOccurred_get_Decoder, MessageTypeMessageRead_get_Decoder, MessageTypeFileMessage_get_Decoder, MessageTypeTextSockMessage_get_Decoder, GenericUserPKMessage_get_Decoder, MessageBox$reflection, ChatItem, MessageBox, MessageBoxData, MessageBoxDataStatus } from "./Types.fs.js";
 import { PromiseBuilder__Delay_62FBFDE1, PromiseBuilder__Run_212F1D4B, mapResult } from "./.fable/Fable.Promise.2.0.0/Promise.fs.js";
-import { map, defaultArg, some } from "./.fable/fable-library.3.1.7/Option.js";
 import { promise } from "./.fable/Fable.Promise.2.0.0/PromiseImpl.fs.js";
 import { Types_RequestProperties, tryFetch } from "./.fable/Fable.Fetch.2.2.0/Fetch.fs.js";
 import { ofArray, singleton, empty } from "./.fable/fable-library.3.1.7/List.js";
 import { Result_Map, Result_Bind, FSharpResult$2 } from "./.fable/fable-library.3.1.7/Choice.js";
-import { generateRandomId, humanFileSize, getPhotoString } from "./Utils.fs.js";
+import { map, defaultArg } from "./.fable/fable-library.3.1.7/Option.js";
 import { now, fromDate } from "./.fable/fable-library.3.1.7/DateOffset.js";
+import { generateRandomId, humanFileSize, getPhotoString } from "./Utils.fs.js";
 import { Record } from "./.fable/fable-library.3.1.7/Types.js";
 import { record_type, int32_type, bool_type, string_type, class_type, lambda_type, unit_type } from "./.fable/fable-library.3.1.7/Reflection.js";
 import { toText, printf, toConsole } from "./.fable/fable-library.3.1.7/String.js";
@@ -29,24 +29,20 @@ export function createOnDownload(uri, filename, e) {
         void window.setTimeout((_arg1_1) => {
             URL.revokeObjectURL(u);
         }, 200);
-    }, PromiseBuilder__Run_212F1D4B(promise, PromiseBuilder__Delay_62FBFDE1(promise, () => {
-        console.log(some("running onDownload for " + uri));
-        console.log(some(e));
-        return tryFetch(uri, empty()).then(((_arg1) => {
-            const resp = _arg1;
-            if (resp.tag === 1) {
-                const e_1 = resp.fields[0];
-                return Promise.resolve((new FSharpResult$2(1, e_1.message)));
-            }
-            else {
-                const r = resp.fields[0];
-                return r.blob().then(((_arg2) => {
-                    const b = _arg2;
-                    return Promise.resolve((new FSharpResult$2(0, b)));
-                }));
-            }
-        }));
-    })));
+    }, PromiseBuilder__Run_212F1D4B(promise, PromiseBuilder__Delay_62FBFDE1(promise, () => (tryFetch(uri, empty()).then(((_arg1) => {
+        const resp = _arg1;
+        if (resp.tag === 1) {
+            const e_1 = resp.fields[0];
+            return Promise.resolve((new FSharpResult$2(1, e_1.message)));
+        }
+        else {
+            const r = resp.fields[0];
+            return r.blob().then(((_arg2) => {
+                const b = _arg2;
+                return Promise.resolve((new FSharpResult$2(0, b)));
+            }));
+        }
+    }))))));
     pr.then();
 }
 
@@ -73,7 +69,12 @@ export function getSubtitleTextFromMessageBox(msg) {
 }
 
 export function createMessageBoxFromMessageTypeTextMessage(message) {
-    const avatar = getPhotoString(message.sender, 150);
+    const avatar = message.sender_image;
+    return new MessageBox("left", "text", message.text, message.sender_username, "waiting", avatar, fromDate(new Date()), new MessageBoxData(message.sender, message.random_id, false, void 0, void 0, void 0), void 0);
+}
+
+export function createMessageBoxFromMessageTypeTextSockMessage(message) {
+    const avatar = "";
     return new MessageBox("left", "text", message.text, message.sender_username, "waiting", avatar, fromDate(new Date()), new MessageBoxData(message.sender, message.random_id, false, void 0, void 0, void 0), void 0);
 }
 
@@ -131,8 +132,8 @@ export function handleIncomingWebsocketMessage(sock, message, callbacks) {
                 }, fromString(uncurry(2, GenericUserPKMessage_get_Decoder()), message));
             }
             case 3: {
-                toConsole(printf("Received MessageTypes.TextMessage - %s"))(message);
-                return Result_Map(callbacks.addMessage, Result_Map((message_1) => createMessageBoxFromMessageTypeTextMessage(message_1), fromString(uncurry(2, MessageTypeTextMessage_get_Decoder()), message)));
+                toConsole(printf("Received MessageTypes.TextSockMessage - %s"))(message);
+                return Result_Map(callbacks.addMessage, Result_Map((message_1) => createMessageBoxFromMessageTypeTextSockMessage(message_1), fromString(uncurry(2, MessageTypeTextSockMessage_get_Decoder()), message)));
             }
             case 4: {
                 toConsole(printf("Received MessageTypes.FileMessage - %s"))(message);
@@ -232,8 +233,6 @@ export const usersEndpoint = toText(printf("/user/friends"));
 
 export const uploadEndpoint = toText(printf("/upload/"));
 
-export const imageEndPoint = toText(printf("%s/user/image"))(backendUrl);
-
 export function uploadFile(f, csrfToken) {
     return PromiseBuilder__Run_212F1D4B(promise, PromiseBuilder__Delay_62FBFDE1(promise, () => {
         const data = new FormData();
@@ -280,7 +279,7 @@ export function fetchSelfInfo() {
 
 export function fetchUsersList(existing) {
     const existingPks = map_1((x) => x.id, existing);
-    return mapResult((x_1) => map_1((dialog_1) => (new ChatItem(dialog_1.pk, dialog_1.image, true, "", void 0, dialog_1.first_name, dialog_1.first_name, now(), "", 0)), x_1.filter((dialog) => (!contains(dialog.pk, existingPks, {
+    return mapResult((x_1) => map_1((dialog_1) => (new ChatItem(dialog_1.pk, dialog_1.image, true, "", void 0, dialog_1.first_name, toText(printf("%s %s"))(dialog_1.first_name)(dialog_1.last_name), now(), "", 0)), x_1.filter((dialog) => (!contains(dialog.pk, existingPks, {
         Equals: (x_2, y) => (x_2 === y),
         GetHashCode: (x_2) => stringHash(x_2),
     })))), PromiseBuilder__Run_212F1D4B(promise, PromiseBuilder__Delay_62FBFDE1(promise, () => (tryFetch(usersEndpoint, empty()).then(((_arg1) => {
@@ -307,7 +306,7 @@ export function fetchMessages() {
         let status;
         const matchValue_1 = [message.out, message.read];
         status = (matchValue_1[1] ? "read" : (matchValue_1[0] ? "sent" : "received"));
-        const avatar = getPhotoString(message.sender, 150);
+        const avatar = message.sender_image;
         const dialog_id = message.out ? message.recipient : message.sender;
         const dataStatus = map((_arg1_1) => defaultDataStatus, message.file);
         const size = map((x_1) => humanFileSize(x_1.size), message.file);
@@ -368,7 +367,7 @@ export function markMessagesForDialogAsRead(sock, d, messages, msgReadCallback) 
 }
 
 export function fetchDialogs() {
-    return mapResult((x) => map_1((dialog) => (new ChatItem(dialog.other_user_id, getPhotoString(dialog.other_user_id, void 0), true, "", void 0, dialog.username, dialog.username, defaultArg(map((x_1) => x_1.sent, dialog.last_message), dialog.created), getSubtitleTextFromMessageModel(dialog.last_message), dialog.unread_count)), x.data), PromiseBuilder__Run_212F1D4B(promise, PromiseBuilder__Delay_62FBFDE1(promise, () => (tryFetch(dialogsEndpoint, empty()).then(((_arg1) => {
+    return mapResult((x) => map_1((dialog) => (new ChatItem(dialog.other_user_id, dialog.other_user_image, true, "", void 0, dialog.username, dialog.username, defaultArg(map((x_1) => x_1.sent, dialog.last_message), dialog.created), getSubtitleTextFromMessageModel(dialog.last_message), dialog.unread_count)), x.data), PromiseBuilder__Run_212F1D4B(promise, PromiseBuilder__Delay_62FBFDE1(promise, () => (tryFetch(dialogsEndpoint, empty()).then(((_arg1) => {
         const resp = _arg1;
         if (resp.tag === 1) {
             const e = resp.fields[0];

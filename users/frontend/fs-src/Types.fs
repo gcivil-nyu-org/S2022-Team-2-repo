@@ -33,6 +33,7 @@ module AppTypes =
        sender: string
        recipient: string
        sender_username: string
+       sender_image: string
        out: bool }
       static member Decoder: Decoder<MessageModel> =
           Decode.object (fun get ->
@@ -46,6 +47,7 @@ module AppTypes =
                   sender = get.Required.Field "sender" Decode.string
                   recipient = get.Required.Field "recipient" Decode.string
                   sender_username =  get.Required.Field "sender_username" Decode.string
+                  sender_image = get.Required.Field "sender_image" Decode.string
                   out = get.Required.Field "out" Decode.bool
               })
 
@@ -85,6 +87,7 @@ module AppTypes =
        unread_count: int
        username: string
        last_message: MessageModel option
+       other_user_image: string
       }
       static member Decoder: Decoder<DialogModel> =
           Decode.object (fun get ->
@@ -96,6 +99,7 @@ module AppTypes =
                   unread_count = get.Required.Field "unread_count" Decode.int
                   username = get.Required.Field "username" Decode.string
                   last_message = get.Required.Field "last_message" (Decode.option MessageModel.Decoder)
+                  other_user_image = get.Required.Field "other_user_image" Decode.string
               })
 
     type DialogsResponse =
@@ -144,8 +148,28 @@ module AppTypes =
         sender: string
         receiver: string
         sender_username: string
+        sender_image: string
         }
         static member Decoder: Decoder<MessageTypeTextMessage> =
+          Decode.object (fun get ->
+              {
+                  random_id=get.Required.Field "random_id" Decode.int64
+                  text = get.Required.Field "text" Decode.string
+                  sender = get.Required.Field "sender" Decode.string
+                  receiver = get.Required.Field "receiver" Decode.string
+                  sender_username = get.Required.Field "sender_username" Decode.string
+                  sender_image = get.Required.Field "sender_image" Decode.string
+              })
+
+    type MessageTypeTextSockMessage =
+        {
+        random_id: int64
+        text: string
+        sender: string
+        receiver: string
+        sender_username: string
+        }
+        static member Decoder: Decoder<MessageTypeTextSockMessage> =
           Decode.object (fun get ->
               {
                   random_id=get.Required.Field "random_id" Decode.int64

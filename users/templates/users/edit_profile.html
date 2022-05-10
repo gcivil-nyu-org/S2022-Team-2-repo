@@ -12,7 +12,7 @@
 		margin: 0 auto;
 		border-radius: 50%;
 		margin-top: 20px;
-		margin-left: 300px;
+		margin-left: 321px;
 	}
 </style>
 
@@ -42,9 +42,10 @@
 					{% csrf_token %}
 					<style>
 						label {
-							font-family: "Montserrat";
+							font-family: "Montserrat", sans-serif;
 							font-size: 1.4rem;
 							color: #330662;
+							font-size: 20px;
 							align-items: center;
 						}
 
@@ -55,8 +56,10 @@
 							border-color: #330662;
 						}
 					</style>
-					{{form.as_p}}
-					{{ form.errors }}
+					{{form1.as_p}}
+					{{form2.as_p}}
+					{{ form1.errors }}
+					{{ form2.errors }}
 					<div class="form-row">
 						<div style="text-align: center;">
 							<button type="submit" class="standard_button"> Submit </button>

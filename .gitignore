@@ -21,7 +21,9 @@ __pycache__
 
 # Random Files
 staticfiles/
-**/.env
+nyunite/.env
+nyunite/.env
+nyunite/.env
 
 # dependencies
 **/node_modules
@@ -42,3 +44,4 @@ staticfiles/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+**/_trial_temp/

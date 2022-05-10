@@ -6,8 +6,8 @@ from django.contrib.auth.forms import (
     UserCreationForm,
 )
 from django.contrib.auth.models import User
-from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.forms import FileInput
 from django.utils.translation import gettext_lazy as _
 
 from .models import Profile, Preference
@@ -48,20 +48,23 @@ class UserRegisterForm(UserCreationForm):
         last_name = cleaned_data.get("last_name")
 
         # NetID validation
-        if not re.match(r"^[a-zA-Z]+[0-9]+", username):
-            self.errors[
-                "username"
-            ] = "Invalid NetID. Net ID should contain only characters followed by numbers."
+        if not re.match(r"^[a-zA-Z]+\d+$", username):
+            self.add_error(
+                "username",
+                "Invalid NetID. Net ID should contain only characters followed by numbers.",
+            )
 
         # Name validation
         if not re.match(r"^[a-zA-Z]+", first_name):
-            self.errors[
-                "first_name"
-            ] = "Invalid First Name. Cannot contain numbers or special characters."
+            self.add_error(
+                "first_name",
+                "Invalid First Name. Cannot contain numbers or special characters.",
+            )
         if not re.match(r"^[a-zA-Z]+", last_name):
-            self.errors[
-                "last_name"
-            ] = "Invalid Last Name. Cannot contain numbers or special characters."
+            self.add_error(
+                "last_name",
+                "Invalid Last Name. Cannot contain numbers or special characters.",
+            )
 
     class Meta:
         model = User
@@ -87,7 +90,18 @@ class UserRegisterForm(UserCreationForm):
 class ProfileUpdateForm(forms.ModelForm):  # pragma: no cover
     class Meta:
         model = Profile
-        fields = ["bio", "image"]
+        fields = ["pronouns", "school", "year", "bio", "image"]
+        widgets = {"image": FileInput()}
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
+        self.fields["image"].widget.attrs = {"id": "selectedFile"}
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name"]
 
 
 class ResetPasswordRequestForm(forms.Form):
@@ -95,7 +109,9 @@ class ResetPasswordRequestForm(forms.Form):
 
 
 class ResetPasswordForm(forms.Form):
-    p_error = None
+    error_messages = {
+        "password_mismatch": _("The two password fields didn’t match."),
+    }
 
     new_password1 = forms.CharField(
         label=_("Password"),
@@ -119,24 +135,26 @@ class ResetPasswordForm(forms.Form):
         help_text=_("Enter the same password as before, for verification."),
     )
 
-    def clean_password(self):
-        error_bool = False
-        password1 = self.data["new_password1"]
-        try:
-            validate_password(password1)
-        except ValidationError:
-            self.p_error = (
-                "Please choose a stronger password.\n"
-                "Your password should be at least 8 characters... "
+    def clean_new_password2(self):
+        password1 = self.cleaned_data.get("new_password1")
+        password2 = self.cleaned_data.get("new_password2")
+        if password1 and password2 and password1 != password2:
+            raise ValidationError(
+                self.error_messages["password_mismatch"],
+                code="password_mismatch",
             )
-            error_bool = True
-            return error_bool, password1
-        password2 = self.data["new_password2"]
-        if password1 and password2:
-            if password1 != password2:
-                self.p_error = "Passwords do not match! Please try again."
-                error_bool = True
-        return error_bool, password2
+        return password2
+
+    def _post_clean(self):
+        super()._post_clean()
+        # Validate the password after self.instance is updated with form data
+        # by super().
+        password = self.cleaned_data.get("new_password2")
+        if password:
+            try:
+                password_validation.validate_password(password)
+            except ValidationError as error:
+                self.add_error("new_password2", error)
 
 
 class LoginForm(forms.Form):
@@ -168,10 +186,16 @@ class LoginForm(forms.Form):
 
 class PreferencesPersonalityForm(forms.ModelForm):
     personality_type = forms.ChoiceField(
-        choices=PERSONALITY_CHOICES, widget=forms.RadioSelect()
+        choices=PERSONALITY_CHOICES,
+        widget=forms.RadioSelect(),
+        required=True,
+        label="Are you more introverted or extroverted?",
     )
     stay_go_type = forms.ChoiceField(
-        choices=STAY_GO_CHOICES, widget=forms.RadioSelect()
+        choices=STAY_GO_CHOICES,
+        widget=forms.RadioSelect(),
+        required=True,
+        label="On a weekend night, do you prefer to stay in or go out?",
     )
 
     class Meta:
@@ -184,16 +208,28 @@ class PreferencesPersonalityForm(forms.ModelForm):
 
 class PreferencesHobbiesForm(forms.ModelForm):
     movie_choices = forms.MultipleChoiceField(
-        choices=MOVIES_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=MOVIES_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What are your favorite movie genres?",
     )
     music_choices = forms.MultipleChoiceField(
-        choices=MUSIC_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=MUSIC_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What styles of music do you listen to?",
     )
     art_choices = forms.MultipleChoiceField(
-        choices=ART_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=ART_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What art forms are you interested in?",
     )
     dance_choices = forms.MultipleChoiceField(
-        choices=DANCE_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=DANCE_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What dance styles do you like?",
     )
 
     class Meta:
@@ -208,19 +244,34 @@ class PreferencesHobbiesForm(forms.ModelForm):
 
 class PreferencesExploreForm(forms.ModelForm):
     food_choices = forms.MultipleChoiceField(
-        choices=COOKEAT_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=COOKEAT_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What are your favorite cuisines?",
     )
     travel_choices = forms.MultipleChoiceField(
-        choices=TRAVEL_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=TRAVEL_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What's your ideal vacation spot?",
     )
     sports_choices = forms.MultipleChoiceField(
-        choices=SPORTS_CHOICES, widget=forms.CheckboxSelectMultiple()
-    )
-    nyc_choices = forms.MultipleChoiceField(
-        choices=NYC_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=SPORTS_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What sports do you like to play or watch?",
     )
     pet_choices = forms.MultipleChoiceField(
-        choices=PET_CHOICES, widget=forms.CheckboxSelectMultiple()
+        choices=PET_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What kind of pets do you have?",
+    )
+    nyc_choices = forms.MultipleChoiceField(
+        choices=NYC_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=True,
+        label="What do you like to do around NYC?",
     )
 
     class Meta:

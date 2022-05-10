@@ -59,10 +59,10 @@
                 <!-- passing name 'friendRequest + user_id' -->
                 {% if user.id in friend_list %}
                 <div class="col-sm d-flex justify-content-center align-items-start mt-4 mb-1">
-                    <button id="chat{{user.id}}" value="{{user.id}}" name="chatbutton" class="standard_button"
+                    <a href="{% url 'chat' %}" id="chat{{user.id}}" value="{{user.id}}" name="chatbutton" class="standard_button"
                         style="width: 200px; height: 40px;">
                         Chat with {{ user.first_name }}
-                    </button>
+                    </a>
                 </div>
                 {% else %}
                 <div class="col-sm d-flex justify-content-center align-items-start mt-4 mb-1">
@@ -89,10 +89,10 @@
     aria-labelledby="View-Serach-Profile" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color:#a69db2;">
                 <!-- <h5 class="modal-title" id="View-Serach-Profile">Search Target name</h5> -->
                 <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"
-                    style="border-radius: 10px; background-color:#57068c ; opacity: 1;">
+                    style="border-radius: 10px; opacity: 1;">
                 </button>
             </div>
 
@@ -104,15 +104,25 @@
                                 style="height:100px; width:100px; object-fit:cover; border-radius:50%">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="height:40px;">
                         <div class="col d-flex justify-content-center fw-bold fs-3" style="color:#57068c ;">
                             <span id="userFirstName">{{user.first_name}} </span> &nbsp;
                             <span> {{user.last_name}}</span>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="height:25px;">
                         <div class="col d-flex justify-content-center fs-6" style="color:#230542 ;">
-                            <p>{{user.email}}</p>
+                            <p>({{user.profile.pronouns}})</p>
+                        </div>
+                    </div>
+                    <div class="row" style="height:25px;">
+                        <div class="col d-flex justify-content-center fs-6" style="color:#230542 ;">
+                            <p>{{user.profile.school}}</p>
+                        </div>
+                    </div>
+                    <div class="row" style="height:25px;">
+                        <div class="col d-flex justify-content-center fs-6" style="color:#230542 ;">
+                            <p>{{user.profile.year}}</p>
                         </div>
                     </div>
                 </div>
@@ -180,7 +190,6 @@
     var token = '{{csrf_token}}';
 
     function friendRequest(id) {
-        console.log(id)
         let data = {};
         data["friendRequest"] = id;
 
