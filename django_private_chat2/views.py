@@ -74,17 +74,7 @@ class DialogsModelList(LoginRequiredMixin, ListView):
                 | Q(user2_id__in=blocked)
             )
             .select_related("user1", "user2")
-        )
-        qs = qs.order_by("-created")
-
-        for dialog in qs:
-            if (
-                dialog.user1 in blacklisted
-                or dialog.user2 in blacklisted
-                or dialog.user1 in blocked
-                or dialog.user2 in blocked
-            ):
-                continue
+        ).order_by("-created")
         return qs
 
     def render_to_response(self, context, **response_kwargs):
