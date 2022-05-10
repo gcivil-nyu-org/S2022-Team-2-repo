@@ -328,7 +328,8 @@ def update_profile(request):
 def delete_profile(request):
     try:
         u = User.objects.get(username=request.user.username)
-        u.delete()
+        u.is_active = False
+        u.save()
         logout(request)
         return HttpResponseRedirect(reverse("home"))
     except Exception as e:
@@ -457,13 +458,21 @@ def recent_contacts(request):
         .order_by("-modified")
     )
 
+    blocked = request.user.profile.blocked.all().values_list("id", flat=True)
+    blacklisted = Blacklist.objects.all().values_list("id", flat=True)
+
     contacts = []
     for message in messages:
         if message.recipient_id != request.user.id:
             contact = message.recipient_id
         else:
             contact = message.sender_id
-        if contact not in contacts and len(contacts) < 5:
+        if (
+            contact not in blocked
+            and contact not in blacklisted
+            and contact not in contacts
+            and len(contacts) < 5
+        ):
             contacts.append(contact)
 
     recent = []

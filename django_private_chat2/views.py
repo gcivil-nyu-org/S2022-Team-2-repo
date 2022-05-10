@@ -17,7 +17,7 @@ from django.views.generic import (
     ListView,
 )
 
-from users.models import Profile
+from users.models import Profile, Blacklist
 from .models import MessageModel, DialogsModel, UploadedFile
 from .serializers import (
     serialize_message_model,
@@ -61,10 +61,31 @@ class DialogsModelList(LoginRequiredMixin, ListView):
     paginate_by = getattr(settings, "DIALOGS_PAGINATION", 20)
 
     def get_queryset(self):
-        qs = DialogsModel.objects.filter(
-            Q(user1_id=self.request.user.pk) | Q(user2_id=self.request.user.pk)
-        ).select_related("user1", "user2")
-        return qs.order_by("-created")
+        blacklisted = Blacklist.objects.values_list("id", flat=True).all()
+        blocked = self.request.user.profile.blocked.values_list("id", flat=True).all()
+        qs = (
+            DialogsModel.objects.filter(
+                Q(user1_id=self.request.user.pk) | Q(user2_id=self.request.user.pk)
+            )
+            .exclude(
+                Q(user1_id__in=blacklisted)
+                | Q(user1_id__in=blocked)
+                | Q(user2_id__in=blacklisted)
+                | Q(user2_id__in=blocked)
+            )
+            .select_related("user1", "user2")
+        )
+        qs = qs.order_by("-created")
+
+        for dialog in qs:
+            if (
+                dialog.user1 in blacklisted
+                or dialog.user2 in blacklisted
+                or dialog.user1 in blocked
+                or dialog.user2 in blocked
+            ):
+                continue
+        return qs
 
     def render_to_response(self, context, **response_kwargs):
         # TODO: add online status

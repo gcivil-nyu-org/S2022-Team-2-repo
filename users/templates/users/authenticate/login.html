@@ -40,6 +40,13 @@
                   <a class="fw-bold text-black" href="{% url 'password_reset_request' %}">Reset your password</a>
                 </div>
               </div>
+              {% if form.errors %}
+                <div>
+                  <span class="fw-bold text-black">Have you verified your E-Mail?</span>
+                  <br>
+                  <a class="fw-bold text-black" href="{% url 'reactivate' %}">Send Verification Email Again</a>
+                </div>
+                {% endif %}
             </div>
           </div>
         </div>
